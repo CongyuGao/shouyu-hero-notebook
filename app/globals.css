@@ -3041,20 +3041,44 @@ footer small {
 }
 .tier-badge {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
-  min-width: 48px;
-  padding: 5px 10px;
+  gap: 2px;
+  min-width: 54px;
+  padding: 7px 10px;
   border: 1px solid #8295b86b;
   border-radius: 7px 2px;
   background: linear-gradient(145deg, #34425c, #172237);
   color: #a6b9d7;
-  font-family: Georgia, serif;
+  font-family: 'DIN Alternate', 'Arial', 'Helvetica Neue', sans-serif;
   font-weight: 700;
   font-size: 1rem;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  word-break: keep-all;
+  flex-shrink: 0;
   box-shadow: inset 0 1px #c9d9fc26;
   vertical-align: middle;
+}
+.tier-letter {
+  display: inline-block;
+  font-size: 0.7em;
+  line-height: 1;
+  font-weight: 600;
+  opacity: 0.85;
+}
+.tier-number {
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  white-space: nowrap;
+  font-feature-settings:
+    'tnum' 1,
+    'lnum' 1;
 }
 .tier-T0 {
   color: #f0c97e;

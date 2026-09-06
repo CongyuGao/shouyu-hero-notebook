@@ -17,7 +17,14 @@ export function TierBadge({ tier }: { tier?: string }) {
     <span
       className={`tier-badge tier-${(tier || 'unrated').replace('.', '-')}`}
     >
-      {tier || '未评级'}
+      {tier?.startsWith('T') ? (
+        <>
+          <span className="tier-letter">T</span>
+          <span className="tier-number">{tier.slice(1)}</span>
+        </>
+      ) : (
+        '未评级'
+      )}
     </span>
   );
 }
