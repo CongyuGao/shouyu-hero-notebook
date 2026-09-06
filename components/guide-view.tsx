@@ -273,10 +273,10 @@ export function GuideView({
         </section>
       )}
       {guide.source && (
-        <section className="source-note">
-          <h3>资料来源 / 核验记录</h3>
+        <details className="source-note">
+          <summary>来源与核验记录</summary>
           <p className="preserve">{guide.source}</p>
-        </section>
+        </details>
       )}
     </article>
   );

@@ -96,7 +96,7 @@ export function TierGuide({
               攻略团队评级，非官方排名。英雄评级在“英雄资料”中修改；此处维护所有英雄共用的判断标准。
             </DialogDescription>
           </DialogHeader>
-          <div className="detail-edit-fields">
+          <fieldset disabled={busy} className="detail-edit-fields">
             {!editing && tier && (
               <section className="current-tier-standard">
                 <TierBadge tier={tier === '未评级' ? '' : tier} />
@@ -153,7 +153,7 @@ export function TierGuide({
                 {error}
               </p>
             )}
-          </div>
+          </fieldset>
           <DialogFooter>
             {editable &&
               (editing ? (

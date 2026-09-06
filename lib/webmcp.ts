@@ -31,6 +31,7 @@ export function registerTools(tools: Tool[]) {
 type State = {
   records: GuideRecord[];
   access: Access;
+  modeHeroIds: string[];
   openGuide: (id: string) => void;
   start: (record: GuideRecord | null) => void;
 };
@@ -64,7 +65,9 @@ export function registerNotebookTools(state: () => State) {
       annotations: { readOnlyHint: true, untrustedContentHint: true },
       execute: () =>
         state()
-          .records.filter((r) => r.published)
+          .records.filter(
+            (r) => r.published && state().modeHeroIds.includes(r.heroId),
+          )
           .map((r) => ({
             heroId: r.heroId,
             title: r.published!.title,
@@ -80,7 +83,10 @@ export function registerNotebookTools(state: () => State) {
       annotations: { readOnlyHint: false, untrustedContentHint: true },
       execute: (v) => {
         const heroId = id(v);
-        if (!state().records.some((r) => r.heroId === heroId && r.published))
+        if (
+          !state().modeHeroIds.includes(heroId) ||
+          !state().records.some((r) => r.heroId === heroId && r.published)
+        )
           throw new Error('Published guide not found');
         state().openGuide(heroId);
         return { heroId, view: 'guide' };
@@ -97,8 +103,11 @@ export function registerNotebookTools(state: () => State) {
         const heroId = id(v),
           s = state();
         if (!s.access.canEdit) throw new Error('Editor access required');
-        if (!heroes.some((h) => h.id === heroId))
-          throw new Error('Unknown hero');
+        if (
+          !heroes.some((h) => h.id === heroId) ||
+          !s.modeHeroIds.includes(heroId)
+        )
+          throw new Error('Hero is not in the confirmed mode roster');
         s.start(
           s.records.find((r) => r.heroId === heroId) || {
             heroId,

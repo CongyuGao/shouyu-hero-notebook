@@ -6,14 +6,11 @@ import {
   BookOpen,
   ArrowRight,
   Swords,
-  Search,
   Plus,
   Pencil,
-  ChevronRight,
   RefreshCw,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
   Empty,
@@ -21,15 +18,17 @@ import {
   EmptyTitle,
   EmptyDescription,
 } from '@/components/ui/empty';
-import { Skeleton } from '@/components/ui/skeleton';
 import { heroes, type Access, type GuideRecord } from '@/lib/guide';
 import { GuideView } from '@/components/guide-view';
 import { GuideEditor } from '@/components/guide-editor';
 import { MemberPanel } from '@/components/member-panel';
-import { TierBadge, TierGuide } from '@/components/tier-guide';
 import { GuidePrimer } from '@/components/guide-primer';
-import { GuideUpdated } from '@/components/guide-updated';
-import { heroTiers } from '@/lib/tiers';
+import { HeroLibrary, PendingHero } from '@/components/hero-library';
+import {
+  initialRoster,
+  rosterHeroIds,
+  type ModeRoster,
+} from '@/lib/mode-roster';
 import { registerNotebookTools } from '@/lib/webmcp';
 import { readResponse } from '@/lib/client-api';
 const anonymous: Access = {
@@ -44,9 +43,7 @@ export default function Notebook() {
     [loading, setLoading] = useState(true),
     [error, setError] = useState(''),
     [tab, setTab] = useState('overview'),
-    [query, setQuery] = useState(''),
-    [role, setRole] = useState('全部'),
-    [tier, setTier] = useState('全部'),
+    [roster, setRoster] = useState<ModeRoster>(initialRoster),
     [selected, setSelected] = useState(''),
     [editor, setEditor] = useState<{
       record: GuideRecord | null;
@@ -54,11 +51,19 @@ export default function Notebook() {
       initialSkill?: number;
       initialBuildId?: string;
       newBuild?: boolean;
+      initialHeroId?: string;
     } | null>(null);
   const refresh = useCallback(async () => {
     try {
-      const r = await fetch('/api/guides', { cache: 'no-store' }),
-        j = await readResponse<{ guides: GuideRecord[]; access: Access }>(r);
+      const [j, pool] = await Promise.all([
+        fetch('/api/guides', { cache: 'no-store' }).then((r) =>
+          readResponse<{ guides: GuideRecord[]; access: Access }>(r),
+        ),
+        fetch('/api/roster', { cache: 'no-store' }).then((r) =>
+          readResponse<ModeRoster>(r),
+        ),
+      ]);
+      setRoster(pool);
       setRecords(j.guides);
       setAccess(j.access);
       setError('');
@@ -111,30 +116,38 @@ export default function Notebook() {
       (r) => r.heroId === url.searchParams.get('hero'),
     );
     if (target) setEditor({ record: target, key: Date.now(), initialSkill: 1 });
+    else if (rosterHeroIds(roster).includes(url.searchParams.get('hero') || ''))
+      setEditor({
+        record: null,
+        key: Date.now(),
+        initialHeroId: url.searchParams.get('hero')!,
+      });
     url.searchParams.delete('edit');
     history.replaceState(null, '', url.pathname + url.search);
-  }, [access.canEdit, loading, records]);
-  const state = useRef({ records, access, openGuide, start });
-  state.current = { records, access, openGuide, start };
+  }, [access.canEdit, loading, records, roster]);
+  const state = useRef({
+    records,
+    access,
+    openGuide,
+    start,
+    modeHeroIds: rosterHeroIds(roster),
+  });
+  state.current = {
+    records,
+    access,
+    openGuide,
+    start,
+    modeHeroIds: rosterHeroIds(roster),
+  };
   useEffect(() => registerNotebookTools(() => state.current), []);
-  const published = records.filter((r) => r.published),
-    visible = published.filter((r) => {
-      const h = heroes.find((h) => h.id === r.heroId)!;
-      return (
-        (role === '全部' || h.roles.includes(role)) &&
-        (tier === '全部' || (r.published!.tier || '未评级') === tier) &&
-        (!query ||
-          `${h.name}${h.pinyin}${r.published!.title}${r.published!.builds.map((b) => b.name).join('')}`
-            .toLowerCase()
-            .includes(query.trim().toLowerCase()))
-      );
-    });
-  const active = records.find((r) => r.heroId === selected);
+  const poolIds = rosterHeroIds(roster);
+  const active = poolIds.includes(selected)
+    ? records.find((r) => r.heroId === selected)
+    : undefined;
   const activeGuide = active?.published;
-  const totalBuilds = published.reduce(
-    (n, r) => n + r.published!.builds.length,
-    0,
-  );
+  const pendingHero = poolIds.includes(selected)
+    ? heroes.find((h) => h.id === selected)
+    : undefined;
   return (
     <div className="notebook">
       <header className="topbar">
@@ -275,193 +288,47 @@ export default function Notebook() {
                     : undefined
                 }
               />
+            ) : pendingHero && !loading ? (
+              <PendingHero
+                hero={pendingHero}
+                batch={
+                  roster.groups.find((g) => g.heroIds.includes(selected))!.name
+                }
+                hasDraft={!!active?.draft}
+                onBack={() => openGuide('')}
+                onEdit={
+                  access.canEdit
+                    ? () =>
+                        setEditor({
+                          record: active || null,
+                          key: Date.now(),
+                          initialHeroId: selected,
+                        })
+                    : undefined
+                }
+              />
             ) : (
               <>
-                <section className="intro">
-                  <div>
-                    <p className="eyebrow">无尽守御 · 天赋手册</p>
-                    <h1>
-                      选对天赋，<span>打出你的流派。</span>
-                    </h1>
-                    <p className="muted">
-                      从核心到小天赋，再到雕文搭配，讲清选择与理由。
-                    </p>
-                  </div>
-                  <div className="intro-index">
-                    <strong>{String(published.length).padStart(2, '0')}</strong>
-                    <span>
-                      已收录英雄
-                      <br />
-                      {totalBuilds} 个流派
-                    </span>
-                  </div>
-                </section>
                 {selected && !loading && (
                   <div className="notice">
-                    这篇攻略尚未发布或已撤下。
+                    该英雄不在当前模式英雄池中。
                     <Button
                       variant="ghost"
                       className="touch"
                       onClick={() => openGuide('')}
                     >
-                      返回全部攻略
+                      返回英雄图鉴
                     </Button>
                   </div>
                 )}
-                {published.length > 0 && (
-                  <div className="filter-bar">
-                    <div className="searchbox">
-                      <Search size={18} />
-                      <Input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        placeholder="搜索英雄或流派"
-                        aria-label="搜索英雄或流派"
-                      />
-                    </div>
-                    <div className="role-filters">
-                      {[
-                        '全部',
-                        '战士',
-                        '法师',
-                        '坦克',
-                        '刺客',
-                        '射手',
-                        '辅助',
-                      ].map((r) => (
-                        <Button
-                          key={r}
-                          variant="ghost"
-                          className={role === r ? 'selected' : ''}
-                          onClick={() => setRole(r)}
-                        >
-                          {r}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                <div className="tier-filter-bar">
-                  <span>英雄强度</span>
-                  <div className="tier-filters">
-                    {['全部', ...heroTiers, '未评级'].map((value) => (
-                      <Button
-                        key={value}
-                        variant="ghost"
-                        className={`touch ${tier === value ? 'selected' : ''}`}
-                        aria-pressed={tier === value}
-                        onClick={() => setTier(value)}
-                      >
-                        {value}
-                      </Button>
-                    ))}
-                  </div>
-                  <TierGuide editable={access.canEdit} />
-                </div>
-                <div className="section-caption">
-                  <span>
-                    无尽守御 · 英雄攻略 <b>{visible.length || ''}</b>
-                  </span>
-                  <span>只收录已确认的模式英雄</span>
-                </div>
-                {loading ? (
-                  <div className="hero-grid">
-                    {[1, 2, 3, 4].map((n) => (
-                      <Skeleton key={n} className="h-40 rounded-xl" />
-                    ))}
-                  </div>
-                ) : visible.length ? (
-                  <div className="guide-card-grid">
-                    {visible.map((r) => {
-                      const h = heroes.find((h) => h.id === r.heroId)!,
-                        d = r.published!;
-                      return (
-                        <button
-                          key={r.heroId}
-                          className="published-card"
-                          onClick={() => openGuide(r.heroId)}
-                        >
-                          <div className="published-top">
-                            <img
-                              src={h.avatar}
-                              alt=""
-                              width={64}
-                              height={64}
-                              loading="lazy"
-                              referrerPolicy="no-referrer"
-                            />
-                            <div>
-                              <h2>
-                                {h.name} <TierBadge tier={d.tier} />
-                              </h2>
-                              <p>{h.roles.join(' / ')}</p>
-                            </div>
-                            <ChevronRight size={18} />
-                          </div>
-                          <h3>{d.title}</h3>
-                          <div className="build-chips">
-                            {d.builds.map((b) => (
-                              <span key={b.id}>{b.name}</span>
-                            ))}
-                          </div>
-                          <div className="published-meta">
-                            <span>
-                              {d.verified ? '作者已核验' : '待核验'} ·{' '}
-                              {d.cores?.filter((c) => c.name).length || 0} 核心
-                              · {d.talents.filter((t) => t.name).length} 天赋
-                            </span>
-                            <span>{d.author}</span>
-                          </div>
-                          <GuideUpdated compact publishedAt={r.publishedAt} />
-                        </button>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <Empty className="guide-empty">
-                    <EmptyHeader>
-                      <span className="empty-emblem">
-                        <BookOpen size={30} />
-                      </span>
-                      <EmptyTitle>
-                        {published.length
-                          ? '没有找到相关攻略'
-                          : '第一篇攻略，留给你的拿手英雄'}
-                      </EmptyTitle>
-                      <EmptyDescription>
-                        {published.length
-                          ? '换个英雄名或清除筛选试试。'
-                          : '攻略发布后，大家就能在这里查看核心流派和天赋建议。'}
-                      </EmptyDescription>
-                    </EmptyHeader>
-                    {published.length ? (
-                      <Button
-                        className="touch"
-                        variant="outline"
-                        onClick={() => {
-                          setQuery('');
-                          setRole('全部');
-                          setTier('全部');
-                        }}
-                      >
-                        清除筛选
-                      </Button>
-                    ) : access.canEdit ? (
-                      <Button className="touch" onClick={() => start()}>
-                        <Plus />
-                        写第一篇攻略
-                      </Button>
-                    ) : (
-                      <a
-                        className="text-link"
-                        target="_top"
-                        href="/signin-with-chatgpt?return_to=%2F"
-                      >
-                        编辑成员登录 <ArrowRight size={16} />
-                      </a>
-                    )}
-                  </Empty>
-                )}
+                <HeroLibrary
+                  roster={roster}
+                  records={records}
+                  editable={access.canEdit}
+                  loading={loading}
+                  onRosterSaved={setRoster}
+                  onOpen={openGuide}
+                />
               </>
             )}
           </TabsContent>
@@ -567,7 +434,7 @@ export default function Notebook() {
                 <span className="eyebrow">01 / 英雄范围</span>
                 <h2>只收录这个模式的英雄</h2>
                 <p>
-                  不把排位英雄池当作无尽守御英雄池。由编辑确认并发布后，英雄才会在首页展示。
+                  只展示团队确认的模式英雄池，分三批每周轮换。未发布攻略的英雄保留头像入口，由指定成员逐步补全。
                 </p>
               </article>
               <article className="reference-card">
@@ -597,7 +464,7 @@ export default function Notebook() {
             <div className="source-note">
               <h3>目前能获取的数据</h3>
               <p>
-                官网公开数据仅用于编辑时的英雄名称与头像。天赋、核心流派及模式雕文不从排位资料推断，也不声称已抓取完整数据。
+                官网公开数据仅用于英雄名称与头像。天赋、核心流派及模式雕文不从排位资料推断，也不声称已抓取完整数据。
               </p>
               <a
                 className="text-link"
@@ -628,6 +495,8 @@ export default function Notebook() {
       </footer>
       {editor && (
         <GuideEditor
+          allowedHeroIds={rosterHeroIds(roster)}
+          initialHeroId={editor.initialHeroId}
           initialSkill={editor.initialSkill}
           initialBuildId={editor.initialBuildId}
           newBuild={editor.newBuild}

@@ -117,9 +117,29 @@ export function GuidePrimer({ editable = false }: { editable?: boolean }) {
           {error}
         </p>
       )}
+      <nav className="primer-contents" aria-label="前瞻章节目录">
+        <details>
+          <summary>
+            前瞻目录 · 快速跳转 <span>{primer.sections.length} 个章节</span>
+          </summary>
+          <ol>
+            {primer.sections.map((section, i) => (
+              <li key={section.id}>
+                <a href={`#primer-chapter-${i + 1}`}>
+                  {String(i + 1).padStart(2, '0')} · {section.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </details>
+      </nav>
       <div className="primer-chapters">
         {primer.sections.map((section, i) => (
-          <section key={section.id} className="primer-chapter">
+          <section
+            key={section.id}
+            id={`primer-chapter-${i + 1}`}
+            className="primer-chapter"
+          >
             <header>
               <span className="primer-chapter-number">
                 {String(i + 1).padStart(2, '0')}
@@ -132,8 +152,38 @@ export function GuidePrimer({ editable = false }: { editable?: boolean }) {
               <h2>{section.title}</h2>
             </header>
             <p className="preserve">{section.body}</p>
+            {!!section.images?.length && (
+              <div className="primer-image-grid">
+                {section.images.map((img, index) => (
+                  <figure key={`${img.src}-${index}`}>
+                    <a
+                      href={img.src}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`查看${img.alt}原图`}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                      />
+                    </a>
+                    <figcaption>
+                      <strong>{img.alt}</strong>
+                      {img.caption && (
+                        <span className="preserve">{img.caption}</span>
+                      )}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
             {section.source && (
-              <p className="primer-source">资料来源：{section.source}</p>
+              <details className="primer-source">
+                <summary>来源与版本说明</summary>
+                <p className="preserve">{section.source}</p>
+              </details>
             )}
             {section.kind === 'tier' && <TierGuide editable={editable} />}
           </section>
@@ -159,7 +209,7 @@ export function GuidePrimer({ editable = false }: { editable?: boolean }) {
               这是独立于英雄攻略的一级内容。可以新增模式常识和须知、调整顺序，保存后所有玩家可读。
             </DialogDescription>
           </DialogHeader>
-          <div className="detail-edit-fields">
+          <fieldset disabled={busy} className="detail-edit-fields">
             <label className="field" htmlFor="primer-title">
               <span>前瞻标题</span>
               <Input
@@ -271,6 +321,102 @@ export function GuidePrimer({ editable = false }: { editable?: boolean }) {
                     )}
                   </label>
                 ))}
+                <div className="primer-image-editor">
+                  <h3>章节配图 / 挑战怪形象</h3>
+                  {(section.images || []).map((img, imageIndex) => (
+                    <div className="primer-edit-image" key={imageIndex}>
+                      {(['src', 'alt', 'caption'] as const).map((key) => (
+                        <label
+                          className="field"
+                          key={key}
+                          htmlFor={`primer-${section.id}-img-${imageIndex}-${key}`}
+                        >
+                          <span>
+                            {
+                              {
+                                src: '原图地址（HTTPS或本站路径）',
+                                alt: '形象名称',
+                                caption: '配图说明（选填）',
+                              }[key]
+                            }
+                          </span>
+                          <Input
+                            id={`primer-${section.id}-img-${imageIndex}-${key}`}
+                            maxLength={key === 'alt' ? 120 : 500}
+                            value={img[key]}
+                            onChange={(e) =>
+                              setDraft({
+                                ...draft,
+                                sections: draft.sections.map((s) =>
+                                  s.id === section.id
+                                    ? {
+                                        ...s,
+                                        images: (s.images || []).map(
+                                          (image, j) =>
+                                            j === imageIndex
+                                              ? {
+                                                  ...image,
+                                                  [key]: e.target.value,
+                                                }
+                                              : image,
+                                        ),
+                                      }
+                                    : s,
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                      ))}
+                      <Button
+                        variant="ghost"
+                        className="touch"
+                        onClick={() =>
+                          setDraft({
+                            ...draft,
+                            sections: draft.sections.map((s) =>
+                              s.id === section.id
+                                ? {
+                                    ...s,
+                                    images: s.images?.filter(
+                                      (_, j) => j !== imageIndex,
+                                    ),
+                                  }
+                                : s,
+                            ),
+                          })
+                        }
+                      >
+                        <Trash2 size={15} />
+                        移除这张配图
+                      </Button>
+                    </div>
+                  ))}
+                  <Button
+                    variant="outline"
+                    className="touch"
+                    disabled={(section.images?.length || 0) >= 12}
+                    onClick={() =>
+                      setDraft({
+                        ...draft,
+                        sections: draft.sections.map((s) =>
+                          s.id === section.id
+                            ? {
+                                ...s,
+                                images: [
+                                  ...(s.images || []),
+                                  { src: '', alt: '', caption: '' },
+                                ],
+                              }
+                            : s,
+                        ),
+                      })
+                    }
+                  >
+                    <Plus size={15} />
+                    添加配图
+                  </Button>
+                </div>
               </section>
             ))}
             <Button
@@ -301,7 +447,7 @@ export function GuidePrimer({ editable = false }: { editable?: boolean }) {
                 {error}
               </p>
             )}
-          </div>
+          </fieldset>
           <DialogFooter>
             <Button
               className="touch"

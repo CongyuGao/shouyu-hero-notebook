@@ -74,6 +74,8 @@ export function GuideEditor({
   initialSkill = 1,
   initialBuildId,
   newBuild = false,
+  initialHeroId,
+  allowedHeroIds,
 }: {
   record: GuideRecord | null;
   onClose: () => void;
@@ -81,10 +83,12 @@ export function GuideEditor({
   initialSkill?: number;
   initialBuildId?: string;
   newBuild?: boolean;
+  initialHeroId?: string;
+  allowedHeroIds: string[];
 }) {
   const [doc, setDoc] = useState<Guide>(() => {
     const initial = structuredClone(
-      record?.draft || record?.published || blankGuide(),
+      record?.draft || record?.published || blankGuide(initialHeroId),
     );
     if (newBuild && initial.builds.length < 8)
       initial.builds.push(blankBuild());
@@ -374,13 +378,17 @@ export function GuideEditor({
                   </TabsList>
                   <TabsContent value="talents">
                     <section className="form-section">
-                      <h2>先确认，这是无尽守御的可用英雄</h2>
+                      <h2>选择模式英雄，补充英雄资料</h2>
                       <p className="muted">
-                        名称与头像选自官网目录。只有你确认并发布的英雄才会出现在首页。
+                        这里只列出模式英雄池。每个英雄独立保存核心、天赋和流派，不会复制亚瑟的技能效果。
                       </p>
                       <label className="field-label">英雄</label>
                       <Combobox<Hero>
-                        items={heroes}
+                        items={heroes.filter(
+                          (h) =>
+                            allowedHeroIds.includes(h.id) ||
+                            h.id === record?.heroId,
+                        )}
                         value={hero || null}
                         disabled={revision > 0}
                         itemToStringLabel={(h) => h.name}
