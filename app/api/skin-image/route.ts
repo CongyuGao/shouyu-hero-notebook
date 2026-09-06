@@ -1,4 +1,4 @@
-import { findHeroSkin } from '@/lib/skins';
+import { findHeroSkin, isPinnedSkinImage } from '@/lib/skins';
 
 // Public artwork proxy: only exact, pinned catalog assets may be fetched.
 // It cannot fetch caller-supplied URLs, private uploads, or arbitrary hosts.
@@ -9,11 +9,7 @@ export async function GET(req: Request) {
   if (!skin || !['image', 'thumbnail', 'avatar'].includes(size))
     return new Response('未找到这张皮肤海报', { status: 404 });
   const source = skin[size as 'image' | 'thumbnail' | 'avatar'];
-  if (
-    !/^https:\/\/raw\.githubusercontent\.com\/lengyibai\/wzry-material\/[a-f0-9]{40}\/heros\/[a-zA-Z0-9_\-]+\.(webp|png|jpg|jpeg)$/.test(
-      source,
-    )
-  )
+  if (!isPinnedSkinImage(source))
     return new Response('图片地址无效', { status: 404 });
   try {
     const upstream = await fetch(source, {

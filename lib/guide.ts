@@ -7,6 +7,26 @@ export const heroes = official.heroes;
 export type Hero = (typeof heroes)[number];
 export const MAX_SELECTED_TALENTS_PER_SKILL = 6;
 export const skillLabels = ['未分组', '一技能', '二技能', '三技能', '四技能'];
+export const MAX_SKILL_LABEL_LENGTH = 16;
+export function guideSkillLabels(guide: {
+  skillLabels?: Record<string, string>;
+}): string[] {
+  return skillLabels.map(
+    (fallback, skill) => guide.skillLabels?.[skill]?.trim() || fallback,
+  );
+}
+export function validateSkillLabels(input: unknown): Record<string, string> {
+  if (input === undefined || input === null) return {};
+  const labels = obj(input);
+  if (Object.keys(labels).some((key) => !/^[0-4]$/.test(key)))
+    throw new Error('技能分组名称包含无效分组');
+  return Object.fromEntries(
+    Object.entries(labels).flatMap(([key, label]) => {
+      const name = value(label, MAX_SKILL_LABEL_LENGTH, '技能分组名称');
+      return name && name !== skillLabels[Number(key)] ? [[key, name]] : [];
+    }),
+  );
+}
 export function heroSkills(heroId: string): number[] {
   return heroes.find((hero) => hero.id === heroId)?.name === '女娲'
     ? [1, 2, 3, 4]
@@ -71,6 +91,7 @@ export type Build = {
 };
 export type Guide = {
   heroId: string;
+  skillLabels?: Record<string, string>;
   posterId?: string;
   tier?: string;
   tierReason?: string;
@@ -273,6 +294,10 @@ export function validateGuide(input: unknown, publish = false): Guide {
   const d = obj(input);
   const heroId = value(d.heroId, 20, '英雄');
   if (!heroes.some((h) => h.id === heroId)) throw new Error('请从目录选择英雄');
+  const customSkillLabels = validateSkillLabels(d.skillLabels);
+  const displaySkillLabels = guideSkillLabels({
+    skillLabels: customSkillLabels,
+  });
   if (
     !Array.isArray(d.talents) ||
     d.talents.length < 1 ||
@@ -355,7 +380,7 @@ export function validateGuide(input: unknown, publish = false): Guide {
         ).length > MAX_SELECTED_TALENTS_PER_SKILL
       )
         throw new Error(
-          `${skillLabels[skill]}最多选择6个小天赋，请先取消该技能的一个已选天赋。各技能分别计算。`,
+          `${displaySkillLabels[skill]}最多选择6个小天赋，请先取消该技能的一个已选天赋。各技能分别计算。`,
         );
     }
     if (
@@ -459,6 +484,9 @@ export function validateGuide(input: unknown, publish = false): Guide {
   }
   const guide = {
     heroId,
+    ...(Object.keys(customSkillLabels).length
+      ? { skillLabels: customSkillLabels }
+      : {}),
     posterId: validatePosterId(d.posterId, heroId),
     tier: value(d.tier || '', 12, '英雄梯度'),
     tierReason: value(d.tierReason || '', 2000, '英雄评级理由'),

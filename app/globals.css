@@ -1683,6 +1683,27 @@ footer small {
   letter-spacing: 0.035em;
   color: #e7e5dd;
 }
+.skill-label-dialog {
+  width: min(540px, calc(100vw - 24px));
+}
+.skill-label-fields {
+  display: grid;
+  gap: 14px;
+}
+.skill-label-field {
+  padding: 14px;
+  border: 1px solid #38506c;
+  border-radius: 12px;
+  background: linear-gradient(120deg, #172940, #0e1d31);
+}
+.skill-label-field > span {
+  color: #ebce93;
+}
+.skill-label-field small {
+  color: #aebed6;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
 .board-toolbar p {
   font-size: 0.875rem;
   line-height: 1.75;

@@ -18,22 +18,45 @@ async function moduleFrom(path) {
     `data:text/javascript;base64,${Buffer.from(compiled.outputFiles[0].text).toString('base64')}`
   );
 }
-const { heroSkins, validatePosterId, skinImageUrl } =
+const { heroSkins, validatePosterId, skinImageUrl, isPinnedSkinImage } =
   await moduleFrom('lib/skins.ts');
 const { blankGuide, validateGuide } = await moduleFrom('lib/guide.ts');
 const { createGuideExport } = await moduleFrom('lib/guide-export.ts');
-assert.equal(heroSkins.length, 304);
-assert.equal(new Set(heroSkins.map((skin) => skin.id)).size, 304);
-assert.equal(new Set(heroSkins.map((skin) => skin.heroId)).size, 41);
-assert(!heroSkins.some((skin) => skin.heroId === '151'));
+assert.equal(heroSkins.length, 363);
+assert.equal(new Set(heroSkins.map((skin) => skin.id)).size, 363);
+assert.equal(new Set(heroSkins.map((skin) => skin.heroId)).size, 42);
+assert.equal(heroSkins.filter((skin) => skin.heroId === '151').length, 2);
+const originalCatalog = JSON.parse(
+  readFileSync('data/hero-skins.json', 'utf8'),
+);
+for (const original of originalCatalog)
+  assert.deepEqual(
+    heroSkins.find((skin) => skin.id === original.id),
+    original,
+    'Existing poster identities and URLs must remain valid',
+  );
+assert(
+  heroSkins.some((skin) => skin.heroId === '542' && skin.name === '朽木白哉'),
+);
 for (const skin of heroSkins) {
   for (const key of ['image', 'thumbnail', 'avatar'])
-    assert.match(
-      skin[key],
-      /^https:\/\/raw\.githubusercontent\.com\/lengyibai\/wzry-material\/[a-f0-9]{40}\/heros\/[a-zA-Z0-9_\-]+\.(webp|png|jpg|jpeg)$/,
+    assert(
+      isPinnedSkinImage(skin[key]),
+      `Rejected catalog asset ${skin.id}/${key}`,
     );
   assert.equal(validatePosterId(skin.id, skin.heroId), skin.id);
 }
+const added = heroSkins.find(
+  (skin) => skin.heroId === '542' && skin.name === '朽木白哉',
+);
+for (const invalid of [
+  added.image.replace('/d3968d118d5587ed4ebfcdaa5582fe6cb190e77a/', '/main/'),
+  added.image.replace('raw.githubusercontent.com', 'attacker.example'),
+  added.image.replace('5wallpaper-bigskin-images/', 'private-files/'),
+  added.image.replace(/[^/]+$/, '%2Fsecret.jpg'),
+  added.image + '?redirect=https://attacker.example',
+])
+  assert.equal(isPinnedSkinImage(invalid), false);
 assert(!blankGuide('166').posterId, 'New guides never auto-select a poster');
 assert.equal(validatePosterId(undefined, '166'), '');
 const arthur = heroSkins.filter((skin) => skin.heroId === '166');
@@ -97,6 +120,14 @@ try {
   assert.equal(fetched[0].url, arthur[0].image);
   assert.equal(fetched[0].options.redirect, 'manual');
   assert.match(response.headers.get('Cache-Control'), /public/);
+  const communityResponse = await GET(
+    new Request(
+      `https://example.com/api/skin-image?id=${added.id}&size=thumbnail`,
+    ),
+  );
+  assert.equal(communityResponse.status, 200);
+  assert.equal(fetched.at(-1).url, added.thumbnail);
+  assert.equal(fetched.at(-1).options.redirect, 'manual');
   for (const status of [301, 302, 307, 308, 404, 503]) {
     let calls = 0;
     globalThis.fetch = async (_url, options) => {
@@ -148,5 +179,5 @@ try {
   globalThis.fetch = originalFetch;
 }
 console.log(
-  'PASS: 304 pinned catalog entries, manual-only selection, hero validation, published-only export, restricted public image proxy.',
+  'PASS: 363 pinned catalog entries, 42 heroes, existing poster compatibility, manual-only selection, published-only export, restricted two-source image proxy.',
 );

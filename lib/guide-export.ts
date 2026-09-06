@@ -1,7 +1,7 @@
 import {
   heroes,
   heroSkills,
-  skillLabels,
+  guideSkillLabels,
   selectedTalents,
   type GuideRecord,
 } from './guide';
@@ -74,7 +74,7 @@ export function createGuideExport(
   const talentIds = selectedTalents(build);
   const poster = findHeroSkin(guide.posterId, guide.heroId);
   const sections: ExportSection[] = [];
-  const skillNames = skillLabels;
+  const skillNames = guideSkillLabels(guide);
   const accents = ['#c5b8ed', '#e9c581', '#83c8ff', '#84e0cd', '#d4b0ff'];
   const groups = [
     ...heroSkills(guide.heroId),

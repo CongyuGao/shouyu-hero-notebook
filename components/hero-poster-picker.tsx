@@ -10,7 +10,12 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import { findHeroSkin, heroSkins, skinImageUrl } from '@/lib/skins';
+import {
+  findHeroSkin,
+  heroSkins,
+  skinImageUrl,
+  skinCatalogSnapshotDate,
+} from '@/lib/skins';
 
 export function HeroPosterPicker({
   heroId,
@@ -98,9 +103,11 @@ export function HeroPosterPicker({
                   {skin.name}
                   {pending === skin.id && <Check size={18} />}
                 </span>
-                <span className="skin-card-labels">
-                  {skin.labels.join(' · ') || '原版皮肤'}
-                </span>
+                {skin.labels.length > 0 && (
+                  <span className="skin-card-labels">
+                    {skin.labels.join(' · ')}
+                  </span>
+                )}
               </button>
             ))}
           </div>
@@ -112,7 +119,9 @@ export function HeroPosterPicker({
             </p>
           )}
           <p className="skin-library-note">
-            皮肤标签沿用收录资料，不代表完整或实时的品质排名。游戏美术归原权利人所有。
+            当前英雄收录 {items.length} 张海报 · 资料快照{' '}
+            {skinCatalogSnapshotDate}
+            。部分新皮肤可能尚未收录，品质以已有标签为准。
           </p>
           <div className="skin-upload-note">
             <Button variant="ghost" disabled>

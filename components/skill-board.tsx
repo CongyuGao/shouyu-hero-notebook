@@ -15,6 +15,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { GameIcon } from '@/components/game-icon';
+import { SkillLabelEditor } from '@/components/skill-label-editor';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -45,7 +46,7 @@ import {
   MAX_SELECTED_TALENTS_PER_SKILL,
   selectedTalents,
   heroSkills,
-  skillLabels,
+  guideSkillLabels,
   type Build,
   type Guide,
 } from '@/lib/guide';
@@ -58,7 +59,6 @@ type Editing = {
   skill: number;
   reason: string;
 };
-const skillNames = skillLabels;
 const skillIcons = [Gem, Swords, Shield, Zap, Sparkles];
 
 export function SkillBoard({
@@ -96,6 +96,7 @@ export function SkillBoard({
   const [editing, setEditing] = useState<Editing | null>(null);
   const [error, setError] = useState('');
   const [selectionNotice, setSelectionNotice] = useState('');
+  const skillNames = guideSkillLabels(guide);
   const talentIds = selectedTalents(build);
   const groups = [
     ...heroSkills(guide.heroId),
@@ -218,6 +219,13 @@ export function SkillBoard({
           </p>
         </div>
         <div className="board-selection-summary">
+          {editable && onGuideChange && (
+            <SkillLabelEditor
+              guide={guide}
+              disabled={disabled}
+              onChange={onGuideChange}
+            />
+          )}
           <span
             className={`talent-total-counter ${activeTalentIds.length >= MAX_SELECTED_TALENTS_PER_SKILL ? 'is-full' : ''}`}
             aria-live="polite"
@@ -345,9 +353,7 @@ export function SkillBoard({
                   <Icon size={26} />
                 </span>
                 <div>
-                  <span className="skill-kicker">
-                    SKILL {String(n).padStart(2, '0')}
-                  </span>
+                  <span className="skill-kicker">SKILL TALENTS</span>
                   <h3>
                     {skillNames[n]} <span>· 天赋配置</span>
                   </h3>

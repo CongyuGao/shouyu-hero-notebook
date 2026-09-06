@@ -55,6 +55,7 @@ import {
   selectedTalents,
   heroTalentPreset,
   heroSkills,
+  guideSkillLabels,
   fillBlankHeroReference,
   selectNewGuideHero,
   type Guide,
@@ -64,6 +65,7 @@ import {
 } from '@/lib/guide';
 import { GuideView } from './guide-view';
 import { SkillBoard } from './skill-board';
+import { SkillLabelEditor } from './skill-label-editor';
 import { LoadoutPicker } from './loadout-picker';
 import { CatalogEditor } from './catalog-editor';
 import { TierGuide } from './tier-guide';
@@ -547,11 +549,16 @@ export function GuideEditor({
                       <p className="muted">
                         按技能录入核心；在“流派搭配”中选择这个打法用哪一个。
                       </p>
+                      <SkillLabelEditor
+                        guide={doc}
+                        disabled={busy}
+                        onChange={patch}
+                      />
                       <div className="talent-edit-grid">
                         {(doc.cores || []).map((c) => (
                           <div className="talent-edit" key={c.id}>
                             <span className="talent-number">
-                              {c.skill} 技能核心
+                              {guideSkillLabels(doc)[c.skill]} · 核心
                             </span>
                             <Field
                               label="核心名称"
@@ -599,7 +606,7 @@ export function GuideEditor({
                         {doc.talents.map((t, i) => (
                           <div className="talent-edit" key={t.id}>
                             <span className="talent-number">
-                              {t.skill ? `${t.skill} 技能 · ` : ''}
+                              {guideSkillLabels(doc)[t.skill || 0]} ·{' '}
                               {String(i + 1).padStart(2, '0')}
                             </span>
                             <Field

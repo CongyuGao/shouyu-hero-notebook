@@ -8763,63 +8763,63 @@
   {
     "heroId": "542",
     "heroName": "暃",
-    "source": "玩家提供的游戏内天赋资料 IMG_1613.PNG—IMG_1615.PNG。适用游戏版本待确认；原图勾选仅作参考加点，可自行调整。",
+    "source": "玩家提供的游戏内天赋资料：一技能 IMG_3164.PNG、IMG_3165.PNG；二技能 IMG_1614.PNG；三技能 IMG_1615.PNG。适用游戏版本待确认；原图勾选仅作参考加点，可自行调整。",
     "talents": [
       {
         "id": "t01",
-        "name": "来去如风",
-        "description": "使用二技能时可抵挡一次控制，成功获得护盾",
+        "name": "一来二去",
+        "description": "使用一技能下墙时，五秒内可再使用一次不含控制效果的一技能",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3164.PNG"
       },
       {
         "id": "t02",
-        "name": "高瞻远瞩",
-        "description": "上墙后视野直接扩大1.5倍，且技能豆充能速度额外提升40%",
+        "name": "璀璨",
+        "description": "每个远程玉镖攻击到敌人可叠加3%暴击概率和暴击效果，上限10层",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3164.PNG"
       },
       {
         "id": "t03",
-        "name": "无处可藏",
-        "description": "远程攻击将向范围内至多三个目标发射玉镖",
+        "name": "金玉其外",
+        "description": "释放一技能可获得护盾，暴击率越高护盾越厚",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3164.PNG、IMG_3165.PNG"
       },
       {
         "id": "t04",
-        "name": "一飞冲天",
-        "description": "跳跃距离+10%，速度加30%",
+        "name": "丝雨回风",
+        "description": "强普的回复量提升，远程强普也可以获得回复",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3164.PNG、IMG_3165.PNG"
       },
       {
         "id": "t05",
-        "name": "霸道王子",
-        "description": "上墙后获得常驻的额外攻击力和攻速",
+        "name": "凝琼",
+        "description": "强化普攻将造成额外可暴击的真实伤害",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3164.PNG、IMG_3165.PNG"
       },
       {
         "id": "t06",
-        "name": "风一样的男子",
-        "description": "技能豆储存上限+4",
+        "name": "玉音回响",
+        "description": "强普命中减少一技能0.5秒冷却",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3164.PNG、IMG_3165.PNG"
       },
       {
         "id": "t07",
-        "name": "璞玉深藏",
-        "description": "每次使用二技能增加1层强普层数",
+        "name": "汹涌",
+        "description": "一技能后获得的攻速翻倍",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3165.PNG"
       },
       {
         "id": "t08",
-        "name": "踏玉",
-        "description": "不再会被击退下墙，在墙上时额外获得50%的韧性",
+        "name": "玉树临风",
+        "description": "使用一技能后获得2秒爆发移速",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3165.PNG"
       },
       {
         "id": "t09",
@@ -8937,17 +8937,17 @@
     "cores": [
       {
         "id": "c1",
-        "name": "路转锋回",
-        "description": "普攻永久变为发射可叠加的玉镖，墙上获得额外的攻击距离",
+        "name": "回玉之刃",
+        "description": "位移结束后向附近敌人发射回旋玉镖",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3164.PNG、IMG_3165.PNG"
       },
       {
         "id": "c2",
-        "name": "逍遥自在",
-        "description": "二技能将不再有任何冷却，且跳墙时将自动斩击周围单位",
+        "name": "美玉赠英雄",
+        "description": "墙下一技能会留下三个玉仔，使用二技能站在玉仔上可持续触发斩击和回复",
         "skill": 1,
-        "source": "IMG_1613.PNG"
+        "source": "IMG_3164.PNG、IMG_3165.PNG"
       },
       {
         "id": "c3",
@@ -8980,16 +8980,19 @@
     ],
     "referenceSelection": {
       "coreIds": [
+        "c1",
         "c3",
         "c6"
       ],
       "talentIds": [
+        "t01",
+        "t07",
         "t15",
         "t16",
         "t20",
         "t22"
       ],
-      "source": "IMG_1613.PNG、IMG_1614.PNG、IMG_1615.PNG"
+      "source": "IMG_3164.PNG、IMG_3165.PNG、IMG_1614.PNG、IMG_1615.PNG"
     }
   },
   {
