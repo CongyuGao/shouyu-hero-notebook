@@ -2,10 +2,10 @@
   {
     "heroId": "166",
     "title": "亚瑟 · 飞雷神连斩流",
-    "intro": "根据游戏内天赋备战截图整理，收录 3 个技能的 6 个核心和 24 个小天赋。高亮项还原截图中的勾选，供继续完善攻略。",
-    "version": "截图版本 · 日期待确认",
-    "author": "截图资料整理",
-    "source": "玩家提供的游戏内截图：IMG_3111.PNG—IMG_3116.PNG。文字与勾选按截图转录，未补写截图没有给出的数值。尚未经过游戏内复核；名称字形与版本适用性可由编辑继续核对。雕文资料位于另行提供的腾讯文档，暂未录入。",
+    "intro": "亚瑟的核心与天赋配置。每个技能包含2个核心、8个小天赋，可按打法自由调整。",
+    "version": "版本日期待确认",
+    "author": "守御手册",
+    "source": "天赋与核心：玩家提供的游戏内资料 IMG_3111.PNG—IMG_3116.PNG。数值适用版本与名称字形待核验；雕文资料库来自腾讯文档 https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM 。",
     "verified": false,
     "cores": [
       {
@@ -225,48 +225,20 @@
       {
         "id": "arthur-screenshot-build",
         "name": "飞雷神连斩流",
-        "summary": "原图方案选择：影破、磐坚、处决。小天赋勾选持续、回复、同棘、持恒、沉驭、环愈。本页先还原截图，强度判断和取舍理由由作者继续补充。",
+        "summary": "核心组合：影破、磐坚、处决。围绕当前打法，按技能选择小天赋并搭配雕文、铭文。",
         "order": "",
         "coreIds": ["c2", "c4", "c5"],
-        "picks": [
-          {
-            "talentId": "t06",
-            "priority": "selected",
-            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
-          },
-          {
-            "talentId": "t07",
-            "priority": "selected",
-            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
-          },
-          {
-            "talentId": "t13",
-            "priority": "selected",
-            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
-          },
-          {
-            "talentId": "t16",
-            "priority": "selected",
-            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
-          },
-          {
-            "talentId": "t18",
-            "priority": "selected",
-            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
-          },
-          {
-            "talentId": "t24",
-            "priority": "selected",
-            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
-          }
-        ],
+        "picks": [],
         "glyphIds": [],
         "glyphs": "",
         "runes": "",
         "arcana": "",
-        "notes": ""
+        "notes": "",
+        "talentIds": ["t06", "t07", "t13", "t16", "t18", "t24"]
       }
     ],
-    "glyphs": []
+    "glyphs": [],
+    "tier": "T1.5",
+    "tierReason": "暂按 T1.5 归类；具体测试条件与评级理由待团队补充。"
   }
 ]

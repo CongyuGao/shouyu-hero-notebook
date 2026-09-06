@@ -1,0 +1,624 @@
+{
+  "glyphs": [
+    {
+      "id": "doc-glyph-001",
+      "name": "射程提升",
+      "effect": "提升远程英雄75攻击距离",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg3.docs.qq.com/image/AgAABWNmMK2mGU17GyNJ7I7s5Vq1g3L2.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-01.png"
+    },
+    {
+      "id": "doc-glyph-002",
+      "name": "攻击速度",
+      "effect": "提升15%攻击速度",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg8.docs.qq.com/image/AgAABWNmMK2SMoC1vC5FQa5bs8f-PwA5.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-02.png"
+    },
+    {
+      "id": "doc-glyph-003",
+      "name": "双抗",
+      "effect": "提升100点双抗",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg1.docs.qq.com/image/AgAABWNmMK2jh1T46EpPgqA0J6NIO9G8.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-03.png"
+    },
+    {
+      "id": "doc-glyph-004",
+      "name": "移速",
+      "effect": "提升10%移速",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg6.docs.qq.com/image/AgAABWNmMK1eAah_b49ADotiisDvMpjF.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-04.png"
+    },
+    {
+      "id": "doc-glyph-005",
+      "name": "最大生命",
+      "effect": "提升800最大生命值",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg4.docs.qq.com/image/AgAABWNmMK0njjl4yhxArKFXqGgTCvUr.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-05.png"
+    },
+    {
+      "id": "doc-glyph-006",
+      "name": "暴击率",
+      "effect": "提升10%暴击率",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg7.docs.qq.com/image/AgAABWNmMK2rbEiR6qVGsqhGaHqWLShR.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-06.png"
+    },
+    {
+      "id": "doc-glyph-007",
+      "name": "物理穿透",
+      "effect": "提升15%物理穿透",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg7.docs.qq.com/image/AgAABWNmMK0qVC8LzXhNX7F_WMDC7yfJ.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-07.png"
+    },
+    {
+      "id": "doc-glyph-008",
+      "name": "法术穿透",
+      "effect": "提升15%法术穿透",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg1.docs.qq.com/image/AgAABWNmMK2Vl-vfizhBxLyofODrBB_h.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-08.png"
+    },
+    {
+      "id": "doc-glyph-009",
+      "name": "暴击伤害",
+      "effect": "提升35%暴击伤害",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg9.docs.qq.com/image/AgAABWNmMK0Q8_eyulBAub38zYNeaDji.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-09.png"
+    },
+    {
+      "id": "doc-glyph-010",
+      "name": "攻击力",
+      "effect": "提升8%攻击力",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg10.docs.qq.com/image/AgAABWNmMK246pYRGPNIb51QB8MhdSlX.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-10.png"
+    },
+    {
+      "id": "doc-glyph-011",
+      "name": "法术伤害",
+      "effect": "提升8%法术伤害",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg2.docs.qq.com/image/AgAABWNmMK0jOpoYsSpM4K4pmgSlwbCy.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-11.png"
+    },
+    {
+      "id": "doc-glyph-012",
+      "name": "法术吸血",
+      "effect": "提升10%法术吸血",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg8.docs.qq.com/image/AgAABWNmMK1E0Hg5Md9KYZ3h_vgaztcQ.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-12.png"
+    },
+    {
+      "id": "doc-glyph-013",
+      "name": "物理吸血",
+      "effect": "提升10%物理吸血",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg2.docs.qq.com/image/AgAABWNmMK0WW92J5DJPdLTf8xWpQStv.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-13.png"
+    },
+    {
+      "id": "doc-glyph-014",
+      "name": "冷却缩短",
+      "effect": "获得10%冷却缩短",
+      "color": "初级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg2.docs.qq.com/image/AgAABWNmMK3mAoXlNN1E9aUfWWFfOg3e.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-14.png"
+    },
+    {
+      "id": "doc-glyph-015",
+      "name": "远距增伤",
+      "effect": "对3m以外的敌人伤害提升30%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg1.docs.qq.com/image/AgAABWNmMK3aQwrQ-5FMDqpnDOVdBb2k.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-15.png"
+    },
+    {
+      "id": "doc-glyph-016",
+      "name": "法穿提升",
+      "effect": "法术穿透提升30%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg7.docs.qq.com/image/AgAABWNmMK0Z6pKdPWxIYaDHM2iWqccz.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-16.png"
+    },
+    {
+      "id": "doc-glyph-017",
+      "name": "物穿提升",
+      "effect": "物理穿透提升30%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg9.docs.qq.com/image/AgAABWNmMK0epQmHb_9GYYufpiYVtVh9.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-17.png"
+    },
+    {
+      "id": "doc-glyph-018",
+      "name": "静止增伤",
+      "effect": "静止3s后，法伤提升20%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg3.docs.qq.com/image/AgAABWNmMK12YAEA7NxDtrP0rTbX1rVQ.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-18.png"
+    },
+    {
+      "id": "doc-glyph-019",
+      "name": "残影提速",
+      "effect": "自身处于无法选中状态时，攻击力提升30%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg3.docs.qq.com/image/AgAABWNmMK0ILjUiRFZFe4y670YbxtmY.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-19.png"
+    },
+    {
+      "id": "doc-glyph-020",
+      "name": "普攻增伤",
+      "effect": "普攻附带额外伤害。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg3.docs.qq.com/image/AgAABWNmMK0krKY-RD1Ihpe0liPnMuas.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-20.png"
+    },
+    {
+      "id": "doc-glyph-021",
+      "name": "少血增伤",
+      "effect": "自身血量低于30%时，物攻提升30%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg10.docs.qq.com/image/AgAABWNmMK0lcZNANg5HB4UA1zYkPET4.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-21.png"
+    },
+    {
+      "id": "doc-glyph-022",
+      "name": "降速增攻",
+      "effect": "攻击速度下降10%，攻击力提升20%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg3.docs.qq.com/image/AgAABWNmMK1noukEigBO_pfQLWmGHZZI.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-22.png"
+    },
+    {
+      "id": "doc-glyph-023",
+      "name": "攻击提升",
+      "effect": "使用技能额外耗蓝量10点，攻击力提升20%持续3s。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg6.docs.qq.com/image/AgAABWNmMK2n3CQvbe5H8p-cJesMDNbX.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-23.png"
+    },
+    {
+      "id": "doc-glyph-024",
+      "name": "法伤提升",
+      "effect": "使用技能额外耗蓝量10点，法术伤害提升20%持续3s。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg5.docs.qq.com/image/AgAABWNmMK1hyY8RE65BH67_HyM5pmN0.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-24.png"
+    },
+    {
+      "id": "doc-glyph-025",
+      "name": "物吸提升",
+      "effect": "物理吸血提升30%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg1.docs.qq.com/image/AgAABWNmMK2rwamd7DFB3pV4sxRfPBdq.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-25.png"
+    },
+    {
+      "id": "doc-glyph-026",
+      "name": "法吸提升",
+      "effect": "法术吸血提升30%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg4.docs.qq.com/image/AgAABWNmMK2c6F5b8GtDtLs-jLV9iL7Z.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-26.png"
+    },
+    {
+      "id": "doc-glyph-027",
+      "name": "移速提升",
+      "effect": "移速提升50%。",
+      "color": "中级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg6.docs.qq.com/image/AgAABWNmMK1Khea9lm9ALpBHJMeR4ST-.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-27.png"
+    },
+    {
+      "id": "doc-glyph-028",
+      "name": "光刃爆发",
+      "effect": "首次击中目标5s内将其消灭，可召唤光刃攻击前方敌人。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg7.docs.qq.com/image/AgAABWNmMK3poe0DtjJLOYoSbhMfrzH0.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-28.png"
+    },
+    {
+      "id": "doc-glyph-029",
+      "name": "暴击转化",
+      "effect": "每1%的暴击概率提升2%的暴击效果。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg10.docs.qq.com/image/AgAABWNmMK03UVqQJMJArbZksSOrDkm0.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-29.png"
+    },
+    {
+      "id": "doc-glyph-030",
+      "name": "闪电链",
+      "effect": "每5次普攻触发闪电链攻击目标附近多个敌人，造成2000点法术伤害。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg8.docs.qq.com/image/AgAABWNmMK3ukFpJR9BGIIhRJI45HCKD.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-30.png"
+    },
+    {
+      "id": "doc-glyph-031",
+      "name": "天然护盾",
+      "effect": "每隔10s，获得生命12%护盾。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg5.docs.qq.com/image/AgAABWNmMK3YNrTXmFxGpopAfetcS9WM.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-31.png"
+    },
+    {
+      "id": "doc-glyph-032",
+      "name": "静止沉思",
+      "effect": "每静止0.65秒法伤提升100，至多叠加10次，移动时清零。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg10.docs.qq.com/image/AgAABWNmMK3MFFzg8vxE7qOn5FoBf08p.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-32.png"
+    },
+    {
+      "id": "doc-glyph-033",
+      "name": "陨石术",
+      "effect": "每次使用技能会召唤一颗陨石造成法术伤害，有5sCD。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg1.docs.qq.com/image/AgAABWNmMK25jP5i4EFEnYPFBrSLXV9q.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-33.png"
+    },
+    {
+      "id": "doc-glyph-034",
+      "name": "刺耳怒吼",
+      "effect": "每隔5s嘲讽身边敌人3s，期间自身100%反伤。护甲会提升反伤伤害。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg3.docs.qq.com/image/AgAABWNmMK1kFN3-KwBO4rESbvzw-zWj.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-34.png"
+    },
+    {
+      "id": "doc-glyph-035",
+      "name": "速爆炸弹",
+      "effect": "普攻命中会标记敌人3s，叠加3层后发生爆炸造成1.5倍物理攻击伤害。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg10.docs.qq.com/image/AgAABWNmMK12CEQw7kFBcbzp3LzQeMKC.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-35.png"
+    },
+    {
+      "id": "doc-glyph-036",
+      "name": "破釜沉舟",
+      "effect": "每消耗100当前生命值，双防提升5。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg8.docs.qq.com/image/AgAABWNmMK0m8k25Pm9I97Hy91PSsiFl.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-36.png"
+    },
+    {
+      "id": "doc-glyph-037",
+      "name": "先发制敌",
+      "effect": "技能命中敌人后3s内，会使自己攻速提升100%持续3s。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg3.docs.qq.com/image/AgAABWNmMK3zjasbpjNJSKHXMF7Ru_1G.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-37.png"
+    },
+    {
+      "id": "doc-glyph-038",
+      "name": "超速攻击",
+      "effect": "攻击力降低20%，攻速提升200%，并可突破攻速上限。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg9.docs.qq.com/image/AgAABWNmMK1gZSeEOatPDYae33gachob.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-38.png"
+    },
+    {
+      "id": "doc-glyph-039",
+      "name": "法术回响",
+      "effect": "技能命中敌人时发生爆炸，造成500+0.5AP法术伤害。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg7.docs.qq.com/image/AgAABWNmMK0owwtsv2BLt5GSBRVmGE7d.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-39.png"
+    },
+    {
+      "id": "doc-glyph-040",
+      "name": "双极制裁",
+      "effect": "对生命值高于80%的目标和生命值低于35%的目标造成额外真实伤害",
+      "color": "高级秘法",
+      "usage": "原始资料卡的右缘裁切，句末标点不可见；上方文字仅转录可辨认内容，请对照原始资料卡。",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg6.docs.qq.com/image/AgAABWNmMK2_WwK5QtNPELY8KBvfcQM-.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-40.png"
+    },
+    {
+      "id": "doc-glyph-041",
+      "name": "闪电护盾",
+      "effect": "每消耗500点护盾重击身边敌人，造成自身最大生命值5%的伤害。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg6.docs.qq.com/image/AgAABWNmMK1gc89_AjBMXpbkAh0csdpC.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-41.png"
+    },
+    {
+      "id": "doc-glyph-042",
+      "name": "火池术",
+      "effect": "每隔5s，使用技能时会在附近敌人脚下召唤火池造成法术伤害。",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg4.docs.qq.com/image/AgAABWNmMK2N2srCvXhCzYvUgQaKVCKo.png?w=333&h=90",
+      "image": "/glyph-cards/glyph-42.png"
+    }
+  ],
+  "runes": [
+    {
+      "id": "1501",
+      "name": "圣人",
+      "effect": "法术攻击力+5.3",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1503",
+      "name": "传承",
+      "effect": "物理攻击力+3.2",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1504",
+      "name": "异变",
+      "effect": "物理攻击力+2\n物理穿透+3.6",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1505",
+      "name": "纷争",
+      "effect": "物理攻击力+2.5\n物理吸血+0.5%",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1510",
+      "name": "无双",
+      "effect": "暴击率+0.7%\n暴击效果+3.6%",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1512",
+      "name": "宿命",
+      "effect": "攻速加成+1%\n最大生命+33.7\n物理防御力+2.3",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1514",
+      "name": "梦魇",
+      "effect": "法术攻击力+4.2\n法术穿透+2.4",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1517",
+      "name": "凶兆",
+      "effect": "法术攻击力+4.2\n攻速加成+0.6%",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1519",
+      "name": "祸源",
+      "effect": "暴击率+1.6%",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "1520",
+      "name": "红月",
+      "effect": "攻速加成+1.6%\n暴击率+0.5%",
+      "usage": "",
+      "color": "红色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2501",
+      "name": "长生",
+      "effect": "最大生命+75",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2503",
+      "name": "贪婪",
+      "effect": "法术吸血+1.6%",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2504",
+      "name": "夺萃",
+      "effect": "物理吸血+1.6%",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2506",
+      "name": "兽痕",
+      "effect": "暴击率+0.5%\n最大生命+60",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2510",
+      "name": "冥想",
+      "effect": "最大生命+60\n生命回复+4.5",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2511",
+      "name": "繁荣",
+      "effect": "物理吸血+1%\n法术防御力+4.1",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2512",
+      "name": "轮回",
+      "effect": "法术攻击力+2.4\n法术吸血+1%",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2515",
+      "name": "调和",
+      "effect": "最大生命+45\n生命回复+5.2\n移速+0.4%",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2517",
+      "name": "隐匿",
+      "effect": "物理攻击力+1.6\n移速+1%",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "2520",
+      "name": "狩猎",
+      "effect": "攻速加成+1%\n移速+1%",
+      "usage": "",
+      "color": "蓝色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3501",
+      "name": "霸者",
+      "effect": "物理防御力+9",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3503",
+      "name": "均衡",
+      "effect": "物理防御力+5\n法术防御力+5",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3509",
+      "name": "虚空",
+      "effect": "最大生命+37.5\n冷却缩减+0.6%",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3510",
+      "name": "灵山",
+      "effect": "法术防御力+9",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3511",
+      "name": "献祭",
+      "effect": "法术攻击力+2.4\n冷却缩减+0.7%",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3514",
+      "name": "鹰眼",
+      "effect": "物理攻击力+0.9\n物理穿透+6.4",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3515",
+      "name": "心眼",
+      "effect": "攻速加成+0.6%\n法术穿透+6.4",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3516",
+      "name": "怜悯",
+      "effect": "冷却缩减+1%",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3517",
+      "name": "敬畏",
+      "effect": "法术吸血+0.7%\n物理防御力+5.9",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    },
+    {
+      "id": "3518",
+      "name": "回声",
+      "effect": "物理防御力+2.7\n法术防御力+2.7\n冷却缩减+0.6%",
+      "usage": "",
+      "color": "绿色",
+      "source": "王者荣耀官网 · 通用五级铭文（2026-09-06资料快照）"
+    }
+  ]
+}

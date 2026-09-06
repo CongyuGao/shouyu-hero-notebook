@@ -9,7 +9,6 @@ import {
   Search,
   Plus,
   Pencil,
-  Users,
   ChevronRight,
   RefreshCw,
 } from 'lucide-react';
@@ -23,10 +22,14 @@ import {
   EmptyDescription,
 } from '@/components/ui/empty';
 import { Skeleton } from '@/components/ui/skeleton';
-import { heroes, blankGuide, type Access, type GuideRecord } from '@/lib/guide';
+import { heroes, type Access, type GuideRecord } from '@/lib/guide';
 import { GuideView } from '@/components/guide-view';
 import { GuideEditor } from '@/components/guide-editor';
 import { MemberPanel } from '@/components/member-panel';
+import { TierBadge, TierGuide } from '@/components/tier-guide';
+import { GuidePrimer } from '@/components/guide-primer';
+import { GuideUpdated } from '@/components/guide-updated';
+import { heroTiers } from '@/lib/tiers';
 import { registerNotebookTools } from '@/lib/webmcp';
 import { readResponse } from '@/lib/client-api';
 const anonymous: Access = {
@@ -40,13 +43,17 @@ export default function Notebook() {
     [access, setAccess] = useState(anonymous),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(''),
-    [tab, setTab] = useState('guides'),
+    [tab, setTab] = useState('overview'),
     [query, setQuery] = useState(''),
     [role, setRole] = useState('全部'),
+    [tier, setTier] = useState('全部'),
     [selected, setSelected] = useState(''),
     [editor, setEditor] = useState<{
       record: GuideRecord | null;
       key: number;
+      initialSkill?: number;
+      initialBuildId?: string;
+      newBuild?: boolean;
     } | null>(null);
   const refresh = useCallback(async () => {
     try {
@@ -63,8 +70,18 @@ export default function Notebook() {
   }, []);
   useEffect(() => {
     void refresh();
-    const read = () =>
-      setSelected(new URL(location.href).searchParams.get('hero') || '');
+    const read = () => {
+      const params = new URL(location.href).searchParams;
+      const heroId = params.get('hero') || '';
+      setSelected(heroId);
+      if (heroId) setTab('guides');
+      else
+        setTab(
+          ['guides', 'workspace', 'about'].includes(params.get('page') || '')
+            ? params.get('page')!
+            : 'overview',
+        );
+    };
     read();
     window.addEventListener('popstate', read);
     return () => window.removeEventListener('popstate', read);
@@ -72,12 +89,31 @@ export default function Notebook() {
   function openGuide(id: string) {
     setSelected(id);
     setTab('guides');
-    history.pushState(null, '', id ? `/?hero=${encodeURIComponent(id)}` : '/');
+    history.pushState(
+      null,
+      '',
+      id ? `/?hero=${encodeURIComponent(id)}` : '/?page=guides',
+    );
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
-  function start(record: GuideRecord | null = null) {
-    setEditor({ record, key: Date.now() });
+  function start(
+    record: GuideRecord | null = null,
+    initialSkill = 1,
+    initialBuildId?: string,
+  ) {
+    setEditor({ record, key: Date.now(), initialSkill, initialBuildId });
   }
+  useEffect(() => {
+    if (!access.canEdit || loading) return;
+    const url = new URL(location.href);
+    if (url.searchParams.get('edit') !== '1') return;
+    const target = records.find(
+      (r) => r.heroId === url.searchParams.get('hero'),
+    );
+    if (target) setEditor({ record: target, key: Date.now(), initialSkill: 1 });
+    url.searchParams.delete('edit');
+    history.replaceState(null, '', url.pathname + url.search);
+  }, [access.canEdit, loading, records]);
   const state = useRef({ records, access, openGuide, start });
   state.current = { records, access, openGuide, start };
   useEffect(() => registerNotebookTools(() => state.current), []);
@@ -86,6 +122,7 @@ export default function Notebook() {
       const h = heroes.find((h) => h.id === r.heroId)!;
       return (
         (role === '全部' || h.roles.includes(role)) &&
+        (tier === '全部' || (r.published!.tier || '未评级') === tier) &&
         (!query ||
           `${h.name}${h.pinyin}${r.published!.title}${r.published!.builds.map((b) => b.name).join('')}`
             .toLowerCase()
@@ -133,7 +170,10 @@ export default function Notebook() {
           <a
             className="auth-link"
             target="_top"
-            href="/signin-with-chatgpt?return_to=%2F"
+            href={
+              '/signin-with-chatgpt?return_to=' +
+              encodeURIComponent(selected ? `/?hero=${selected}&edit=1` : '/')
+            }
           >
             <LockKeyhole size={16} />
             编辑成员登录
@@ -141,9 +181,25 @@ export default function Notebook() {
         )}
       </header>
       <main className="main-wrap">
-        <Tabs value={tab} onValueChange={(v) => setTab(String(v))}>
+        <Tabs
+          value={tab}
+          onValueChange={(v) => {
+            const page = String(v);
+            setTab(page);
+            setSelected('');
+            history.pushState(
+              null,
+              '',
+              page === 'overview' ? '/' : `/?page=${encodeURIComponent(page)}`,
+            );
+          }}
+        >
           <div className="nav-row">
             <TabsList variant="line" className="main-tabs">
+              <TabsTrigger value="overview">
+                <BookOpen />
+                阅读前瞻
+              </TabsTrigger>
               <TabsTrigger value="guides">
                 <Swords />
                 英雄攻略
@@ -177,6 +233,18 @@ export default function Notebook() {
               </Button>
             </div>
           )}
+          <TabsContent value="overview">
+            <GuidePrimer editable={access.canEdit} />
+            <div className="primer-next">
+              <div>
+                <h2>开始查阅英雄攻略</h2>
+                <p>按英雄或梯度找到攻略，再选择具体流派。</p>
+              </div>
+              <Button className="touch" onClick={() => openGuide('')}>
+                进入英雄攻略 <ArrowRight size={17} />
+              </Button>
+            </div>
+          </TabsContent>
           <TabsContent value="guides">
             {activeGuide && active ? (
               <GuideView
@@ -184,13 +252,34 @@ export default function Notebook() {
                 guide={activeGuide}
                 record={active}
                 onBack={() => openGuide('')}
-                onEdit={access.canEdit ? () => start(active) : undefined}
+                onEdit={
+                  access.canEdit
+                    ? (skill, buildId) => start(active, skill, buildId)
+                    : undefined
+                }
+                signInHref={
+                  !access.signedIn
+                    ? '/signin-with-chatgpt?return_to=' +
+                      encodeURIComponent(`/?hero=${active.heroId}&edit=1`)
+                    : undefined
+                }
+                onNewBuild={
+                  access.canEdit &&
+                  (active.draft || active.published)!.builds.length < 8
+                    ? () =>
+                        setEditor({
+                          record: active,
+                          key: Date.now(),
+                          newBuild: true,
+                        })
+                    : undefined
+                }
               />
             ) : (
               <>
                 <section className="intro">
                   <div>
-                    <p className="eyebrow">THE TALENT PLAYBOOK</p>
+                    <p className="eyebrow">无尽守御 · 天赋手册</p>
                     <h1>
                       选对天赋，<span>打出你的流派。</span>
                     </h1>
@@ -252,6 +341,23 @@ export default function Notebook() {
                     </div>
                   </div>
                 )}
+                <div className="tier-filter-bar">
+                  <span>英雄强度</span>
+                  <div className="tier-filters">
+                    {['全部', ...heroTiers, '未评级'].map((value) => (
+                      <Button
+                        key={value}
+                        variant="ghost"
+                        className={`touch ${tier === value ? 'selected' : ''}`}
+                        aria-pressed={tier === value}
+                        onClick={() => setTier(value)}
+                      >
+                        {value}
+                      </Button>
+                    ))}
+                  </div>
+                  <TierGuide editable={access.canEdit} />
+                </div>
                 <div className="section-caption">
                   <span>
                     无尽守御 · 英雄攻略 <b>{visible.length || ''}</b>
@@ -285,7 +391,9 @@ export default function Notebook() {
                               referrerPolicy="no-referrer"
                             />
                             <div>
-                              <h2>{h.name}</h2>
+                              <h2>
+                                {h.name} <TierBadge tier={d.tier} />
+                              </h2>
                               <p>{h.roles.join(' / ')}</p>
                             </div>
                             <ChevronRight size={18} />
@@ -304,6 +412,7 @@ export default function Notebook() {
                             </span>
                             <span>{d.author}</span>
                           </div>
+                          <GuideUpdated compact publishedAt={r.publishedAt} />
                         </button>
                       );
                     })}
@@ -332,6 +441,7 @@ export default function Notebook() {
                         onClick={() => {
                           setQuery('');
                           setRole('全部');
+                          setTier('全部');
                         }}
                       >
                         清除筛选
@@ -464,7 +574,7 @@ export default function Notebook() {
                 <span className="eyebrow">02 / 攻略结构</span>
                 <h2>核心、天赋与雕文，一起搭配</h2>
                 <p>
-                  每个流派单独说明天赋推荐、选择顺序与理由。还可补充模式雕文、铭文与秘法，不混入排位装备。
+                  每个流派自由选择天赋，记录选择顺序与搭配说明。还能搭配模式雕文、通用五级铭文与秘法。
                 </p>
               </article>
               <article className="reference-card">
@@ -518,6 +628,9 @@ export default function Notebook() {
       </footer>
       {editor && (
         <GuideEditor
+          initialSkill={editor.initialSkill}
+          initialBuildId={editor.initialBuildId}
+          newBuild={editor.newBuild}
           key={editor.key}
           record={editor.record}
           onClose={() => setEditor(null)}

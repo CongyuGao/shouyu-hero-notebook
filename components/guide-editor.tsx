@@ -8,7 +8,6 @@ import {
   Upload,
   Eye,
   X,
-  ArrowLeft,
   Trash2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -51,15 +50,20 @@ import {
   blankGuide,
   blankBuild,
   heroes,
-  priorities,
   validateGuide,
+  selectedTalents,
   type Guide,
   type GuideRecord,
   type Build,
-  type Priority,
   type Hero,
 } from '@/lib/guide';
 import { GuideView } from './guide-view';
+import { SkillBoard } from './skill-board';
+import { LoadoutPicker } from './loadout-picker';
+import { CatalogEditor } from './catalog-editor';
+import { TierGuide } from './tier-guide';
+import { heroTiers } from '@/lib/tiers';
+import { emptyLibraries, type Libraries } from '@/lib/catalog';
 import { readResponse } from '@/lib/client-api';
 import { registerTools } from '@/lib/webmcp';
 
@@ -67,14 +71,25 @@ export function GuideEditor({
   record,
   onClose,
   onSaved,
+  initialSkill = 1,
+  initialBuildId,
+  newBuild = false,
 }: {
   record: GuideRecord | null;
   onClose: () => void;
   onSaved: () => Promise<void>;
+  initialSkill?: number;
+  initialBuildId?: string;
+  newBuild?: boolean;
 }) {
-  const [doc, setDoc] = useState<Guide>(() =>
-    structuredClone(record?.draft || record?.published || blankGuide()),
-  );
+  const [doc, setDoc] = useState<Guide>(() => {
+    const initial = structuredClone(
+      record?.draft || record?.published || blankGuide(),
+    );
+    if (newBuild && initial.builds.length < 8)
+      initial.builds.push(blankBuild());
+    return initial;
+  });
   const [revision, setRevision] = useState(record?.revision || 0);
   const [saved, setSaved] = useState(() =>
     JSON.stringify(record?.draft || record?.published || doc),
@@ -83,7 +98,12 @@ export function GuideEditor({
     [message, setMessage] = useState(''),
     [confirm, setConfirm] = useState<'close' | 'unpublish' | null>(null),
     [preview, setPreview] = useState(false),
-    [buildId, setBuildId] = useState(doc.builds[0].id),
+    [buildId, setBuildId] = useState(
+      initialBuildId || (newBuild ? doc.builds.at(-1)!.id : doc.builds[0].id),
+    ),
+    [editorTab, setEditorTab] = useState(
+      record && initialSkill !== 0 ? 'builds' : 'talents',
+    ),
     [hasPublished, setHasPublished] = useState(!!record?.published),
     [history, setHistory] = useState<
       Array<{
@@ -94,6 +114,23 @@ export function GuideEditor({
       }>
     >([]);
   const dirty = JSON.stringify(doc) !== saved;
+  const [libraries, setLibraries] = useState<Libraries>(emptyLibraries),
+    [libraryReady, setLibraryReady] = useState(false),
+    [libraryError, setLibraryError] = useState('');
+  async function loadLibrary() {
+    try {
+      const r = await fetch('/api/library', { cache: 'no-store' });
+      setLibraries(await readResponse<Libraries>(r));
+      setLibraryReady(true);
+      setLibraryError('');
+    } catch (e) {
+      setLibraryReady(false);
+      setLibraryError((e as Error).message);
+    }
+  }
+  useEffect(() => {
+    void loadLibrary();
+  }, []);
   const hero = heroes.find((h) => h.id === doc.heroId);
   const current = doc.builds.find((b) => b.id === buildId) || doc.builds[0];
   useEffect(() => {
@@ -113,22 +150,6 @@ export function GuideEditor({
         b.id === current.id ? { ...b, ...values } : b,
       ),
     }));
-  }
-  function patchPick(
-    talentId: string,
-    values: { priority?: Priority; reason?: string },
-  ) {
-    const old = current.picks.find((p) => p.talentId === talentId) || {
-      talentId,
-      priority: 'none' as Priority,
-      reason: '',
-    };
-    patchBuild({
-      picks: [
-        ...current.picks.filter((p) => p.talentId !== talentId),
-        { ...old, ...values },
-      ],
-    });
   }
   async function save(action: 'draft' | 'publish' | 'unpublish') {
     if (busy) return { ok: false, error: '正在保存，请稍后再试' };
@@ -329,6 +350,7 @@ export function GuideEditor({
             <fieldset disabled={busy} className="editor-form">
               {preview && hero ? (
                 <GuideView
+                  syncLocation={false}
                   guide={doc}
                   record={{
                     heroId: doc.heroId,
@@ -340,11 +362,14 @@ export function GuideEditor({
                   onBack={() => setPreview(false)}
                 />
               ) : (
-                <Tabs defaultValue="talents">
+                <Tabs
+                  value={editorTab}
+                  onValueChange={(v) => setEditorTab(String(v))}
+                >
                   <TabsList className="editor-tabs">
-                    <TabsTrigger value="talents">① 核心与天赋</TabsTrigger>
-                    <TabsTrigger value="builds">② 流派搭配</TabsTrigger>
-                    <TabsTrigger value="glyphs">③ 雕文介绍</TabsTrigger>
+                    <TabsTrigger value="builds">① 选天赋 · 写攻略</TabsTrigger>
+                    <TabsTrigger value="glyphs">② 雕文 / 铭文库</TabsTrigger>
+                    <TabsTrigger value="talents">③ 英雄资料</TabsTrigger>
                     <TabsTrigger value="publish">④ 发布信息</TabsTrigger>
                   </TabsList>
                   <TabsContent value="talents">
@@ -397,6 +422,48 @@ export function GuideEditor({
                         multiline
                         placeholder="适合什么玩家、解决什么问题，有哪些前提条件。"
                         max={2400}
+                      />
+                      <label className="field" htmlFor="hero-strength-tier">
+                        <span>英雄强度梯度（团队评级）</span>
+                        <Select
+                          value={doc.tier || 'unrated'}
+                          onValueChange={(v) =>
+                            patch({ tier: v === 'unrated' ? '' : String(v) })
+                          }
+                        >
+                          <SelectTrigger
+                            id="hero-strength-tier"
+                            aria-label="英雄强度梯度"
+                          >
+                            <SelectValue>{doc.tier || '未评级'}</SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="unrated">未评级</SelectItem>
+                            {heroTiers.map((tier) => (
+                              <SelectItem key={tier} value={tier}>
+                                {tier}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </label>
+                      <Field
+                        label="评级理由 / 适用条件"
+                        value={doc.tierReason || ''}
+                        onChange={(v) => patch({ tierReason: v })}
+                        max={2000}
+                        multiline
+                        placeholder="填写难度、养成条件、清怪与首领表现，以及评级理由"
+                      />
+                      <TierGuide editable />
+                      <Field
+                        label="英雄攻略备注 / 通用打法详解"
+                        value={doc.notes || ''}
+                        onChange={(v) => patch({ notes: v })}
+                        max={12000}
+                        multiline
+                        tall
+                        placeholder="这里写所有流派共用的英雄机制、操作技巧、养成要求和注意事项。每个流派自己的特点与连招请写在该流派中。"
                       />
                     </section>
                     <section className="form-section">
@@ -530,12 +597,16 @@ export function GuideEditor({
                             doc.talents.length <= 1 ||
                             !!doc.talents.at(-1)?.name ||
                             !!doc.talents.at(-1)?.description ||
-                            doc.builds.some((b) =>
-                              b.picks.some(
-                                (p) =>
-                                  p.talentId === doc.talents.at(-1)?.id &&
-                                  p.priority !== 'none',
-                              ),
+                            doc.builds.some(
+                              (b) =>
+                                selectedTalents(b).includes(
+                                  doc.talents.at(-1)!.id,
+                                ) ||
+                                b.picks.some(
+                                  (p) =>
+                                    p.talentId === doc.talents.at(-1)?.id &&
+                                    p.priority !== 'none',
+                                ),
                             )
                           }
                           onClick={() => {
@@ -545,6 +616,9 @@ export function GuideEditor({
                               builds: doc.builds.map((b) => ({
                                 ...b,
                                 picks: b.picks.filter((p) => p.talentId !== id),
+                                talentIds: selectedTalents(b).filter(
+                                  (t) => t !== id,
+                                ),
                               })),
                             });
                           }}
@@ -569,9 +643,12 @@ export function GuideEditor({
                           }}
                         >
                           <Plus />
-                          添加流派
+                          新建独立流派
                         </Button>
                       </div>
+                      <p className="build-independence-note">
+                        每个流派单独保存名字、特点、备注与全部选择。新增流派从空配置开始，不会改变已有流派。
+                      </p>
                       <Tabs
                         value={current.id}
                         onValueChange={(v) => setBuildId(String(v))}
@@ -588,11 +665,11 @@ export function GuideEditor({
                         label="流派名称"
                         value={current.name}
                         onChange={(v) => patchBuild({ name: v })}
-                        placeholder="写出这个流派的核心机制"
+                        placeholder="例如：飞雷神斩杀流 / 无限斩杀流"
                         max={70}
                       />
                       <Field
-                        label="核心思路与适用场景"
+                        label="流派特点简介"
                         value={current.summary}
                         onChange={(v) => patchBuild({ summary: v })}
                         multiline
@@ -607,150 +684,25 @@ export function GuideEditor({
                         placeholder="先拿什么，再补什么；没有刷到核心天赋时如何过渡。"
                         max={2000}
                       />
-                      <h3 className="subheading">选择本流派核心</h3>
-                      <div className="core-choice-grid">
-                        {[1, 2, 3].map((skill) => (
-                          <div className="core-choice" key={skill}>
-                            <strong>{skill} 技能核心</strong>
-                            {(doc.cores || [])
-                              .filter((c) => c.skill === skill && c.name)
-                              .map((c) => (
-                                <label key={c.id} className="choice-card">
-                                  <Checkbox
-                                    checked={(current.coreIds || []).includes(
-                                      c.id,
-                                    )}
-                                    onCheckedChange={(v) =>
-                                      patchBuild({
-                                        coreIds: v
-                                          ? [
-                                              ...(current.coreIds || []).filter(
-                                                (id) =>
-                                                  doc.cores.find(
-                                                    (x) => x.id === id,
-                                                  )?.skill !== skill,
-                                              ),
-                                              c.id,
-                                            ]
-                                          : (current.coreIds || []).filter(
-                                              (id) => id !== c.id,
-                                            ),
-                                      })
-                                    }
-                                  />
-                                  <span>
-                                    <strong>{c.name}</strong>
-                                    <small>
-                                      {c.description || '效果待补充'}
-                                    </small>
-                                  </span>
-                                </label>
-                              ))}
-                            {!(doc.cores || []).some(
-                              (c) => c.skill === skill && c.name,
-                            ) && (
-                              <p className="muted">
-                                先在“核心与天赋”填写名称。
-                              </p>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                      <h3 className="subheading">逐项写下你的推荐</h3>
-                      <p className="muted">
-                        每个流派独立评价，不同流派可以对同一个天赋给出不同建议。
-                      </p>
-                      <div className="pick-edit-list">
-                        {doc.talents.map((t, i) => {
-                          const p = current.picks.find(
-                            (p) => p.talentId === t.id,
-                          );
-                          return (
-                            <div key={t.id} className="pick-edit">
-                              <div className="pick-edit-top">
-                                <strong>
-                                  <span>{String(i + 1).padStart(2, '0')}</span>
-                                  {t.name || '未填写名称'}
-                                </strong>
-                                <Select
-                                  value={p?.priority || 'none'}
-                                  onValueChange={(v) =>
-                                    patchPick(t.id, { priority: v as Priority })
-                                  }
-                                >
-                                  <SelectTrigger
-                                    aria-label={`${t.name || `天赋${i + 1}`}推荐等级`}
-                                  >
-                                    <SelectValue>
-                                      {priorities[p?.priority || 'none']}
-                                    </SelectValue>
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {Object.entries(priorities).map(
-                                      ([key, label]) => (
-                                        <SelectItem key={key} value={key}>
-                                          {label}
-                                        </SelectItem>
-                                      ),
-                                    )}
-                                  </SelectContent>
-                                </Select>
-                              </div>
-                              {p && p.priority !== 'none' && (
-                                <Field
-                                  label="选择或放弃的理由"
-                                  value={p.reason}
-                                  onChange={(v) =>
-                                    patchPick(t.id, { reason: v })
-                                  }
-                                  multiline
-                                  placeholder="说明与流派的关联、收益、触发条件或替代方案。"
-                                  max={1200}
-                                />
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                      <h3 className="subheading">选择本流派雕文</h3>
-                      <p className="muted">
-                        先在“雕文介绍”录入，再在这里勾选。不同流派独立保存。
-                      </p>
-                      {doc.glyphs.length ? (
-                        <div className="glyph-choice-grid">
-                          {doc.glyphs.map((g) => (
-                            <label className="choice-card" key={g.id}>
-                              <Checkbox
-                                checked={(current.glyphIds || []).includes(
-                                  g.id,
-                                )}
-                                onCheckedChange={(v) =>
-                                  patchBuild({
-                                    glyphIds: v
-                                      ? [
-                                          ...(current.glyphIds || []).filter(
-                                            (id) => id !== g.id,
-                                          ),
-                                          g.id,
-                                        ]
-                                      : (current.glyphIds || []).filter(
-                                          (id) => id !== g.id,
-                                        ),
-                                  })
-                                }
-                              />
-                              <span>
-                                <strong>{g.name || '未命名雕文'}</strong>
-                                <small>{g.effect || '效果待补充'}</small>
-                              </span>
-                            </label>
-                          ))}
-                        </div>
-                      ) : (
-                        <p className="empty-inline">
-                          尚未录入雕文，请先打开上方“雕文介绍”。
-                        </p>
-                      )}
+                      <SkillBoard
+                        guide={doc}
+                        build={current}
+                        editable
+                        onGuideChange={patch}
+                        onBuildChange={patchBuild}
+                        initialSkill={initialSkill}
+                        disabled={busy}
+                      />
+                      <LoadoutPicker
+                        guide={doc}
+                        build={current}
+                        libraries={libraries}
+                        editable
+                        onGuideChange={patch}
+                        onBuildChange={patchBuild}
+                        onManage={() => setEditorTab('glyphs')}
+                        disabled={busy}
+                      />
                       <h3 className="subheading">搭配说明与打法（选填）</h3>
                       <Field
                         label="模式专属雕文搭配"
@@ -777,12 +729,13 @@ export function GuideEditor({
                         />
                       </div>
                       <Field
-                        label="实战打法、队友配合与常见误区"
+                        label="流派详细备注 / 打法解释"
                         value={current.notes}
                         onChange={(v) => patchBuild({ notes: v })}
                         multiline
                         tall
                         max={8000}
+                        placeholder="详细说明这个流派的循环、连招、成型过程、雕文选择原因、队友配合与常见误区。"
                       />
                       {doc.builds.length > 1 && (
                         <Button
@@ -803,106 +756,28 @@ export function GuideEditor({
                     </section>
                   </TabsContent>
                   <TabsContent value="glyphs">
-                    <section className="form-section">
-                      <div className="section-caption">
-                        <h2>模式专属雕文介绍</h2>
+                    {libraryError && (
+                      <p className="notice" role="alert">
+                        {libraryError}
                         <Button
+                          variant="ghost"
                           className="touch"
-                          variant="outline"
-                          disabled={doc.glyphs.length >= 36}
-                          onClick={() =>
-                            patch({
-                              glyphs: [
-                                ...doc.glyphs,
-                                {
-                                  id: crypto.randomUUID(),
-                                  name: '',
-                                  effect: '',
-                                  usage: '',
-                                },
-                              ],
-                            })
-                          }
+                          onClick={() => void loadLibrary()}
                         >
-                          <Plus />
-                          添加雕文
+                          重新加载
                         </Button>
-                      </div>
-                      <p className="muted">
-                        写清效果与使用条件，让读者理解为什么搭配它。流派里的“雕文搭配”用于讲组合与顺序。
                       </p>
-                      {doc.glyphs.length === 0 && (
-                        <p className="notice">
-                          暂未录入雕文。可以按攻略中用到的雕文逐个补充。
-                        </p>
-                      )}
-                      {doc.glyphs.map((g, i) => (
-                        <div className="glyph-edit" key={g.id}>
-                          <div className="section-caption">
-                            <h3>雕文 {i + 1}</h3>
-                            <Button
-                              className="touch"
-                              variant="ghost"
-                              onClick={() =>
-                                patch({
-                                  glyphs: doc.glyphs.filter(
-                                    (x) => x.id !== g.id,
-                                  ),
-                                  builds: doc.builds.map((b) => ({
-                                    ...b,
-                                    glyphIds: (b.glyphIds || []).filter(
-                                      (id) => id !== g.id,
-                                    ),
-                                  })),
-                                })
-                              }
-                            >
-                              移除
-                            </Button>
-                          </div>
-                          <Field
-                            label="雕文名称"
-                            value={g.name}
-                            max={60}
-                            onChange={(v) =>
-                              patch({
-                                glyphs: doc.glyphs.map((x) =>
-                                  x.id === g.id ? { ...x, name: v } : x,
-                                ),
-                              })
-                            }
-                          />
-                          <Field
-                            label="雕文效果"
-                            value={g.effect}
-                            max={2500}
-                            multiline
-                            placeholder="准确描述效果、触发条件、等级或数值；不确定处请注明。"
-                            onChange={(v) =>
-                              patch({
-                                glyphs: doc.glyphs.map((x) =>
-                                  x.id === g.id ? { ...x, effect: v } : x,
-                                ),
-                              })
-                            }
-                          />
-                          <Field
-                            label="适配流派与使用条件"
-                            value={g.usage}
-                            max={2500}
-                            multiline
-                            placeholder="适合哪个核心流派？需要配合哪些天赋？什么情况下不建议选？"
-                            onChange={(v) =>
-                              patch({
-                                glyphs: doc.glyphs.map((x) =>
-                                  x.id === g.id ? { ...x, usage: v } : x,
-                                ),
-                              })
-                            }
-                          />
-                        </div>
-                      ))}
-                    </section>
+                    )}
+                    <CatalogEditor
+                      libraries={libraries}
+                      disabled={busy || !libraryReady}
+                      onSaved={(catalog) =>
+                        setLibraries((current) => ({
+                          ...current,
+                          [catalog.kind]: catalog,
+                        }))
+                      }
+                    />
                   </TabsContent>
                   <TabsContent value="publish">
                     <section className="form-section">
@@ -944,7 +819,7 @@ export function GuideEditor({
                         </span>
                       </label>
                       <p className="muted">
-                        未勾选时，读者会看到“待核验”。发布前必须至少有一个完整的流派推荐。
+                        未勾选时，读者会看到“待核验”。发布前请填写流派思路并选择至少一个天赋，无需填写推荐等级。
                       </p>
                     </section>
                     <section className="form-section">

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowLeft,
   CheckCircle2,
@@ -12,30 +12,61 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { heroes, priorities, type Guide, type GuideRecord } from '@/lib/guide';
+import { heroes, type Guide, type GuideRecord } from '@/lib/guide';
+import { SkillBoard } from './skill-board';
+import { LoadoutPicker } from './loadout-picker';
+import { TierGuide } from './tier-guide';
+import { GuideUpdated } from './guide-updated';
 export function GuideView({
   guide,
   record,
   onBack,
   onEdit,
+  signInHref,
+  onNewBuild,
+  syncLocation = true,
 }: {
   guide: Guide;
   record: GuideRecord;
   onBack: () => void;
-  onEdit?: () => void;
+  onEdit?: (skill?: number, buildId?: string) => void;
+  signInHref?: string;
+  onNewBuild?: () => void;
+  syncLocation?: boolean;
 }) {
   const hero = heroes.find((h) => h.id === guide.heroId)!;
   const [message, setMessage] = useState('');
-  const [selectedOnly, setSelectedOnly] = useState(false);
+  const [buildId, setBuildId] = useState(guide.builds[0].id);
+  useEffect(() => {
+    if (!syncLocation) return;
+    const read = () => {
+      const id = new URL(location.href).searchParams.get('build');
+      setBuildId(
+        guide.builds.find((b) => b.id === id)?.id || guide.builds[0].id,
+      );
+    };
+    read();
+    window.addEventListener('popstate', read);
+    return () => window.removeEventListener('popstate', read);
+  }, [guide.builds, syncLocation]);
+  function selectBuild(id: string) {
+    setBuildId(id);
+    if (syncLocation) {
+      const url = new URL(location.href);
+      url.searchParams.set('hero', guide.heroId);
+      url.searchParams.set('build', id);
+      history.pushState(null, '', url.pathname + url.search);
+    }
+  }
   async function copy() {
     try {
       await navigator.clipboard.writeText(
-        `${location.origin}/?hero=${guide.heroId}`,
+        `${location.origin}/?hero=${guide.heroId}&build=${encodeURIComponent(buildId)}`,
       );
       setMessage('攻略链接已复制，可发送到 QQ / 微信');
     } catch {
       setMessage(
-        `请复制地址栏链接分享：${location.origin}/?hero=${guide.heroId}`,
+        `请复制链接分享：${location.origin}/?hero=${guide.heroId}&build=${encodeURIComponent(buildId)}`,
       );
     }
   }
@@ -52,9 +83,9 @@ export function GuideView({
             分享
           </Button>
           {onEdit && (
-            <Button className="touch" onClick={onEdit}>
+            <Button className="touch" onClick={() => onEdit()}>
               <Pencil />
-              编辑攻略
+              编辑 / 选择天赋
             </Button>
           )}
         </div>
@@ -91,18 +122,55 @@ export function GuideView({
                 </>
               )}
             </span>
-            <span>
-              {record.publishedAt
-                ? new Date(record.publishedAt).toLocaleDateString('zh-CN')
-                : '草稿预览'}
-            </span>
           </div>
+          <GuideUpdated publishedAt={record.publishedAt} />
         </div>
       </header>
       {guide.intro && <p className="guide-intro preserve">{guide.intro}</p>}
-      <Tabs defaultValue={guide.builds[0].id} key={guide.heroId}>
+      <section className="hero-tier-panel">
+        <TierGuide tier={guide.tier || '未评级'} editable={!!onEdit} />
+        <div>
+          <strong>英雄强度 · 团队评级</strong>
+          <p>{guide.tierReason || '具体评级理由与适用条件待编辑补充。'}</p>
+          <small>点击左侧评级，查看对应标准</small>
+        </div>
+        <TierGuide editable={!!onEdit} />
+      </section>
+      {signInHref && (
+        <div className="reader-edit-entry">
+          <div>
+            <Pencil size={19} />
+            <p>
+              <strong>你们的攻略，可以持续调整。</strong>
+              <span>编辑成员登录后，可改天赋描述、勾选天赋和搭配雕文。</span>
+            </p>
+          </div>
+          <a className="auth-link" target="_top" href={signInHref}>
+            登录并编辑
+          </a>
+        </div>
+      )}
+      <Tabs
+        value={
+          guide.builds.some((b) => b.id === buildId)
+            ? buildId
+            : guide.builds[0].id
+        }
+        onValueChange={(v) => selectBuild(String(v))}
+        key={guide.heroId}
+      >
         <div className="build-nav">
-          <span className="eyebrow">核心流派</span>
+          <div className="build-nav-heading">
+            <div>
+              <span className="eyebrow">流派攻略</span>
+              <p>选择一个流派，查看它独立的天赋与雕文、铭文配置。</p>
+            </div>
+            {onNewBuild && (
+              <Button className="touch" variant="outline" onClick={onNewBuild}>
+                ＋ 新写一个流派
+              </Button>
+            )}
+          </div>
           <TabsList className="build-tabs">
             {guide.builds.map((b) => (
               <TabsTrigger key={b.id} value={b.id}>
@@ -124,144 +192,22 @@ export function GuideView({
                 </p>
               </div>
             </section>
-            {!!guide.cores?.length && (
-              <section className="core-library">
-                <div className="section-caption">
-                  <h2>流派核心</h2>
-                  <span>高亮项为本流派选择</span>
-                </div>
-                <div className="core-skill-grid">
-                  {[1, 2, 3].map((skill) => (
-                    <div className="core-skill" key={skill}>
-                      <h3>
-                        <span>{skill}</span>技能核心
-                      </h3>
-                      {guide.cores
-                        .filter((c) => c.skill === skill && c.name)
-                        .map((c) => (
-                          <article
-                            key={c.id}
-                            className={`core-card ${(b.coreIds || []).includes(c.id) ? 'is-picked' : ''}`}
-                          >
-                            <div>
-                              <h4>{c.name}</h4>
-                              {(b.coreIds || []).includes(c.id) && (
-                                <span className="rank-label selected">
-                                  已选
-                                </span>
-                              )}
-                            </div>
-                            <p className="preserve">
-                              {c.description || '效果待补充'}
-                            </p>
-                          </article>
-                        ))}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
             {b.order && (
               <section className="order-note">
                 <h3>天赋选择顺序</h3>
                 <p className="preserve">{b.order}</p>
               </section>
             )}
-            <div className="section-caption">
-              <span>
-                {guide.talents.length} 个小天赋{' '}
-                <b>
-                  {guide.talents.filter((t) => t.name).length}/
-                  {guide.talents.length} 已录入
-                </b>
-              </span>
-              <Button
-                variant={selectedOnly ? 'default' : 'outline'}
-                className="touch"
-                aria-pressed={selectedOnly}
-                onClick={() => setSelectedOnly(!selectedOnly)}
-              >
-                {selectedOnly ? '查看全部天赋' : '只看已选 / 推荐'}
-              </Button>
-            </div>
-            {b.picks.some((p) => p.priority === 'selected') && (
-              <p className="selection-note">
-                “截图已选”仅还原原图勾选，不代表强度排行；具体取舍可由作者继续补充。
-              </p>
-            )}
-            <div className="talent-grid">
-              {guide.talents.map((t, i) => {
-                const pick = b.picks.find((p) => p.talentId === t.id);
-                const rank = pick?.priority || 'none';
-                if (
-                  selectedOnly &&
-                  !['selected', 'core', 'recommended'].includes(rank)
-                )
-                  return null;
-                return (
-                  <section className={`talent-card rank-${rank}`} key={t.id}>
-                    <div className="talent-top">
-                      <span className="talent-number">
-                        {t.skill ? `${t.skill} 技能 · ` : ''}
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <span className={`rank-label ${rank}`}>
-                        {priorities[rank]}
-                      </span>
-                    </div>
-                    <h3>{t.name || '天赋待补充'}</h3>
-                    {t.description && (
-                      <p className="talent-effect preserve">{t.description}</p>
-                    )}
-                    {pick?.reason && (
-                      <div className="talent-reason">
-                        <span>
-                          {rank === 'selected' ? '截图记录' : '选择理由'}
-                        </span>
-                        <p className="preserve">{pick.reason}</p>
-                      </div>
-                    )}
-                  </section>
-                );
-              })}
-            </div>
-            <section className="glyph-library">
-              <div className="section-caption">
-                <h2>
-                  <Layers size={22} />
-                  本流派雕文
-                </h2>
-                <span>模式专属 · 非排位装备</span>
-              </div>
-              {(b.glyphIds || []).length ? (
-                <div className="glyph-grid">
-                  {(b.glyphIds || [])
-                    .map((id) => guide.glyphs.find((g) => g.id === id))
-                    .filter((g) => !!g)
-                    .map((g) => (
-                      <article key={g.id} className="glyph-card">
-                        <span className="glyph-icon">
-                          <Layers size={23} />
-                        </span>
-                        <div>
-                          <h3>{g.name}</h3>
-                          <p className="preserve">{g.effect}</p>
-                          {g.usage && (
-                            <div className="glyph-usage">
-                              <strong>适配与取舍</strong>
-                              <p className="preserve">{g.usage}</p>
-                            </div>
-                          )}
-                        </div>
-                      </article>
-                    ))}
-                </div>
-              ) : (
-                <p className="empty-inline">
-                  雕文搭配待补充。作者录入雕文效果后，可为每个流派分别选择。
-                </p>
-              )}
-            </section>
+            <SkillBoard
+              guide={guide}
+              build={b}
+              onEdit={onEdit ? (skill) => onEdit(skill, b.id) : undefined}
+            />
+            <LoadoutPicker
+              guide={guide}
+              build={b}
+              onEdit={onEdit ? () => onEdit(1, b.id) : undefined}
+            />
             {(b.glyphs || b.runes || b.arcana) && (
               <section className="support-grid">
                 {[
@@ -281,49 +227,49 @@ export function GuideView({
                   ))}
               </section>
             )}
-            {b.notes && (
+            {(b.notes || onEdit) && (
               <section className="longform">
                 <h2>
                   <Sparkles size={20} />
-                  实战打法与取舍
+                  {b.name} · 打法详解与备注
                 </h2>
-                <p className="preserve">{b.notes}</p>
+                <p className="preserve">
+                  {b.notes ||
+                    '这里可以补充该流派的详细解释、操作技巧与注意事项。'}
+                </p>
+                {onEdit && (
+                  <Button
+                    className="touch"
+                    variant="outline"
+                    onClick={() => onEdit(1, b.id)}
+                  >
+                    编辑本流派备注
+                  </Button>
+                )}
               </section>
             )}
           </TabsContent>
         ))}
       </Tabs>
-      {!!guide.glyphs?.length && (
-        <section className="glyph-library">
-          <div className="section-caption">
-            <h2>
-              <Layers size={22} />
-              雕文介绍
-            </h2>
-            <span>无尽守御专属雕文</span>
-          </div>
-          <div className="glyph-grid">
-            {guide.glyphs.map((g, i) => (
-              <article className="glyph-card" key={g.id}>
-                <span className="glyph-icon">
-                  <Layers size={23} />
-                </span>
-                <div>
-                  <p className="eyebrow">
-                    GLYPH {String(i + 1).padStart(2, '0')}
-                  </p>
-                  <h3>{g.name}</h3>
-                  <p className="preserve">{g.effect}</p>
-                  {g.usage && (
-                    <div className="glyph-usage">
-                      <strong>适配与取舍</strong>
-                      <p className="preserve">{g.usage}</p>
-                    </div>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
+      {(guide.notes || onEdit) && (
+        <section className="longform hero-notes">
+          <h2>
+            <Sparkles size={20} />
+            英雄攻略 · 通用说明
+          </h2>
+          <p className="preserve">
+            {guide.notes ||
+              '这里可以写所有流派共用的英雄机制、玩法解释与注意事项。'}
+          </p>
+          {onEdit && (
+            <Button
+              className="touch"
+              variant="outline"
+              onClick={() => onEdit(0)}
+            >
+              编辑英雄资料与备注
+            </Button>
+          )}
         </section>
       )}
       {guide.source && (
