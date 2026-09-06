@@ -17,4 +17,4 @@ export function heroTemplate(heroId: string): GuideRecord {
 }
 export type GuideEditTarget =
   | { kind: 'core' | 'talent'; id: string }
-  | { kind: 'glyphs' | 'runes' };
+  | { kind: 'glyphs' | 'runes' | 'tier' };

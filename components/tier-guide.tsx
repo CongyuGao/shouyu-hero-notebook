@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Pencil } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -31,10 +32,13 @@ export function TierBadge({ tier }: { tier?: string }) {
 export function TierGuide({
   editable = false,
   tier,
+  hero,
 }: {
   editable?: boolean;
   tier?: string;
+  hero?: { name: string; tier?: string; onEdit?: () => void };
 }) {
+  const currentTier = hero ? hero.tier : tier;
   const [open, setOpen] = useState(false),
     [settings, setSettings] = useState<TierSettings>(defaultTierSettings),
     [editing, setEditing] = useState(false),
@@ -98,19 +102,32 @@ export function TierGuide({
           <DialogHeader>
             <DialogTitle>英雄强度 · 梯度标准</DialogTitle>
             <DialogDescription>
-              攻略团队评级，非官方排名。英雄评级在“英雄资料”中修改；此处维护所有英雄共用的判断标准。
+              攻略团队评级，非官方排名。各梯度标准对所有英雄通用。
             </DialogDescription>
           </DialogHeader>
           <fieldset disabled={busy} className="detail-edit-fields">
-            {!editing && tier && (
+            {!editing && (hero || tier) && (
               <section className="current-tier-standard">
-                <TierBadge tier={tier === '未评级' ? '' : tier} />
+                <TierBadge tier={currentTier === '未评级' ? '' : currentTier} />
                 <div>
-                  <strong>当前评级标准</strong>
+                  <strong>
+                    {hero ? `${hero.name} · 当前评级` : '当前评级标准'}
+                  </strong>
                   <p>
-                    {settings.items.find((item) => item.tier === tier)
+                    {settings.items.find((item) => item.tier === currentTier)
                       ?.description || '该英雄尚未评级，等待编辑成员确认。'}
                   </p>
+                  {editable && hero?.onEdit && (
+                    <Button
+                      className="touch tier-hero-edit"
+                      onClick={() => {
+                        setOpen(false);
+                        hero.onEdit?.();
+                      }}
+                    >
+                      <Pencil size={16} /> 修改本英雄评级
+                    </Button>
+                  )}
                 </div>
               </section>
             )}

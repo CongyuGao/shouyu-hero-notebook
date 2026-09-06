@@ -4020,6 +4020,19 @@ footer small {
   color: #e7d5aa;
   font-size: 0.875rem;
 }
+.current-tier-standard > div {
+  flex: 1;
+  min-width: 0;
+}
+.tier-hero-edit {
+  margin-top: 14px;
+  white-space: normal;
+  height: auto;
+}
+.hero-rating-editor.form-section {
+  border-color: #b6a06c55;
+  background: linear-gradient(125deg, #82734d1a, #18294170);
+}
 .current-tier-standard p {
   color: #b9cbe2;
   font-size: 1rem;

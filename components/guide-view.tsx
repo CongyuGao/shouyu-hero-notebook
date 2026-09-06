@@ -184,13 +184,36 @@ export function GuideView({
       )}
       {guide.intro && <p className="guide-intro preserve">{guide.intro}</p>}
       <section className="hero-tier-panel">
-        <TierGuide tier={guide.tier || '未评级'} editable={!!onEdit} />
+        <TierGuide
+          tier={guide.tier || '未评级'}
+          editable={!!onEdit}
+          hero={{
+            name: hero?.name || '本英雄',
+            tier: guide.tier,
+            onEdit: onEdit
+              ? () => onEdit(0, buildId, { kind: 'tier' })
+              : undefined,
+          }}
+        />
         <div>
           <strong>英雄强度 · 团队评级</strong>
           <p>{guide.tierReason || '具体评级理由与适用条件待编辑补充。'}</p>
-          <small>点击左侧评级，查看对应标准</small>
+          <small>
+            {onEdit
+              ? '点击评级，可查看标准或修改本英雄评级'
+              : '点击左侧评级，查看对应标准'}
+          </small>
         </div>
-        <TierGuide editable={!!onEdit} />
+        <TierGuide
+          editable={!!onEdit}
+          hero={{
+            name: hero?.name || '本英雄',
+            tier: guide.tier,
+            onEdit: onEdit
+              ? () => onEdit(0, buildId, { kind: 'tier' })
+              : undefined,
+          }}
+        />
       </section>
       {signInHref && (
         <div className="reader-edit-entry">

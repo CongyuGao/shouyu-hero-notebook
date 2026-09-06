@@ -68,7 +68,7 @@ import { SkillBoard } from './skill-board';
 import { SkillLabelEditor } from './skill-label-editor';
 import { LoadoutPicker } from './loadout-picker';
 import { CatalogEditor } from './catalog-editor';
-import { TierGuide } from './tier-guide';
+import { TierBadge, TierGuide } from './tier-guide';
 import { HeroPosterPicker } from './hero-poster-picker';
 import { heroTiers } from '@/lib/tiers';
 import { emptyLibraries, type Libraries } from '@/lib/catalog';
@@ -122,7 +122,10 @@ export function GuideEditor({
         : undefined) || (newBuild ? doc.builds.at(-1)!.id : doc.builds[0].id),
     ),
     [editorTab, setEditorTab] = useState(
-      (record || initialHeroId) && initialSkill !== 0 ? 'builds' : 'talents',
+      initialTarget?.kind === 'tier' ||
+        !((record || initialHeroId) && initialSkill !== 0)
+        ? 'talents'
+        : 'builds',
     ),
     [hasPublished, setHasPublished] = useState(!!record?.published),
     [history, setHistory] = useState<
@@ -436,6 +439,53 @@ export function GuideEditor({
                     <TabsTrigger value="publish">④ 发布信息</TabsTrigger>
                   </TabsList>
                   <TabsContent value="talents">
+                    <section
+                      className="form-section hero-rating-editor"
+                      aria-labelledby="hero-rating-heading"
+                    >
+                      <div className="section-caption">
+                        <h2 id="hero-rating-heading">
+                          {hero?.name ? `${hero.name} · ` : ''}英雄评级
+                        </h2>
+                        <TierBadge tier={doc.tier} />
+                      </div>
+                      <p className="muted">
+                        修改当前英雄的梯度与理由；保存草稿仅编辑成员可见，发布攻略后公开更新。
+                      </p>
+                      <label className="field" htmlFor="hero-strength-tier">
+                        <span>英雄强度梯度（团队评级）</span>
+                        <Select
+                          value={doc.tier || 'unrated'}
+                          onValueChange={(v) =>
+                            patch({ tier: v === 'unrated' ? '' : String(v) })
+                          }
+                        >
+                          <SelectTrigger
+                            id="hero-strength-tier"
+                            aria-label="英雄强度梯度"
+                          >
+                            <SelectValue>{doc.tier || '未评级'}</SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="unrated">未评级</SelectItem>
+                            {heroTiers.map((tier) => (
+                              <SelectItem key={tier} value={tier}>
+                                {tier}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </label>
+                      <Field
+                        label="评级理由 / 适用条件"
+                        value={doc.tierReason || ''}
+                        onChange={(v) => patch({ tierReason: v })}
+                        max={2000}
+                        multiline
+                        placeholder="填写难度、养成条件、清怪与首领表现，以及评级理由"
+                      />
+                      <TierGuide editable />
+                    </section>
                     <section className="form-section">
                       <h2>选择模式英雄，补充英雄资料</h2>
                       <p className="muted">
@@ -490,39 +540,6 @@ export function GuideEditor({
                         placeholder="适合什么玩家、解决什么问题，有哪些前提条件。"
                         max={2400}
                       />
-                      <label className="field" htmlFor="hero-strength-tier">
-                        <span>英雄强度梯度（团队评级）</span>
-                        <Select
-                          value={doc.tier || 'unrated'}
-                          onValueChange={(v) =>
-                            patch({ tier: v === 'unrated' ? '' : String(v) })
-                          }
-                        >
-                          <SelectTrigger
-                            id="hero-strength-tier"
-                            aria-label="英雄强度梯度"
-                          >
-                            <SelectValue>{doc.tier || '未评级'}</SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="unrated">未评级</SelectItem>
-                            {heroTiers.map((tier) => (
-                              <SelectItem key={tier} value={tier}>
-                                {tier}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </label>
-                      <Field
-                        label="评级理由 / 适用条件"
-                        value={doc.tierReason || ''}
-                        onChange={(v) => patch({ tierReason: v })}
-                        max={2000}
-                        multiline
-                        placeholder="填写难度、养成条件、清怪与首领表现，以及评级理由"
-                      />
-                      <TierGuide editable />
                       <Field
                         label="英雄攻略备注 / 通用打法详解"
                         value={doc.notes || ''}
