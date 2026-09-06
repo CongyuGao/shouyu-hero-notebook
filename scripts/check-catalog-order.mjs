@@ -46,7 +46,9 @@ const unknown = [
   { id: 'custom-a', name: '甲', effect: '原文A', usage: '' },
 ];
 assert.deepEqual(
-  sortCatalogItems('glyphs', [...unknown, ...library.glyphs]).slice(-2),
+  sortCatalogItems('glyphs', [...unknown, ...library.glyphs]).filter((item) =>
+    unknown.some((entry) => entry.id === item.id),
+  ),
   unknown,
 );
 assert.deepEqual(

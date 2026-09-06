@@ -377,6 +377,14 @@
       "usage": "",
       "source": "https://docs.qq.com/doc/DTnNZRUhIcm1Ya3NM?dver=\nhttps://docimg4.docs.qq.com/image/AgAABWNmMK2N2srCvXhCzYvUgQaKVCKo.png?w=333&h=90",
       "image": "/glyph-cards/glyph-42.png"
+    },
+    {
+      "id": "user-glyph-shunxi-baoji",
+      "name": "瞬息暴击",
+      "effect": "释放技能后增加50%暴击率，持续3秒",
+      "color": "高级秘法",
+      "usage": "",
+      "source": "用户补充（2026-09-07）：IMG_3166.WEBP 右起第二个图标标注 III；用户确认释放技能后增加50%暴击率，持续3秒。冷却时间未提供。"
     }
   ],
   "runes": [
