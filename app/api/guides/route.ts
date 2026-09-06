@@ -9,6 +9,7 @@ import {
   failure,
   body,
   ApiError,
+  EDIT_WRITE_GUARD,
 } from '@/lib/server';
 export const dynamic = 'force-dynamic';
 export async function GET() {
@@ -22,7 +23,7 @@ export async function GET() {
 }
 export async function POST(req: Request) {
   try {
-    const { email } = await authorize(req);
+    const { email, linkRevision } = await authorize(req);
     const input = await body(req);
     if (!['draft', 'publish', 'unpublish'].includes(input.action))
       throw new ApiError(400, '未知保存操作');
@@ -46,7 +47,7 @@ export async function POST(req: Request) {
       input.expectedRevision === 0
         ? db
             .prepare(
-              'INSERT OR IGNORE INTO guides (hero_id, draft_json, published_json, revision, updated_at, published_at, updated_by, mutation_id) VALUES (?, ?, ?, 1, ?, ?, ?, ?)',
+              `INSERT OR IGNORE INTO guides (hero_id, draft_json, published_json, revision, updated_at, published_at, updated_by, mutation_id) SELECT ?, ?, ?, 1, ?, ?, ?, ? WHERE ${EDIT_WRITE_GUARD}`,
             )
             .bind(
               doc.heroId,
@@ -56,10 +57,12 @@ export async function POST(req: Request) {
               pub ? now : null,
               email,
               mutation,
+              linkRevision,
+              linkRevision,
             )
         : db
             .prepare(
-              "UPDATE guides SET draft_json = ?, published_json = CASE WHEN ? = 'publish' THEN ? WHEN ? = 'unpublish' THEN NULL ELSE published_json END, published_at = CASE WHEN ? = 'publish' THEN ? WHEN ? = 'unpublish' THEN NULL ELSE published_at END, revision = revision + 1, updated_at = ?, updated_by = ?, mutation_id = ? WHERE hero_id = ? AND revision = ?",
+              `UPDATE guides SET draft_json = ?, published_json = CASE WHEN ? = 'publish' THEN ? WHEN ? = 'unpublish' THEN NULL ELSE published_json END, published_at = CASE WHEN ? = 'publish' THEN ? WHEN ? = 'unpublish' THEN NULL ELSE published_at END, revision = revision + 1, updated_at = ?, updated_by = ?, mutation_id = ? WHERE hero_id = ? AND revision = ? AND ${EDIT_WRITE_GUARD}`,
             )
             .bind(
               serialized,
@@ -74,6 +77,8 @@ export async function POST(req: Request) {
               mutation,
               doc.heroId,
               input.expectedRevision,
+              linkRevision,
+              linkRevision,
             );
     const audit = db
       .prepare(

@@ -5,7 +5,14 @@ import {
   validateRuneColors,
   type CatalogKind,
 } from '@/lib/catalog';
-import { authorize, json, failure, body, ApiError } from '@/lib/server';
+import {
+  authorize,
+  json,
+  failure,
+  body,
+  ApiError,
+  writeLibrary,
+} from '@/lib/server';
 export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
@@ -30,7 +37,7 @@ export async function GET() {
 }
 export async function POST(req: Request) {
   try {
-    await authorize(req);
+    const { linkRevision } = await authorize(req);
     const input = await body(req);
     if (
       !['glyphs', 'runes'].includes(input.kind) ||
@@ -45,22 +52,13 @@ export async function POST(req: Request) {
     } catch (e) {
       throw new ApiError(400, (e as Error).message);
     }
-    const kind = input.kind as CatalogKind,
-      db = getDb(),
-      now = new Date().toISOString();
-    const result = await (
-      input.expectedRevision === 0
-        ? db
-            .prepare(
-              'INSERT OR IGNORE INTO libraries (kind,items_json,revision,updated_at) VALUES (?,?,1,?)',
-            )
-            .bind(kind, JSON.stringify(items), now)
-        : db
-            .prepare(
-              'UPDATE libraries SET items_json=?,revision=revision+1,updated_at=? WHERE kind=? AND revision=?',
-            )
-            .bind(JSON.stringify(items), now, kind, input.expectedRevision)
-    ).run();
+    const kind = input.kind as CatalogKind;
+    const result = await writeLibrary(
+      kind,
+      JSON.stringify(items),
+      input.expectedRevision,
+      linkRevision,
+    );
     if (!result.meta.changes)
       throw new ApiError(
         409,

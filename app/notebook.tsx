@@ -12,6 +12,7 @@ import {
   Bug,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/toast';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
   Empty,
@@ -22,7 +23,7 @@ import {
 import { heroes, type Access, type GuideRecord } from '@/lib/guide';
 import { GuideView } from '@/components/guide-view';
 import { GuideEditor } from '@/components/guide-editor';
-import { MemberPanel } from '@/components/member-panel';
+import { EditLinkPanel } from '@/components/edit-link-panel';
 import { GuidePrimer } from '@/components/guide-primer';
 import { HeroLibrary } from '@/components/hero-library';
 import { heroTemplate, type GuideEditTarget } from '@/lib/hero-template';
@@ -32,14 +33,19 @@ import {
   type ModeRoster,
 } from '@/lib/mode-roster';
 import { registerNotebookTools } from '@/lib/webmcp';
-import { readResponse } from '@/lib/client-api';
+import { apiFetch, readResponse } from '@/lib/client-api';
 const anonymous: Access = {
   signedIn: false,
   canEdit: false,
   isAdmin: false,
   displayName: '',
 };
-export default function Notebook() {
+export default function Notebook({
+  mode = 'read',
+}: {
+  mode?: 'read' | 'edit' | 'manage';
+}) {
+  const basePath = mode === 'read' ? '/' : `/${mode}`;
   const [records, setRecords] = useState<GuideRecord[]>([]),
     [access, setAccess] = useState(anonymous),
     [loading, setLoading] = useState(true),
@@ -59,23 +65,23 @@ export default function Notebook() {
   const refresh = useCallback(async () => {
     try {
       const [j, pool] = await Promise.all([
-        fetch('/api/guides', { cache: 'no-store' }).then((r) =>
+        apiFetch('/api/guides', { cache: 'no-store' }).then((r) =>
           readResponse<{ guides: GuideRecord[]; access: Access }>(r),
         ),
-        fetch('/api/roster', { cache: 'no-store' }).then((r) =>
+        apiFetch('/api/roster', { cache: 'no-store' }).then((r) =>
           readResponse<ModeRoster>(r),
         ),
       ]);
       setRoster(pool);
       setRecords(j.guides);
-      setAccess(j.access);
+      setAccess(mode === 'read' ? anonymous : j.access);
       setError('');
     } catch (e) {
       setError((e as Error).message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [mode]);
   useEffect(() => {
     void refresh();
     const read = () => {
@@ -102,7 +108,9 @@ export default function Notebook() {
     history.pushState(
       null,
       '',
-      id ? `/?hero=${encodeURIComponent(id)}` : '/?page=guides',
+      id
+        ? `${basePath}?hero=${encodeURIComponent(id)}`
+        : `${basePath}?page=guides`,
     );
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
@@ -165,7 +173,7 @@ export default function Notebook() {
   return (
     <div className="notebook">
       <header className="topbar">
-        <a className="brand" href="/">
+        <a className="brand" href={basePath}>
           <span className="brand-mark">
             <Shield size={22} />
           </span>
@@ -184,27 +192,11 @@ export default function Notebook() {
             <Pencil />
             编写攻略
           </Button>
-        ) : access.signedIn ? (
-          <Button
-            className="touch"
-            variant="outline"
-            onClick={() => setTab('about')}
-          >
-            <LockKeyhole />
-            账号权限
-          </Button>
         ) : (
-          <a
-            className="auth-link"
-            target="_top"
-            href={
-              '/signin-with-chatgpt?return_to=' +
-              encodeURIComponent(selected ? `/?hero=${selected}&edit=1` : '/')
-            }
-          >
-            <LockKeyhole size={16} />
-            编辑成员登录
-          </a>
+          <span className="reader-mode">
+            <LockKeyhole size={15} />
+            只读攻略
+          </span>
         )}
       </header>
       <main className="main-wrap">
@@ -217,7 +209,9 @@ export default function Notebook() {
             history.pushState(
               null,
               '',
-              page === 'overview' ? '/' : `/?page=${encodeURIComponent(page)}`,
+              page === 'overview'
+                ? basePath
+                : `${basePath}?page=${encodeURIComponent(page)}`,
             );
           }}
         >
@@ -248,9 +242,36 @@ export default function Notebook() {
             </TabsList>
             <span className="live-note">
               <i />
-              公开查阅 · 指定成员编辑
+              {access.canEdit ? '编辑模式 · 修改后请保存' : '公开查阅'}
             </span>
           </div>
+          {mode !== 'read' && (
+            <div className="editing-mode-banner">
+              <span>
+                {mode === 'manage' ? '所有者工作台' : '专属链接编辑模式'}
+              </span>
+              <a href="/">打开普通只读页面</a>
+              {mode === 'edit' && (
+                <Button
+                  variant="ghost"
+                  onClick={async () => {
+                    try {
+                      await readResponse(
+                        await apiFetch('/api/edit-session', {
+                          method: 'DELETE',
+                        }),
+                      );
+                      location.assign('/');
+                    } catch (e) {
+                      setError((e as Error).message);
+                    }
+                  }}
+                >
+                  退出编辑
+                </Button>
+              )}
+            </div>
+          )}
           {error && (
             <div className="notice" role="alert">
               {error}
@@ -287,12 +308,6 @@ export default function Notebook() {
                   access.canEdit
                     ? (skill, buildId, target) =>
                         start(active, skill, buildId, target)
-                    : undefined
-                }
-                signInHref={
-                  !access.signedIn
-                    ? '/signin-with-chatgpt?return_to=' +
-                      encodeURIComponent(`/?hero=${active.heroId}&edit=1`)
                     : undefined
                 }
                 onNewBuild={
@@ -335,12 +350,6 @@ export default function Notebook() {
                           initialHeroId: selected,
                           newBuild: !!active,
                         })
-                    : undefined
-                }
-                signInHref={
-                  !access.signedIn
-                    ? '/signin-with-chatgpt?return_to=' +
-                      encodeURIComponent(`/?hero=${selected}&edit=1`)
                     : undefined
                 }
               />
@@ -398,14 +407,16 @@ export default function Notebook() {
                   </h1>
                   <p className="muted">
                     {access.displayName} ·{' '}
-                    {access.isAdmin ? '管理员' : '编辑成员'}{' '}
-                    <a
-                      className="inline-link"
-                      target="_top"
-                      href="/signout-with-chatgpt?return_to=%2F"
-                    >
-                      退出
-                    </a>
+                    {access.isAdmin ? '站点所有者' : '无需登录'}{' '}
+                    {access.isAdmin && (
+                      <a
+                        className="inline-link"
+                        target="_top"
+                        href="/signout-with-chatgpt?return_to=%2F"
+                      >
+                        退出
+                      </a>
+                    )}
                   </p>
                 </div>
                 <Button className="touch" onClick={() => start()}>
@@ -458,7 +469,7 @@ export default function Notebook() {
                   </Empty>
                 )}
               </div>
-              {access.isAdmin && <MemberPanel />}
+              {access.isAdmin && <EditLinkPanel />}
             </TabsContent>
           )}
           <TabsContent value="about">
@@ -471,26 +482,12 @@ export default function Notebook() {
                 </p>
               </div>
             </section>
-            {access.signedIn && !access.canEdit && (
-              <div className="notice">
-                当前账号：{access.displayName}
-                。尚未获得编辑权限，请让管理员将你的 ChatGPT
-                账号邮箱加入编辑名单。
-                <a
-                  className="inline-link"
-                  target="_top"
-                  href="/signout-with-chatgpt?return_to=%2F"
-                >
-                  退出账号
-                </a>
-              </div>
-            )}
             <div className="about-grid">
               <article className="reference-card">
                 <span className="eyebrow">01 / 英雄范围</span>
                 <h2>只收录这个模式的英雄</h2>
                 <p>
-                  只展示团队确认的模式英雄池，分三批每周轮换。未发布攻略的英雄保留头像入口，由指定成员逐步补全。
+                  只展示团队确认的模式英雄池，分三批每周轮换。未发布攻略的英雄保留头像入口，后续逐步补全。
                 </p>
               </article>
               <article className="reference-card">
@@ -509,11 +506,9 @@ export default function Notebook() {
               </article>
               <article className="reference-card">
                 <span className="eyebrow">04 / 协作方式</span>
-                <h2>公开阅读，指定成员编辑</h2>
+                <h2>普通链接阅读，专属链接共建</h2>
                 <p>
-                  读者无需登录。编辑使用 ChatGPT
-                  账号登录，由管理员按邮箱授权；QQ
-                  和微信用于分享链接，不是登录账号。
+                  普通链接只能查看攻略。收到有效编辑链接的人无需账号即可修改内容。编辑链接请私下分享；到期或被所有者作废后不能继续编辑。
                 </p>
               </article>
             </div>
@@ -547,7 +542,10 @@ export default function Notebook() {
         <span>
           守御手册 <small>/</small> 把实战经验，写成下一局的答案。
         </span>
-        <span>非官方 · 以游戏内当前版本为准</span>
+        <span>
+          非官方 · 以游戏内当前版本为准 ·{' '}
+          <a href="/manage?page=workspace">站点管理</a>
+        </span>
       </footer>
       {editor && (
         <GuideEditor
@@ -561,6 +559,17 @@ export default function Notebook() {
           record={editor.record}
           onClose={() => setEditor(null)}
           onSaved={refresh}
+          onSaveComplete={(action) => {
+            setEditor(null);
+            toast.add({
+              title: action === 'publish' ? '发布成功' : '保存成功',
+              description:
+                action === 'publish'
+                  ? '玩家现在可以阅读新攻略。'
+                  : '草稿已更新，公开版本保持不变。',
+              type: 'success',
+            });
+          }}
         />
       )}
     </div>

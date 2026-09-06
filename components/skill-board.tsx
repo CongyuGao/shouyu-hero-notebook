@@ -8,6 +8,7 @@ import {
   Sparkles,
   Swords,
   Zap,
+  X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -41,7 +42,7 @@ import {
 } from '@/components/ui/select';
 import {
   chooseTalent,
-  MAX_SELECTED_TALENTS,
+  MAX_SELECTED_TALENTS_PER_SKILL,
   selectedTalents,
   type Build,
   type Guide,
@@ -95,10 +96,14 @@ export function SkillBoard({
   const [selectionNotice, setSelectionNotice] = useState('');
   const talentIds = selectedTalents(build);
   const groups = [1, 2, 3, ...(guide.talents.some((t) => !t.skill) ? [0] : [])];
+  const activeSkill = groups.includes(Number(skill)) ? Number(skill) : 1;
+  const activeTalentIds = guide.talents
+    .filter((t) => (t.skill || 0) === activeSkill && talentIds.includes(t.id))
+    .map((t) => t.id);
   function toggleTalent(id: string, checked: boolean) {
     if (disabled || !editable) return;
     try {
-      onBuildChange?.(chooseTalent(build, id, checked));
+      onBuildChange?.(chooseTalent(build, id, checked, guide.talents));
     } catch (e) {
       setSelectionNotice((e as Error).message);
     }
@@ -209,11 +214,14 @@ export function SkillBoard({
         </div>
         <div className="board-selection-summary">
           <span
-            className={`talent-total-counter ${talentIds.length >= MAX_SELECTED_TALENTS ? 'is-full' : ''}`}
+            className={`talent-total-counter ${activeTalentIds.length >= MAX_SELECTED_TALENTS_PER_SKILL ? 'is-full' : ''}`}
             aria-live="polite"
           >
-            小天赋 <strong>{talentIds.length}</strong> / {MAX_SELECTED_TALENTS}
-            {talentIds.length >= MAX_SELECTED_TALENTS && <small>已选满</small>}
+            {skillNames[activeSkill]} <strong>{activeTalentIds.length}</strong>{' '}
+            / {MAX_SELECTED_TALENTS_PER_SKILL}
+            {activeTalentIds.length >= MAX_SELECTED_TALENTS_PER_SKILL && (
+              <small>本技能已选满</small>
+            )}
           </span>
           {!editable && (
             <Button
@@ -227,6 +235,75 @@ export function SkillBoard({
           )}
         </div>
       </div>
+      <section
+        className="selected-talents-tray"
+        aria-label="各技能已选小天赋总览"
+      >
+        <div className="talent-tray-heading">
+          <strong>每个技能 8 选 6，分别计算名额</strong>
+          <span>
+            本技能还可选{' '}
+            {Math.max(
+              0,
+              MAX_SELECTED_TALENTS_PER_SKILL - activeTalentIds.length,
+            )}{' '}
+            个
+          </span>
+        </div>
+        <div className="talent-distribution">
+          {groups.map((n) => (
+            <span key={n}>
+              {skillNames[n]}{' '}
+              <b>
+                {
+                  guide.talents.filter(
+                    (t) => (t.skill || 0) === n && talentIds.includes(t.id),
+                  ).length
+                }
+              </b>{' '}
+              / 6
+            </span>
+          ))}
+        </div>
+        {talentIds.length > 0 ? (
+          <div className="selected-talent-chips">
+            {talentIds.map((id) => {
+              const item = guide.talents.find((t) => t.id === id);
+              const name = item?.name || '未命名天赋';
+              return editable ? (
+                <Button
+                  key={id}
+                  variant="outline"
+                  className="selected-talent-chip"
+                  disabled={disabled}
+                  aria-label={`取消${skillNames[item?.skill || 0]}小天赋${name}`}
+                  onClick={() => toggleTalent(id, false)}
+                >
+                  <Check size={15} />
+                  <span>
+                    <small>{skillNames[item?.skill || 0]}</small>
+                    {name}
+                  </span>
+                  <X size={15} />
+                </Button>
+              ) : (
+                <span className="selected-talent-chip" key={id}>
+                  <Check size={15} />
+                  <span>
+                    <small>{skillNames[item?.skill || 0]}</small>
+                    {name}
+                  </span>
+                </span>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="muted">尚未选入小天赋，从下方任一技能开始选择。</p>
+        )}
+        {editable && talentIds.length > 0 && (
+          <p className="muted">点击上方已选项的 × 可取消，再为对应技能换选。</p>
+        )}
+      </section>
       <Tabs
         value={groups.includes(Number(skill)) ? skill : '1'}
         onValueChange={(v) => setSkill(String(v))}
@@ -398,8 +475,9 @@ export function SkillBoard({
                   小天赋
                 </span>
                 <small>
-                  已选 {talents.filter((t) => talentIds.includes(t.id)).length}{' '}
-                  / {talents.length}
+                  本技能已选{' '}
+                  {talents.filter((t) => talentIds.includes(t.id)).length} / 6 ·{' '}
+                  {talents.length} 个可选
                 </small>
               </div>
               <div className="power-talent-grid">
@@ -419,10 +497,10 @@ export function SkillBoard({
                           {picked ? (
                             <>
                               <Check size={14} />
-                              已选
+                              已加入流派
                             </>
                           ) : (
-                            '未选'
+                            '未选择'
                           )}
                         </span>
                       </div>
@@ -442,9 +520,10 @@ export function SkillBoard({
                             <Checkbox
                               disabled={disabled}
                               checked={picked}
+                              aria-label={`${picked ? '取消' : '选择'}小天赋${t.name || t.id}`}
                               onCheckedChange={(v) => toggleTalent(t.id, !!v)}
                             />
-                            <span>{picked ? '已选入' : '选入流派'}</span>
+                            <span>{picked ? '取消选择' : '选入流派'}</span>
                           </label>
                           <Button
                             variant="ghost"
@@ -507,8 +586,28 @@ export function SkillBoard({
             <AlertDialogDescription>{selectionNotice}</AlertDialogDescription>
           </AlertDialogHeader>
           <p className="talent-limit-note">
-            刚才的选择没有加入，你原有的6个小天赋保持不变。
+            刚才的选择没有加入，原有选择保持不变。下面是本技能已经选入的6项，点击任意一项取消后即可换选：
           </p>
+          <div className="selected-talent-chips">
+            {activeTalentIds.map((id) => {
+              const item = guide.talents.find((t) => t.id === id);
+              return (
+                <Button
+                  key={id}
+                  variant="outline"
+                  disabled={disabled}
+                  className="selected-talent-chip"
+                  onClick={() => {
+                    toggleTalent(id, false);
+                    setSelectionNotice('');
+                  }}
+                >
+                  <span>{item?.name || '未命名天赋'}</span>
+                  <X size={16} />
+                </Button>
+              );
+            })}
+          </div>
           <AlertDialogFooter>
             <AlertDialogCancel
               className="touch"

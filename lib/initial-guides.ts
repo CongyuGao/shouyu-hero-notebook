@@ -4,8 +4,8 @@ import { validateGuide } from './guide';
 
 let initialized = false;
 
-// User-supplied screenshot transcription. Never replace an existing guide,
-// including an edited draft or one the owner deliberately unpublished.
+// Published local snapshot for first deployment only. Never replace an existing
+// guide, including an edited draft or one the owner deliberately unpublished.
 export async function ensureInitialGuides() {
   if (initialized) return;
   const db = getDb();
@@ -13,7 +13,8 @@ export async function ensureInitialGuides() {
     const doc = validateGuide(input, true);
     const snapshot = JSON.stringify(doc);
     const mutation = crypto.randomUUID();
-    const now = new Date().toISOString();
+    // Deployment must not make an older guide appear newly updated.
+    const publishedAt = input.publishedAt;
     await db.batch([
       db
         .prepare(
@@ -23,9 +24,9 @@ export async function ensureInitialGuides() {
           doc.heroId,
           snapshot,
           snapshot,
-          now,
-          now,
-          'screenshot-import',
+          publishedAt,
+          publishedAt,
+          'published-snapshot',
           mutation,
         ),
       db

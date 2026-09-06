@@ -20,7 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { readResponse } from '@/lib/client-api';
+import { apiFetch, readResponse } from '@/lib/client-api';
 import {
   validateCatalog,
   validateRuneColors,
@@ -57,7 +57,7 @@ export function CatalogEditor({
       ]);
       if (kind === 'runes') validateRuneColors(items);
       setBusy(true);
-      const r = await fetch('/api/library', {
+      const r = await apiFetch('/api/library', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

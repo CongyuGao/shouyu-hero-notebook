@@ -12,6 +12,7 @@ const headers = {
   Cookie: '__sites_local_auth=1',
   'Content-Type': 'application/json',
   Origin: origin,
+  'x-notebook-mode': 'manage',
 };
 const api = async (path, options = {}) => {
   const r = await fetch(`${origin}${path}`, options);
@@ -86,7 +87,7 @@ const doc = {
 try {
   let r = await api('/api/guides', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', Origin: origin },
     body: JSON.stringify({ doc, action: 'publish', expectedRevision: 0 }),
   });
   check('anonymous write denied', () => assert.equal(r.status, 401));
@@ -94,6 +95,8 @@ try {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Origin: origin,
+      'x-notebook-mode': 'manage',
       'oai-authenticated-user-id': 'fake',
       'oai-authenticated-user-email': 'seedy@sites.test',
     },
@@ -101,7 +104,9 @@ try {
   });
   check('spoofed identity headers denied', () => assert.equal(r.status, 401));
   r = await api('/api/editors');
-  check('editor list hidden from anonymous', () => assert.equal(r.status, 401));
+  check('legacy email grant endpoint disabled', () =>
+    assert.equal(r.status, 410),
+  );
   r = await post(null);
   check('malformed object rejected', () => assert.equal(r.status, 400));
   r = await post(
@@ -190,21 +195,6 @@ try {
       marker,
     ),
   );
-  const email = `test-${marker.toLowerCase()}@example.test`;
-  r = await api('/api/editors', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ email, action: 'add' }),
-  });
-  check('admin grants permission', () => assert.equal(r.status, 200));
-  r = await api('/api/editors', { headers });
-  check('grant stored', () => assert(r.data.some((e) => e.email === email)));
-  r = await api('/api/editors', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ email, action: 'remove' }),
-  });
-  check('admin revokes permission', () => assert.equal(r.status, 200));
   console.log(`${passed} integration checks passed`);
 } finally {
   const database =

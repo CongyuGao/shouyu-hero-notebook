@@ -3,7 +3,7 @@ import { validateCatalog, catalogImage, type CatalogItem } from './catalog';
 import { heroTiers } from './tiers';
 export const heroes = official.heroes;
 export type Hero = (typeof heroes)[number];
-export const MAX_SELECTED_TALENTS = 6;
+export const MAX_SELECTED_TALENTS_PER_SKILL = 6;
 export const priorities = {
   core: '核心必选',
   recommended: '优先推荐',
@@ -198,12 +198,22 @@ export function validateGuide(input: unknown, publish = false): Guide {
               .filter((p) => p.priority === 'selected')
               .map((p) => p.talentId)
           : b.talentIds,
-        '小天赋选择（每套流派最多6个，请先取消一个再选择）',
-        MAX_SELECTED_TALENTS,
+        '小天赋选择',
+        talents.length,
       ),
     };
     if (build.talentIds.some((id) => !talents.some((t) => t.id === id)))
       throw new Error('选择的天赋不存在');
+    for (const skill of [0, 1, 2, 3]) {
+      if (
+        talents.filter(
+          (t) => (t.skill || 0) === skill && build.talentIds.includes(t.id),
+        ).length > MAX_SELECTED_TALENTS_PER_SKILL
+      )
+        throw new Error(
+          `${['未分组', '一技能', '二技能', '三技能'][skill]}最多选择6个小天赋，请先取消该技能的一个已选天赋。各技能分别计算。`,
+        );
+    }
     if (
       publish &&
       build.talentIds.some((id) => {
@@ -340,22 +350,30 @@ export function validateGuide(input: unknown, publish = false): Guide {
   return guide;
 }
 export function selectedTalents(build: Build): string[] {
-  return (
-    build.talentIds ??
-    (build.picks || [])
-      .filter((p) => p.priority === 'selected')
-      .map((p) => p.talentId)
+  return Array.from(
+    new Set(
+      build.talentIds ??
+        (build.picks || [])
+          .filter((p) => p.priority === 'selected')
+          .map((p) => p.talentId),
+    ),
   );
 }
 export function chooseTalent(
   build: Build,
   talentId: string,
   checked: boolean,
+  talents: Talent[],
 ): Partial<Build> {
+  const target = talents.find((t) => t.id === talentId);
+  if (!target) throw new Error('找不到这个小天赋');
   const rest = selectedTalents(build).filter((id) => id !== talentId);
-  if (checked && rest.length >= MAX_SELECTED_TALENTS)
+  const selectedInSkill = talents.filter(
+    (t) => (t.skill || 0) === (target.skill || 0) && rest.includes(t.id),
+  ).length;
+  if (checked && selectedInSkill >= MAX_SELECTED_TALENTS_PER_SKILL)
     throw new Error(
-      '每套流派最多选择6个小天赋。请先取消一个已选小天赋，再选择新的天赋。',
+      '本技能的6个小天赋已选满，请先取消本技能的一项再选择。其他技能的选择不占用这里的名额。',
     );
   return {
     talentIds: checked ? [...rest, talentId] : rest,

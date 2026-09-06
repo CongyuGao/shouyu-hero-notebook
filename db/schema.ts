@@ -1,5 +1,12 @@
 // Add Drizzle tables here when the site needs a database.
 import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
+export const editLinks = sqliteTable('edit_links', {
+  id: text('id').primaryKey(),
+  tokenHash: text('token_hash'),
+  revision: integer('revision').notNull().default(1),
+  expiresAt: text('expires_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
 export const libraries = sqliteTable('libraries', {
   kind: text('kind').primaryKey(),
   itemsJson: text('items_json').notNull(),

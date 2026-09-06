@@ -70,7 +70,7 @@ function safeRelativeReturnPath(value: string): string {
   if (url.origin !== 'https://app.local') return '/';
   if (isReservedAuthPath(url.pathname)) return '/';
 
-  return `${url.pathname}${url.search}${url.hash}`;
+  return `${url.pathname}${url.search}`;
 }
 
 function isReservedAuthPath(pathname: string): boolean {

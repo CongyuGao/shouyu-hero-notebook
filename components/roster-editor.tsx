@@ -25,7 +25,7 @@ import {
   validateRoster,
   type ModeRoster,
 } from '@/lib/mode-roster';
-import { readResponse } from '@/lib/client-api';
+import { apiFetch, readResponse } from '@/lib/client-api';
 
 export function RosterEditor({
   roster,
@@ -46,7 +46,7 @@ export function RosterEditor({
     setError('');
     try {
       const latest = await readResponse<ModeRoster>(
-        await fetch('/api/roster', { cache: 'no-store' }),
+        await apiFetch('/api/roster', { cache: 'no-store' }),
       );
       onSaved(latest);
       setBase(latest);
@@ -65,7 +65,7 @@ export function RosterEditor({
       const checked = validateRoster(draft);
       setBusy(true);
       const saved = await readResponse<ModeRoster>(
-        await fetch('/api/roster', {
+        await apiFetch('/api/roster', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...checked, expectedRevision: base.revision }),

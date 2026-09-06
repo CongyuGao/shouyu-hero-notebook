@@ -11,7 +11,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { defaultTierSettings, type TierSettings } from '@/lib/tiers';
-import { readResponse } from '@/lib/client-api';
+import { apiFetch, readResponse } from '@/lib/client-api';
 export function TierBadge({ tier }: { tier?: string }) {
   return (
     <span
@@ -46,7 +46,9 @@ export function TierGuide({
     setBusy(true);
     setError('');
     try {
-      setSettings(await readResponse<TierSettings>(await fetch('/api/tiers')));
+      setSettings(
+        await readResponse<TierSettings>(await apiFetch('/api/tiers')),
+      );
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -57,7 +59,7 @@ export function TierGuide({
     setBusy(true);
     setError('');
     try {
-      const r = await fetch('/api/tiers', {
+      const r = await apiFetch('/api/tiers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

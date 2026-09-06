@@ -64,7 +64,7 @@ import { CatalogEditor } from './catalog-editor';
 import { TierGuide } from './tier-guide';
 import { heroTiers } from '@/lib/tiers';
 import { emptyLibraries, type Libraries } from '@/lib/catalog';
-import { readResponse } from '@/lib/client-api';
+import { apiFetch, readResponse } from '@/lib/client-api';
 import { registerTools } from '@/lib/webmcp';
 import type { GuideEditTarget } from '@/lib/hero-template';
 
@@ -72,6 +72,7 @@ export function GuideEditor({
   record,
   onClose,
   onSaved,
+  onSaveComplete,
   initialSkill = 1,
   initialBuildId,
   newBuild = false,
@@ -82,6 +83,7 @@ export function GuideEditor({
   record: GuideRecord | null;
   onClose: () => void;
   onSaved: () => Promise<void>;
+  onSaveComplete?: (action: 'draft' | 'publish') => void;
   initialSkill?: number;
   initialBuildId?: string;
   newBuild?: boolean;
@@ -124,13 +126,16 @@ export function GuideEditor({
       }>
     >([]);
   const dirty = JSON.stringify(doc) !== saved;
+  const latestDoc = useRef(doc);
+  latestDoc.current = doc;
+  const saving = useRef(false);
   const [entryTarget, setEntryTarget] = useState(initialTarget);
   const [libraries, setLibraries] = useState<Libraries>(emptyLibraries),
     [libraryReady, setLibraryReady] = useState(false),
     [libraryError, setLibraryError] = useState('');
   async function loadLibrary() {
     try {
-      const r = await fetch('/api/library', { cache: 'no-store' });
+      const r = await apiFetch('/api/library', { cache: 'no-store' });
       setLibraries(await readResponse<Libraries>(r));
       setLibraryReady(true);
       setLibraryError('');
@@ -163,7 +168,8 @@ export function GuideEditor({
     }));
   }
   async function save(action: 'draft' | 'publish' | 'unpublish') {
-    if (busy) return { ok: false, error: '正在保存，请稍后再试' };
+    if (busy || saving.current)
+      return { ok: false, error: '正在保存，请稍后再试' };
     setMessage('');
     let checked: Guide;
     try {
@@ -172,9 +178,10 @@ export function GuideEditor({
       setMessage((e as Error).message);
       return { ok: false, error: (e as Error).message };
     }
+    saving.current = true;
     setBusy(true);
     try {
-      const response = await fetch('/api/guides', {
+      const response = await apiFetch('/api/guides', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -200,14 +207,33 @@ export function GuideEditor({
             : '草稿已保存；公开版本不会受影响。',
       );
       await onSaved();
-      return { ok: true, revision: data.revision };
+      return {
+        ok: true,
+        revision: data.revision,
+        closeSafe: [submittedOriginal, JSON.stringify(checked)].includes(
+          JSON.stringify(latestDoc.current),
+        ),
+      };
     } catch (e) {
       setMessage((e as Error).message);
       return { ok: false, error: (e as Error).message };
     } finally {
       setBusy(false);
+      saving.current = false;
       setConfirm(null);
     }
+  }
+  async function saveAndClose(action: 'draft' | 'publish') {
+    const result = await save(action);
+    if (!result.ok) return;
+    if (!result.closeSafe) {
+      setMessage(
+        '提交内容已保存，但保存期间又有新修改，窗口保留供你继续保存。',
+      );
+      return;
+    }
+    if (onSaveComplete) onSaveComplete(action);
+    else onClose();
   }
   const toolState = useRef({ doc, revision, busy, save });
   toolState.current = { doc, revision, busy, save };
@@ -312,7 +338,7 @@ export function GuideEditor({
   }
   async function loadHistory() {
     try {
-      const r = await fetch(`/api/history?heroId=${doc.heroId}`);
+      const r = await apiFetch(`/api/history?heroId=${doc.heroId}`);
       const j = await readResponse<
         Array<{
           revision: number;
@@ -963,15 +989,15 @@ export function GuideEditor({
                   variant="outline"
                   className="touch"
                   disabled={busy}
-                  onClick={() => save('draft')}
+                  onClick={() => void saveAndClose('draft')}
                 >
                   <Save />
-                  {busy ? '正在保存…' : '存草稿'}
+                  {busy ? '正在保存…' : '保存草稿'}
                 </Button>
                 <Button
                   className="touch"
                   disabled={busy}
-                  onClick={() => save('publish')}
+                  onClick={() => void saveAndClose('publish')}
                 >
                   <Send />
                   发布攻略

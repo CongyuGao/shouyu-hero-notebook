@@ -22,7 +22,7 @@ import {
 import { GameIcon } from './game-icon';
 import { TierGuide } from './tier-guide';
 import { initialPrimer, validatePrimer, type Primer } from '@/lib/primer';
-import { readResponse } from '@/lib/client-api';
+import { apiFetch, readResponse } from '@/lib/client-api';
 export function GuidePrimer({ editable = false }: { editable?: boolean }) {
   const [primer, setPrimer] = useState<Primer>(initialPrimer),
     [draft, setDraft] = useState<Primer>(initialPrimer),
@@ -32,7 +32,7 @@ export function GuidePrimer({ editable = false }: { editable?: boolean }) {
     [error, setError] = useState('');
   useEffect(() => {
     let active = true;
-    fetch('/api/primer')
+    apiFetch('/api/primer')
       .then((r) => readResponse<Primer>(r))
       .then((p) => {
         if (active) {
@@ -55,7 +55,7 @@ export function GuidePrimer({ editable = false }: { editable?: boolean }) {
     setBusy(true);
     setError('');
     try {
-      const p = await readResponse<Primer>(await fetch('/api/primer'));
+      const p = await readResponse<Primer>(await apiFetch('/api/primer'));
       setPrimer(p);
       setDraft(structuredClone(p));
       setOpen(true);
@@ -70,7 +70,7 @@ export function GuidePrimer({ editable = false }: { editable?: boolean }) {
     try {
       const value = validatePrimer(draft);
       setBusy(true);
-      const r = await fetch('/api/primer', {
+      const r = await apiFetch('/api/primer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...value, expectedRevision: primer.revision }),

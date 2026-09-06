@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { readResponse } from '@/lib/client-api';
+import { apiFetch, readResponse } from '@/lib/client-api';
 import type { Build, Guide } from '@/lib/guide';
 import type { Libraries, CatalogItem, CatalogKind } from '@/lib/catalog';
 import { runeColors, glyphGrade, glyphGrades } from '@/lib/catalog';
@@ -68,7 +68,7 @@ export function LoadoutPicker({
     if (!libraries) {
       setLibraryLoading(true);
       try {
-        const r = await fetch('/api/library');
+        const r = await apiFetch('/api/library');
         setPublicLibrary(await readResponse<Libraries>(r));
         setLibraryError('');
       } catch (e) {
