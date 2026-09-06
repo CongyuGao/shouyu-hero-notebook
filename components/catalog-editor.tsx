@@ -25,6 +25,8 @@ import {
   validateCatalog,
   validateRuneColors,
   runeColors,
+  glyphGrade,
+  glyphGrades,
   type Catalog,
   type CatalogKind,
   type CatalogItem,
@@ -44,6 +46,7 @@ export function CatalogEditor({
     [busy, setBusy] = useState(false),
     [message, setMessage] = useState(''),
     [query, setQuery] = useState('');
+  const [grade, setGrade] = useState('全部');
   async function save() {
     if (!editing || busy || disabled) return;
     setMessage('');
@@ -84,6 +87,7 @@ export function CatalogEditor({
         onValueChange={(v) => {
           setKind(v as CatalogKind);
           setQuery('');
+          setGrade('全部');
           setMessage('');
         }}
       >
@@ -118,7 +122,7 @@ export function CatalogEditor({
                     effect: '',
                     usage: '',
                     source: '',
-                    color: k === 'runes' ? '红色' : '',
+                    color: k === 'runes' ? '红色' : '初级秘法',
                   });
                 }}
               >
@@ -126,6 +130,21 @@ export function CatalogEditor({
                 新增{k === 'glyphs' ? '雕文' : '铭文'}
               </Button>
             </div>
+            {k === 'glyphs' && (
+              <div className="glyph-grade-filters" aria-label="按等级管理雕文">
+                {['全部', ...glyphGrades, '未分级'].map((value) => (
+                  <Button
+                    key={value}
+                    className={`touch glyph-grade-${value}`}
+                    variant="outline"
+                    aria-pressed={grade === value}
+                    onClick={() => setGrade(value)}
+                  >
+                    {value}
+                  </Button>
+                ))}
+              </div>
+            )}
             {!libraries[k].items.length && (
               <p className="empty-inline">
                 {k === 'glyphs'
@@ -135,12 +154,25 @@ export function CatalogEditor({
             )}
             <div className="catalog-management-list">
               {libraries[k].items
+                .filter(
+                  (i) =>
+                    k !== 'glyphs' ||
+                    grade === '全部' ||
+                    glyphGrade(i.color) === grade,
+                )
                 .filter((i) => (i.name + i.effect).includes(query.trim()))
                 .map((item) => (
                   <article key={item.id}>
                     <div>
                       <h3>
                         {item.name}{' '}
+                        {k === 'glyphs' && (
+                          <span
+                            className={`glyph-grade-badge glyph-grade-${glyphGrade(item.color)}`}
+                          >
+                            {glyphGrade(item.color)}
+                          </span>
+                        )}
                         {k === 'runes' && (
                           <span
                             className={`rune-color-label rune-color-${item.color}`}
@@ -208,8 +240,10 @@ export function CatalogEditor({
                 ).map(([key, label, max]) => (
                   <label className="field" key={key}>
                     <span>
-                      {key === 'color' && kind === 'runes'
-                        ? '铭文颜色（必选）'
+                      {key === 'color'
+                        ? kind === 'runes'
+                          ? '铭文颜色（必选）'
+                          : '雕文等级'
                         : label}
                     </span>
                     {key === 'color' && kind === 'runes' ? (
@@ -235,6 +269,43 @@ export function CatalogEditor({
                               </span>
                             </SelectItem>
                           ))}
+                        </SelectContent>
+                      </Select>
+                    ) : key === 'color' ? (
+                      <Select
+                        value={editing.color || 'ungraded'}
+                        disabled={busy}
+                        onValueChange={(v) =>
+                          setEditing({
+                            ...editing,
+                            color: v === 'ungraded' ? '' : String(v),
+                          })
+                        }
+                      >
+                        <SelectTrigger aria-label="雕文等级">
+                          <SelectValue>
+                            {editing.color
+                              ? `${glyphGrade(editing.color)} · ${editing.color}`
+                              : '未分级'}
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {['初级秘法', '中级秘法', '高级秘法'].map(
+                            (value, i) => (
+                              <SelectItem key={value} value={value}>
+                                {glyphGrades[i]} · {value}
+                              </SelectItem>
+                            ),
+                          )}
+                          <SelectItem value="ungraded">未分级</SelectItem>
+                          {editing.color &&
+                            !['初级秘法', '中级秘法', '高级秘法'].includes(
+                              editing.color,
+                            ) && (
+                              <SelectItem value={editing.color}>
+                                {editing.color}（已有分类）
+                              </SelectItem>
+                            )}
                         </SelectContent>
                       </Select>
                     ) : key === 'effect' || key === 'usage' ? (

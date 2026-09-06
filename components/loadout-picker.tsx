@@ -23,7 +23,7 @@ import {
 import { readResponse } from '@/lib/client-api';
 import type { Build, Guide } from '@/lib/guide';
 import type { Libraries, CatalogItem, CatalogKind } from '@/lib/catalog';
-import { runeColors } from '@/lib/catalog';
+import { runeColors, glyphGrade, glyphGrades } from '@/lib/catalog';
 import { aggregateRuneStats } from '@/lib/rune-stats';
 
 export function LoadoutPicker({
@@ -423,6 +423,40 @@ export function LoadoutPicker({
                   ))}
                 </div>
               )}
+              {open === 'glyphs' && (
+                <div
+                  className="glyph-grade-filters"
+                  aria-label="按等级筛选雕文"
+                >
+                  {[
+                    '全部',
+                    ...glyphGrades,
+                    ...(items('glyphs').some(
+                      (i) => glyphGrade(i.color) === '未分级',
+                    )
+                      ? ['未分级']
+                      : []),
+                  ].map((grade) => (
+                    <Button
+                      key={grade}
+                      variant="outline"
+                      className={`touch glyph-grade-${grade}`}
+                      aria-pressed={colorFilter === grade}
+                      onClick={() => setColorFilter(grade)}
+                    >
+                      {grade}
+                      <small>
+                        {
+                          items('glyphs').filter(
+                            (i) =>
+                              grade === '全部' || glyphGrade(i.color) === grade,
+                          ).length
+                        }
+                      </small>
+                    </Button>
+                  ))}
+                </div>
+              )}
               {libraryError && (
                 <p role="alert" className="notice">
                   {libraryError}
@@ -437,9 +471,10 @@ export function LoadoutPicker({
                 {items(open)
                   .filter(
                     (i) =>
-                      open !== 'runes' ||
                       colorFilter === '全部' ||
-                      i.color === colorFilter,
+                      (open === 'runes'
+                        ? i.color === colorFilter
+                        : glyphGrade(i.color) === colorFilter),
                   )
                   .filter((i) =>
                     (i.name + i.effect + (i.color || '')).includes(
@@ -478,6 +513,11 @@ export function LoadoutPicker({
                               <GlyphIcon item={item} />
                               <span>
                                 <strong>{item.name}</strong>
+                                <span
+                                  className={`glyph-grade-badge glyph-grade-${glyphGrade(item.color)}`}
+                                >
+                                  {glyphGrade(item.color)}
+                                </span>
                                 <small className="glyph-category">
                                   {item.color}
                                 </small>

@@ -2757,6 +2757,67 @@ footer small {
 .guide-updated.is-compact.may-be-outdated {
   padding: 11px;
 }
+.glyph-grade-一级 {
+  --grade-color: #b3c7df;
+  --grade-rgb: 179 199 223;
+}
+.glyph-grade-二级 {
+  --grade-color: #88bcff;
+  --grade-rgb: 136 188 255;
+}
+.glyph-grade-三级 {
+  --grade-color: #ecc786;
+  --grade-rgb: 236 199 134;
+}
+.glyph-grade-全部,
+.glyph-grade-未分级 {
+  --grade-color: #aab8cc;
+  --grade-rgb: 170 184 204;
+}
+.glyph-grade-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  margin: 4px 0 12px;
+}
+.glyph-grade-filters > button {
+  color: var(--grade-color);
+  background: #122239;
+  border: 1px solid rgb(var(--grade-rgb)/0.25);
+  min-width: 78px;
+}
+.glyph-grade-filters > button[aria-pressed='true'] {
+  background: rgb(var(--grade-rgb)/0.14);
+  border-color: rgb(var(--grade-rgb)/0.6);
+  box-shadow: inset 0 -2px var(--grade-color);
+}
+.glyph-grade-filters small {
+  margin-left: 4px;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+.glyph-grade-badge {
+  display: inline-flex;
+  margin: 0 6px 7px 0;
+  padding: 2px 7px;
+  border: 1px solid rgb(var(--grade-rgb)/0.35);
+  border-radius: 4px;
+  color: var(--grade-color);
+  background: rgb(var(--grade-rgb)/0.07);
+  font-size: 0.75rem;
+  font-weight: 500;
+  vertical-align: middle;
+}
+.catalog-management-list h3 .glyph-grade-badge {
+  margin-left: 7px;
+}
+@media (max-width: 520px) {
+  .glyph-grade-filters > button {
+    padding: 0 12px;
+    min-width: 68px;
+  }
+}
 /* Shared build feedback and data panels. */
 .power-core-grid.single-core {
   grid-template-columns: minmax(0, 1fr);

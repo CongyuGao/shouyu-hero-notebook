@@ -10,6 +10,13 @@ export type CatalogItem = {
 };
 export type CatalogKind = 'glyphs' | 'runes';
 export const runeColors = ['红色', '蓝色', '绿色'] as const;
+export const glyphGrades = ['一级', '二级', '三级'] as const;
+export function glyphGrade(color?: string): string {
+  if (/初级|一级/.test(color || '')) return '一级';
+  if (/中级|二级/.test(color || '')) return '二级';
+  if (/高级|三级/.test(color || '')) return '三级';
+  return '未分级';
+}
 export function validateRuneColors(items: CatalogItem[]) {
   if (items.some((item) => !runeColors.some((color) => color === item.color)))
     throw new Error('铭文请选择红色、蓝色或绿色');
