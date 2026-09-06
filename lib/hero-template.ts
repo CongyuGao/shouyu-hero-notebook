@@ -1,6 +1,7 @@
 import { blankGuide, heroes, type GuideRecord } from './guide';
 
-// A display-only blank template. It is never inserted into the guide database.
+// Public reference data plus empty build slots, not an invented published guide.
+// This display template is never inserted into the guide database.
 export function heroTemplate(heroId: string): GuideRecord {
   if (!heroes.some((h) => h.id === heroId)) throw new Error('未知英雄');
   const draft = blankGuide(heroId);

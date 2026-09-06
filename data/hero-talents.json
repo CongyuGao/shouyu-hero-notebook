@@ -1,0 +1,878 @@
+[
+  {
+    "heroId": "142",
+    "heroName": "安琪拉",
+    "source": "玩家提供的游戏内天赋资料 IMG_3117.PNG—IMG_3122.PNG。适用游戏版本待确认，未导入勾选状态。",
+    "talents": [
+      {
+        "id": "t01",
+        "name": "火焰掌握",
+        "description": "技能可储存释放，最多2次",
+        "skill": 1,
+        "source": "IMG_3118.PNG"
+      },
+      {
+        "id": "t02",
+        "name": "火球快递",
+        "description": "火球飞行距离和速度+20%",
+        "skill": 1,
+        "source": "IMG_3118.PNG"
+      },
+      {
+        "id": "t03",
+        "name": "举一反二",
+        "description": "每次放出两轮火球",
+        "skill": 1,
+        "source": "IMG_3117.PNG、IMG_3118.PNG"
+      },
+      {
+        "id": "t04",
+        "name": "优雅魔法",
+        "description": "移动中可施法，永久获得15%移速加成",
+        "skill": 1,
+        "source": "IMG_3117.PNG、IMG_3118.PNG"
+      },
+      {
+        "id": "t05",
+        "name": "炽热激情",
+        "description": "技能命中后获得法术攻击加成，最多叠加10次",
+        "skill": 1,
+        "source": "IMG_3117.PNG、IMG_3118.PNG"
+      },
+      {
+        "id": "t06",
+        "name": "火烧屁屁咯",
+        "description": "每次火球命中时，会让敌人灼烧2秒钟",
+        "skill": 1,
+        "source": "IMG_3117.PNG、IMG_3118.PNG"
+      },
+      {
+        "id": "t07",
+        "name": "火球精通",
+        "description": "每颗火球命中将回复生命",
+        "skill": 1,
+        "source": "IMG_3117.PNG"
+      },
+      {
+        "id": "t08",
+        "name": "危险魔法",
+        "description": "每3秒会获得1个伴身火球，施法时一并丢出",
+        "skill": 1,
+        "source": "IMG_3117.PNG"
+      },
+      {
+        "id": "t09",
+        "name": "温暖旋风",
+        "description": "自身处于火焰旋风内时，每秒回复已损生命值的12%",
+        "skill": 2,
+        "source": "IMG_3119.PNG"
+      },
+      {
+        "id": "t10",
+        "name": "野蛮火种",
+        "description": "火焰漩涡飞行速度与距离+25%",
+        "skill": 2,
+        "source": "IMG_3119.PNG"
+      },
+      {
+        "id": "t11",
+        "name": "镜像戏法",
+        "description": "火种裂变时，自身也将被火焰漩涡加持",
+        "skill": 2,
+        "source": "IMG_3119.PNG、IMG_3120.PNG"
+      },
+      {
+        "id": "t12",
+        "name": "噬体旋风",
+        "description": "火种直接命中的敌人会被挂满被动",
+        "skill": 2,
+        "source": "IMG_3119.PNG、IMG_3120.PNG"
+      },
+      {
+        "id": "t13",
+        "name": "闪烁火光",
+        "description": "再次释放移动到火种位置，并释放两个扩散的火焰漩涡",
+        "skill": 2,
+        "source": "IMG_3119.PNG、IMG_3120.PNG"
+      },
+      {
+        "id": "t14",
+        "name": "不灭火苗",
+        "description": "旋风持续时间+1.5秒",
+        "skill": 2,
+        "source": "IMG_3119.PNG、IMG_3120.PNG"
+      },
+      {
+        "id": "t15",
+        "name": "分则能成",
+        "description": "生成主漩涡时，向周围衍生出3颗小漩涡",
+        "skill": 2,
+        "source": "IMG_3120.PNG"
+      },
+      {
+        "id": "t16",
+        "name": "火焰花绳",
+        "description": "自身与火种间受火绳连接，对触碰火绳的敌人造成伤害",
+        "skill": 2,
+        "source": "IMG_3120.PNG"
+      },
+      {
+        "id": "t17",
+        "name": "肆意之火",
+        "description": "大招期间获得50%法术吸血",
+        "skill": 3,
+        "source": "IMG_3122.PNG"
+      },
+      {
+        "id": "t18",
+        "name": "折射棱光",
+        "description": "大招命中敌人后将折射",
+        "skill": 3,
+        "source": "IMG_3122.PNG"
+      },
+      {
+        "id": "t19",
+        "name": "火焰之沼",
+        "description": "大招命中后，目标移速-50%",
+        "skill": 3,
+        "source": "IMG_3121.PNG、IMG_3122.PNG"
+      },
+      {
+        "id": "t20",
+        "name": "请勿靠近",
+        "description": "大招护盾存在期间，被攻击时向周围敌人召唤火球反击",
+        "skill": 3,
+        "source": "IMG_3121.PNG、IMG_3122.PNG"
+      },
+      {
+        "id": "t21",
+        "name": "瓦解烈焰",
+        "description": "对挂有10层被动效果的目标，将造成真实伤害",
+        "skill": 3,
+        "source": "IMG_3121.PNG、IMG_3122.PNG"
+      },
+      {
+        "id": "t22",
+        "name": "无处可藏",
+        "description": "施法时获得周围所有敌人视野，并挂满被动",
+        "skill": 3,
+        "source": "IMG_3121.PNG、IMG_3122.PNG"
+      },
+      {
+        "id": "t23",
+        "name": "不灭火焰",
+        "description": "持续时间+2秒",
+        "skill": 3,
+        "source": "IMG_3121.PNG"
+      },
+      {
+        "id": "t24",
+        "name": "护体烈火",
+        "description": "施法时护盾+200%",
+        "skill": 3,
+        "source": "IMG_3121.PNG"
+      }
+    ],
+    "cores": [
+      {
+        "id": "c1",
+        "name": "多多多多益善",
+        "description": "技能变更：技能变为散射，且额外产生8颗火球",
+        "skill": 1,
+        "source": "IMG_3117.PNG"
+      },
+      {
+        "id": "c2",
+        "name": "超级大火球",
+        "description": "小火球融合成一个超级大火球，且可穿透敌人",
+        "skill": 1,
+        "source": "IMG_3117.PNG"
+      },
+      {
+        "id": "c3",
+        "name": "烈焰黑洞",
+        "description": "漩涡变大25%，持续吸引其周围敌人并喷射火球",
+        "skill": 2,
+        "source": "IMG_3119.PNG"
+      },
+      {
+        "id": "c4",
+        "name": "纵情燃烧",
+        "description": "额外释放2个火种",
+        "skill": 2,
+        "source": "IMG_3119.PNG"
+      },
+      {
+        "id": "c5",
+        "name": "无敌多重射线",
+        "description": "额外分裂2段光辉",
+        "skill": 3,
+        "source": "IMG_3121.PNG"
+      },
+      {
+        "id": "c6",
+        "name": "究极灭世激光",
+        "description": "施法距离+50%",
+        "skill": 3,
+        "source": "IMG_3121.PNG"
+      }
+    ]
+  },
+  {
+    "heroId": "144",
+    "heroName": "程咬金",
+    "source": "玩家提供的游戏内天赋资料 IMG_3123.PNG—IMG_3128.PNG。适用游戏版本待确认，未导入勾选状态。",
+    "talents": [
+      {
+        "id": "t01",
+        "name": "大！",
+        "description": "技能范围+50%",
+        "skill": 1,
+        "source": "IMG_3123.PNG"
+      },
+      {
+        "id": "t02",
+        "name": "干！",
+        "description": "释放技能后5秒内普攻会追击敌人",
+        "skill": 1,
+        "source": "IMG_3123.PNG"
+      },
+      {
+        "id": "t03",
+        "name": "疯！",
+        "description": "命中敌人后，获得百分比攻击力加成",
+        "skill": 1,
+        "source": "IMG_3123.PNG、IMG_3124.PNG"
+      },
+      {
+        "id": "t04",
+        "name": "远！",
+        "description": "施法距离+3米",
+        "skill": 1,
+        "source": "IMG_3123.PNG、IMG_3124.PNG"
+      },
+      {
+        "id": "t05",
+        "name": "砍！",
+        "description": "普攻命中所有敌人时，1技能冷却减少-15%",
+        "skill": 1,
+        "source": "IMG_3123.PNG、IMG_3124.PNG"
+      },
+      {
+        "id": "t06",
+        "name": "二！",
+        "description": "技能获得2次释放机会",
+        "skill": 1,
+        "source": "IMG_3123.PNG、IMG_3124.PNG"
+      },
+      {
+        "id": "t07",
+        "name": "起！",
+        "description": "击飞落地范围内所有敌人1秒",
+        "skill": 1,
+        "source": "IMG_3124.PNG"
+      },
+      {
+        "id": "t08",
+        "name": "冲！",
+        "description": "落地时获得爆发加速，并可撞退敌人",
+        "skill": 1,
+        "source": "IMG_3124.PNG"
+      },
+      {
+        "id": "t09",
+        "name": "猛！",
+        "description": "技能命中获得高额攻速",
+        "skill": 2,
+        "source": "IMG_3125.PNG"
+      },
+      {
+        "id": "t10",
+        "name": "爆！",
+        "description": "技能效果可触发法球与暴击",
+        "skill": 2,
+        "source": "IMG_3125.PNG"
+      },
+      {
+        "id": "t11",
+        "name": "护！",
+        "description": "击中敌人时获得护盾",
+        "skill": 2,
+        "source": "IMG_3125.PNG、IMG_3126.PNG"
+      },
+      {
+        "id": "t12",
+        "name": "长！",
+        "description": "二技能每击败一个敌人，永久获得20点生命值",
+        "skill": 2,
+        "source": "IMG_3125.PNG、IMG_3126.PNG"
+      },
+      {
+        "id": "t13",
+        "name": "生！",
+        "description": "被动生命消耗和生命回复效果，均提升200%",
+        "skill": 2,
+        "source": "IMG_3125.PNG、IMG_3126.PNG"
+      },
+      {
+        "id": "t14",
+        "name": "刷！",
+        "description": "每命中1名敌人，二技能冷却-0.4秒",
+        "skill": 2,
+        "source": "IMG_3125.PNG、IMG_3126.PNG"
+      },
+      {
+        "id": "t15",
+        "name": "丢！",
+        "description": "旋转时甩出锅碗瓢盆，砸中敌人将造成伤害",
+        "skill": 2,
+        "source": "IMG_3126.PNG"
+      },
+      {
+        "id": "t16",
+        "name": "击！",
+        "description": "受到伤害时，25%概率自动触发2技能",
+        "skill": 2,
+        "source": "IMG_3126.PNG"
+      },
+      {
+        "id": "t17",
+        "name": "强！",
+        "description": "大招持续时间+2秒，并用言语挑衅敌人",
+        "skill": 3,
+        "source": "IMG_3127.PNG"
+      },
+      {
+        "id": "t18",
+        "name": "快！",
+        "description": "冷却-3秒",
+        "skill": 3,
+        "source": "IMG_3127.PNG"
+      },
+      {
+        "id": "t19",
+        "name": "反！",
+        "description": "大招期间每0.5秒将爆气1次，对周围敌人造成伤害",
+        "skill": 3,
+        "source": "IMG_3127.PNG、IMG_3128.PNG"
+      },
+      {
+        "id": "t20",
+        "name": "灭！",
+        "description": "大招期间可再次施法，消耗生命转换为1次大爆炸",
+        "skill": 3,
+        "source": "IMG_3127.PNG、IMG_3128.PNG"
+      },
+      {
+        "id": "t21",
+        "name": "破！",
+        "description": "大招期间，普攻附带真实伤害",
+        "skill": 3,
+        "source": "IMG_3127.PNG、IMG_3128.PNG"
+      },
+      {
+        "id": "t22",
+        "name": "盾！",
+        "description": "大招不再回复生命值，而是生成等额真实护盾",
+        "skill": 3,
+        "source": "IMG_3127.PNG、IMG_3128.PNG"
+      },
+      {
+        "id": "t23",
+        "name": "回！",
+        "description": "生命回复效果+60%",
+        "skill": 3,
+        "source": "IMG_3128.PNG"
+      },
+      {
+        "id": "t24",
+        "name": "莽！",
+        "description": "大招期间每2秒可抵挡一次控制，抵挡后返还1，2技能50%冷却",
+        "skill": 3,
+        "source": "IMG_3128.PNG"
+      }
+    ],
+    "cores": [
+      {
+        "id": "c1",
+        "name": "踏！",
+        "description": "获得永久效果：移动时踩出深坑，对敌人造成伤害",
+        "skill": 1,
+        "source": "IMG_3123.PNG"
+      },
+      {
+        "id": "c2",
+        "name": "劈！",
+        "description": "对落地范围内所有敌人施加2次普攻",
+        "skill": 1,
+        "source": "IMG_3123.PNG"
+      },
+      {
+        "id": "c3",
+        "name": "旋！",
+        "description": "普攻变更为旋转双斧",
+        "skill": 2,
+        "source": "IMG_3125.PNG"
+      },
+      {
+        "id": "c4",
+        "name": "转！",
+        "description": "激热回旋现在会旋转4圈",
+        "skill": 2,
+        "source": "IMG_3125.PNG"
+      },
+      {
+        "id": "c5",
+        "name": "石！",
+        "description": "变成石头人，获得高额双抗与反伤效果",
+        "skill": 3,
+        "source": "IMG_3127.PNG"
+      },
+      {
+        "id": "c6",
+        "name": "狂！",
+        "description": "程咬金血脉贲张，直接红温，获得超高移速",
+        "skill": 3,
+        "source": "IMG_3127.PNG"
+      }
+    ]
+  },
+  {
+    "heroId": "133",
+    "heroName": "狄仁杰",
+    "source": "玩家提供的游戏内天赋资料 IMG_3129.PNG—IMG_3134.PNG。适用游戏版本待确认，未导入勾选状态。",
+    "talents": [
+      {
+        "id": "t01",
+        "name": "薪燃令",
+        "description": "全技能的令牌命中后，1技能冷却-0.3秒",
+        "skill": 1,
+        "source": "IMG_3129.PNG"
+      },
+      {
+        "id": "t02",
+        "name": "络绎令",
+        "description": "额外丢出6张令牌",
+        "skill": 1,
+        "source": "IMG_3129.PNG"
+      },
+      {
+        "id": "t03",
+        "name": "爆裂令",
+        "description": "全技能的令牌均可暴击",
+        "skill": 1,
+        "source": "IMG_3129.PNG"
+      },
+      {
+        "id": "t04",
+        "name": "尚方令",
+        "description": "全技能的红蓝牌，均有20%概率变为弱化版黄牌（无眩晕，造成20%伤害）",
+        "skill": 1,
+        "source": "IMG_3129.PNG"
+      },
+      {
+        "id": "t05",
+        "name": "恢宏令",
+        "description": "被动层数提高至10层，且全技能的令牌命中后，都会叠加1层",
+        "skill": 1,
+        "source": "IMG_3129.PNG"
+      },
+      {
+        "id": "t06",
+        "name": "噬心令",
+        "description": "全技能的令牌，都将附带10%真实伤害",
+        "skill": 1,
+        "source": "IMG_3129.PNG"
+      },
+      {
+        "id": "t07",
+        "name": "浴火令",
+        "description": "全技能的令牌命中后，都将回复生命和蓝量",
+        "skill": 1,
+        "source": "IMG_3130.PNG"
+      },
+      {
+        "id": "t08",
+        "name": "枭首令",
+        "description": "目标被5张令牌命中后，额外释放3张令牌造成伤害（单目标2.5秒冷却）",
+        "skill": 1,
+        "source": "IMG_3130.PNG"
+      },
+      {
+        "id": "t09",
+        "name": "不惑",
+        "description": "二技能释出的令牌会自动追踪目标敌人",
+        "skill": 2,
+        "source": "IMG_3131.PNG"
+      },
+      {
+        "id": "t10",
+        "name": "不鄙",
+        "description": "施法后，再次释放1次",
+        "skill": 2,
+        "source": "IMG_3131.PNG"
+      },
+      {
+        "id": "t11",
+        "name": "不徇",
+        "description": "每第3次主动施法后，获得1次额外使用机会",
+        "skill": 2,
+        "source": "IMG_3131.PNG"
+      },
+      {
+        "id": "t12",
+        "name": "不怠",
+        "description": "主动施法后3秒内，每次普攻都会扔出令牌",
+        "skill": 2,
+        "source": "IMG_3131.PNG"
+      },
+      {
+        "id": "t13",
+        "name": "不着",
+        "description": "施法后，获得0.75秒超越极限的移速",
+        "skill": 2,
+        "source": "IMG_3131.PNG"
+      },
+      {
+        "id": "t14",
+        "name": "不绝",
+        "description": "主动施法后3秒内，获得35%物理吸血和法术吸血",
+        "skill": 2,
+        "source": "IMG_3131.PNG"
+      },
+      {
+        "id": "t15",
+        "name": "不畏",
+        "description": "主动施法后3秒内，受到控制将再次施法（0.5秒触发间隔）",
+        "skill": 2,
+        "source": "IMG_3132.PNG"
+      },
+      {
+        "id": "t16",
+        "name": "不羁",
+        "description": "主动施法后，下一次普攻变为释放王朝密令（不造成眩晕效果）",
+        "skill": 2,
+        "source": "IMG_3132.PNG"
+      },
+      {
+        "id": "t17",
+        "name": "醍醐",
+        "description": "被黄牌标记的目标受伤时，将治疗狄仁杰",
+        "skill": 3,
+        "source": "IMG_3133.PNG"
+      },
+      {
+        "id": "t18",
+        "name": "天谴",
+        "description": "施法后，3张令牌从天而降攻击目标",
+        "skill": 3,
+        "source": "IMG_3133.PNG"
+      },
+      {
+        "id": "t19",
+        "name": "归心",
+        "description": "黄牌命中后，3技能冷却-1秒",
+        "skill": 3,
+        "source": "IMG_3133.PNG"
+      },
+      {
+        "id": "t20",
+        "name": "严刑",
+        "description": "对标记目标造成伤害时，使其缩小并减少双抗",
+        "skill": 3,
+        "source": "IMG_3133.PNG"
+      },
+      {
+        "id": "t21",
+        "name": "穷追",
+        "description": "对标记目标普攻时，将额外攻击1次",
+        "skill": 3,
+        "source": "IMG_3133.PNG"
+      },
+      {
+        "id": "t22",
+        "name": "连坐",
+        "description": "技能命中后，随机触发1技能或2技能（1.5秒冷却）",
+        "skill": 3,
+        "source": "IMG_3133.PNG"
+      },
+      {
+        "id": "t23",
+        "name": "断案",
+        "description": "技能命中目标将收取其金币，且黄牌永久增加物理和法术伤害",
+        "skill": 3,
+        "source": "IMG_3134.PNG"
+      },
+      {
+        "id": "t24",
+        "name": "蝉联",
+        "description": "技能命中后，下3次普攻极速释放",
+        "skill": 3,
+        "source": "IMG_3134.PNG"
+      }
+    ],
+    "cores": [
+      {
+        "id": "c1",
+        "name": "天来地回",
+        "description": "令牌会留在原地，短暂延迟后收回，造成释出时的50%额外伤害",
+        "skill": 1,
+        "source": "IMG_3129.PNG"
+      },
+      {
+        "id": "c2",
+        "name": "万令归宗",
+        "description": "令牌命中后，将在身后形成牌阵，随下次普攻打出",
+        "skill": 1,
+        "source": "IMG_3129.PNG"
+      },
+      {
+        "id": "c3",
+        "name": "一瞬芳华",
+        "description": "闪现到目标位置，且技能可储备施法2次（储备时间和冷却一致）",
+        "skill": 2,
+        "source": "IMG_3131.PNG"
+      },
+      {
+        "id": "c4",
+        "name": "急急如律",
+        "description": "主动施法后3秒内突破攻速上限且获得大量攻速，且第3次普攻时自动释放2技能",
+        "skill": 2,
+        "source": "IMG_3131.PNG"
+      },
+      {
+        "id": "c5",
+        "name": "如影随行",
+        "description": "黄牌命中或到达终点后，持续攻击自身附近敌方单位（无眩晕，造成20%伤害）",
+        "skill": 3,
+        "source": "IMG_3133.PNG"
+      },
+      {
+        "id": "c6",
+        "name": "野蜂飞舞",
+        "description": "黄牌锁定目标，在命中后分裂为3张黄牌（无眩晕，造成20%伤害）",
+        "skill": 3,
+        "source": "IMG_3133.PNG"
+      }
+    ]
+  },
+  {
+    "heroId": "131",
+    "heroName": "李白",
+    "source": "玩家提供的游戏内天赋资料 IMG_3135.PNG—IMG_3140.PNG。适用游戏版本待确认，未导入勾选状态。",
+    "talents": [
+      {
+        "id": "t01",
+        "name": "天紫烟",
+        "description": "每次突进时，原地留下残影并持续造成伤害，技能结束时残影自动攻击附近敌人",
+        "skill": 1,
+        "source": "IMG_3136.PNG"
+      },
+      {
+        "id": "t02",
+        "name": "天琼浆",
+        "description": "突进路径上的敌人将被击飞0.75秒",
+        "skill": 1,
+        "source": "IMG_3136.PNG"
+      },
+      {
+        "id": "t03",
+        "name": "天醉仙",
+        "description": "突进后，朝前释放残影，造成伤害（觉醒【天上来】时残影+2）",
+        "skill": 1,
+        "source": "IMG_3136.PNG"
+      },
+      {
+        "id": "t04",
+        "name": "杯中月",
+        "description": "突进路径上，发出残影跟随自身，造成伤害（觉醒【天上来】时残影+2）",
+        "skill": 1,
+        "source": "IMG_3136.PNG"
+      },
+      {
+        "id": "t05",
+        "name": "杯莫停",
+        "description": "突进每次命中时，技能结束后冷却-15%",
+        "skill": 1,
+        "source": "IMG_3136.PNG"
+      },
+      {
+        "id": "t06",
+        "name": "杯推盏",
+        "description": "突进伤害提升（觉醒【天上来】时伤害进一步提升）",
+        "skill": 1,
+        "source": "IMG_3136.PNG"
+      },
+      {
+        "id": "t07",
+        "name": "不留行",
+        "description": "一技能存续期间，自身附带60%概率的闪避效果",
+        "skill": 1,
+        "source": "IMG_3135.PNG"
+      },
+      {
+        "id": "t08",
+        "name": "落九天",
+        "description": "在突进终点向四周发出残影，造成范围伤害（觉醒【天上来】时翻倍）",
+        "skill": 1,
+        "source": "IMG_3135.PNG"
+      },
+      {
+        "id": "t09",
+        "name": "复句",
+        "description": "剑圈内的敌人，也将受到1次剑圈伤害",
+        "skill": 2,
+        "source": "IMG_3137.PNG"
+      },
+      {
+        "id": "t10",
+        "name": "折句",
+        "description": "自身在剑圈内，每第2次普攻会对敌人附带1次剑圈伤害",
+        "skill": 2,
+        "source": "IMG_3137.PNG"
+      },
+      {
+        "id": "t11",
+        "name": "禁句",
+        "description": "进入剑圈的敌人无法离开",
+        "skill": 2,
+        "source": "IMG_3137.PNG"
+      },
+      {
+        "id": "t12",
+        "name": "醉意",
+        "description": "剑圈内的敌人，物理防御-35%",
+        "skill": 2,
+        "source": "IMG_3137.PNG"
+      },
+      {
+        "id": "t13",
+        "name": "壮意",
+        "description": "李白在剑圈内，每秒回复3%生命",
+        "skill": 2,
+        "source": "IMG_3137.PNG"
+      },
+      {
+        "id": "t14",
+        "name": "肆意",
+        "description": "李白在剑圈内，自身攻速+100%",
+        "skill": 2,
+        "source": "IMG_3137.PNG"
+      },
+      {
+        "id": "t15",
+        "name": "叠笔",
+        "description": "剑圈持续时间+50%",
+        "skill": 2,
+        "source": "IMG_3138.PNG"
+      },
+      {
+        "id": "t16",
+        "name": "拖笔",
+        "description": "剑圈内的敌人每秒受到1次剑圈打击，同时自身叠加1道剑气",
+        "skill": 2,
+        "source": "IMG_3138.PNG"
+      },
+      {
+        "id": "t17",
+        "name": "指剑",
+        "description": "技能变更：指定位置施法",
+        "skill": 3,
+        "source": "IMG_3139.PNG"
+      },
+      {
+        "id": "t18",
+        "name": "洗剑",
+        "description": "每段斩击命中时，冷却-0.7秒",
+        "skill": 3,
+        "source": "IMG_3139.PNG"
+      },
+      {
+        "id": "t19",
+        "name": "崩剑",
+        "description": "斩击可触发暴击，且斩击期间暴击率+50%",
+        "skill": 3,
+        "source": "IMG_3139.PNG"
+      },
+      {
+        "id": "t20",
+        "name": "雷动",
+        "description": "每段斩击会对随机目标追加1次落雷伤害",
+        "skill": 3,
+        "source": "IMG_3139.PNG"
+      },
+      {
+        "id": "t21",
+        "name": "狂歌",
+        "description": "命中多个目标时伤害不再衰减",
+        "skill": 3,
+        "source": "IMG_3139.PNG"
+      },
+      {
+        "id": "t22",
+        "name": "剑□（名称待核对）",
+        "description": "大招结束时，根据斩击命中段数获得相应层数的护盾，持续3秒",
+        "skill": 3,
+        "source": "IMG_3139.PNG；名称第二字待核对"
+      },
+      {
+        "id": "t23",
+        "name": "逆剑",
+        "description": "在施法的反方向区域生成剑气",
+        "skill": 3,
+        "source": "IMG_3140.PNG"
+      },
+      {
+        "id": "t24",
+        "name": "长歌",
+        "description": "每段斩击命中时，回复(200+40%额外AD)生命",
+        "skill": 3,
+        "source": "IMG_3140.PNG"
+      }
+    ],
+    "cores": [
+      {
+        "id": "c1",
+        "name": "天上来",
+        "description": "突进距离+200，突进过程中霸体，释放获得一层护盾",
+        "skill": 1,
+        "source": "IMG_3135.PNG"
+      },
+      {
+        "id": "c2",
+        "name": "三百杯",
+        "description": "突进次数+2",
+        "skill": 1,
+        "source": "IMG_3135.PNG"
+      },
+      {
+        "id": "c3",
+        "name": "意隐",
+        "description": "李白在剑阵内获得隐身状态（使用普攻不会显形）",
+        "skill": 2,
+        "source": "IMG_3137.PNG"
+      },
+      {
+        "id": "c4",
+        "name": "句随",
+        "description": "青莲剑阵将跟随自身移动",
+        "skill": 2,
+        "source": "IMG_3137.PNG"
+      },
+      {
+        "id": "c5",
+        "name": "诗剑酒",
+        "description": "大招默认解锁，不需要叠层",
+        "skill": 3,
+        "source": "IMG_3139.PNG"
+      },
+      {
+        "id": "c6",
+        "name": "酒过三巡",
+        "description": "剑气穿梭次数翻倍",
+        "skill": 3,
+        "source": "IMG_3139.PNG"
+      }
+    ]
+  }
+]

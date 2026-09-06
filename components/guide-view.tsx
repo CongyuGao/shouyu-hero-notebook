@@ -38,6 +38,11 @@ export function GuideView({
   template?: boolean;
 }) {
   const hero = heroes.find((h) => h.id === guide.heroId)!;
+  const talentCount = guide.talents.filter(
+    (t) => t.name && t.description,
+  ).length;
+  const coreCount = guide.cores.filter((c) => c.name && c.description).length;
+  const hasReference = talentCount > 0 || coreCount > 0;
   const [message, setMessage] = useState('');
   const [buildId, setBuildId] = useState(guide.builds[0].id);
   useEffect(() => {
@@ -133,9 +138,15 @@ export function GuideView({
         <div className="hero-template-note">
           <Pencil size={18} />
           <div>
-            <strong>攻略待填写 · 完整结构已准备好</strong>
+            <strong>
+              {hasReference
+                ? '天赋资料已收录 · 流派待编写'
+                : '攻略待填写 · 完整结构已准备好'}
+            </strong>
             <p>
-              核心、小天赋、雕文、铭文与流派备注均可逐项补充。空白栏位不是已确认的技能效果，填写并发布后才会成为公开攻略。
+              {hasReference
+                ? `已有 ${coreCount} 个核心、${talentCount} 个小天赋的名称与效果。缺失栏位保留待补；流派、天赋选择、雕文与铭文由编辑者自行搭配。`
+                : '核心、小天赋、雕文、铭文与流派备注均可逐项补充。空白栏位不是已确认的技能效果，填写并发布后才会成为公开攻略。'}
             </p>
           </div>
         </div>

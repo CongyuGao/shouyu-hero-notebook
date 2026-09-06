@@ -2969,6 +2969,10 @@ footer small {
   color: #dec797;
   border-color: #c2a77135;
 }
+.has-reference .mode-hero-status {
+  color: #a6d8ff;
+  border-color: #75b8e846;
+}
 .mode-hero-update {
   margin-top: 7px;
   max-width: 100%;

@@ -1,4 +1,5 @@
 import official from '@/data/official.json';
+import heroTalentData from '@/data/hero-talents.json';
 import { validateCatalog, catalogImage, type CatalogItem } from './catalog';
 import { heroTiers } from './tiers';
 export const heroes = official.heroes;
@@ -27,6 +28,17 @@ export type CoreTalent = {
   skill: number;
   source?: string;
 };
+type HeroTalentPreset = {
+  heroId: string;
+  heroName: string;
+  source: string;
+  talents: Talent[];
+  cores: CoreTalent[];
+};
+const heroTalentPresets = heroTalentData as HeroTalentPreset[];
+export function heroTalentPreset(heroId: string) {
+  return heroTalentPresets.find((entry) => entry.heroId === heroId);
+}
 export type Pick = { talentId: string; priority: Priority; reason: string };
 export type Glyph = CatalogItem;
 export type Build = {
@@ -95,19 +107,23 @@ export function blankBuild(): Build {
   };
 }
 export function blankGuide(heroId = ''): Guide {
+  const preset = heroTalentPreset(heroId);
   return {
     heroId,
     title: '',
     intro: '',
     version: '',
     author: '',
-    source: '',
+    source: preset?.source || '',
     verified: false,
     talents: Array.from({ length: 24 }, (_, i) => ({
       id: `t${String(i + 1).padStart(2, '0')}`,
       name: '',
       description: '',
       skill: Math.floor(i / 8) + 1,
+      ...preset?.talents.find(
+        (t) => t.id === `t${String(i + 1).padStart(2, '0')}`,
+      ),
     })),
     builds: [blankBuild()],
     glyphs: [],
@@ -117,6 +133,7 @@ export function blankGuide(heroId = ''): Guide {
       skill: Math.floor(i / 2) + 1,
       name: '',
       description: '',
+      ...preset?.cores.find((c) => c.id === `c${i + 1}`),
     })),
   };
 }
@@ -153,8 +170,11 @@ export function validateGuide(input: unknown, publish = false): Guide {
     };
   });
   const names = talents.map((t) => t.name).filter(Boolean);
-  if (new Set(names).size !== names.length)
-    throw new Error('天赋名称重复，请检查');
+  const skillNames = talents
+    .filter((t) => t.name)
+    .map((t) => `${t.skill || 0}:${t.name}`);
+  if (new Set(skillNames).size !== skillNames.length)
+    throw new Error('同一技能的天赋名称重复，请检查');
   if (!Array.isArray(d.builds) || d.builds.length < 1 || d.builds.length > 8)
     throw new Error('请保留1至8个核心流派');
   const builds = d.builds.map((v) => {

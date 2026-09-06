@@ -436,14 +436,30 @@ export function GuideEditor({
                             h.id === record?.heroId,
                         )}
                         value={hero || null}
-                        disabled={revision > 0 || !!lockedHeroId}
+                        disabled={
+                          revision > 0 || !!lockedHeroId || !!doc.heroId
+                        }
                         itemToStringLabel={(h) => h.name}
                         onValueChange={(h) => {
-                          if (h)
+                          if (h) {
+                            const preset = blankGuide(h.id);
                             patch({
                               heroId: h.id,
                               title: doc.title || `${h.name} · 天赋流派攻略`,
+                              source: doc.source || preset.source,
+                              talents: doc.talents.map((t) =>
+                                !t.name && !t.description
+                                  ? preset.talents.find((p) => p.id === t.id) ||
+                                    t
+                                  : t,
+                              ),
+                              cores: doc.cores.map((c) =>
+                                !c.name && !c.description
+                                  ? preset.cores.find((p) => p.id === c.id) || c
+                                  : c,
+                              ),
                             });
+                          }
                         }}
                       >
                         <ComboboxInput

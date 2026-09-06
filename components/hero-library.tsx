@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { heroes, type GuideRecord } from '@/lib/guide';
+import { heroes, heroTalentPreset, type GuideRecord } from '@/lib/guide';
 import { rosterHeroIds, type ModeRoster } from '@/lib/mode-roster';
 import { heroTiers } from '@/lib/tiers';
 import { TierBadge, TierGuide } from './tier-guide';
@@ -198,9 +198,9 @@ export function HeroLibrary({
                 {g.entries.map(({ hero, record }) => (
                   <button
                     key={hero.id}
-                    className={`mode-hero-card ${record ? 'has-guide' : 'is-pending'}`}
+                    className={`mode-hero-card ${record ? 'has-guide' : heroTalentPreset(hero.id) ? 'has-reference' : 'is-pending'}`}
                     onClick={() => onOpen(hero.id)}
-                    aria-label={`${hero.name}，${record ? '查看攻略' : '攻略待补充'}`}
+                    aria-label={`${hero.name}，${record ? '查看攻略' : heroTalentPreset(hero.id) ? '查看天赋资料，流派待补充' : '攻略待补充'}`}
                   >
                     <span className="mode-hero-portrait">
                       <img
@@ -236,7 +236,9 @@ export function HeroLibrary({
                       ) : (
                         <>
                           <Clock3 size={12} />
-                          攻略待补充
+                          {heroTalentPreset(hero.id)
+                            ? '天赋已收录'
+                            : '攻略待补充'}
                         </>
                       )}
                     </span>
