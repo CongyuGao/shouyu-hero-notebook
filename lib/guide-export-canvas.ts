@@ -208,24 +208,38 @@ function artwork(
     write(ctx, [label.slice(0, 1)], x + 20, y + 20, 42, MUTED, true);
     return;
   }
-  const ratio = Math.max(width / img.naturalWidth, height / img.naturalHeight);
-  const sw = width / ratio,
-    sh = height / ratio;
   ctx.save();
   ctx.beginPath();
   ctx.roundRect(x, y, width, height, 18);
   ctx.clip();
-  ctx.drawImage(
-    img,
-    cropLeft ? 0 : (img.naturalWidth - sw) / 2,
-    (img.naturalHeight - sh) / 2,
-    sw,
-    sh,
-    x,
-    y,
-    width,
-    height,
-  );
+  if (cropLeft) {
+    const ratio = Math.max(
+      width / img.naturalWidth,
+      height / img.naturalHeight,
+    );
+    const sw = width / ratio,
+      sh = height / ratio;
+    ctx.drawImage(
+      img,
+      0,
+      (img.naturalHeight - sh) / 2,
+      sw,
+      sh,
+      x,
+      y,
+      width,
+      height,
+    );
+  } else {
+    // Standalone icons keep their entire artwork, including the III grade.
+    const ratio = Math.min(
+      width / img.naturalWidth,
+      height / img.naturalHeight,
+    );
+    const dw = img.naturalWidth * ratio,
+      dh = img.naturalHeight * ratio;
+    ctx.drawImage(img, x + (width - dw) / 2, y + (height - dh) / 2, dw, dh);
+  }
   ctx.restore();
 }
 

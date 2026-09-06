@@ -9,6 +9,7 @@ import { glyphGrade, type CatalogItem } from './catalog';
 import { aggregateRuneStats } from './rune-stats';
 import { findHeroSkin, skinImageUrl } from './skins';
 import { sortCatalogItems } from './catalog-order';
+import { glyphArtwork } from './glyph-art';
 
 export type ExportChoice = {
   name: string;
@@ -121,8 +122,7 @@ export function createGuideExport(
         name: g?.name || (build.glyphIds[index] ? '资料缺失' : '未选择'),
         selected: !!build.glyphIds[index],
         effect: g ? glyphGrade(g.color) : '',
-        image: g?.icon || g?.image,
-        cardImage: !g?.icon,
+        ...glyphArtwork(g),
       };
     }),
   });
@@ -227,8 +227,7 @@ export function createGuideExport(
           name: g?.name || `第 ${index + 1} 项雕文 · 资料缺失`,
           selected: true,
           color: g ? glyphGrade(g.color) : '',
-          image: g?.icon || g?.image,
-          cardImage: !g?.icon,
+          ...glyphArtwork(g),
           effect: g?.effect || '所选条目的资料缺失，请在网站核对。',
           usage: g?.usage || '',
         })),

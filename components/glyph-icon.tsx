@@ -1,9 +1,10 @@
 import type { CatalogItem } from '@/lib/catalog';
+import { glyphArtwork } from '@/lib/glyph-art';
 import { GameIcon } from './game-icon';
 export function GlyphIcon({ item }: { item: CatalogItem }) {
-  const src = item.icon || item.image;
+  const { image: src, cardImage } = glyphArtwork(item);
   return src ? (
-    <span className={`glyph-art ${item.icon ? 'standalone' : 'from-card'}`}>
+    <span className={`glyph-art ${cardImage ? 'from-card' : 'standalone'}`}>
       <img src={src} alt="" loading="lazy" referrerPolicy="no-referrer" />
     </span>
   ) : (

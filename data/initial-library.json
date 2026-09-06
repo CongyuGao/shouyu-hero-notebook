@@ -381,6 +381,7 @@
     {
       "id": "user-glyph-shunxi-baoji",
       "name": "瞬息暴击",
+      "icon": "/glyph-icons/shunxi-baoji.png",
       "effect": "释放技能后增加50%暴击率，持续3秒",
       "color": "高级秘法",
       "usage": "",
