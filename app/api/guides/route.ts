@@ -10,6 +10,7 @@ import {
   body,
   ApiError,
   EDIT_WRITE_GUARD,
+  editWriteBindings,
 } from '@/lib/server';
 export const dynamic = 'force-dynamic';
 export async function GET() {
@@ -23,7 +24,8 @@ export async function GET() {
 }
 export async function POST(req: Request) {
   try {
-    const { email, linkRevision } = await authorize(req);
+    const grant = await authorize(req);
+    const { email } = grant;
     const input = await body(req);
     if (!['draft', 'publish', 'unpublish'].includes(input.action))
       throw new ApiError(400, '未知保存操作');
@@ -57,8 +59,7 @@ export async function POST(req: Request) {
               pub ? now : null,
               email,
               mutation,
-              linkRevision,
-              linkRevision,
+              ...editWriteBindings(grant),
             )
         : db
             .prepare(
@@ -77,8 +78,7 @@ export async function POST(req: Request) {
               mutation,
               doc.heroId,
               input.expectedRevision,
-              linkRevision,
-              linkRevision,
+              ...editWriteBindings(grant),
             );
     const audit = db
       .prepare(

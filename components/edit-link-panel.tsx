@@ -1,6 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Copy, Link2, RefreshCw, ShieldOff } from 'lucide-react';
+import {
+  Copy,
+  Link2,
+  RefreshCw,
+  ShieldOff,
+  Eye,
+  Pencil,
+  LockKeyhole,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -20,6 +28,7 @@ import {
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
 import { apiFetch, readResponse } from '@/lib/client-api';
+import { EditPasswordPanel } from './edit-password-panel';
 type Status = { enabled: boolean; revision: number; expiresAt: string | null };
 const durationLabels: Record<string, string> = {
   '1': '1 小时',
@@ -31,6 +40,7 @@ export function EditLinkPanel() {
   const [status, setStatus] = useState<Status | null>(null);
   const [hours, setHours] = useState('168');
   const [link, setLink] = useState('');
+  const [readLink, setReadLink] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
   const [confirm, setConfirm] = useState<'rotate' | 'revoke' | null>(null);
@@ -42,6 +52,7 @@ export function EditLinkPanel() {
     );
   }
   useEffect(() => {
+    setReadLink(`${location.origin}/`);
     void load().catch((e) => setMessage(e.message));
   }, []);
   async function update(action: 'create' | 'rotate' | 'revoke') {
@@ -84,90 +95,134 @@ export function EditLinkPanel() {
     }
   }
   return (
-    <section className="reference-card edit-link-panel">
+    <section id="sharing-settings" className="reference-card edit-link-panel">
       <h2>
-        <Link2 size={22} /> 专属编辑链接
+        <Link2 size={22} /> 分享与编辑权限
       </h2>
       <p>
-        收到链接的人无需账号即可编辑核心、天赋、雕文、铭文和攻略。请勿发到公开群公告；转发链接会一并转交编辑能力。
+        普通链接始终只读。共同编辑可使用密码验证，或持有效的特殊编辑链接进入。
       </p>
-      <div className="link-settings">
-        <label className="field">
-          <span>新链接有效期</span>
-          <Select
-            value={hours}
-            onValueChange={(v) => v && setHours(v)}
-            disabled={busy}
-          >
-            <SelectTrigger>
-              <SelectValue>{durationLabels[hours]}</SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(durationLabels).map(([value, name]) => (
-                <SelectItem key={value} value={value}>
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </label>
-        <p>
-          {status?.enabled
-            ? `有效至 ${new Date(status.expiresAt!).toLocaleString('zh-CN', { hour12: false })}`
-            : '当前没有有效编辑链接'}
+      {readLink.startsWith('http://localhost:') && (
+        <p className="notice">
+          <LockKeyhole size={16} />{' '}
+          当前是本地预览：这两种链接都只能在本机使用。网站上线后，请在公网管理页面重新生成分享链接。
         </p>
-      </div>
-      <div className="button-row">
-        <Button
-          disabled={busy || !status}
-          onClick={() =>
-            status?.enabled ? setConfirm('rotate') : void update('create')
-          }
+      )}
+      <EditPasswordPanel
+        onChanged={() => {
+          setLink('');
+          void load().catch((e) => setMessage(e.message));
+        }}
+      />
+      <div className="share-permission-grid">
+        <section
+          className="share-permission-card read-permission"
+          aria-label="只读分享"
         >
-          <RefreshCw />
-          {status?.enabled ? '重置编辑链接' : '生成编辑链接'}
-        </Button>
-        {status?.enabled && (
-          <Button
-            variant="outline"
-            disabled={busy}
-            onClick={() => setConfirm('revoke')}
-          >
-            <ShieldOff />
-            作废链接
-          </Button>
-        )}
-        <Button
-          variant="outline"
-          onClick={() => void copy(`${location.origin}/`, '只读链接')}
-        >
-          复制普通只读链接
-        </Button>
-      </div>
-      {link && (
-        <div className="link-result">
+          <h3>
+            <Eye size={20} /> 只读链接
+          </h3>
+          <p>适合发到 QQ 群或公告。打开的人只能查看已发布的攻略。</p>
           <label className="field">
-            <span>仅本次显示，请妥善保存</span>
+            <span>普通查看地址</span>
             <Input
+              value={readLink}
               readOnly
-              value={link}
-              autoComplete="off"
-              spellCheck={false}
+              aria-label="只读分享链接"
               onFocus={(e) => e.target.select()}
             />
           </label>
           <Button
-            disabled={busy}
-            onClick={() => void copy(link, '专属编辑链接')}
+            variant="outline"
+            disabled={!readLink}
+            onClick={() => void copy(readLink, '只读链接')}
           >
-            <Copy />
-            复制编辑链接
+            <Copy /> 复制只读链接
           </Button>
-        </div>
-      )}
-      <p className="muted">
-        到期自动失效。忘记链接可以重置；重置后旧链接及已打开的旧编辑会话均不能继续保存。普通攻略的“分享”按钮只复制只读链接。
-      </p>
+        </section>
+        <section
+          className="share-permission-card edit-permission"
+          aria-label="编辑分享"
+        >
+          <h3>
+            <Pencil size={20} /> 可编辑链接
+          </h3>
+          <p>
+            私发给共同编写攻略的人，无需账号。拿到或被转发此链接的人都能编辑。
+          </p>
+          <div className="link-settings">
+            <label className="field">
+              <span>新链接有效期</span>
+              <Select
+                value={hours}
+                onValueChange={(v) => v && setHours(v)}
+                disabled={busy}
+              >
+                <SelectTrigger>
+                  <SelectValue>{durationLabels[hours]}</SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(durationLabels).map(([value, name]) => (
+                    <SelectItem key={value} value={value}>
+                      {name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </label>
+            <p>
+              {status?.enabled
+                ? `有效至 ${new Date(status.expiresAt!).toLocaleString('zh-CN', { hour12: false })}`
+                : '当前没有有效编辑链接'}
+            </p>
+          </div>
+          <div className="button-row">
+            <Button
+              disabled={busy || !status}
+              onClick={() =>
+                status?.enabled ? setConfirm('rotate') : void update('create')
+              }
+            >
+              <RefreshCw />
+              {status?.enabled ? '重置编辑链接' : '生成编辑链接'}
+            </Button>
+            {status?.enabled && (
+              <Button
+                variant="outline"
+                disabled={busy}
+                onClick={() => setConfirm('revoke')}
+              >
+                <ShieldOff />
+                作废链接
+              </Button>
+            )}
+          </div>
+          {link && (
+            <div className="link-result">
+              <label className="field">
+                <span>仅本次显示，请妥善保存</span>
+                <Input
+                  readOnly
+                  value={link}
+                  autoComplete="off"
+                  spellCheck={false}
+                  onFocus={(e) => e.target.select()}
+                />
+              </label>
+              <Button
+                disabled={busy}
+                onClick={() => void copy(link, '专属编辑链接')}
+              >
+                <Copy />
+                复制编辑链接
+              </Button>
+            </div>
+          )}
+          <p className="muted">
+            到期自动失效。忘记链接可以重置；重置后旧链接及已打开的旧编辑会话均不能继续保存。普通攻略的“分享”按钮只复制只读链接。
+          </p>
+        </section>
+      </div>
       {message && (
         <p className="notice" role="status">
           {message}

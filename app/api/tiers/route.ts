@@ -25,7 +25,7 @@ export async function GET() {
 }
 export async function POST(req: Request) {
   try {
-    const { linkRevision } = await authorize(req);
+    const grant = await authorize(req);
     const input = await body(req);
     if (
       !Number.isSafeInteger(input.expectedRevision) ||
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
       'tiers',
       JSON.stringify(settings),
       input.expectedRevision,
-      linkRevision,
+      grant,
     );
     if (!result.meta.changes)
       throw new ApiError(

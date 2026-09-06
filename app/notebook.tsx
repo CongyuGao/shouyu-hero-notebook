@@ -2,7 +2,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Shield,
-  LockKeyhole,
+  Eye,
+  Link2,
   BookOpen,
   ArrowRight,
   Swords,
@@ -14,16 +15,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/toast';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import {
-  Empty,
-  EmptyHeader,
-  EmptyTitle,
-  EmptyDescription,
-} from '@/components/ui/empty';
 import { heroes, type Access, type GuideRecord } from '@/lib/guide';
 import { GuideView } from '@/components/guide-view';
 import { GuideEditor } from '@/components/guide-editor';
 import { EditLinkPanel } from '@/components/edit-link-panel';
+import { WorkspaceGuides } from '@/components/workspace-guides';
 import { GuidePrimer } from '@/components/guide-primer';
 import { HeroLibrary } from '@/components/hero-library';
 import { heroTemplate, type GuideEditTarget } from '@/lib/hero-template';
@@ -102,6 +98,33 @@ export default function Notebook({
     window.addEventListener('popstate', read);
     return () => window.removeEventListener('popstate', read);
   }, [refresh]);
+  useEffect(() => {
+    if (mode !== 'edit') return;
+    let stopped = false;
+    async function checkAccess() {
+      if (document.visibilityState === 'hidden') return;
+      try {
+        const result = await readResponse<{ active: boolean }>(
+          await apiFetch('/api/edit-session', { cache: 'no-store' }),
+        );
+        if (!stopped && !result.active) {
+          setAccess(anonymous);
+          setError(
+            '编辑权限已失效，当前未保存内容仍保留。请先导出或复制内容，再使用新密码重新验证。',
+          );
+        }
+      } catch {
+        /* A transient network failure must not discard an open draft. */
+      }
+    }
+    const interval = setInterval(() => void checkAccess(), 15000);
+    window.addEventListener('focus', checkAccess);
+    return () => {
+      stopped = true;
+      clearInterval(interval);
+      window.removeEventListener('focus', checkAccess);
+    };
+  }, [mode]);
   function openGuide(id: string) {
     setSelected(id);
     setTab('guides');
@@ -170,6 +193,17 @@ export default function Notebook({
     : undefined;
   const templateRecord =
     pendingHero && !activeGuide ? heroTemplate(selected) : null;
+  const readHref = selected
+    ? `/?hero=${encodeURIComponent(selected)}`
+    : ['guides', 'bugs', 'about'].includes(tab)
+      ? `/?page=${tab}`
+      : '/';
+  function openWorkspace() {
+    setTab('workspace');
+    setSelected('');
+    history.pushState(null, '', `${basePath}?page=workspace`);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
   return (
     <div className="notebook">
       <header className="topbar">
@@ -180,24 +214,31 @@ export default function Notebook({
           <strong>守御手册</strong>
           <span className="brand-sub">无尽守御</span>
         </a>
-        {access.canEdit ? (
-          <Button
-            className="touch"
-            variant="outline"
-            onClick={() => {
-              setTab('workspace');
-              setSelected('');
-            }}
+        <nav className="mode-navigation" aria-label="查看与编辑">
+          <a
+            href={readHref}
+            aria-current={mode === 'read' ? 'page' : undefined}
           >
-            <Pencil />
-            编写攻略
-          </Button>
-        ) : (
-          <span className="reader-mode">
-            <LockKeyhole size={15} />
-            只读攻略
-          </span>
-        )}
+            <Eye size={17} /> 只读查看
+          </a>
+          {access.canEdit ? (
+            <Button className="touch" variant="outline" onClick={openWorkspace}>
+              {access.isAdmin ? <Link2 /> : <Pencil />}
+              {access.isAdmin ? '管理 / 分享' : '编辑工作台'}
+            </Button>
+          ) : (
+            <a
+              className="owner-entry"
+              href={
+                selected
+                  ? `/edit?hero=${encodeURIComponent(selected)}`
+                  : '/edit?page=workspace'
+              }
+            >
+              <Pencil size={17} /> 编辑攻略
+            </a>
+          )}
+        </nav>
       </header>
       <main className="main-wrap">
         <Tabs
@@ -248,9 +289,13 @@ export default function Notebook({
           {mode !== 'read' && (
             <div className="editing-mode-banner">
               <span>
-                {mode === 'manage' ? '所有者工作台' : '专属链接编辑模式'}
+                {mode === 'manage'
+                  ? '所有者工作台'
+                  : access.canEdit
+                    ? '已验证 · 编辑模式'
+                    : '编辑权限已失效'}
               </span>
-              <a href="/">打开普通只读页面</a>
+              <a href={readHref}>切换为只读查看</a>
               {mode === 'edit' && (
                 <Button
                   variant="ghost"
@@ -419,56 +464,46 @@ export default function Notebook({
                     )}
                   </p>
                 </div>
-                <Button className="touch" onClick={() => start()}>
-                  <Plus />
-                  收录英雄
-                </Button>
+                <div className="button-row">
+                  {access.isAdmin && (
+                    <a className="auth-link" href="#sharing-settings">
+                      <Link2 size={17} />
+                      密码与分享设置
+                    </a>
+                  )}
+                  <Button className="touch" onClick={() => openGuide('')}>
+                    <Pencil /> 选择英雄编辑
+                  </Button>
+                  <Button
+                    className="touch"
+                    variant="outline"
+                    onClick={() => start()}
+                  >
+                    <Plus /> 新写攻略
+                  </Button>
+                </div>
               </section>
-              <div className="workspace-list">
-                {records.length ? (
-                  records.map((r) => {
-                    const h = heroes.find((h) => h.id === r.heroId)!;
-                    return (
-                      <article className="workspace-row" key={r.heroId}>
-                        <img
-                          src={h.avatar}
-                          alt=""
-                          width={50}
-                          height={50}
-                          referrerPolicy="no-referrer"
-                        />
-                        <div>
-                          <h2>{r.draft?.title || `${h.name} · 未命名攻略`}</h2>
-                          <p>
-                            {h.name} · {r.published ? '有公开版本' : '仅草稿'} ·
-                            修订 {r.revision}
-                          </p>
-                        </div>
-                        <Button
-                          className="touch"
-                          variant="outline"
-                          onClick={() => start(r)}
-                        >
-                          继续编辑
-                        </Button>
-                      </article>
-                    );
-                  })
-                ) : (
-                  <Empty className="guide-empty">
-                    <EmptyHeader>
-                      <EmptyTitle>还没有保存的攻略</EmptyTitle>
-                      <EmptyDescription>
-                        选择你熟悉的模式英雄，从核心与小天赋开始。
-                      </EmptyDescription>
-                    </EmptyHeader>
-                    <Button className="touch" onClick={() => start()}>
-                      <Plus />
-                      收录第一个英雄
-                    </Button>
-                  </Empty>
-                )}
-              </div>
+              <section
+                className="workspace-mode-control"
+                aria-label="我的查看方式"
+              >
+                <div>
+                  <strong>
+                    <Pencil size={17} /> 当前可编辑
+                  </strong>
+                  <p>
+                    选择英雄后可修改核心、天赋和搭配。只读预览只切换你的查看方式，不改变别人链接的权限。
+                  </p>
+                </div>
+                <a className="auth-link" href="/">
+                  <Eye size={17} /> 只读预览
+                </a>
+              </section>
+              <WorkspaceGuides
+                records={records}
+                onEdit={(record) => start(record)}
+                onNew={() => start()}
+              />
               {access.isAdmin && <EditLinkPanel />}
             </TabsContent>
           )}
@@ -506,9 +541,9 @@ export default function Notebook({
               </article>
               <article className="reference-card">
                 <span className="eyebrow">04 / 协作方式</span>
-                <h2>普通链接阅读，专属链接共建</h2>
+                <h2>公开阅读，验证后共建</h2>
                 <p>
-                  普通链接只能查看攻略。收到有效编辑链接的人无需账号即可修改内容。编辑链接请私下分享；到期或被所有者作废后不能继续编辑。
+                  普通链接只能查看已发布攻略。输入编辑密码或使用有效编辑链接后即可修改内容，无需账号。只有所有者可以修改密码；换密码后旧权限立即失效。
                 </p>
               </article>
             </div>
@@ -543,6 +578,7 @@ export default function Notebook({
           守御手册 <small>/</small> 把实战经验，写成下一局的答案。
         </span>
         <span>
+          <small className="creator-credit">网站创作者 · 漫游的逗号</small>
           非官方 · 以游戏内当前版本为准 ·{' '}
           <a href="/manage?page=workspace">站点管理</a>
         </span>
@@ -561,12 +597,13 @@ export default function Notebook({
           onSaved={refresh}
           onSaveComplete={(action) => {
             setEditor(null);
+            if (action === 'draft') openWorkspace();
             toast.add({
               title: action === 'publish' ? '发布成功' : '保存成功',
               description:
                 action === 'publish'
                   ? '玩家现在可以阅读新攻略。'
-                  : '草稿已更新，公开版本保持不变。',
+                  : '已放入工作台的“待完成攻略”，下次可继续编辑。公开版本保持不变。',
               type: 'success',
             });
           }}

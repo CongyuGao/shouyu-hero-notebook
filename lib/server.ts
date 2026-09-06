@@ -2,6 +2,7 @@ import { getChatGPTUser } from '@/app/chatgpt-auth';
 import { adminEmail, getDb } from '@/db';
 import { cookies, headers } from 'next/headers';
 import { EDIT_COOKIE, verifyEditKey } from './edit-link';
+import { verifyPasswordSession } from './edit-password';
 import type { Access, GuideRecord, Guide } from './guide';
 export class ApiError extends Error {
   constructor(
@@ -22,11 +23,26 @@ export async function identity() {
     },
     email: '',
     linkRevision: null as number | null,
+    passwordSessionHash: null as string | null,
   };
   // A normal reading URL must remain public-only, even in an editor's browser.
   if (mode !== 'manage' && mode !== 'edit') return anonymous;
   if (mode === 'edit') {
-    const link = await verifyEditKey((await cookies()).get(EDIT_COOKIE)?.value);
+    const key = (await cookies()).get(EDIT_COOKIE)?.value;
+    const session = await verifyPasswordSession(key);
+    if (session)
+      return {
+        access: {
+          signedIn: true,
+          canEdit: true,
+          isAdmin: false,
+          displayName: '密码编辑者',
+        },
+        email: `密码编辑 #${session.revision}`,
+        linkRevision: null as number | null,
+        passwordSessionHash: session.tokenHash as string | null,
+      };
+    const link = await verifyEditKey(key);
     return link
       ? {
           access: {
@@ -37,6 +53,7 @@ export async function identity() {
           },
           email: `共享编辑链接 #${link.revision}`,
           linkRevision: link.revision as number | null,
+          passwordSessionHash: null as string | null,
         }
       : anonymous;
   }
@@ -49,7 +66,12 @@ export async function identity() {
     isAdmin,
     displayName: user?.displayName || '',
   };
-  return { access, email, linkRevision: null as number | null };
+  return {
+    access,
+    email,
+    linkRevision: null as number | null,
+    passwordSessionHash: null as string | null,
+  };
 }
 export function assertSameOrigin(req: Request) {
   const origin = req.headers.get('origin');
@@ -73,24 +95,35 @@ export async function authorize(req: Request, admin = false) {
   if (!i.access.signedIn)
     throw new ApiError(
       401,
-      '编辑链接未启用、已过期或已作废。请保留未保存内容，再获取新的编辑链接。',
+      '编辑权限已失效。请先保留未保存内容，再使用新密码或有效编辑链接重新验证。',
     );
   if (!i.access.canEdit || (admin && !i.access.isAdmin))
     throw new ApiError(
       403,
-      admin ? '仅站点所有者可以管理编辑链接' : '请使用有效的专属编辑链接',
+      admin
+        ? '只有站点所有者可以修改密码和分享权限'
+        : '请先验证编辑密码或使用有效编辑链接',
     );
   return i;
 }
 // Re-check the capability inside each actual write, so expiry/revocation wins
 // even when it happens after the request's initial authorization check.
-export const EDIT_WRITE_GUARD =
-  "(? IS NULL OR EXISTS (SELECT 1 FROM edit_links WHERE id='main' AND token_hash IS NOT NULL AND revision=? AND expires_at > strftime('%Y-%m-%dT%H:%M:%fZ','now')))";
+export const EDIT_WRITE_GUARD = `(?=1
+    OR EXISTS (SELECT 1 FROM edit_links WHERE id='main' AND token_hash IS NOT NULL AND revision=? AND expires_at > strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+    OR EXISTS (SELECT 1 FROM edit_sessions s JOIN edit_password p ON p.id='main' WHERE s.token_hash=? AND s.password_revision=p.revision AND p.password_hash IS NOT NULL AND s.expires_at > strftime('%Y-%m-%dT%H:%M:%fZ','now')))`;
+type WriteGrant = Awaited<ReturnType<typeof authorize>>;
+export function editWriteBindings(grant: WriteGrant) {
+  return [
+    grant.access.isAdmin ? 1 : 0,
+    grant.linkRevision,
+    grant.passwordSessionHash,
+  ];
+}
 export async function writeLibrary(
   kind: string,
   serialized: string,
   revision: number,
-  linkRevision: number | null,
+  grant: WriteGrant,
 ) {
   const now = new Date().toISOString();
   return revision === 0
@@ -98,13 +131,13 @@ export async function writeLibrary(
         .prepare(
           `INSERT OR IGNORE INTO libraries (kind,items_json,revision,updated_at) SELECT ?,?,1,? WHERE ${EDIT_WRITE_GUARD}`,
         )
-        .bind(kind, serialized, now, linkRevision, linkRevision)
+        .bind(kind, serialized, now, ...editWriteBindings(grant))
         .run()
     : getDb()
         .prepare(
           `UPDATE libraries SET items_json=?,revision=revision+1,updated_at=? WHERE kind=? AND revision=? AND ${EDIT_WRITE_GUARD}`,
         )
-        .bind(serialized, now, kind, revision, linkRevision, linkRevision)
+        .bind(serialized, now, kind, revision, ...editWriteBindings(grant))
         .run();
 }
 type Row = {
@@ -124,7 +157,15 @@ export function toRecord(r: Row, editor: boolean): GuideRecord {
     published: r.published_json
       ? (JSON.parse(r.published_json) as Guide)
       : null,
-    ...(editor ? { draft: JSON.parse(r.draft_json) as Guide } : {}),
+    ...(editor
+      ? {
+          draft: JSON.parse(r.draft_json) as Guide,
+          pendingDraft:
+            !r.published_json ||
+            r.draft_json !== r.published_json ||
+            r.updated_at > (r.published_at || ''),
+        }
+      : {}),
   };
 }
 export async function listGuides(editor: boolean) {

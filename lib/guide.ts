@@ -81,6 +81,7 @@ export type GuideRecord = {
   publishedAt: string | null;
   published: Guide | null;
   draft?: Guide;
+  pendingDraft?: boolean;
 };
 export type Access = {
   signedIn: boolean;
