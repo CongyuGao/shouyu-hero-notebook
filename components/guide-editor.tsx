@@ -52,6 +52,10 @@ import {
   heroes,
   validateGuide,
   selectedTalents,
+  heroTalentPreset,
+  heroSkills,
+  fillBlankHeroReference,
+  selectNewGuideHero,
   type Guide,
   type GuideRecord,
   type Build,
@@ -442,23 +446,7 @@ export function GuideEditor({
                         itemToStringLabel={(h) => h.name}
                         onValueChange={(h) => {
                           if (h) {
-                            const preset = blankGuide(h.id);
-                            patch({
-                              heroId: h.id,
-                              title: doc.title || `${h.name} · 天赋流派攻略`,
-                              source: doc.source || preset.source,
-                              talents: doc.talents.map((t) =>
-                                !t.name && !t.description
-                                  ? preset.talents.find((p) => p.id === t.id) ||
-                                    t
-                                  : t,
-                              ),
-                              cores: doc.cores.map((c) =>
-                                !c.name && !c.description
-                                  ? preset.cores.find((p) => p.id === c.id) || c
-                                  : c,
-                              ),
-                            });
+                            setDoc((value) => selectNewGuideHero(value, h.id));
                           }
                         }}
                       >
@@ -546,7 +534,7 @@ export function GuideEditor({
                             patch({ cores: blankGuide(doc.heroId).cores })
                           }
                         >
-                          创建6个核心栏位
+                          创建{heroSkills(doc.heroId).length * 2}个核心栏位
                         </Button>
                       )}
                       <p className="muted">
@@ -719,6 +707,22 @@ export function GuideEditor({
                       <p className="build-independence-note">
                         每个流派单独保存名字、特点、备注与全部选择。新增流派从空配置开始，不会改变已有流派。
                       </p>
+                      {heroTalentPreset(doc.heroId) && (
+                        <Button
+                          variant="outline"
+                          className="touch"
+                          disabled={busy}
+                          onClick={() => {
+                            setDoc((value) => fillBlankHeroReference(value));
+                            setMessage(
+                              '已补齐可匹配的空白天赋与核心；已有文字和全部加点选择保持不变。保存或发布后生效。',
+                            );
+                          }}
+                        >
+                          <Plus size={16} />
+                          补齐空白天赋资料
+                        </Button>
+                      )}
                       <Tabs
                         value={current.id}
                         onValueChange={(v) => setBuildId(String(v))}
@@ -732,14 +736,14 @@ export function GuideEditor({
                         </TabsList>
                       </Tabs>
                       <Field
-                        label="流派名称"
+                        label="流派名称（选填）"
                         value={current.name}
                         onChange={(v) => patchBuild({ name: v })}
                         placeholder="例如：飞雷神斩杀流 / 无限斩杀流"
                         max={70}
                       />
                       <Field
-                        label="流派特点简介"
+                        label="流派特点简介（选填）"
                         value={current.summary}
                         onChange={(v) => patchBuild({ summary: v })}
                         multiline
@@ -903,7 +907,7 @@ export function GuideEditor({
                         </span>
                       </label>
                       <p className="muted">
-                        未勾选时，读者会看到“待核验”。发布前请填写流派思路并选择至少一个天赋，无需填写推荐等级。
+                        未勾选时，读者会看到“待核验”。发布前选择至少一个小天赋即可；流派名称、思路和打法均可留空，无需填写推荐等级。
                       </p>
                     </section>
                     <section className="form-section">

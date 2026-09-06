@@ -12,11 +12,17 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { heroes, type Guide, type GuideRecord } from '@/lib/guide';
+import {
+  heroes,
+  heroTalentPreset,
+  type Guide,
+  type GuideRecord,
+} from '@/lib/guide';
 import { SkillBoard } from './skill-board';
 import { LoadoutPicker } from './loadout-picker';
 import { TierGuide } from './tier-guide';
 import { GuideUpdated } from './guide-updated';
+import { GuideExportDialog } from './guide-export-dialog';
 import type { GuideEditTarget } from '@/lib/hero-template';
 export function GuideView({
   guide,
@@ -86,6 +92,17 @@ export function GuideView({
           全部英雄
         </Button>
         <div className="button-row">
+          {!template && record.published && record.publishedAt && (
+            <GuideExportDialog
+              key={`${guide.heroId}-${buildId}-${record.publishedAt}`}
+              record={record}
+              buildId={
+                guide.builds.some((b) => b.id === buildId)
+                  ? buildId
+                  : guide.builds[0].id
+              }
+            />
+          )}
           <Button variant="outline" className="touch" onClick={copy}>
             <Link2 />
             分享
@@ -145,7 +162,7 @@ export function GuideView({
             </strong>
             <p>
               {hasReference
-                ? `已有 ${coreCount} 个核心、${talentCount} 个小天赋的名称与效果。缺失栏位保留待补；流派、天赋选择、雕文与铭文由编辑者自行搭配。`
+                ? `已有 ${coreCount} 个核心、${talentCount} 个小天赋的名称与效果。${heroTalentPreset(guide.heroId)?.referenceSelection ? '当前勾选为参考配置，可自由调整；' : ''}流派名称、雕文与铭文由编辑者自行填写和搭配。`
                 : '核心、小天赋、雕文、铭文与流派备注均可逐项补充。空白栏位不是已确认的技能效果，填写并发布后才会成为公开攻略。'}
             </p>
           </div>
@@ -197,24 +214,22 @@ export function GuideView({
             )}
           </div>
           <TabsList className="build-tabs">
-            {guide.builds.map((b) => (
+            {guide.builds.map((b, i) => (
               <TabsTrigger key={b.id} value={b.id}>
-                {b.name || '流派 1 · 待填写'}
+                {b.name || `流派 ${i + 1}`}
               </TabsTrigger>
             ))}
           </TabsList>
         </div>
-        {guide.builds.map((b) => (
+        {guide.builds.map((b, i) => (
           <TabsContent key={b.id} value={b.id}>
             <section className="build-summary">
               <span className="summary-icon">
                 <Target />
               </span>
               <div>
-                <h2>{b.name || '流派思路'}</h2>
-                <p className="preserve">
-                  {b.summary || '填写流派名称、玩法特点、适用场景和大致思路。'}
-                </p>
+                <h2>{b.name || `流派 ${i + 1}`}</h2>
+                {b.summary && <p className="preserve">{b.summary}</p>}
               </div>
             </section>
             {b.order && (

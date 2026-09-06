@@ -5302,3 +5302,228 @@ textarea::placeholder {
   margin: 0.75rem 0 0;
   font-size: 0.875rem;
 }
+
+/* A dedicated reading/export surface, separate from the editable skill board. */
+.guide-image-export-button[data-slot='button'] {
+  border-color: #c5a46b80;
+  color: #f3d39a;
+  background: linear-gradient(130deg, #3c342950, #14253c);
+}
+.catalog-pick {
+  position: relative;
+  padding-top: 46px;
+  cursor: default;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+.catalog-pick.is-selected {
+  border: 2px solid var(--rune-color, #f2ce86);
+  background: linear-gradient(130deg, #294762, #132a43);
+  box-shadow:
+    inset 4px 0 var(--rune-color, #f2ce86),
+    0 0 18px #82b5db15;
+}
+.catalog-pick [data-slot='checkbox'] {
+  width: 32px;
+  height: 32px;
+  margin-top: 0;
+  cursor: pointer;
+}
+.catalog-pick.is-selected [data-slot='checkbox'] {
+  background: var(--rune-color, #f2ce86);
+  border-color: var(--rune-color, #f2ce86);
+  color: #0b1b2f;
+  box-shadow: 0 0 0 4px #b8d6f21a;
+}
+.catalog-pick > .catalog-selection-mark {
+  position: absolute;
+  top: 11px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 5px;
+  color: #a3b5cd;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.catalog-pick > .catalog-selection-mark.checked {
+  color: #0c1d32;
+  font-weight: 750;
+  background: var(--rune-color, #f2ce86);
+  animation: catalog-selection-confirm 180ms ease-out;
+}
+.remove-all-runes[data-slot='button'] {
+  color: #d2def0;
+}
+@keyframes catalog-selection-confirm {
+  from {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .catalog-pick {
+    transition: none;
+  }
+  .catalog-pick > .catalog-selection-mark.checked {
+    animation: none;
+  }
+}
+.guide-image-export-dialog[data-slot='dialog-content'] {
+  width: min(54rem, calc(100vw - 1.5rem));
+  max-width: 54rem;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid #b4cbe342;
+  border-radius: 1.25rem;
+  background: #0e1d31;
+  color: #e9f1fc;
+  box-shadow: 0 1.5rem 6rem #0008;
+}
+.guide-image-export-dialog [data-slot='dialog-header'] {
+  padding-right: 1.75rem;
+}
+.guide-image-export-dialog [data-slot='dialog-title'] {
+  color: #f2d59e;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.guide-image-export-dialog [data-slot='dialog-description'] {
+  color: #afc2da;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.guide-export-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.guide-export-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.guide-export-option [data-slot='checkbox'] {
+  margin-top: 0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.guide-export-option small {
+  display: block;
+  margin-top: 0.25rem;
+  max-width: 30rem;
+  color: #a9bdd6;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+.guide-export-status,
+.guide-export-help {
+  color: #b9cbe0;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.guide-export-error {
+  color: #ffc3ad;
+}
+.guide-export-empty {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding: 3.25rem 1rem;
+  border: 1px dashed #506786;
+  border-radius: 1rem;
+  text-align: center;
+  background: radial-gradient(ellipse at top, #28435b60, transparent 75%);
+}
+.guide-export-empty svg {
+  color: #dfbf86;
+}
+.guide-export-empty strong {
+  color: #eaf2ff;
+  font-size: 1.125rem;
+}
+.guide-export-empty p {
+  color: #adc2db;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.guide-export-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  font-size: 1rem;
+}
+.guide-export-pagination small {
+  display: block;
+  margin-top: 0.125rem;
+  color: #9db3d0;
+  font-size: 0.875rem;
+}
+.guide-export-pagination strong {
+  color: #f3d49a;
+}
+.guide-export-preview {
+  width: min(100%, 34rem);
+  margin: 0 auto;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 2rem #0005;
+  background: #081528;
+}
+.guide-export-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: auto;
+  -webkit-touch-callout: default;
+}
+.guide-export-save {
+  display: flex;
+  position: sticky;
+  top: -1.5rem;
+  z-index: 2;
+  padding: 0.75rem 0;
+  background: #0e1d31;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.guide-export-save [data-slot='button'] {
+  min-width: 10rem;
+}
+@media (max-width: 600px) {
+  .guide-image-export-dialog[data-slot='dialog-content'] {
+    padding: 1rem;
+  }
+  .reader-actions {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .reader-actions .button-row {
+    flex-wrap: wrap;
+  }
+  .guide-export-controls > [data-slot='button'] {
+    width: 100%;
+  }
+  .guide-export-save [data-slot='button'] {
+    flex: 1 1 9rem;
+  }
+}

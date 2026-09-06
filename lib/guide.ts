@@ -5,6 +5,12 @@ import { heroTiers } from './tiers';
 export const heroes = official.heroes;
 export type Hero = (typeof heroes)[number];
 export const MAX_SELECTED_TALENTS_PER_SKILL = 6;
+export const skillLabels = ['未分组', '一技能', '二技能', '三技能', '四技能'];
+export function heroSkills(heroId: string): number[] {
+  return heroes.find((hero) => hero.id === heroId)?.name === '女娲'
+    ? [1, 2, 3, 4]
+    : [1, 2, 3];
+}
 export const priorities = {
   core: '核心必选',
   recommended: '优先推荐',
@@ -34,6 +40,11 @@ type HeroTalentPreset = {
   source: string;
   talents: Talent[];
   cores: CoreTalent[];
+  referenceSelection?: {
+    coreIds: string[];
+    talentIds: string[];
+    source: string;
+  };
 };
 const heroTalentPresets = heroTalentData as HeroTalentPreset[];
 export function heroTalentPreset(heroId: string) {
@@ -117,7 +128,7 @@ export function blankGuide(heroId = ''): Guide {
     author: '',
     source: preset?.source || '',
     verified: false,
-    talents: Array.from({ length: 24 }, (_, i) => ({
+    talents: Array.from({ length: heroSkills(heroId).length * 8 }, (_, i) => ({
       id: `t${String(i + 1).padStart(2, '0')}`,
       name: '',
       description: '',
@@ -126,10 +137,20 @@ export function blankGuide(heroId = ''): Guide {
         (t) => t.id === `t${String(i + 1).padStart(2, '0')}`,
       ),
     })),
-    builds: [blankBuild()],
+    builds: [
+      {
+        ...blankBuild(),
+        ...(preset?.referenceSelection
+          ? {
+              coreIds: [...preset.referenceSelection.coreIds],
+              talentIds: [...preset.referenceSelection.talentIds],
+            }
+          : {}),
+      },
+    ],
     glyphs: [],
     runeLibrary: [],
-    cores: Array.from({ length: 6 }, (_, i) => ({
+    cores: Array.from({ length: heroSkills(heroId).length * 2 }, (_, i) => ({
       id: `c${i + 1}`,
       skill: Math.floor(i / 2) + 1,
       name: '',
@@ -137,6 +158,104 @@ export function blankGuide(heroId = ''): Guide {
       ...preset?.cores.find((c) => c.id === `c${i + 1}`),
     })),
   };
+}
+// First hero selection in the generic editor must also create any extra skill
+// slots, without replacing text already entered before choosing the hero.
+export function selectNewGuideHero(guide: Guide, heroId: string): Guide {
+  if (guide.heroId) return structuredClone(guide);
+  const preset = blankGuide(heroId);
+  const result = structuredClone(guide);
+  const pristine = [...guide.talents, ...guide.cores].every(
+    (item) => !item.name && !item.description,
+  );
+  function merge<T extends Talent>(current: T[], reference: T[]): T[] {
+    return [
+      ...reference.map((ref) => {
+        const item = current.find((entry) => entry.id === ref.id);
+        return structuredClone(
+          item && (item.name || item.description) ? item : ref,
+        );
+      }),
+      ...current.filter((item) => !reference.some((ref) => ref.id === item.id)),
+    ];
+  }
+  result.heroId = heroId;
+  result.verified = false;
+  result.title ||= `${heroes.find((hero) => hero.id === heroId)?.name || ''} · 天赋流派攻略`;
+  result.source ||= preset.source;
+  result.talents = merge(result.talents, preset.talents);
+  result.cores = merge(result.cores, preset.cores);
+  const first = result.builds[0];
+  if (
+    pristine &&
+    first &&
+    !first.coreIds.length &&
+    !selectedTalents(first).length
+  ) {
+    first.coreIds = [...preset.builds[0].coreIds];
+    first.talentIds = [...preset.builds[0].talentIds];
+  }
+  return result;
+}
+// Explicit editor action: add reference text only where safe; never replace
+// authored text, selections, build names, loadouts, ratings, or publishing dates.
+export function fillBlankHeroReference(guide: Guide): Guide {
+  const preset = heroTalentPreset(guide.heroId);
+  const result = structuredClone(guide);
+  if (!preset) return result;
+  let changed = false;
+  function fill<T extends Talent>(
+    current: T[],
+    reference: T[],
+    isCore = false,
+  ) {
+    for (const ref of reference) {
+      const item = current.find((entry) => entry.id === ref.id);
+      // A renamed/moved entry can already use this reference name. Do not
+      // create a duplicate or make an otherwise valid draft impossible to save.
+      if (
+        current.some(
+          (entry) =>
+            entry.id !== ref.id &&
+            entry.skill === ref.skill &&
+            entry.name.trim() === ref.name.trim(),
+        )
+      )
+        continue;
+      if (!item) {
+        if (
+          isCore &&
+          (current.length >= 12 ||
+            current.filter((entry) => entry.skill === ref.skill).length >= 2)
+        )
+          continue;
+        current.push(structuredClone(ref));
+        changed = true;
+        continue;
+      }
+      if (item.skill !== ref.skill) continue;
+      if (
+        (!item.name && !item.description) ||
+        (!item.name && item.description === ref.description)
+      ) {
+        Object.assign(item, {
+          name: ref.name,
+          description: ref.description,
+          skill: ref.skill,
+          source: item.source || ref.source,
+        });
+        changed = true;
+      } else if (item.name === ref.name && !item.description) {
+        item.description = ref.description;
+        item.source ||= ref.source;
+        changed = true;
+      }
+    }
+  }
+  fill(result.talents, preset.talents);
+  fill(result.cores, preset.cores, true);
+  if (changed) result.verified = false;
+  return result;
 }
 function value(v: unknown, max: number, label: string): string {
   if (typeof v !== 'string' || v.length > max)
@@ -166,7 +285,9 @@ export function validateGuide(input: unknown, publish = false): Guide {
       id: String(t.id),
       name: value(t.name, 60, '天赋名称'),
       description: value(t.description, 1600, '天赋效果'),
-      skill: [1, 2, 3].includes(Number(t.skill)) ? Number(t.skill) : undefined,
+      skill: heroSkills(heroId).includes(Number(t.skill))
+        ? Number(t.skill)
+        : undefined,
       source: value(t.source || '', 400, '天赋来源'),
     };
   });
@@ -225,14 +346,14 @@ export function validateGuide(input: unknown, publish = false): Guide {
     };
     if (build.talentIds.some((id) => !talents.some((t) => t.id === id)))
       throw new Error('选择的天赋不存在');
-    for (const skill of [0, 1, 2, 3]) {
+    for (const skill of [0, ...heroSkills(heroId)]) {
       if (
         talents.filter(
           (t) => (t.skill || 0) === skill && build.talentIds.includes(t.id),
         ).length > MAX_SELECTED_TALENTS_PER_SKILL
       )
         throw new Error(
-          `${['未分组', '一技能', '二技能', '三技能'][skill]}最多选择6个小天赋，请先取消该技能的一个已选天赋。各技能分别计算。`,
+          `${skillLabels[skill]}最多选择6个小天赋，请先取消该技能的一个已选天赋。各技能分别计算。`,
         );
     }
     if (
@@ -244,8 +365,10 @@ export function validateGuide(input: unknown, publish = false): Guide {
     )
       throw new Error('已选天赋需要名称与效果');
     if (!build.id) throw new Error('流派编号不能为空');
-    if (publish && (!build.name || !build.summary || !build.talentIds.length))
-      throw new Error('发布前每个流派需填写名称、思路，并选择至少一个天赋');
+    if (publish && !build.talentIds.length)
+      throw new Error(
+        '发布前每个流派需选择至少一个小天赋；流派名称与思路可留空',
+      );
     return build;
   });
   if (new Set(builds.map((b) => b.id)).size !== builds.length)
@@ -277,7 +400,7 @@ export function validateGuide(input: unknown, publish = false): Guide {
     throw new Error('流派核心数量不正确');
   const cores = rawCores.map((v) => {
     const c = obj(v);
-    if (![1, 2, 3].includes(Number(c.skill)))
+    if (!heroSkills(heroId).includes(Number(c.skill)))
       throw new Error('核心所属技能不正确');
     return {
       id: value(c.id, 80, '核心编号'),
@@ -358,15 +481,15 @@ export function validateGuide(input: unknown, publish = false): Guide {
     guide.verified &&
     (names.length !== talents.length ||
       talents.some((t) => !t.description) ||
-      cores.length !== 6 ||
-      [1, 2, 3].some(
+      cores.length !== heroSkills(heroId).length * 2 ||
+      heroSkills(heroId).some(
         (skill) => cores.filter((c) => c.skill === skill).length !== 2,
       ) ||
       cores.some((c) => !c.name || !c.description) ||
       !guide.source)
   )
     throw new Error(
-      '标记已核验需补齐6个核心（每技能2个）、全部天赋名称与效果，并填写核验来源',
+      '标记已核验需补齐每技能2个核心、全部天赋名称与效果，并填写核验来源',
     );
   return guide;
 }

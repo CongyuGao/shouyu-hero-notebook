@@ -60,6 +60,12 @@ export function LoadoutPicker({
   const [publicLibrary, setPublicLibrary] = useState<Libraries>(),
     [libraryError, setLibraryError] = useState('');
   const [libraryLoading, setLibraryLoading] = useState(false);
+  const [selectionNotice, setSelectionNotice] = useState<{
+    buildId: string;
+    text: string;
+  } | null>(null);
+  const selectionMessage =
+    selectionNotice?.buildId === build.id ? selectionNotice.text : '';
   const catalog = libraries || publicLibrary;
   async function openChooser(kind: CatalogKind) {
     setQuery('');
@@ -110,6 +116,7 @@ export function LoadoutPicker({
       .reduce((n, id) => n + runeCount(id), 0);
   function pick(kind: CatalogKind, item: CatalogItem, checked: boolean) {
     if (disabled) return;
+    setSelectionNotice(null);
     const ids = chosen(kind).filter((id) => id !== item.id);
     if (checked && ids.length >= (kind === 'glyphs' ? 6 : 30)) return;
     if (kind === 'runes' && checked && colorCount(item.color) >= 10) return;
@@ -131,6 +138,14 @@ export function LoadoutPicker({
             ),
           },
     );
+  }
+  function removeAllRunes() {
+    if (!editable || disabled) return;
+    onBuildChange?.({ runeIds: [], runeCounts: {} });
+    setSelectionNotice({
+      buildId: build.id,
+      text: '已卸下本流派的全部铭文，保存或发布攻略后生效。',
+    });
   }
   function sync() {
     if (disabled) return;
@@ -260,7 +275,23 @@ export function LoadoutPicker({
           <Plus size={16} />
           {editable || onEditKind ? '从铭文库选择' : '查看铭文库'}
         </Button>
+        {editable && (
+          <Button
+            variant="outline"
+            className="touch remove-all-runes"
+            disabled={disabled || !chosen('runes').length}
+            onClick={removeAllRunes}
+          >
+            <RefreshCw size={16} />
+            一键卸下全部铭文
+          </Button>
+        )}
       </div>
+      {selectionMessage && (
+        <output className="notice" aria-live="polite">
+          {selectionMessage}
+        </output>
+      )}
       <div className="rune-color-counters" aria-label="各色铭文数量">
         {runeColors.map((color) => (
           <div key={color} className={`rune-color-counter rune-color-${color}`}>
@@ -327,6 +358,7 @@ export function LoadoutPicker({
                   <p className="preserve">{r!.effect}</p>
                   {editable && (
                     <Select
+                      disabled={disabled}
                       value={String(runeCount(r!.id))}
                       onValueChange={(v) =>
                         onBuildChange?.({
@@ -404,8 +436,9 @@ export function LoadoutPicker({
                 <DialogTitle>
                   {open === 'glyphs' ? '雕文库' : '通用五级铭文库'}{' '}
                   <span className="catalog-count">
-                    {chosen(open).length}
-                    {open === 'glyphs' ? ' / 6' : ''}
+                    {open === 'glyphs'
+                      ? `已选 ${chosen(open).length} / 6`
+                      : `已选 ${chosen(open).length} 种 · 库内共 ${items(open).length} 种`}
                   </span>
                 </DialogTitle>
                 <DialogDescription>
@@ -512,6 +545,22 @@ export function LoadoutPicker({
                         key={item.id}
                         className={`catalog-pick ${open === 'runes' ? `rune-color-${item.color}` : ''} ${checked ? 'is-selected' : ''}`}
                       >
+                        <span
+                          className={`catalog-selection-mark ${checked ? 'checked' : ''}`}
+                          aria-hidden="true"
+                        >
+                          {checked ? (
+                            <>
+                              <Check size={14} />
+                              已选
+                              {open === 'runes'
+                                ? ` × ${runeCount(item.id)}`
+                                : ''}
+                            </>
+                          ) : (
+                            '未选'
+                          )}
+                        </span>
                         <Checkbox
                           aria-label={`选择${item.name}`}
                           checked={checked}
@@ -586,7 +635,23 @@ export function LoadoutPicker({
                   </div>
                 )}
               </div>
+              {selectionMessage && open === 'runes' && (
+                <output className="notice" aria-live="polite">
+                  {selectionMessage}
+                </output>
+              )}
               <div className="button-row catalog-dialog-bottom">
+                {editable && open === 'runes' && (
+                  <Button
+                    variant="outline"
+                    className="touch remove-all-runes"
+                    disabled={disabled || !chosen('runes').length}
+                    onClick={removeAllRunes}
+                  >
+                    <RefreshCw size={16} />
+                    一键卸下全部铭文
+                  </Button>
+                )}
                 {editable && (
                   <Button
                     variant="outline"

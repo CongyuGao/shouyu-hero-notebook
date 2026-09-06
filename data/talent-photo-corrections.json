@@ -1,0 +1,530 @@
+[
+  {
+    "file": "IMG_1512.PNG",
+    "kind": "core",
+    "position": 1,
+    "description": "释放方式变更：锁定附近范围内单体敌人降下法阵（拖动释放）；冷却大幅缩减"
+  },
+  {
+    "file": "IMG_1512.PNG",
+    "kind": "talent",
+    "position": 2,
+    "description": "命中敌人后的1.5秒，对目标额外降下法阵"
+  },
+  {
+    "file": "IMG_1513.PNG",
+    "kind": "talent",
+    "position": 2,
+    "description": "一技能释放后，向当前方向释放2个小光刃"
+  },
+  {
+    "file": "IMG_1513.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "未附魔也能触发回复效果，且回复+50%"
+  },
+  {
+    "file": "IMG_1514.PNG",
+    "kind": "talent",
+    "position": 8,
+    "description": "释放二技能后，获得高额韧性，持续3秒"
+  },
+  {
+    "file": "IMG_1515.PNG",
+    "kind": "core",
+    "position": 1,
+    "description": "领域只进不出，并将所有敌方向中心吸引，对领域内的所有敌人造成边缘触发效果"
+  },
+  {
+    "file": "IMG_1518.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "大招期间，基于移动距离，等比增加护盾"
+  },
+  {
+    "file": "IMG_1519.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "受控时，自动释放一技能（冷却15秒）"
+  },
+  {
+    "file": "IMG_1521.PNG",
+    "kind": "talent",
+    "position": 2,
+    "description": "引爆印记时造成范围伤害（可连续触发）"
+  },
+  {
+    "file": "IMG_1521.PNG",
+    "kind": "talent",
+    "position": 8,
+    "name": "三昧真火"
+  },
+  {
+    "file": "IMG_1522.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "技能期间抵抗一次控制，成功后获得护盾"
+  },
+  {
+    "file": "IMG_1523.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "施法后，朝附近最多3个敌人发射5颗子弹"
+  },
+  { "file": "IMG_1524.PNG", "kind": "core", "position": 1, "name": "Duet!" },
+  {
+    "file": "IMG_1524.PNG",
+    "kind": "core",
+    "position": 2,
+    "name": "Show Time!"
+  },
+  {
+    "file": "IMG_1524.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "施法1秒后，进入狂暴模式，射出额外子弹"
+  },
+  {
+    "file": "IMG_1551.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "施法范围提升至360度，并且生成真实护盾"
+  },
+  {
+    "file": "IMG_1552.PNG",
+    "kind": "talent",
+    "position": 1,
+    "description": "对最后击飞的敌人，额外打击1次"
+  },
+  {
+    "file": "IMG_1552.PNG",
+    "kind": "talent",
+    "position": 6,
+    "description": "引魄到达终点后，分裂2个子弹攻击敌人"
+  },
+  {
+    "file": "IMG_1552.PNG",
+    "kind": "talent",
+    "position": 8,
+    "description": "若未检测到目标，将额外检测30秒（该状态下可检测非英雄目标）"
+  },
+  {
+    "file": "IMG_1553.PNG",
+    "kind": "talent",
+    "position": 2,
+    "description": "打击数量提升（3→4）"
+  },
+  {
+    "file": "IMG_1555.PNG",
+    "kind": "talent",
+    "position": 5,
+    "description": "刀刃收回后，获得的移速和攻速效果翻倍"
+  },
+  {
+    "file": "IMG_1555.PNG",
+    "kind": "talent",
+    "position": 6,
+    "description": "刀刃每造成一次伤害，自身回复最大生命值"
+  },
+  {
+    "file": "IMG_1556.PNG",
+    "kind": "core",
+    "position": 1,
+    "description": "短暂蓄力后发起冲锋，对目标造成击退效果"
+  },
+  {
+    "file": "IMG_1560.PNG",
+    "kind": "talent",
+    "position": 1,
+    "description": "使用该技能后进入乱舞状态，持续攻击周围敌人"
+  },
+  {
+    "file": "IMG_1565.PNG",
+    "kind": "talent",
+    "position": 6,
+    "description": "对红莲爆弹命中的目标追加一颗跟踪导弹"
+  },
+  {
+    "file": "IMG_1566.PNG",
+    "kind": "core",
+    "position": 1,
+    "description": "发射一个火箭，自己会跟着火箭一起飞行。飞行时获得霸体。飞行时会持续投弹。"
+  },
+  { "file": "IMG_1570.PNG", "kind": "core", "position": 1, "name": "霁月衔香" },
+  { "file": "IMG_1572.PNG", "kind": "core", "position": 2, "name": "羽裳千旋" },
+  { "file": "IMG_1572.PNG", "kind": "talent", "position": 1, "name": "素尘" },
+  {
+    "file": "IMG_1525.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "击杀野怪或敌方英雄时，一技能立即刷新"
+  },
+  {
+    "file": "IMG_1526.PNG",
+    "kind": "talent",
+    "position": 6,
+    "description": "敌人被二技能命中时，嫦娥将协助后羿攻击"
+  },
+  {
+    "file": "IMG_1527.PNG",
+    "kind": "talent",
+    "position": 5,
+    "description": "发出更大的火焰箭，大招伤害增幅50%"
+  },
+  {
+    "file": "IMG_1528.PNG",
+    "kind": "talent",
+    "position": 8,
+    "description": "施法时，额外飞出3个能量体攻击附近敌人"
+  },
+  {
+    "file": "IMG_1529.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "融合能量体，每个能量体使伤害、半径、控制效果增强，下落延迟时间也会增加"
+  },
+  {
+    "file": "IMG_1532.PNG",
+    "kind": "talent",
+    "position": 5,
+    "description": "清平效果对队友生效时，额外回复自身生命"
+  },
+  {
+    "file": "IMG_1533.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "大招范围缩小，但大幅提升伤害和回复效果"
+  },
+  {
+    "file": "IMG_1574.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "在位移终点创造一个被动法球炮台自动攻击附近敌人，且位移结束获得3秒加速"
+  },
+  { "file": "IMG_1580.PNG", "kind": "talent", "position": 8, "name": "金石剑" },
+  {
+    "file": "IMG_1582.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "一段：快速斩出多段刃风\n二段：连续快速下砸，最后一段造成击飞"
+  },
+  { "file": "IMG_1584.PNG", "kind": "talent", "position": 7, "name": "延势诀" },
+  {
+    "file": "IMG_1588.PNG",
+    "kind": "talent",
+    "position": 1,
+    "description": "每命中一个敌人会增加双抗持续6秒，可叠加16层"
+  },
+  {
+    "file": "IMG_1588.PNG",
+    "kind": "talent",
+    "position": 7,
+    "name": "铜墙铁壁"
+  },
+  {
+    "file": "IMG_1535.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "减少双抗的效果翻倍，且自身双抗+100点"
+  },
+  {
+    "file": "IMG_1535.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "连接后，自身获得高额韧性，断开则移除"
+  },
+  {
+    "file": "IMG_1536.PNG",
+    "kind": "core",
+    "position": 1,
+    "description": "完整大招命中汲取3个血球（非完整1个）血球提供永久属性（选取前也持续记录）"
+  },
+  {
+    "file": "IMG_1536.PNG",
+    "kind": "talent",
+    "position": 2,
+    "description": "完整效果的大招命中时，减少大招4秒冷却"
+  },
+  {
+    "file": "IMG_1537.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "使用一技能后，1秒内可以一直打出强普"
+  },
+  {
+    "file": "IMG_1538.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "牵引效果增强，并电击爆炸范围内的目标"
+  },
+  {
+    "file": "IMG_1539.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "变身状态下获得35%全能吸血和50%韧性"
+  },
+  {
+    "file": "IMG_1542.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "释放大招后，附加真伤效果持续时间+3秒"
+  },
+  {
+    "file": "IMG_1542.PNG",
+    "kind": "talent",
+    "position": 5,
+    "description": "每层被动“激怒效果”额外提供40点双抗"
+  },
+  {
+    "file": "IMG_1543.PNG",
+    "kind": "talent",
+    "position": 6,
+    "description": "强化普攻命中时，一技能当前冷却-10%"
+  },
+  {
+    "file": "IMG_1545.PNG",
+    "kind": "talent",
+    "position": 2,
+    "description": "自身处于大招范围内，每秒持续回复生命"
+  },
+  {
+    "file": "IMG_1545.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "自身处于大招范围内，提升暴击率和双抗"
+  },
+  {
+    "file": "IMG_1545.PNG",
+    "kind": "talent",
+    "position": 5,
+    "description": "在轰炸范围内，随机3个位置，持续投弹"
+  },
+  {
+    "file": "IMG_1547.PNG",
+    "kind": "talent",
+    "position": 2,
+    "description": "眩晕敌人后，其将陷入反向移动状态1秒"
+  },
+  {
+    "file": "IMG_1549.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "3秒内，锤击命中相同目标将造成更多伤害"
+  },
+  {
+    "file": "IMG_1592.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "位移变为长距离凌空抽射"
+  },
+  {
+    "file": "IMG_1595.PNG",
+    "kind": "core",
+    "position": 1,
+    "description": "远程：对主目标发射额外箭矢\n近战：攻击间隔缩减提升"
+  },
+  {
+    "file": "IMG_1596.PNG",
+    "kind": "talent",
+    "position": 1,
+    "description": "该技能期间抵挡一次控制，抵挡后获得护盾"
+  },
+  { "file": "IMG_1596.PNG", "kind": "talent", "position": 7, "name": "千里" },
+  {
+    "file": "IMG_1596.PNG",
+    "kind": "talent",
+    "position": 8,
+    "description": "该技能造成击杀后，获得永久攻击力提升"
+  },
+  { "file": "IMG_1597.PNG", "kind": "core", "position": 2, "name": "请神·天" },
+  {
+    "file": "IMG_1597.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "每收集满66颗经验球，额外奖励高额经验，并可立刻获得一次赐封神力的技能"
+  },
+  {
+    "file": "IMG_1598.PNG",
+    "kind": "core",
+    "position": 1,
+    "name": "一气化三清"
+  },
+  { "file": "IMG_1598.PNG", "kind": "core", "position": 2, "name": "请神·地" },
+  { "file": "IMG_1599.PNG", "kind": "core", "position": 1, "name": "请神·人" },
+  {
+    "file": "IMG_1599.PNG",
+    "kind": "talent",
+    "position": 7,
+    "name": "妖魔鬼怪快离开"
+  },
+  { "file": "IMG_1600.PNG", "kind": "talent", "position": 6, "name": "千钧" },
+  { "file": "IMG_1601.PNG", "kind": "core", "position": 1, "name": "千翎蔽空" },
+  { "file": "IMG_1601.PNG", "kind": "talent", "position": 4, "name": "骤雨" },
+  {
+    "file": "IMG_1606.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "灰血持续时间增加8秒，扣除率减少一半"
+  },
+  {
+    "file": "IMG_1608.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "大招下砸时，召唤悟空劈一棒，必定暴击"
+  },
+  {
+    "file": "IMG_1609.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "矩阵碰撞减少二技能冷却，额外合成上限"
+  },
+  {
+    "file": "IMG_1609.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "碰撞击退效果会将目标夹扁，降低其双抗"
+  },
+  {
+    "file": "IMG_1610.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "矩阵碰撞减少二技能冷却，额外合成上限"
+  },
+  {
+    "file": "IMG_1610.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "碰撞击退效果会将目标夹扁，降低其双抗"
+  },
+  {
+    "file": "IMG_1611.PNG",
+    "kind": "core",
+    "position": 1,
+    "description": "传送过程可施法，且传送距离大幅度增加"
+  },
+  {
+    "file": "IMG_1611.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "传送后获得高额真实护盾，并持续造成伤害"
+  },
+  {
+    "file": "IMG_1611.PNG",
+    "kind": "talent",
+    "position": 2,
+    "description": "传送后进入超维之躯状态，获得随机强化"
+  },
+  {
+    "file": "IMG_1612.PNG",
+    "kind": "talent",
+    "position": 1,
+    "name": "千古不过须臾",
+    "description": "越远命中英雄时，临时强化该技能越多伤害"
+  },
+  {
+    "file": "IMG_1625.PNG",
+    "kind": "talent",
+    "position": 7,
+    "description": "护盾存在时获得减伤，且获得一定移动速度"
+  },
+  {
+    "file": "IMG_1626.PNG",
+    "kind": "talent",
+    "position": 3,
+    "description": "未命中获得强普，命中则触发一次一技能"
+  },
+  {
+    "file": "IMG_1627.PNG",
+    "kind": "core",
+    "position": 1,
+    "description": "攻击可收获冰晶回复自身状态，冰晶在特定层数会凝结为【冰系装备】"
+  },
+  {
+    "file": "IMG_1627.PNG",
+    "kind": "talent",
+    "position": 4,
+    "description": "处于大招中时，获得双抗并持续回复血量"
+  },
+  {
+    "file": "IMG_1629.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "向周围发射4枚月之轮，触碰视为触发印记"
+  },
+  {
+    "file": "IMG_1629.PNG",
+    "kind": "talent",
+    "position": 7,
+    "description": "当剩余法力大于50%时，伤害大幅增加"
+  },
+  {
+    "file": "IMG_1630.PNG",
+    "kind": "core",
+    "position": 2,
+    "description": "添加印记时刷新大招冷却，且可储存2次"
+  },
+  { "file": "IMG_1628.PNG", "kind": "talent", "position": 4, "name": "魔月" },
+  {
+    "file": "IMG_1613.PNG",
+    "kind": "talent",
+    "position": 1,
+    "name": "来去如风",
+    "description": "使用二技能时可抵挡一次控制，成功获得护盾"
+  },
+  {
+    "file": "IMG_1613.PNG",
+    "kind": "talent",
+    "position": 4,
+    "name": "一飞冲天",
+    "description": "跳跃距离+10%，速度加30%"
+  },
+  {
+    "file": "IMG_1614.PNG",
+    "kind": "talent",
+    "position": 1,
+    "name": "来去如风",
+    "description": "使用二技能时可抵挡一次控制，成功获得护盾"
+  },
+  {
+    "file": "IMG_1614.PNG",
+    "kind": "talent",
+    "position": 4,
+    "name": "一飞冲天",
+    "description": "跳跃距离+10%，速度加30%"
+  },
+  {
+    "file": "IMG_1615.PNG",
+    "kind": "core",
+    "position": 1,
+    "name": "玉石俱焚",
+    "description": "暃每次攻击会添加1个标记，濒死时玉化自身并根据标记数对周围目标造成伤害"
+  },
+  {
+    "file": "IMG_1615.PNG",
+    "kind": "core",
+    "position": 2,
+    "name": "点石成金",
+    "description": "暃每次攻击会添加1个标记，达到5个后将触发一次大招二段效果"
+  },
+  {
+    "file": "IMG_1619.PNG",
+    "kind": "talent",
+    "position": 4,
+    "name": "速战速决",
+    "description": "加速效果不再衰减并且持续时间提升1秒"
+  },
+  {
+    "file": "IMG_1621.PNG",
+    "kind": "talent",
+    "position": 3,
+    "name": "大风车",
+    "description": "旋转范围提升25%"
+  },
+  {
+    "file": "IMG_1594.PNG",
+    "kind": "talent",
+    "position": 6,
+    "name": "铿风",
+    "description": "该技能打击频率加快"
+  }
+]

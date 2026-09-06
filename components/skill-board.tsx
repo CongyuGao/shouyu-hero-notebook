@@ -44,6 +44,8 @@ import {
   chooseTalent,
   MAX_SELECTED_TALENTS_PER_SKILL,
   selectedTalents,
+  heroSkills,
+  skillLabels,
   type Build,
   type Guide,
 } from '@/lib/guide';
@@ -56,8 +58,8 @@ type Editing = {
   skill: number;
   reason: string;
 };
-const skillNames = ['未分组', '一技能', '二技能', '三技能'];
-const skillIcons = [Gem, Swords, Shield, Zap];
+const skillNames = skillLabels;
+const skillIcons = [Gem, Swords, Shield, Zap, Sparkles];
 
 export function SkillBoard({
   guide,
@@ -95,7 +97,10 @@ export function SkillBoard({
   const [error, setError] = useState('');
   const [selectionNotice, setSelectionNotice] = useState('');
   const talentIds = selectedTalents(build);
-  const groups = [1, 2, 3, ...(guide.talents.some((t) => !t.skill) ? [0] : [])];
+  const groups = [
+    ...heroSkills(guide.heroId),
+    ...(guide.talents.some((t) => !t.skill) ? [0] : []),
+  ];
   const activeSkill = groups.includes(Number(skill)) ? Number(skill) : 1;
   const activeTalentIds = guide.talents
     .filter((t) => (t.skill || 0) === activeSkill && talentIds.includes(t.id))
@@ -476,8 +481,7 @@ export function SkillBoard({
                 </span>
                 <small>
                   本技能已选{' '}
-                  {talents.filter((t) => talentIds.includes(t.id)).length} / 6 ·{' '}
-                  {talents.length} 个可选
+                  {talents.filter((t) => talentIds.includes(t.id)).length} / 6
                 </small>
               </div>
               <div className="power-talent-grid">
@@ -676,9 +680,9 @@ export function SkillBoard({
                           <SelectValue>{skillNames[editing.skill]}</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
-                          {skillNames.map((name, i) => (
+                          {[0, ...heroSkills(guide.heroId)].map((i) => (
                             <SelectItem key={i} value={String(i)}>
-                              {name}
+                              {skillNames[i]}
                             </SelectItem>
                           ))}
                         </SelectContent>
