@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
   Search,
   ArrowUpRight,
-  BookOpen,
+  BadgeCheck,
   Clock3,
   CalendarDays,
   Layers3,
@@ -213,7 +213,7 @@ export function HeroLibrary({
                       />
                       {record && (
                         <span className="hero-guide-seal">
-                          <BookOpen size={12} />
+                          <BadgeCheck size={16} aria-hidden="true" />
                         </span>
                       )}
                     </span>
@@ -229,9 +229,14 @@ export function HeroLibrary({
                     <span className="mode-hero-status">
                       {record ? (
                         <>
-                          <BookOpen size={12} />
-                          {record.published!.builds.length} 个流派
-                          <ArrowUpRight size={13} />
+                          <span className="hero-published-label">
+                            <BadgeCheck size={15} aria-hidden="true" />
+                            攻略已发布
+                          </span>
+                          <span className="hero-guide-count">
+                            {record.published!.builds.length} 个流派 · 查看
+                            <ArrowUpRight size={13} aria-hidden="true" />
+                          </span>
                         </>
                       ) : (
                         <>

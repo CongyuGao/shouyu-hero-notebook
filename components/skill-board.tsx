@@ -245,66 +245,61 @@ export function SkillBoard({
         aria-label="各技能已选小天赋总览"
       >
         <div className="talent-tray-heading">
-          <strong>每个技能 8 选 6，分别计算名额</strong>
-          <span>
-            本技能还可选{' '}
-            {Math.max(
-              0,
-              MAX_SELECTED_TALENTS_PER_SKILL - activeTalentIds.length,
-            )}{' '}
-            个
-          </span>
+          <strong>
+            <GameIcon kind="talent" /> 天赋加点总览
+          </strong>
+          <span>每个技能 8 选 6 · 独立计数</span>
         </div>
-        <div className="talent-distribution">
-          {groups.map((n) => (
-            <span key={n}>
-              {skillNames[n]}{' '}
-              <b>
-                {
-                  guide.talents.filter(
-                    (t) => (t.skill || 0) === n && talentIds.includes(t.id),
-                  ).length
-                }
-              </b>{' '}
-              / 6
-            </span>
-          ))}
+        <div className="talent-summary-groups">
+          {groups.map((n) => {
+            const selected = guide.talents.filter(
+              (t) => (t.skill || 0) === n && talentIds.includes(t.id),
+            );
+            const Icon = skillIcons[n];
+            return (
+              <section
+                className={`talent-summary-group skill-tone-${n} ${activeSkill === n ? 'is-active' : ''}`}
+                key={n}
+              >
+                <div className="talent-summary-heading">
+                  <span>
+                    <Icon size={17} />
+                    {skillNames[n]}
+                  </span>
+                  <span>
+                    <b>{selected.length}</b> / 6
+                  </span>
+                </div>
+                <div className="selected-talent-chips">
+                  {selected.map((item) =>
+                    editable ? (
+                      <Button
+                        key={item.id}
+                        variant="outline"
+                        className="selected-talent-chip"
+                        disabled={disabled}
+                        aria-label={`取消${skillNames[n]}小天赋${item.name || '未命名天赋'}`}
+                        onClick={() => toggleTalent(item.id, false)}
+                      >
+                        <Check size={13} />
+                        <span>{item.name || '未命名天赋'}</span>
+                        <X size={13} />
+                      </Button>
+                    ) : (
+                      <span className="selected-talent-chip" key={item.id}>
+                        <Check size={13} />
+                        <span>{item.name || '未命名天赋'}</span>
+                      </span>
+                    ),
+                  )}
+                  {!selected.length && (
+                    <span className="talent-summary-empty">未选择</span>
+                  )}
+                </div>
+              </section>
+            );
+          })}
         </div>
-        {talentIds.length > 0 ? (
-          <div className="selected-talent-chips">
-            {talentIds.map((id) => {
-              const item = guide.talents.find((t) => t.id === id);
-              const name = item?.name || '未命名天赋';
-              return editable ? (
-                <Button
-                  key={id}
-                  variant="outline"
-                  className="selected-talent-chip"
-                  disabled={disabled}
-                  aria-label={`取消${skillNames[item?.skill || 0]}小天赋${name}`}
-                  onClick={() => toggleTalent(id, false)}
-                >
-                  <Check size={15} />
-                  <span>
-                    <small>{skillNames[item?.skill || 0]}</small>
-                    {name}
-                  </span>
-                  <X size={15} />
-                </Button>
-              ) : (
-                <span className="selected-talent-chip" key={id}>
-                  <Check size={15} />
-                  <span>
-                    <small>{skillNames[item?.skill || 0]}</small>
-                    {name}
-                  </span>
-                </span>
-              );
-            })}
-          </div>
-        ) : (
-          <p className="muted">尚未选入小天赋，从下方任一技能开始选择。</p>
-        )}
         {editable && talentIds.length > 0 && (
           <p className="muted">点击上方已选项的 × 可取消，再为对应技能换选。</p>
         )}

@@ -24,6 +24,7 @@ import { TierGuide } from './tier-guide';
 import { GuideUpdated } from './guide-updated';
 import { GuideExportDialog } from './guide-export-dialog';
 import type { GuideEditTarget } from '@/lib/hero-template';
+import { findHeroSkin, skinImageUrl } from '@/lib/skins';
 export function GuideView({
   guide,
   record,
@@ -44,6 +45,7 @@ export function GuideView({
   template?: boolean;
 }) {
   const hero = heroes.find((h) => h.id === guide.heroId)!;
+  const poster = findHeroSkin(guide.posterId, guide.heroId);
   const talentCount = guide.talents.filter(
     (t) => t.name && t.description,
   ).length;
@@ -120,7 +122,16 @@ export function GuideView({
           {message}
         </p>
       )}
-      <header className="guide-heading">
+      <header
+        className={`guide-heading${poster ? ' has-skin-poster' : ''}`}
+        style={
+          poster
+            ? {
+                backgroundImage: `linear-gradient(90deg, #0b192dea, #0b192d9c 54%, #0b192d30), linear-gradient(0deg, #0b192d, transparent 60%), url("${skinImageUrl(poster.id)}")`,
+              }
+            : undefined
+        }
+      >
         <img
           src={hero.avatar}
           alt={hero.name}
@@ -149,6 +160,9 @@ export function GuideView({
             </span>
           </div>
           <GuideUpdated publishedAt={record.publishedAt} />
+          {poster && (
+            <p className="guide-poster-name">皮肤海报 · {poster.name}</p>
+          )}
         </div>
       </header>
       {template && (

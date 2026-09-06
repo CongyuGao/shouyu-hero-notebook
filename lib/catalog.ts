@@ -9,7 +9,7 @@ export type CatalogItem = {
   image?: string;
 };
 export type CatalogKind = 'glyphs' | 'runes';
-export const runeColors = ['红色', '蓝色', '绿色'] as const;
+export const runeColors = ['蓝色', '绿色', '红色'] as const;
 export const glyphGrades = ['一级', '二级', '三级'] as const;
 export function glyphGrade(color?: string): string {
   if (/初级|一级/.test(color || '')) return '一级';

@@ -32,6 +32,7 @@ import {
 } from '@/lib/mode-roster';
 import { registerNotebookTools } from '@/lib/webmcp';
 import { apiFetch, readResponse } from '@/lib/client-api';
+import { scheduleScrollToTop } from '@/lib/navigation-scroll';
 const anonymous: Access = {
   signedIn: false,
   canEdit: false,
@@ -101,6 +102,14 @@ export default function Notebook({
     return () => window.removeEventListener('popstate', read);
   }, [refresh]);
   useEffect(() => {
+    const previous = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+    return () => {
+      window.history.scrollRestoration = previous;
+    };
+  }, []);
+  useEffect(() => scheduleScrollToTop(() => window), [tab, selected]);
+  useEffect(() => {
     if (mode !== 'edit' && !(mode === 'manage' && isCloudflareDeployment))
       return;
     let stopped = false;
@@ -141,7 +150,6 @@ export default function Notebook({
         ? `${basePath}?hero=${encodeURIComponent(id)}`
         : `${basePath}?page=guides`,
     );
-    window.scrollTo({ top: 0, behavior: 'instant' });
   }
   function start(
     record: GuideRecord | null = null,
@@ -208,7 +216,6 @@ export default function Notebook({
     setTab('workspace');
     setSelected('');
     history.pushState(null, '', `${basePath}?page=workspace`);
-    window.scrollTo({ top: 0, behavior: 'instant' });
   }
   return (
     <div className="notebook">

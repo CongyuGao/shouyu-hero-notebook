@@ -1,14 +1,7 @@
 'use client';
 
 import { useEffect, useId, useRef, useState } from 'react';
-import {
-  ChevronLeft,
-  ChevronRight,
-  Download,
-  Image as ImageIcon,
-  Loader2,
-  Share2,
-} from 'lucide-react';
+import { Download, Image as ImageIcon, Loader2, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -36,7 +29,6 @@ export function GuideExportDialog({
   const [effects, setEffects] = useState(false);
   const [busy, setBusy] = useState(false);
   const [images, setImages] = useState<PreviewImage[]>([]);
-  const [index, setIndex] = useState(0);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const controller = useRef<AbortController | null>(null);
@@ -55,7 +47,6 @@ export function GuideExportDialog({
     [],
   );
   const build = record.published?.builds.find((item) => item.id === buildId);
-  const current = images[index];
   if (!record.published || !record.publishedAt || !build) return null;
 
   function changeOpen(next: boolean) {
@@ -65,7 +56,6 @@ export function GuideExportDialog({
       controller.current?.abort();
       setBusy(false);
       setImages([]);
-      setIndex(0);
       setMessage('');
       setError('');
     }
@@ -79,7 +69,6 @@ export function GuideExportDialog({
     setError('');
     setMessage('');
     setImages([]);
-    setIndex(0);
     try {
       const snapshot = createGuideExport(
         record,
@@ -99,7 +88,7 @@ export function GuideExportDialog({
       setMessage(
         result.missingImages
           ? `已生成 ${result.images.length} 张图。有 ${result.missingImages} 个图片资源未加载，已保留名称和所有加点信息；可重试生成。`
-          : `已生成 ${result.images.length} 张高清攻略图。选择图片后逐张保存即可。`,
+          : `已生成 ${result.images.length} 张高清攻略图，向下滚动可连续预览全部图片。`,
       );
     } catch (e) {
       if (thisRun === run.current && !abort.signal.aborted)
@@ -108,8 +97,7 @@ export function GuideExportDialog({
       if (thisRun === run.current) setBusy(false);
     }
   }
-  async function share() {
-    if (!current) return;
+  async function share(current: PreviewImage) {
     try {
       const file = new File([current.blob], current.name, {
         type: 'image/png',
@@ -139,7 +127,7 @@ export function GuideExportDialog({
         <ImageIcon /> 导出攻略图
       </Button>
       <Dialog open={open} onOpenChange={changeOpen}>
-        <DialogContent className="guide-image-export-dialog">
+        <DialogContent className="guide-image-export-dialog scrollable-site-dialog">
           <DialogHeader>
             <DialogTitle>高清攻略图 · {build.name || '当前流派'}</DialogTitle>
             <DialogDescription>
@@ -155,7 +143,6 @@ export function GuideExportDialog({
                 onCheckedChange={(checked) => {
                   setEffects(checked);
                   setImages([]);
-                  setIndex(0);
                   setMessage('');
                 }}
               />
@@ -163,7 +150,7 @@ export function GuideExportDialog({
                 附效果说明与打法备注
                 <small>
                   默认导出整套加点长图，每组 8
-                  个小天赋紧凑排列；勾选后，完整效果原文另附说明图。
+                  个小天赋紧凑排列；勾选后附带图标的雕文详解与完整效果，所有图片连续预览。
                 </small>
               </span>
             </label>
@@ -186,69 +173,56 @@ export function GuideExportDialog({
               {message}
             </output>
           )}
-          {current ? (
+          {images.length ? (
             <>
-              <div
-                className="guide-export-pagination"
-                aria-label="攻略图片翻页"
-              >
-                <Button
-                  variant="outline"
-                  size="icon"
-                  aria-label="上一张"
-                  disabled={index === 0}
-                  onClick={() => setIndex((n) => n - 1)}
-                >
-                  <ChevronLeft />
-                </Button>
-                <span>
-                  第 <strong>{index + 1}</strong> / {images.length} 张{' '}
-                  <small>
-                    {current.width} × {current.height} · PNG
-                  </small>
-                </span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  aria-label="下一张"
-                  disabled={index === images.length - 1}
-                  onClick={() => setIndex((n) => n + 1)}
-                >
-                  <ChevronRight />
-                </Button>
-              </div>
-              <div className="guide-export-save">
-                <Button
-                  render={
-                    <a
-                      href={current.url}
-                      download={current.name}
-                      aria-label="保存这张 PNG"
-                    />
-                  }
-                  className="touch"
-                >
-                  <Download />
-                  保存这张 PNG
-                </Button>
-                <Button
-                  variant="outline"
-                  className="touch"
-                  onClick={() => void share()}
-                >
-                  <Share2 />
-                  系统分享这张
-                </Button>
-              </div>
-              <div className="guide-export-preview">
-                {/* Blob URLs are generated locally and cannot use a server image optimizer. */}
-                {/* eslint-disable-next-line next/no-img-element */}
-                <img
-                  src={current.url}
-                  alt={`${build.name || '当前流派'}攻略图，第${index + 1}张，共${images.length}张`}
-                  width={current.width}
-                  height={current.height}
-                />
+              <div className="guide-export-pages" aria-label="全部攻略图片预览">
+                {images.map((current, index) => (
+                  <article className="guide-export-page" key={current.name}>
+                    <div className="guide-export-page-heading">
+                      <strong>
+                        第 {index + 1} 张 · {current.title}
+                      </strong>
+                      <small>
+                        {current.width} × {current.height} · PNG
+                      </small>
+                    </div>
+                    <div className="guide-export-save">
+                      <Button
+                        render={
+                          <a
+                            href={current.url}
+                            download={current.name}
+                            aria-label={`保存第 ${index + 1} 张 PNG`}
+                          />
+                        }
+                        className="touch"
+                      >
+                        <Download />
+                        保存这张 PNG
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="touch"
+                        onClick={() => void share(current)}
+                      >
+                        <Share2 />
+                        系统分享这张
+                      </Button>
+                    </div>
+                    <div className="guide-export-preview">
+                      {/* Blob URLs are generated locally and cannot use a server image optimizer. */}
+                      {/* eslint-disable-next-line next/no-img-element */}
+                      <img
+                        src={current.url}
+                        alt={`${build.name || '当前流派'}攻略图，第${index + 1}张，共${images.length}张`}
+                        width={current.width}
+                        height={current.height}
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        decoding="async"
+                      />
+                    </div>
+                  </article>
+                ))}
               </div>
               <p className="guide-export-help">
                 手机也可以长按预览图保存，再上传到 QQ

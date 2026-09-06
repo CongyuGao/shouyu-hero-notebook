@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { scheduleScrollToTop } from '@/lib/navigation-scroll';
 import {
   Save,
   Send,
@@ -66,6 +67,7 @@ import { SkillBoard } from './skill-board';
 import { LoadoutPicker } from './loadout-picker';
 import { CatalogEditor } from './catalog-editor';
 import { TierGuide } from './tier-guide';
+import { HeroPosterPicker } from './hero-poster-picker';
 import { heroTiers } from '@/lib/tiers';
 import { emptyLibraries, type Libraries } from '@/lib/catalog';
 import { apiFetch, readResponse } from '@/lib/client-api';
@@ -130,6 +132,11 @@ export function GuideEditor({
       }>
     >([]);
   const dirty = JSON.stringify(doc) !== saved;
+  const editorScroll = useRef<HTMLDivElement>(null);
+  useEffect(
+    () => scheduleScrollToTop(() => editorScroll.current),
+    [editorTab, preview, buildId],
+  );
   const latestDoc = useRef(doc);
   latestDoc.current = doc;
   const saving = useRef(false);
@@ -400,7 +407,7 @@ export function GuideEditor({
               </Button>
             </div>
           </SheetHeader>
-          <div className="editor-scroll">
+          <div className="editor-scroll" ref={editorScroll}>
             <fieldset disabled={busy} className="editor-form">
               {preview && hero ? (
                 <GuideView
@@ -707,6 +714,12 @@ export function GuideEditor({
                       <p className="build-independence-note">
                         每个流派单独保存名字、特点、备注与全部选择。新增流派从空配置开始，不会改变已有流派。
                       </p>
+                      <HeroPosterPicker
+                        heroId={doc.heroId}
+                        value={doc.posterId}
+                        disabled={busy}
+                        onChange={(posterId) => patch({ posterId })}
+                      />
                       {heroTalentPreset(doc.heroId) && (
                         <Button
                           variant="outline"

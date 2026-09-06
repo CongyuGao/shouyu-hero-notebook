@@ -88,10 +88,13 @@ export function TierGuide({
       <Dialog
         open={open}
         onOpenChange={(value) => {
-          if (!busy) setOpen(value);
+          if (!(busy && editing)) setOpen(value);
         }}
       >
-        <DialogContent className="talent-detail-editor" showCloseButton={false}>
+        <DialogContent
+          className="talent-detail-editor tier-guide-dialog scrollable-site-dialog"
+          showCloseButton={!(busy && editing)}
+        >
           <DialogHeader>
             <DialogTitle>英雄强度 · 梯度标准</DialogTitle>
             <DialogDescription>
@@ -179,7 +182,7 @@ export function TierGuide({
             <Button
               variant="outline"
               className="touch"
-              disabled={busy}
+              disabled={busy && editing}
               onClick={() => setOpen(false)}
             >
               {editing ? '取消修改' : '关闭'}

@@ -20,12 +20,27 @@ async function moduleFrom(path) {
   );
 }
 const { createGuideExport } = await moduleFrom('lib/guide-export.ts');
-const { layoutGuideExport, wrapExportText, EXPORT_WIDTH, EXPORT_MAX_HEIGHT } =
-  await moduleFrom('lib/guide-export-canvas.ts');
+const {
+  layoutGuideExport,
+  wrapExportText,
+  EXPORT_WIDTH,
+  EXPORT_MAX_HEIGHT,
+  EXPORT_ART,
+} = await moduleFrom('lib/guide-export-canvas.ts');
 const source = JSON.parse(readFileSync('data/initial-guides.json', 'utf8'))[0];
 const library = JSON.parse(readFileSync('data/initial-library.json', 'utf8'));
 const guide = structuredClone(source);
 const selected = guide.builds[0];
+guide.posterId = 'catalog-166-1663';
+guide.glyphs = [
+  ...new Map(
+    [
+      ...guide.glyphs.filter((g) => selected.glyphIds.includes(g.id)),
+      ...library.glyphs,
+    ].map((g) => [g.id, g]),
+  ).values(),
+].slice(0, 6);
+selected.glyphIds = guide.glyphs.map((g) => g.id);
 selected.name = '导出测试流派';
 selected.runeIds = ['1504', '2517', '3514'];
 selected.runeCounts = { 1504: 10, 2517: 10, 3514: 10, ignored: 10 };
@@ -90,7 +105,7 @@ assert.equal(
 );
 assert.deepEqual(
   model.sections.find((s) => s.kind === 'runes').choices.map((r) => r.color),
-  ['红色', '蓝色', '绿色'],
+  ['蓝色', '绿色', '红色'],
 );
 const emptyGuide = structuredClone(guide);
 emptyGuide.builds[0].talentIds = [];
@@ -118,7 +133,7 @@ const legacy = createGuideExport(
 );
 assert.equal(
   legacy.sections
-    .filter((s) => s.title.endsWith('小天赋'))
+    .filter((s) => s.kind === 'choices' && s.title.endsWith('小天赋'))
     .flatMap((s) => s.choices)
     .filter((c) => c.selected).length,
   1,
@@ -134,14 +149,26 @@ for (const glyph of guide.glyphs.filter((g) =>
   selected.glyphIds.includes(g.id),
 ))
   assert(
-    details.sections.some((s) => s.text === glyph.effect),
+    details.sections.some(
+      (s) =>
+        s.kind === 'glyph-details' &&
+        s.choices.some(
+          (choice) =>
+            choice.effect === glyph.effect &&
+            choice.image === (glyph.icon || glyph.image),
+        ),
+    ),
     'Glyph effect must remain verbatim',
   );
 for (const talent of guide.talents.filter((t) =>
   selected.talentIds.includes(t.id),
 ))
   assert(
-    details.sections.some((s) => s.text === talent.description),
+    details.sections.some(
+      (s) =>
+        s.kind === 'skill-details' &&
+        s.choices.some((choice) => choice.effect === talent.description),
+    ),
     'Talent effect must remain verbatim',
   );
 assert(details.sections.some((s) => s.text === selected.notes));
@@ -186,6 +213,7 @@ const ctx = {
     painted.push(value);
   },
   beginPath() {},
+  closePath() {},
   roundRect() {},
   fill() {},
   stroke() {},
@@ -224,6 +252,11 @@ const nuwa = blankGuide('179');
 nuwa.title = '女娲攻略';
 nuwa.version = '测试版本';
 nuwa.author = '测试作者';
+nuwa.glyphs = structuredClone(guide.glyphs);
+nuwa.runeLibrary = structuredClone(guide.runeLibrary);
+nuwa.builds[0].glyphIds = [...selected.glyphIds];
+nuwa.builds[0].runeIds = [...selected.runeIds];
+nuwa.builds[0].runeCounts = { ...selected.runeCounts };
 const nuwaExport = createGuideExport(
   { published: nuwa, publishedAt: record.publishedAt },
   nuwa.builds[0].id,
@@ -245,6 +278,20 @@ assert.equal(
 );
 const detailPages = checkLayout(details);
 assert(detailPages.length > overviewPages.length);
+assert.equal(
+  detailPages.filter((page) => page.title === '雕文与铭文 · 配装详解').length,
+  1,
+  'Six normal glyph descriptions and rune effects fit one equipment page',
+);
+assert.equal(
+  detailPages[1].title,
+  '一技能 · 天赋详解',
+  'Full explanations are grouped by skill after the overview',
+);
+assert.deepEqual(
+  detailPages.slice(1, 4).map((page) => page.title),
+  ['一技能 · 天赋详解', '二技能 · 天赋详解', '三技能 · 天赋详解'],
+);
 assert(painted.includes('✓ 已选') && painted.includes('— 未选'));
 const long = structuredClone(details);
 long.buildName = '很长的流派名称'.repeat(7);
@@ -255,6 +302,16 @@ long.sections.push({
 });
 const longPages = checkLayout(long);
 assert(longPages.length > detailPages.length);
+const longGlyph = structuredClone(details);
+longGlyph.sections.find(
+  (section) => section.kind === 'glyph-details',
+).choices[0].effect =
+  '效果数值 123.45% 不得遗漏。'.repeat(550) + '\n完整末尾标记';
+assert(checkLayout(longGlyph).length > detailPages.length);
+assert(
+  painted.includes('完整末尾标记'),
+  'Oversized glyph effects must paginate without truncation',
+);
 const tight = {
   ...model,
   buildName: '导出测试',
@@ -289,19 +346,40 @@ console.log(
 if (process.env.SHOUYU_CANVAS_MODULE && process.env.SHOUYU_EXPORT_RENDER_DIR) {
   const { createCanvas, loadImage } = require(process.env.SHOUYU_CANVAS_MODULE);
   const assets = new Map();
-  for (const section of model.sections)
-    for (const choice of section.choices || []) {
-      if (!choice.image?.startsWith('/') || assets.has(choice.image)) continue;
-      const image = await loadImage(join('public', choice.image));
-      Object.defineProperties(image, {
-        naturalWidth: { value: image.width },
-        naturalHeight: { value: image.height },
-      });
-      assets.set(choice.image, image);
-    }
+  const sources = [
+    ...Object.values(EXPORT_ART),
+    ...details.sections.flatMap((section) =>
+      (section.choices || []).map((choice) => choice.image),
+    ),
+  ];
+  for (const src of sources) {
+    if (!src?.startsWith('/') || assets.has(src)) continue;
+    const image = await loadImage(join('public', src));
+    Object.defineProperties(image, {
+      naturalWidth: { value: image.width },
+      naturalHeight: { value: image.height },
+    });
+    assets.set(src, image);
+  }
+  if (process.env.SHOUYU_EXPORT_AVATAR) {
+    const avatar = await loadImage(process.env.SHOUYU_EXPORT_AVATAR);
+    Object.defineProperties(avatar, {
+      naturalWidth: { value: avatar.width },
+      naturalHeight: { value: avatar.height },
+    });
+    assets.set(model.avatar, avatar);
+  }
+  if (process.env.SHOUYU_EXPORT_POSTER && model.poster) {
+    const poster = await loadImage(process.env.SHOUYU_EXPORT_POSTER);
+    Object.defineProperties(poster, {
+      naturalWidth: { value: poster.width },
+      naturalHeight: { value: poster.height },
+    });
+    assets.set(model.poster.image, poster);
+  }
   const canvas = createCanvas(EXPORT_WIDTH, 1);
   const context = canvas.getContext('2d');
-  const pages = layoutGuideExport(model, context, assets);
+  const pages = layoutGuideExport(details, context, assets);
   mkdirSync(process.env.SHOUYU_EXPORT_RENDER_DIR, { recursive: true });
   for (const [index, page] of pages.entries()) {
     canvas.height = page.height;

@@ -1,5 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { scheduleScrollToTop } from '@/lib/navigation-scroll';
+import { catalogViewItems, sortCatalogItems } from '@/lib/catalog-order';
 import { BookOpen, Check, Plus, RefreshCw, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -56,6 +58,11 @@ export function LoadoutPicker({
   const [open, setOpen] = useState<CatalogKind | null>(null),
     [query, setQuery] = useState('');
   const [colorFilter, setColorFilter] = useState('全部');
+  const catalogList = useRef<HTMLDivElement>(null);
+  useEffect(
+    () => scheduleScrollToTop(() => catalogList.current),
+    [open, colorFilter, query],
+  );
   const [inspecting, setInspecting] = useState<CatalogItem | null>(null);
   const [publicLibrary, setPublicLibrary] = useState<Libraries>(),
     [libraryError, setLibraryError] = useState('');
@@ -95,14 +102,24 @@ export function LoadoutPicker({
   const snapshot = (kind: CatalogKind) =>
     kind === 'glyphs' ? guide.glyphs || [] : guide.runeLibrary || [];
   const items = (kind: CatalogKind) =>
-    Array.from(
-      new Map(
-        [...snapshot(kind), ...(catalog?.[kind].items || [])].map((i) => [
-          i.id,
-          i,
-        ]),
-      ).values(),
+    catalogViewItems(
+      kind,
+      snapshot(kind),
+      catalog?.[kind].items || [],
+      chosen(kind),
     );
+  const filteredItems = open
+    ? items(open).filter(
+        (item) =>
+          (colorFilter === '全部' ||
+            (open === 'runes'
+              ? item.color === colorFilter
+              : glyphGrade(item.color) === colorFilter)) &&
+          `${item.name}${item.effect}${item.color || ''}`.includes(
+            query.trim(),
+          ),
+      )
+    : [];
   const runeCount = (id: string) => build.runeCounts?.[id] ?? 1;
   const runeStats = aggregateRuneStats(
     snapshot('runes'),
@@ -342,67 +359,64 @@ export function LoadoutPicker({
       </section>
       {chosen('runes').length ? (
         <div className="rune-selections">
-          {chosen('runes')
-            .map((id) => snapshot('runes').find((r) => r.id === id))
-            .filter(Boolean)
-            .map((r) => (
-              <article key={r!.id} className={`rune-color-${r!.color}`}>
-                <span className="rune-jewel" aria-hidden="true" />
-                <div>
-                  <span className={`rune-color-label rune-color-${r!.color}`}>
-                    {r!.color} · 五级
-                  </span>
-                  <h4>
-                    {r!.name} <small>× {runeCount(r!.id)}</small>
-                  </h4>
-                  <p className="preserve">{r!.effect}</p>
-                  {editable && (
-                    <Select
-                      disabled={disabled}
-                      value={String(runeCount(r!.id))}
-                      onValueChange={(v) =>
-                        onBuildChange?.({
-                          runeCounts: {
-                            ...Object.fromEntries(
-                              chosen('runes').map((id) => [id, runeCount(id)]),
-                            ),
-                            [r!.id]: Number(v),
-                          },
-                        })
-                      }
-                    >
-                      <SelectTrigger aria-label={`${r!.name}数量`}>
-                        <SelectValue>{runeCount(r!.id)} 枚</SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                          (n) => (
-                            <SelectItem
-                              key={n}
-                              value={String(n)}
-                              disabled={
-                                n + colorCount(r!.color) - runeCount(r!.id) > 10
-                              }
-                            >
-                              {n} 枚
-                            </SelectItem>
+          {sortCatalogItems(
+            'runes',
+            snapshot('runes').filter((item) =>
+              chosen('runes').includes(item.id),
+            ),
+          ).map((r) => (
+            <article key={r!.id} className={`rune-color-${r!.color}`}>
+              <span className="rune-jewel" aria-hidden="true" />
+              <div>
+                <span className={`rune-color-label rune-color-${r!.color}`}>
+                  {r!.color} · 五级
+                </span>
+                <h4>
+                  {r!.name} <small>× {runeCount(r!.id)}</small>
+                </h4>
+                <p className="preserve">{r!.effect}</p>
+                {editable && (
+                  <Select
+                    disabled={disabled}
+                    value={String(runeCount(r!.id))}
+                    onValueChange={(v) =>
+                      onBuildChange?.({
+                        runeCounts: {
+                          ...Object.fromEntries(
+                            chosen('runes').map((id) => [id, runeCount(id)]),
                           ),
-                        )}
-                      </SelectContent>
-                    </Select>
-                  )}
-                </div>
-              </article>
-            ))}
+                          [r!.id]: Number(v),
+                        },
+                      })
+                    }
+                  >
+                    <SelectTrigger aria-label={`${r!.name}数量`}>
+                      <SelectValue>{runeCount(r!.id)} 枚</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+                        <SelectItem
+                          key={n}
+                          value={String(n)}
+                          disabled={
+                            n + colorCount(r!.color) - runeCount(r!.id) > 10
+                          }
+                        >
+                          {n} 枚
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            </article>
+          ))}
         </div>
-      ) : (
+      ) : editable ? (
         <p className="empty-inline">
-          尚未配置铭文。
-          {editable
-            ? '从通用五级铭文库勾选后可调整数量，每种颜色最多10枚。'
-            : ''}
+          从通用五级铭文库勾选后可调整数量，每种颜色最多10枚。
         </p>
-      )}
+      ) : null}
       {editable && (
         <div className="catalog-actions">
           <Button variant="ghost" className="touch" onClick={onManage}>
@@ -524,43 +538,29 @@ export function LoadoutPicker({
                   正在读取最新资料库…
                 </p>
               )}
-              <div className="catalog-pick-list">
-                {items(open)
-                  .filter(
-                    (i) =>
-                      colorFilter === '全部' ||
-                      (open === 'runes'
-                        ? i.color === colorFilter
-                        : glyphGrade(i.color) === colorFilter),
-                  )
-                  .filter((i) =>
-                    (i.name + i.effect + (i.color || '')).includes(
-                      query.trim(),
-                    ),
-                  )
-                  .map((item) => {
-                    const checked = chosen(open).includes(item.id);
-                    return (
-                      <article
-                        key={item.id}
-                        className={`catalog-pick ${open === 'runes' ? `rune-color-${item.color}` : ''} ${checked ? 'is-selected' : ''}`}
+              <div className="catalog-pick-list" ref={catalogList}>
+                {filteredItems.map((item) => {
+                  const checked = chosen(open).includes(item.id);
+                  return (
+                    <article
+                      key={item.id}
+                      className={`catalog-pick ${open === 'runes' ? `rune-color-${item.color}` : ''} ${checked ? 'is-selected' : ''}`}
+                    >
+                      <span
+                        className={`catalog-selection-mark ${checked ? 'checked' : ''}`}
+                        aria-hidden="true"
                       >
-                        <span
-                          className={`catalog-selection-mark ${checked ? 'checked' : ''}`}
-                          aria-hidden="true"
-                        >
-                          {checked ? (
-                            <>
-                              <Check size={14} />
-                              已选
-                              {open === 'runes'
-                                ? ` × ${runeCount(item.id)}`
-                                : ''}
-                            </>
-                          ) : (
-                            '未选'
-                          )}
-                        </span>
+                        {checked ? (
+                          <>
+                            <Check size={14} />
+                            已选
+                            {open === 'runes' ? ` × ${runeCount(item.id)}` : ''}
+                          </>
+                        ) : (
+                          '未选'
+                        )}
+                      </span>
+                      {editable && (
                         <Checkbox
                           aria-label={`选择${item.name}`}
                           checked={checked}
@@ -575,57 +575,75 @@ export function LoadoutPicker({
                           }
                           onCheckedChange={(v) => pick(open, item, !!v)}
                         />
-                        <span>
-                          {open === 'glyphs' ? (
-                            <Button
-                              variant="ghost"
-                              className="glyph-catalog-button"
-                              onClick={() => setInspecting(item)}
-                              aria-label={`查看${item.name}介绍`}
-                            >
-                              <GlyphIcon item={item} />
-                              <span>
-                                <strong>{item.name}</strong>
-                                <span
-                                  className={`glyph-grade-badge glyph-grade-${glyphGrade(item.color)}`}
+                      )}
+                      <span className="catalog-item-content">
+                        {open === 'glyphs' ? (
+                          <Button
+                            variant="ghost"
+                            className="glyph-catalog-button"
+                            onClick={() => setInspecting(item)}
+                            aria-label={`查看${item.name}介绍`}
+                          >
+                            <GlyphIcon item={item} />
+                            <span>
+                              <strong>{item.name}</strong>
+                              <span
+                                className={`glyph-grade-badge glyph-grade-${glyphGrade(item.color)}`}
+                              >
+                                {glyphGrade(item.color)}
+                              </span>
+                              <small className="glyph-category">
+                                {item.color}
+                              </small>
+                              <span className="glyph-preview">
+                                {item.effect}
+                              </span>
+                              <small className="glyph-detail-hint">
+                                查看完整效果 ›
+                              </small>
+                            </span>
+                          </Button>
+                        ) : (
+                          <>
+                            <strong>
+                              {item.name}{' '}
+                              {open === 'runes' && (
+                                <small
+                                  className={`rune-color-label rune-color-${item.color}`}
                                 >
-                                  {glyphGrade(item.color)}
-                                </span>
-                                <small className="glyph-category">
+                                  <span
+                                    className="rune-jewel"
+                                    aria-hidden="true"
+                                  />
                                   {item.color}
                                 </small>
-                                <span className="glyph-preview">
-                                  {item.effect}
-                                </span>
-                                <small className="glyph-detail-hint">
-                                  查看完整效果 ›
-                                </small>
-                              </span>
-                            </Button>
-                          ) : (
-                            <>
-                              <strong>
-                                {item.name}{' '}
-                                {open === 'runes' && (
-                                  <small
-                                    className={`rune-color-label rune-color-${item.color}`}
-                                  >
-                                    <span
-                                      className="rune-jewel"
-                                      aria-hidden="true"
-                                    />
-                                    {item.color}
-                                  </small>
-                                )}
-                              </strong>
-                              <span className="preserve">{item.effect}</span>
-                              {item.usage && <small>{item.usage}</small>}
-                            </>
-                          )}
-                        </span>
-                      </article>
-                    );
-                  })}
+                              )}
+                            </strong>
+                            <span className="preserve">{item.effect}</span>
+                            {item.usage && <small>{item.usage}</small>}
+                          </>
+                        )}
+                      </span>
+                    </article>
+                  );
+                })}
+                {!filteredItems.length &&
+                  !!items(open).length &&
+                  !libraryLoading && (
+                    <div className="empty-inline">
+                      <p>没有匹配的条目，试试其他名称或分类。</p>
+                      <Button
+                        variant="outline"
+                        className="touch"
+                        onClick={() => {
+                          setQuery('');
+                          setColorFilter('全部');
+                        }}
+                      >
+                        清除筛选
+                      </Button>
+                    </div>
+                  )}
                 {!items(open).length && !libraryLoading && (
                   <div className="empty-inline">
                     {open === 'glyphs'

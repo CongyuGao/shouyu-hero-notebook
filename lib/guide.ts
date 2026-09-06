@@ -2,6 +2,7 @@ import official from '@/data/official.json';
 import heroTalentData from '@/data/hero-talents.json';
 import { validateCatalog, catalogImage, type CatalogItem } from './catalog';
 import { heroTiers } from './tiers';
+import { validatePosterId } from './skins';
 export const heroes = official.heroes;
 export type Hero = (typeof heroes)[number];
 export const MAX_SELECTED_TALENTS_PER_SKILL = 6;
@@ -70,6 +71,7 @@ export type Build = {
 };
 export type Guide = {
   heroId: string;
+  posterId?: string;
   tier?: string;
   tierReason?: string;
   notes?: string;
@@ -457,6 +459,7 @@ export function validateGuide(input: unknown, publish = false): Guide {
   }
   const guide = {
     heroId,
+    posterId: validatePosterId(d.posterId, heroId),
     tier: value(d.tier || '', 12, '英雄梯度'),
     tierReason: value(d.tierReason || '', 2000, '英雄评级理由'),
     notes: value(d.notes || '', 12000, '英雄攻略备注'),

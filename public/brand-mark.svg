@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fff0bf"/><stop offset=".45" stop-color="#d6ab63"/><stop offset="1" stop-color="#8d6132"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#283856"/><stop offset="1" stop-color="#0b1426"/>
+    </linearGradient>
+  </defs>
+  <path d="M64 7 112 27v34c0 28-25 49-48 60C41 110 16 89 16 61V27Z" fill="url(#ink)" stroke="url(#gold)" stroke-width="5"/>
+  <path d="M64 17 101 33v28c0 21-19 40-37 49-18-9-37-28-37-49V33Z" fill="none" stroke="#ead3a4" stroke-opacity=".4" stroke-width="1.5"/>
+  <path d="m64 18 5 7-5 7-5-7Z" fill="#e6c88e"/>
+  <text x="64" y="82" text-anchor="middle" fill="#f5e6bf" font-family="PingFang SC,Microsoft YaHei,Arial Unicode MS,sans-serif" font-size="49" font-weight="700">守</text>
+</svg>
