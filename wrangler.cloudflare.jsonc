@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "shouyu-notebook",
+  "account_id": "090a4f68440542769d9d163e07d32823",
+  "main": "vinext/server/fetch-handler",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": false },
+  "vars": { "ADMIN_EMAIL": "congyugao@163.com" },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "shouyu-notebook-db",
+    "database_id": "c72b89b6-430e-4fce-ac74-7a60e6b8f411",
+    "migrations_dir": "drizzle"
+  }]
+}

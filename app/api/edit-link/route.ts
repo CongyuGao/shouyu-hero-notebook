@@ -1,5 +1,13 @@
 import { getDb } from '@/db';
-import { authorize, body, json, failure, ApiError } from '@/lib/server';
+import {
+  authorize,
+  body,
+  json,
+  failure,
+  ApiError,
+  ADMIN_WRITE_GUARD,
+  adminWriteBindings,
+} from '@/lib/server';
 import {
   readEditLink,
   newEditKey,
@@ -22,7 +30,7 @@ export async function GET(req: Request) {
 }
 export async function POST(req: Request) {
   try {
-    await authorize(req, true);
+    const grant = await authorize(req, true);
     const input = await body(req);
     if (
       !['create', 'rotate', 'revoke'].includes(input.action) ||
@@ -52,15 +60,22 @@ export async function POST(req: Request) {
     const result = previous
       ? await getDb()
           .prepare(
-            'UPDATE edit_links SET token_hash = ?, expires_at = ?, revision = revision + 1, updated_at = ? WHERE id = ? AND revision = ?',
+            `UPDATE edit_links SET token_hash = ?, expires_at = ?, revision = revision + 1, updated_at = ? WHERE id = ? AND revision = ? AND ${ADMIN_WRITE_GUARD}`,
           )
-          .bind(hash, expiresAt, now, 'main', input.expectedRevision)
+          .bind(
+            hash,
+            expiresAt,
+            now,
+            'main',
+            input.expectedRevision,
+            ...adminWriteBindings(grant),
+          )
           .run()
       : await getDb()
           .prepare(
-            'INSERT OR IGNORE INTO edit_links (id, token_hash, revision, expires_at, updated_at) VALUES (?, ?, 1, ?, ?)',
+            `INSERT OR IGNORE INTO edit_links (id, token_hash, revision, expires_at, updated_at) SELECT ?, ?, 1, ?, ? WHERE ${ADMIN_WRITE_GUARD}`,
           )
-          .bind('main', hash, expiresAt, now)
+          .bind('main', hash, expiresAt, now, ...adminWriteBindings(grant))
           .run();
     if (!result.meta.changes)
       throw new ApiError(409, '链接已在另一处更新，请刷新后重试');

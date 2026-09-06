@@ -1,10 +1,16 @@
 import Notebook from '@/app/notebook';
 import { requireChatGPTUser } from '@/app/chatgpt-auth';
 import { adminEmail } from '@/db';
+import { isCloudflareDeployment } from '@/lib/deployment';
+import { getOwnerUser } from '@/lib/owner-password';
+import { OwnerEntry } from '@/components/owner-entry';
 export const dynamic = 'force-dynamic';
 export const metadata = { robots: { index: false, follow: false } };
 async function OwnerWorkspace() {
-  const user = await requireChatGPTUser('/manage?page=workspace');
+  const user = isCloudflareDeployment
+    ? await getOwnerUser()
+    : await requireChatGPTUser('/manage?page=workspace');
+  if (!user) return <OwnerEntry />;
   if (!adminEmail() || user.email.toLowerCase() !== adminEmail())
     return (
       <main className="main-wrap">

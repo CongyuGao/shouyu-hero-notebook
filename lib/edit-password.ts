@@ -72,11 +72,11 @@ export function sameHash(a: string, b: string) {
 }
 // A durable, site-wide ceiling avoids relying on spoofable forwarded IPs.
 // Reserve before doing the expensive KDF; parallel requests cannot exceed it.
-export async function reservePasswordAttempt() {
+export async function reservePasswordAttempt(scope: 'main' | 'owner' = 'main') {
   const now = Date.now();
   const result = await getDb()
     .prepare(
-      `INSERT INTO edit_attempts (id,window_start,attempts) VALUES ('main',?,1)
+      `INSERT INTO edit_attempts (id,window_start,attempts) VALUES (?, ?,1)
      ON CONFLICT(id) DO UPDATE SET
        window_start=CASE WHEN window_start<=? THEN excluded.window_start ELSE window_start END,
        attempts=CASE WHEN window_start<=? THEN 1 ELSE attempts+1 END
@@ -84,6 +84,7 @@ export async function reservePasswordAttempt() {
      RETURNING attempts`,
     )
     .bind(
+      scope,
       now,
       now - PASSWORD_WINDOW_MS,
       now - PASSWORD_WINDOW_MS,

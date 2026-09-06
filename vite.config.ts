@@ -35,6 +35,7 @@ const localBindingConfig = {
 };
 
 export default defineConfig(async ({ mode }) => {
+  const cloudflareTarget = process.env.SHOUYU_DEPLOY_TARGET === 'cloudflare';
   // Keep Wrangler and Miniflare state project-local. These are non-secret tool
   // settings; application environment belongs in ignored `.env*` files.
   process.env.WRANGLER_WRITE_LOGS ??= 'false';
@@ -45,26 +46,31 @@ export default defineConfig(async ({ mode }) => {
   const { cloudflare } = await import('@cloudflare/vite-plugin');
 
   return {
+    define: { __SHOUYU_CLOUDFLARE__: JSON.stringify(cloudflareTarget) },
     css: { postcss: { plugins: [tailwindcss()] } },
     server: isCodexSeatbeltSandbox
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,
     plugins: [
       vinext(),
-      sites(),
+      ...(!cloudflareTarget ? [sites()] : []),
       cloudflare({
         viteEnvironment: { name: 'rsc', childEnvironments: ['ssr'] },
-        config: {
-          ...localBindingConfig,
-          ...(mode === 'development'
-            ? {
-                vars: {
-                  ADMIN_EMAIL:
-                    loadEnv(mode, process.cwd(), '').ADMIN_EMAIL || '',
-                },
-              }
-            : {}),
-        },
+        ...(cloudflareTarget
+          ? { configPath: 'wrangler.cloudflare.jsonc' }
+          : {
+              config: {
+                ...localBindingConfig,
+                ...(mode === 'development'
+                  ? {
+                      vars: {
+                        ADMIN_EMAIL:
+                          loadEnv(mode, process.cwd(), '').ADMIN_EMAIL || '',
+                      },
+                    }
+                  : {}),
+              },
+            }),
       }),
     ],
   };

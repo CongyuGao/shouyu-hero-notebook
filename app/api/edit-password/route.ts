@@ -1,5 +1,15 @@
 import { getDb } from '@/db';
-import { authorize, body, json, failure, ApiError } from '@/lib/server';
+import {
+  authorize,
+  body,
+  json,
+  failure,
+  ApiError,
+  ADMIN_WRITE_GUARD,
+  adminWriteBindings,
+} from '@/lib/server';
+import { isCloudflareDeployment } from '@/lib/deployment';
+import { matchesOwnerPassword } from '@/lib/owner-password';
 import { newEditKey } from '@/lib/edit-link';
 import {
   derivePassword,
@@ -18,7 +28,7 @@ export async function GET(req: Request) {
 }
 export async function POST(req: Request) {
   try {
-    await authorize(req, true);
+    const grant = await authorize(req, true);
     const input = await body(req);
     if (
       !['set', 'disable'].includes(input.action) ||
@@ -31,6 +41,12 @@ export async function POST(req: Request) {
         400,
         '密码请设置为 12–128 个字符，建议使用不易猜到的长密码',
       );
+    if (
+      input.action === 'set' &&
+      isCloudflareDeployment &&
+      (await matchesOwnerPassword(input.password))
+    )
+      throw new ApiError(400, '编辑密码不能与站长密码相同，请分开设置');
     const previous = await readEditPassword();
     if ((previous?.revision || 0) !== input.expectedRevision)
       throw new ApiError(409, '密码设置已在另一处更新，请刷新后再操作');
@@ -44,14 +60,21 @@ export async function POST(req: Request) {
     const save = previous
       ? db
           .prepare(
-            "UPDATE edit_password SET password_hash=?,salt=?,revision=revision+1,updated_at=?,mutation_id=? WHERE id='main' AND revision=?",
+            `UPDATE edit_password SET password_hash=?,salt=?,revision=revision+1,updated_at=?,mutation_id=? WHERE id='main' AND revision=? AND ${ADMIN_WRITE_GUARD}`,
           )
-          .bind(hash, salt, now, mutation, input.expectedRevision)
+          .bind(
+            hash,
+            salt,
+            now,
+            mutation,
+            input.expectedRevision,
+            ...adminWriteBindings(grant),
+          )
       : db
           .prepare(
-            "INSERT OR IGNORE INTO edit_password (id,password_hash,salt,revision,updated_at,mutation_id) VALUES ('main',?,?,1,?,?)",
+            `INSERT OR IGNORE INTO edit_password (id,password_hash,salt,revision,updated_at,mutation_id) SELECT 'main',?,?,1,?,? WHERE ${ADMIN_WRITE_GUARD}`,
           )
-          .bind(hash, salt, now, mutation);
+          .bind(hash, salt, now, mutation, ...adminWriteBindings(grant));
     // All revocations are conditional on this exact successful CAS and atomic
     // with the password change. A stale settings tab cannot revoke newer grants.
     const changed =

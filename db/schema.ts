@@ -1,5 +1,17 @@
 // Add Drizzle tables here when the site needs a database.
 import { sqliteTable, text, integer, index } from 'drizzle-orm/sqlite-core';
+export const ownerPassword = sqliteTable('owner_password', {
+  id: text('id').primaryKey(),
+  passwordHash: text('password_hash').notNull(),
+  salt: text('salt').notNull(),
+  revision: integer('revision').notNull().default(1),
+  updatedAt: text('updated_at').notNull(),
+});
+export const ownerSessions = sqliteTable('owner_sessions', {
+  tokenHash: text('token_hash').primaryKey(),
+  passwordRevision: integer('password_revision').notNull(),
+  expiresAt: text('expires_at').notNull(),
+});
 export const editPassword = sqliteTable('edit_password', {
   id: text('id').primaryKey(),
   passwordHash: text('password_hash'),

@@ -1,4 +1,5 @@
 import { getDb } from '@/db';
+import { isCloudflareDeployment } from './deployment';
 
 export const EDIT_COOKIE = 'shouyu_edit_key';
 export const LINK_DURATIONS = [1, 24, 168, 720] as const;
@@ -44,5 +45,5 @@ export async function verifyEditKey(key: unknown) {
     .first<{ revision: number; expires_at: string }>();
 }
 export function editCookie(key: string, requestUrl: string, seconds: number) {
-  return `${EDIT_COOKIE}=${key}; Path=/api; HttpOnly; SameSite=Strict; Max-Age=${seconds}${new URL(requestUrl).protocol === 'https:' ? '; Secure' : ''}`;
+  return `${EDIT_COOKIE}=${key}; Path=/api; HttpOnly; SameSite=Strict; Max-Age=${seconds}${isCloudflareDeployment || new URL(requestUrl).protocol === 'https:' ? '; Secure' : ''}`;
 }

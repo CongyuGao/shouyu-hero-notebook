@@ -19,6 +19,8 @@ import { heroes, type Access, type GuideRecord } from '@/lib/guide';
 import { GuideView } from '@/components/guide-view';
 import { GuideEditor } from '@/components/guide-editor';
 import { EditLinkPanel } from '@/components/edit-link-panel';
+import { OwnerPasswordPanel } from '@/components/owner-password-panel';
+import { isCloudflareDeployment } from '@/lib/deployment';
 import { WorkspaceGuides } from '@/components/workspace-guides';
 import { GuidePrimer } from '@/components/guide-primer';
 import { HeroLibrary } from '@/components/hero-library';
@@ -99,13 +101,17 @@ export default function Notebook({
     return () => window.removeEventListener('popstate', read);
   }, [refresh]);
   useEffect(() => {
-    if (mode !== 'edit') return;
+    if (mode !== 'edit' && !(mode === 'manage' && isCloudflareDeployment))
+      return;
     let stopped = false;
     async function checkAccess() {
       if (document.visibilityState === 'hidden') return;
       try {
         const result = await readResponse<{ active: boolean }>(
-          await apiFetch('/api/edit-session', { cache: 'no-store' }),
+          await apiFetch(
+            mode === 'manage' ? '/api/owner-session' : '/api/edit-session',
+            { cache: 'no-store' },
+          ),
         );
         if (!stopped && !result.active) {
           setAccess(anonymous);
@@ -457,7 +463,28 @@ export default function Notebook({
                       <a
                         className="inline-link"
                         target="_top"
-                        href="/signout-with-chatgpt?return_to=%2F"
+                        href={
+                          isCloudflareDeployment
+                            ? '/manage'
+                            : '/signout-with-chatgpt?return_to=%2F'
+                        }
+                        onClick={
+                          isCloudflareDeployment
+                            ? async (event) => {
+                                event.preventDefault();
+                                try {
+                                  await readResponse(
+                                    await apiFetch('/api/owner-session', {
+                                      method: 'DELETE',
+                                    }),
+                                  );
+                                  location.assign('/');
+                                } catch (e) {
+                                  setError((e as Error).message);
+                                }
+                              }
+                            : undefined
+                        }
                       >
                         退出
                       </a>
@@ -505,6 +532,9 @@ export default function Notebook({
                 onNew={() => start()}
               />
               {access.isAdmin && <EditLinkPanel />}
+              {access.isAdmin && isCloudflareDeployment && (
+                <OwnerPasswordPanel />
+              )}
             </TabsContent>
           )}
           <TabsContent value="about">

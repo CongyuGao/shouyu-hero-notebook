@@ -1,4 +1,5 @@
-import { getChatGPTUser } from '@/app/chatgpt-auth';
+import { getOwnerUser, OWNER_WRITE_GUARD } from './owner-password';
+import { isCloudflareDeployment } from './deployment';
 import { adminEmail, getDb } from '@/db';
 import { cookies, headers } from 'next/headers';
 import { EDIT_COOKIE, verifyEditKey } from './edit-link';
@@ -24,6 +25,7 @@ export async function identity() {
     email: '',
     linkRevision: null as number | null,
     passwordSessionHash: null as string | null,
+    ownerSessionHash: null as string | null,
   };
   // A normal reading URL must remain public-only, even in an editor's browser.
   if (mode !== 'manage' && mode !== 'edit') return anonymous;
@@ -41,6 +43,7 @@ export async function identity() {
         email: `密码编辑 #${session.revision}`,
         linkRevision: null as number | null,
         passwordSessionHash: session.tokenHash as string | null,
+        ownerSessionHash: null as string | null,
       };
     const link = await verifyEditKey(key);
     return link
@@ -54,10 +57,11 @@ export async function identity() {
           email: `共享编辑链接 #${link.revision}`,
           linkRevision: link.revision as number | null,
           passwordSessionHash: null as string | null,
+          ownerSessionHash: null as string | null,
         }
       : anonymous;
   }
-  const user = await getChatGPTUser();
+  const user = await getOwnerUser();
   const email = user?.email.toLowerCase().trim() || '';
   const isAdmin = !!email && !!adminEmail() && email === adminEmail();
   const access: Access = {
@@ -71,6 +75,7 @@ export async function identity() {
     email,
     linkRevision: null as number | null,
     passwordSessionHash: null as string | null,
+    ownerSessionHash: user?.ownerSessionHash || null,
   };
 }
 export function assertSameOrigin(req: Request) {
@@ -108,15 +113,23 @@ export async function authorize(req: Request, admin = false) {
 }
 // Re-check the capability inside each actual write, so expiry/revocation wins
 // even when it happens after the request's initial authorization check.
-export const EDIT_WRITE_GUARD = `(?=1
+export const EDIT_WRITE_GUARD = `(?=1 OR ${OWNER_WRITE_GUARD}
     OR EXISTS (SELECT 1 FROM edit_links WHERE id='main' AND token_hash IS NOT NULL AND revision=? AND expires_at > strftime('%Y-%m-%dT%H:%M:%fZ','now'))
     OR EXISTS (SELECT 1 FROM edit_sessions s JOIN edit_password p ON p.id='main' WHERE s.token_hash=? AND s.password_revision=p.revision AND p.password_hash IS NOT NULL AND s.expires_at > strftime('%Y-%m-%dT%H:%M:%fZ','now')))`;
 type WriteGrant = Awaited<ReturnType<typeof authorize>>;
 export function editWriteBindings(grant: WriteGrant) {
   return [
-    grant.access.isAdmin ? 1 : 0,
+    grant.access.isAdmin && !isCloudflareDeployment ? 1 : 0,
+    grant.ownerSessionHash,
     grant.linkRevision,
     grant.passwordSessionHash,
+  ];
+}
+export const ADMIN_WRITE_GUARD = `(?=1 OR ${OWNER_WRITE_GUARD})`;
+export function adminWriteBindings(grant: WriteGrant) {
+  return [
+    grant.access.isAdmin && !isCloudflareDeployment ? 1 : 0,
+    grant.ownerSessionHash,
   ];
 }
 export async function writeLibrary(
