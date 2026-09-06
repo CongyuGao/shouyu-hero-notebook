@@ -2,20 +2,16 @@
 import { useState } from 'react';
 import {
   Search,
-  ArrowLeft,
   ArrowUpRight,
   BookOpen,
   Clock3,
   CalendarDays,
-  Pencil,
-  Shield,
-  Sparkles,
   Layers3,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { heroes, type GuideRecord, type Hero } from '@/lib/guide';
+import { heroes, type GuideRecord } from '@/lib/guide';
 import { rosterHeroIds, type ModeRoster } from '@/lib/mode-roster';
 import { heroTiers } from '@/lib/tiers';
 import { TierBadge, TierGuide } from './tier-guide';
@@ -288,73 +284,5 @@ function RosterGuideDate({ publishedAt }: { publishedAt: string | null }) {
       <time dateTime={publishedAt!}>{value.date}</time> 更新
       {value.stale && <small>留意版本变化</small>}
     </span>
-  );
-}
-
-export function PendingHero({
-  hero,
-  batch,
-  onBack,
-  onEdit,
-  hasDraft,
-}: {
-  hero: Hero;
-  batch: string;
-  onBack: () => void;
-  onEdit?: () => void;
-  hasDraft: boolean;
-}) {
-  return (
-    <section className="pending-hero">
-      <Button variant="ghost" className="touch" onClick={onBack}>
-        <ArrowLeft size={16} />
-        返回英雄图鉴
-      </Button>
-      <div className="pending-hero-heading">
-        <span className="mode-hero-portrait">
-          <img
-            src={hero.avatar}
-            alt=""
-            width={112}
-            height={112}
-            referrerPolicy="no-referrer"
-          />
-        </span>
-        <p className="eyebrow">
-          {batch} · {hero.roles.join(' / ')}
-        </p>
-        <h1>{hero.name}</h1>
-        <span className="pending-label">
-          <Clock3 size={14} />
-          攻略待补充
-        </span>
-        <p>英雄已在模式英雄池中，具体天赋与流派攻略尚未公开。</p>
-        {onEdit && (
-          <Button className="touch" onClick={onEdit}>
-            <Pencil size={16} />
-            {hasDraft ? '继续编辑草稿' : '编写这个英雄的攻略'}
-          </Button>
-        )}
-      </div>
-      <div className="pending-structure">
-        {[
-          [Shield, '核心与小天赋', '按技能组织，独立选择'],
-          [Sparkles, '雕文与铭文', '每个流派保存自己的搭配'],
-          [BookOpen, '流派与打法说明', '支持多流派、备注与更新日期'],
-        ].map(([Icon, title, body]) => {
-          const Mark = Icon as typeof Shield;
-          return (
-            <div key={String(title)}>
-              <Mark size={22} />
-              <h2>{String(title)}</h2>
-              <p>{String(body)}</p>
-            </div>
-          );
-        })}
-      </div>
-      <p className="pending-footnote">
-        这里只预留攻略结构，不预填天赋效果或玩法结论。
-      </p>
-    </section>
   );
 }

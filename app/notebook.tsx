@@ -9,6 +9,7 @@ import {
   Plus,
   Pencil,
   RefreshCw,
+  Bug,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -23,7 +24,8 @@ import { GuideView } from '@/components/guide-view';
 import { GuideEditor } from '@/components/guide-editor';
 import { MemberPanel } from '@/components/member-panel';
 import { GuidePrimer } from '@/components/guide-primer';
-import { HeroLibrary, PendingHero } from '@/components/hero-library';
+import { HeroLibrary } from '@/components/hero-library';
+import { heroTemplate, type GuideEditTarget } from '@/lib/hero-template';
 import {
   initialRoster,
   rosterHeroIds,
@@ -52,6 +54,7 @@ export default function Notebook() {
       initialBuildId?: string;
       newBuild?: boolean;
       initialHeroId?: string;
+      initialTarget?: GuideEditTarget;
     } | null>(null);
   const refresh = useCallback(async () => {
     try {
@@ -82,7 +85,9 @@ export default function Notebook() {
       if (heroId) setTab('guides');
       else
         setTab(
-          ['guides', 'workspace', 'about'].includes(params.get('page') || '')
+          ['guides', 'bugs', 'workspace', 'about'].includes(
+            params.get('page') || '',
+          )
             ? params.get('page')!
             : 'overview',
         );
@@ -105,8 +110,15 @@ export default function Notebook() {
     record: GuideRecord | null = null,
     initialSkill = 1,
     initialBuildId?: string,
+    initialTarget?: GuideEditTarget,
   ) {
-    setEditor({ record, key: Date.now(), initialSkill, initialBuildId });
+    setEditor({
+      record,
+      key: Date.now(),
+      initialSkill,
+      initialBuildId,
+      initialTarget,
+    });
   }
   useEffect(() => {
     if (!access.canEdit || loading) return;
@@ -148,6 +160,8 @@ export default function Notebook() {
   const pendingHero = poolIds.includes(selected)
     ? heroes.find((h) => h.id === selected)
     : undefined;
+  const templateRecord =
+    pendingHero && !activeGuide ? heroTemplate(selected) : null;
   return (
     <div className="notebook">
       <header className="topbar">
@@ -217,6 +231,10 @@ export default function Notebook() {
                 <Swords />
                 英雄攻略
               </TabsTrigger>
+              <TabsTrigger value="bugs">
+                <Bug />
+                BUG 说明
+              </TabsTrigger>
               {access.canEdit && (
                 <TabsTrigger value="workspace">
                   <Pencil />
@@ -267,7 +285,8 @@ export default function Notebook() {
                 onBack={() => openGuide('')}
                 onEdit={
                   access.canEdit
-                    ? (skill, buildId) => start(active, skill, buildId)
+                    ? (skill, buildId, target) =>
+                        start(active, skill, buildId, target)
                     : undefined
                 }
                 signInHref={
@@ -288,22 +307,40 @@ export default function Notebook() {
                     : undefined
                 }
               />
-            ) : pendingHero && !loading ? (
-              <PendingHero
-                hero={pendingHero}
-                batch={
-                  roster.groups.find((g) => g.heroIds.includes(selected))!.name
-                }
-                hasDraft={!!active?.draft}
+            ) : templateRecord && !loading ? (
+              <GuideView
+                key={`template-${selected}`}
+                guide={templateRecord.draft!}
+                record={templateRecord}
+                template
                 onBack={() => openGuide('')}
                 onEdit={
+                  access.canEdit
+                    ? (skill = 1, _buildId, target) =>
+                        setEditor({
+                          record: active || null,
+                          key: Date.now(),
+                          initialHeroId: selected,
+                          initialSkill: skill,
+                          initialTarget: target,
+                        })
+                    : undefined
+                }
+                onNewBuild={
                   access.canEdit
                     ? () =>
                         setEditor({
                           record: active || null,
                           key: Date.now(),
                           initialHeroId: selected,
+                          newBuild: !!active,
                         })
+                    : undefined
+                }
+                signInHref={
+                  !access.signedIn
+                    ? '/signin-with-chatgpt?return_to=' +
+                      encodeURIComponent(`/?hero=${selected}&edit=1`)
                     : undefined
                 }
               />
@@ -331,6 +368,25 @@ export default function Notebook() {
                 />
               </>
             )}
+          </TabsContent>
+          <TabsContent value="bugs">
+            <section className="intro">
+              <div>
+                <p className="eyebrow">无尽守御 · 异常记录</p>
+                <h1>BUG 说明</h1>
+                <p className="muted">
+                  后续补充已知异常、复现条件、影响范围与临时应对办法。
+                </p>
+              </div>
+            </section>
+            <section className="reference-card bug-placeholder">
+              <Bug size={30} />
+              <h2>内容待补充</h2>
+              <p>
+                此处先预留入口，暂不列出未经核实的
+                BUG。后续记录会注明版本，并区分待确认、已复现与已修复。
+              </p>
+            </section>
           </TabsContent>
           {access.canEdit && (
             <TabsContent value="workspace">
@@ -497,6 +553,7 @@ export default function Notebook() {
         <GuideEditor
           allowedHeroIds={rosterHeroIds(roster)}
           initialHeroId={editor.initialHeroId}
+          initialTarget={editor.initialTarget}
           initialSkill={editor.initialSkill}
           initialBuildId={editor.initialBuildId}
           newBuild={editor.newBuild}

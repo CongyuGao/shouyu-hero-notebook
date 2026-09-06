@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Check,
   Gem,
@@ -67,6 +67,10 @@ export function SkillBoard({
   onEdit,
   initialSkill = 1,
   disabled = false,
+  initialEdit,
+  onInitialEditOpened,
+  onEditItem,
+  signInHref,
 }: {
   guide: Guide;
   build: Build;
@@ -76,6 +80,13 @@ export function SkillBoard({
   onEdit?: (skill: number) => void;
   initialSkill?: number;
   disabled?: boolean;
+  initialEdit?: { kind: 'core' | 'talent'; id: string };
+  onInitialEditOpened?: () => void;
+  onEditItem?: (
+    skill: number,
+    target: { kind: 'core' | 'talent'; id: string },
+  ) => void;
+  signInHref?: string;
 }) {
   const [skill, setSkill] = useState(String(initialSkill));
   const [selectedOnly, setSelectedOnly] = useState(false);
@@ -180,6 +191,11 @@ export function SkillBoard({
     }
     setEditing(null);
   }
+  useEffect(() => {
+    if (!editable || !initialEdit) return;
+    open(initialEdit.kind, initialEdit.id);
+    onInitialEditOpened?.();
+  }, [initialEdit]);
   return (
     <div className={`skill-board ${editable ? 'is-editing' : ''}`}>
       <div className="board-toolbar">
@@ -344,6 +360,28 @@ export function SkillBoard({
                               </Button>
                             </div>
                           )}
+                          {!editable && onEditItem && (
+                            <Button
+                              variant="outline"
+                              className="touch card-edit-button"
+                              onClick={() =>
+                                onEditItem(n, { kind: 'core', id: c.id })
+                              }
+                            >
+                              <Pencil size={15} />
+                              {c.name ? '编辑核心资料' : '添加核心资料'}
+                            </Button>
+                          )}
+                          {!editable && !onEditItem && signInHref && (
+                            <a
+                              className="template-edit-link"
+                              href={signInHref}
+                              target="_top"
+                            >
+                              <Pencil size={14} />
+                              登录后添加核心
+                            </a>
+                          )}
                         </article>
                       );
                     })}
@@ -419,6 +457,28 @@ export function SkillBoard({
                             编辑
                           </Button>
                         </div>
+                      )}
+                      {!editable && onEditItem && (
+                        <Button
+                          variant="outline"
+                          className="touch card-edit-button"
+                          onClick={() =>
+                            onEditItem(n, { kind: 'talent', id: t.id })
+                          }
+                        >
+                          <Pencil size={15} />
+                          {t.name ? '编辑天赋资料' : '添加小天赋'}
+                        </Button>
+                      )}
+                      {!editable && !onEditItem && signInHref && (
+                        <a
+                          className="template-edit-link"
+                          href={signInHref}
+                          target="_top"
+                        >
+                          <Pencil size={14} />
+                          登录后添加天赋
+                        </a>
                       )}
                     </article>
                   );

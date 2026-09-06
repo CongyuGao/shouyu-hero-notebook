@@ -66,6 +66,7 @@ import { heroTiers } from '@/lib/tiers';
 import { emptyLibraries, type Libraries } from '@/lib/catalog';
 import { readResponse } from '@/lib/client-api';
 import { registerTools } from '@/lib/webmcp';
+import type { GuideEditTarget } from '@/lib/hero-template';
 
 export function GuideEditor({
   record,
@@ -76,6 +77,7 @@ export function GuideEditor({
   newBuild = false,
   initialHeroId,
   allowedHeroIds,
+  initialTarget,
 }: {
   record: GuideRecord | null;
   onClose: () => void;
@@ -85,6 +87,7 @@ export function GuideEditor({
   newBuild?: boolean;
   initialHeroId?: string;
   allowedHeroIds: string[];
+  initialTarget?: GuideEditTarget;
 }) {
   const [doc, setDoc] = useState<Guide>(() => {
     const initial = structuredClone(
@@ -106,7 +109,7 @@ export function GuideEditor({
       initialBuildId || (newBuild ? doc.builds.at(-1)!.id : doc.builds[0].id),
     ),
     [editorTab, setEditorTab] = useState(
-      record && initialSkill !== 0 ? 'builds' : 'talents',
+      (record || initialHeroId) && initialSkill !== 0 ? 'builds' : 'talents',
     ),
     [hasPublished, setHasPublished] = useState(!!record?.published),
     [history, setHistory] = useState<
@@ -118,6 +121,7 @@ export function GuideEditor({
       }>
     >([]);
   const dirty = JSON.stringify(doc) !== saved;
+  const [entryTarget, setEntryTarget] = useState(initialTarget);
   const [libraries, setLibraries] = useState<Libraries>(emptyLibraries),
     [libraryReady, setLibraryReady] = useState(false),
     [libraryError, setLibraryError] = useState('');
@@ -693,6 +697,13 @@ export function GuideEditor({
                         max={2000}
                       />
                       <SkillBoard
+                        initialEdit={
+                          entryTarget?.kind === 'core' ||
+                          entryTarget?.kind === 'talent'
+                            ? entryTarget
+                            : undefined
+                        }
+                        onInitialEditOpened={() => setEntryTarget(undefined)}
                         guide={doc}
                         build={current}
                         editable
@@ -702,9 +713,16 @@ export function GuideEditor({
                         disabled={busy}
                       />
                       <LoadoutPicker
+                        initialKind={
+                          entryTarget?.kind === 'glyphs' ||
+                          entryTarget?.kind === 'runes'
+                            ? entryTarget.kind
+                            : undefined
+                        }
+                        onInitialKindOpened={() => setEntryTarget(undefined)}
                         guide={doc}
                         build={current}
-                        libraries={libraries}
+                        libraries={libraryReady ? libraries : undefined}
                         editable
                         onGuideChange={patch}
                         onBuildChange={patchBuild}

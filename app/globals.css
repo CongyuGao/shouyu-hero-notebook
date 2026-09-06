@@ -3081,6 +3081,57 @@ footer small {
   font-size: 0.75rem;
   margin-top: 25px;
 }
+.hero-template-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 22px;
+  margin: 22px 0;
+  border: 1px solid #8aa5cc48;
+  border-radius: 10px;
+  background: linear-gradient(120deg, #31476766, #182a4488);
+}
+.bug-placeholder {
+  padding: 32px;
+  max-width: 800px;
+}
+.bug-placeholder > svg {
+  color: #b6a3d5;
+  margin-bottom: 18px;
+}
+.bug-placeholder > h2 {
+  color: #e0cba3;
+  margin-bottom: 12px;
+}
+.bug-placeholder > p {
+  color: #a8bdd8;
+  line-height: 1.9;
+}
+.hero-template-note > svg {
+  color: #a4bcdf;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.hero-template-note strong {
+  color: #e0cba3;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.hero-template-note p {
+  margin-top: 7px;
+  color: #a8bdd8;
+  line-height: 1.85;
+  font-size: 0.8125rem;
+}
+.template-edit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 0;
+  margin-top: 10px;
+  color: #a7bfdd;
+  font-size: 0.75rem;
+}
 .roster-edit-group {
   border: 1px solid #5d78994a;
   background: #14263d;

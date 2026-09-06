@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BookOpen, Check, Plus, RefreshCw, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -36,6 +36,9 @@ export function LoadoutPicker({
   onManage,
   onEdit,
   disabled = false,
+  onEditKind,
+  initialKind,
+  onInitialKindOpened,
 }: {
   guide: Guide;
   build: Build;
@@ -46,6 +49,9 @@ export function LoadoutPicker({
   onManage?: () => void;
   onEdit?: () => void;
   disabled?: boolean;
+  onEditKind?: (kind: CatalogKind) => void;
+  initialKind?: CatalogKind;
+  onInitialKindOpened?: () => void;
 }) {
   const [open, setOpen] = useState<CatalogKind | null>(null),
     [query, setQuery] = useState('');
@@ -72,6 +78,12 @@ export function LoadoutPicker({
       }
     }
   }
+  useEffect(() => {
+    if (editable && initialKind) {
+      void openChooser(initialKind);
+      onInitialKindOpened?.();
+    }
+  }, [initialKind]);
   const chosen = (kind: CatalogKind) =>
     kind === 'glyphs' ? build.glyphIds || [] : build.runeIds || [];
   const snapshot = (kind: CatalogKind) =>
@@ -158,10 +170,14 @@ export function LoadoutPicker({
           className="touch"
           variant="outline"
           disabled={disabled}
-          onClick={() => void openChooser('glyphs')}
+          onClick={() =>
+            !editable && onEditKind
+              ? onEditKind('glyphs')
+              : void openChooser('glyphs')
+          }
         >
           <Plus size={16} />
-          {editable ? '从雕文库选择' : '查看雕文库'}
+          {editable || onEditKind ? '从雕文库选择' : '查看雕文库'}
         </Button>
       </div>
       <div className="glyph-slots">
@@ -175,7 +191,11 @@ export function LoadoutPicker({
               className={`glyph-slot ${item ? 'filled' : ''}`}
               key={i}
               onClick={() =>
-                item ? setInspecting(item) : void openChooser('glyphs')
+                item
+                  ? setInspecting(item)
+                  : !editable && onEditKind
+                    ? onEditKind('glyphs')
+                    : void openChooser('glyphs')
               }
               aria-label={
                 item
@@ -231,10 +251,14 @@ export function LoadoutPicker({
           className="touch"
           variant="outline"
           disabled={disabled}
-          onClick={() => void openChooser('runes')}
+          onClick={() =>
+            !editable && onEditKind
+              ? onEditKind('runes')
+              : void openChooser('runes')
+          }
         >
           <Plus size={16} />
-          {editable ? '从铭文库选择' : '查看铭文库'}
+          {editable || onEditKind ? '从铭文库选择' : '查看铭文库'}
         </Button>
       </div>
       <div className="rune-color-counters" aria-label="各色铭文数量">

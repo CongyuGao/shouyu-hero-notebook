@@ -17,6 +17,7 @@ import { SkillBoard } from './skill-board';
 import { LoadoutPicker } from './loadout-picker';
 import { TierGuide } from './tier-guide';
 import { GuideUpdated } from './guide-updated';
+import type { GuideEditTarget } from '@/lib/hero-template';
 export function GuideView({
   guide,
   record,
@@ -25,14 +26,16 @@ export function GuideView({
   signInHref,
   onNewBuild,
   syncLocation = true,
+  template = false,
 }: {
   guide: Guide;
   record: GuideRecord;
   onBack: () => void;
-  onEdit?: (skill?: number, buildId?: string) => void;
+  onEdit?: (skill?: number, buildId?: string, target?: GuideEditTarget) => void;
   signInHref?: string;
   onNewBuild?: () => void;
   syncLocation?: boolean;
+  template?: boolean;
 }) {
   const hero = heroes.find((h) => h.id === guide.heroId)!;
   const [message, setMessage] = useState('');
@@ -85,7 +88,7 @@ export function GuideView({
           {onEdit && (
             <Button className="touch" onClick={() => onEdit()}>
               <Pencil />
-              编辑 / 选择天赋
+              {template ? '填写这个英雄的攻略' : '编辑 / 选择天赋'}
             </Button>
           )}
         </div>
@@ -126,6 +129,17 @@ export function GuideView({
           <GuideUpdated publishedAt={record.publishedAt} />
         </div>
       </header>
+      {template && (
+        <div className="hero-template-note">
+          <Pencil size={18} />
+          <div>
+            <strong>攻略待填写 · 完整结构已准备好</strong>
+            <p>
+              核心、小天赋、雕文、铭文与流派备注均可逐项补充。空白栏位不是已确认的技能效果，填写并发布后才会成为公开攻略。
+            </p>
+          </div>
+        </div>
+      )}
       {guide.intro && <p className="guide-intro preserve">{guide.intro}</p>}
       <section className="hero-tier-panel">
         <TierGuide tier={guide.tier || '未评级'} editable={!!onEdit} />
@@ -167,14 +181,14 @@ export function GuideView({
             </div>
             {onNewBuild && (
               <Button className="touch" variant="outline" onClick={onNewBuild}>
-                ＋ 新写一个流派
+                {template ? '＋ 填写 / 新增流派' : '＋ 新写一个流派'}
               </Button>
             )}
           </div>
           <TabsList className="build-tabs">
             {guide.builds.map((b) => (
               <TabsTrigger key={b.id} value={b.id}>
-                {b.name || '未命名流派'}
+                {b.name || '流派 1 · 待填写'}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -188,7 +202,7 @@ export function GuideView({
               <div>
                 <h2>{b.name || '流派思路'}</h2>
                 <p className="preserve">
-                  {b.summary || '等待作者补充流派思路。'}
+                  {b.summary || '填写流派名称、玩法特点、适用场景和大致思路。'}
                 </p>
               </div>
             </section>
@@ -202,11 +216,20 @@ export function GuideView({
               guide={guide}
               build={b}
               onEdit={onEdit ? (skill) => onEdit(skill, b.id) : undefined}
+              onEditItem={
+                onEdit
+                  ? (skill, target) => onEdit(skill, b.id, target)
+                  : undefined
+              }
+              signInHref={template ? signInHref : undefined}
             />
             <LoadoutPicker
               guide={guide}
               build={b}
               onEdit={onEdit ? () => onEdit(1, b.id) : undefined}
+              onEditKind={
+                onEdit ? (kind) => onEdit(1, b.id, { kind }) : undefined
+              }
             />
             {(b.glyphs || b.runes || b.arcana) && (
               <section className="support-grid">
@@ -227,11 +250,11 @@ export function GuideView({
                   ))}
               </section>
             )}
-            {(b.notes || onEdit) && (
+            {(b.notes || onEdit || template) && (
               <section className="longform">
                 <h2>
                   <Sparkles size={20} />
-                  {b.name} · 打法详解与备注
+                  {b.name || '本流派'} · 打法详解与备注
                 </h2>
                 <p className="preserve">
                   {b.notes ||
@@ -251,7 +274,7 @@ export function GuideView({
           </TabsContent>
         ))}
       </Tabs>
-      {(guide.notes || onEdit) && (
+      {(guide.notes || onEdit || template) && (
         <section className="longform hero-notes">
           <h2>
             <Sparkles size={20} />
