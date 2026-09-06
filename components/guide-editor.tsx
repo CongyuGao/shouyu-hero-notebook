@@ -98,6 +98,7 @@ export function GuideEditor({
     return initial;
   });
   const [revision, setRevision] = useState(record?.revision || 0);
+  const lockedHeroId = record?.heroId || initialHeroId;
   const [saved, setSaved] = useState(() =>
     JSON.stringify(record?.draft || record?.published || doc),
   );
@@ -106,7 +107,9 @@ export function GuideEditor({
     [confirm, setConfirm] = useState<'close' | 'unpublish' | null>(null),
     [preview, setPreview] = useState(false),
     [buildId, setBuildId] = useState(
-      initialBuildId || (newBuild ? doc.builds.at(-1)!.id : doc.builds[0].id),
+      (initialBuildId && doc.builds.some((b) => b.id === initialBuildId)
+        ? initialBuildId
+        : undefined) || (newBuild ? doc.builds.at(-1)!.id : doc.builds[0].id),
     ),
     [editorTab, setEditorTab] = useState(
       (record || initialHeroId) && initialSkill !== 0 ? 'builds' : 'talents',
@@ -243,8 +246,16 @@ export function GuideEditor({
             const s = toolState.current;
             if (s.busy) throw new Error('Save in progress');
             const value = validateGuide((input as { guide: unknown }).guide);
-            if (s.revision > 0 && value.heroId !== s.doc.heroId)
-              throw new Error('Cannot change hero of saved guide');
+            if (
+              (lockedHeroId || (s.revision > 0 && s.doc.heroId)) &&
+              value.heroId !== (lockedHeroId || s.doc.heroId)
+            )
+              throw new Error('Cannot change hero of this hero-specific guide');
+            if (
+              !allowedHeroIds.includes(value.heroId) &&
+              value.heroId !== lockedHeroId
+            )
+              throw new Error('Hero is not in the confirmed mode roster');
             setDoc(value);
             setBuildId(value.builds[0].id);
             return { heroId: value.heroId, status: 'staged, not saved' };
@@ -285,8 +296,13 @@ export function GuideEditor({
     try {
       if (file.size > 180000) throw new Error('文件过大，最多180 KB');
       const d = validateGuide(JSON.parse(await file.text()));
-      if (revision > 0 && d.heroId !== doc.heroId)
+      if (
+        (lockedHeroId || revision > 0) &&
+        d.heroId !== (lockedHeroId || doc.heroId)
+      )
         throw new Error('不能用其他英雄的攻略覆盖当前英雄');
+      if (!allowedHeroIds.includes(d.heroId) && d.heroId !== lockedHeroId)
+        throw new Error('只能导入模式英雄池中的英雄攻略');
       setDoc(d);
       setBuildId(d.builds[0].id);
       setMessage('内容已导入编辑区，请检查后保存；尚未覆盖已保存内容。');
@@ -394,7 +410,7 @@ export function GuideEditor({
                             h.id === record?.heroId,
                         )}
                         value={hero || null}
-                        disabled={revision > 0}
+                        disabled={revision > 0 || !!lockedHeroId}
                         itemToStringLabel={(h) => h.name}
                         onValueChange={(h) => {
                           if (h)

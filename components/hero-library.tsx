@@ -148,11 +148,11 @@ export function HeroLibrary({
             <Button
               key={v}
               variant="ghost"
-              className={`touch ${tier === v ? 'selected' : ''}`}
+              className={`touch ${v.startsWith('T') ? 'tier-filter-button' : ''} ${tier === v ? 'selected' : ''}`}
               aria-pressed={tier === v}
               onClick={() => setTier(v)}
             >
-              {v}
+              {v.startsWith('T') ? <TierBadge tier={v} /> : v}
             </Button>
           ))}
         </div>

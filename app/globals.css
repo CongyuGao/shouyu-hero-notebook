@@ -1867,7 +1867,7 @@ footer small {
   white-space: nowrap;
 }
 .power-core h4 {
-  font-family: 'Songti SC', 'STSong', 'Noto Serif CJK SC', serif;
+  font-family: var(--font-ui);
   font-size: 1.75rem;
   line-height: 1.35;
   font-weight: 700;
@@ -2581,7 +2581,7 @@ footer small {
   margin-bottom: 22px;
 }
 .primer-chapter-number {
-  font-family: Georgia, serif;
+  font-family: Arial, 'Helvetica Neue', sans-serif;
   color: #7f98ba;
   font-size: 0.875rem;
   letter-spacing: 0.08em;
@@ -2696,7 +2696,7 @@ footer small {
 }
 .roster-count > strong {
   font:
-    500 4rem/1 'DIN Alternate',
+    500 4rem/1 'Arial',
     Arial,
     sans-serif;
   letter-spacing: -0.04em;
@@ -2763,13 +2763,13 @@ footer small {
   margin-left: auto;
   color: #8b9fbc;
   font:
-    500 1.375rem/1 'DIN Alternate',
+    500 1.375rem/1 'Arial',
     Arial,
     sans-serif;
 }
 .batch-number {
   font:
-    500 1.0625rem/1 'DIN Alternate',
+    500 1.0625rem/1 'Arial',
     Arial,
     sans-serif;
   color: #9aabc6;
@@ -3683,7 +3683,7 @@ footer small {
   height: 85px;
 }
 .glyph-detail-heading [data-slot='dialog-title'] {
-  font-family: 'Songti SC', 'STSong', serif;
+  font-family: var(--font-ui);
   font-size: 1.75rem;
   letter-spacing: 0.06em;
   margin-bottom: 8px;
@@ -3726,17 +3726,25 @@ footer small {
   margin-top: 12px;
 }
 .tier-badge {
+  --tier-rgb: 155 172 195;
+  --tier-ink: #cad5e4;
   display: inline-flex;
   align-items: baseline;
   justify-content: center;
-  gap: 2px;
+  gap: 0;
   min-width: 54px;
   padding: 7px 10px;
-  border: 1px solid #8295b86b;
+  border: 1px solid rgb(var(--tier-rgb) / 0.72);
   border-radius: 7px 2px;
-  background: linear-gradient(145deg, #34425c, #172237);
-  color: #a6b9d7;
-  font-family: 'DIN Alternate', 'Arial', 'Helvetica Neue', sans-serif;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(var(--tier-rgb) / 0.29),
+      rgb(var(--tier-rgb) / 0.09)
+    ),
+    #101c2e;
+  color: var(--tier-ink);
+  font-family: Arial, 'Helvetica Neue', var(--font-ui);
   font-weight: 700;
   font-size: 1rem;
   font-variant-numeric: lining-nums tabular-nums;
@@ -3745,48 +3753,70 @@ footer small {
   white-space: nowrap;
   word-break: keep-all;
   flex-shrink: 0;
-  box-shadow: inset 0 1px #c9d9fc26;
+  box-shadow:
+    inset 0 1px rgb(var(--tier-rgb) / 0.28),
+    0 0 14px rgb(var(--tier-rgb) / 0.08);
   vertical-align: middle;
 }
-.tier-letter {
-  display: inline-block;
-  font-size: 0.7em;
-  line-height: 1;
-  font-weight: 600;
-  opacity: 0.85;
-}
+.tier-letter,
 .tier-number {
   display: inline-block;
-  font-size: 1em;
-  line-height: 1;
-  letter-spacing: -0.025em;
-  font-weight: 700;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  opacity: 1;
   white-space: nowrap;
   font-feature-settings:
     'tnum' 1,
     'lnum' 1;
 }
 .tier-T0 {
-  color: #f0c97e;
-  border-color: #c49b59a6;
-  background: linear-gradient(145deg, #634a2f, #2e2b30);
+  --tier-rgb: 255 192 66;
+  --tier-ink: #ffe29a;
 }
 .tier-T0-5 {
-  color: #edb2e3;
-  border-color: #b876ab8a;
-  background: linear-gradient(145deg, #533451, #272b43);
+  --tier-rgb: 255 116 88;
+  --tier-ink: #ffb7a5;
 }
 .tier-T1 {
-  color: #c0acff;
-  border-color: #8d78c68a;
+  --tier-rgb: 178 118 255;
+  --tier-ink: #dcc0ff;
 }
 .tier-T1-5 {
-  color: #94c4ff;
-  border-color: #689fd58a;
+  --tier-rgb: 69 182 255;
+  --tier-ink: #a3dfff;
 }
 .tier-T2 {
-  color: #8cdbce;
-  border-color: #60a99c8a;
+  --tier-rgb: 66 206 137;
+  --tier-ink: #9eedbd;
+}
+.tier-T3 {
+  --tier-rgb: 154 172 194;
+  --tier-ink: #d1dbe9;
+}
+.tier-unrated {
+  --tier-rgb: 115 132 156;
+  --tier-ink: #a8b6ca;
+}
+.tier-filters .tier-filter-button {
+  padding: 4px;
+  min-height: 44px;
+  background: transparent;
+  border-radius: 8px;
+}
+.tier-filters .tier-filter-button .tier-badge {
+  min-width: 48px;
+  font-size: 0.875rem;
+  padding: 7px 9px;
+}
+.tier-filters .tier-filter-button.selected {
+  background: #e4d6b412;
+  box-shadow: 0 0 0 2px #d8c49b;
+}
+.tier-filters .tier-filter-button.selected .tier-badge {
+  box-shadow:
+    inset 0 1px rgb(var(--tier-rgb) / 0.4),
+    0 0 16px rgb(var(--tier-rgb) / 0.2);
 }
 .hero-tier-panel {
   display: flex;
@@ -4070,7 +4100,7 @@ footer small {
 }
 .brand strong {
   color: var(--gold);
-  font-family: 'Songti SC', 'STSong', serif;
+  font-family: var(--font-ui);
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -4090,7 +4120,7 @@ footer small {
 .intro h1,
 .guide-heading h1 {
   color: #f2e5c8;
-  font-family: 'Songti SC', 'STSong', serif;
+  font-family: var(--font-ui);
   letter-spacing: 0.04em;
   text-shadow: 0 2px 18px #a8c6ff16;
 }
@@ -4230,7 +4260,7 @@ footer small {
 }
 .core-section-label > span {
   color: #f0d69c;
-  font-family: 'Songti SC', 'STSong', serif;
+  font-family: var(--font-ui);
   font-size: 1.35rem;
 }
 .core-section-label > span > svg {
