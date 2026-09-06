@@ -26,6 +26,7 @@ export function GuideView({
 }) {
   const hero = heroes.find((h) => h.id === guide.heroId)!;
   const [message, setMessage] = useState('');
+  const [selectedOnly, setSelectedOnly] = useState(false);
   async function copy() {
     try {
       await navigator.clipboard.writeText(
@@ -123,6 +124,43 @@ export function GuideView({
                 </p>
               </div>
             </section>
+            {!!guide.cores?.length && (
+              <section className="core-library">
+                <div className="section-caption">
+                  <h2>流派核心</h2>
+                  <span>高亮项为本流派选择</span>
+                </div>
+                <div className="core-skill-grid">
+                  {[1, 2, 3].map((skill) => (
+                    <div className="core-skill" key={skill}>
+                      <h3>
+                        <span>{skill}</span>技能核心
+                      </h3>
+                      {guide.cores
+                        .filter((c) => c.skill === skill && c.name)
+                        .map((c) => (
+                          <article
+                            key={c.id}
+                            className={`core-card ${(b.coreIds || []).includes(c.id) ? 'is-picked' : ''}`}
+                          >
+                            <div>
+                              <h4>{c.name}</h4>
+                              {(b.coreIds || []).includes(c.id) && (
+                                <span className="rank-label selected">
+                                  已选
+                                </span>
+                              )}
+                            </div>
+                            <p className="preserve">
+                              {c.description || '效果待补充'}
+                            </p>
+                          </article>
+                        ))}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
             {b.order && (
               <section className="order-note">
                 <h3>天赋选择顺序</h3>
@@ -131,19 +169,40 @@ export function GuideView({
             )}
             <div className="section-caption">
               <span>
-                18 个小天赋{' '}
-                <b>{guide.talents.filter((t) => t.name).length}/18 已录入</b>
+                {guide.talents.length} 个小天赋{' '}
+                <b>
+                  {guide.talents.filter((t) => t.name).length}/
+                  {guide.talents.length} 已录入
+                </b>
               </span>
-              <span>推荐仅适用于当前流派</span>
+              <Button
+                variant={selectedOnly ? 'default' : 'outline'}
+                className="touch"
+                aria-pressed={selectedOnly}
+                onClick={() => setSelectedOnly(!selectedOnly)}
+              >
+                {selectedOnly ? '查看全部天赋' : '只看已选 / 推荐'}
+              </Button>
             </div>
+            {b.picks.some((p) => p.priority === 'selected') && (
+              <p className="selection-note">
+                “截图已选”仅还原原图勾选，不代表强度排行；具体取舍可由作者继续补充。
+              </p>
+            )}
             <div className="talent-grid">
               {guide.talents.map((t, i) => {
                 const pick = b.picks.find((p) => p.talentId === t.id);
                 const rank = pick?.priority || 'none';
+                if (
+                  selectedOnly &&
+                  !['selected', 'core', 'recommended'].includes(rank)
+                )
+                  return null;
                 return (
                   <section className={`talent-card rank-${rank}`} key={t.id}>
                     <div className="talent-top">
                       <span className="talent-number">
+                        {t.skill ? `${t.skill} 技能 · ` : ''}
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <span className={`rank-label ${rank}`}>
@@ -156,7 +215,9 @@ export function GuideView({
                     )}
                     {pick?.reason && (
                       <div className="talent-reason">
-                        <span>选择理由</span>
+                        <span>
+                          {rank === 'selected' ? '截图记录' : '选择理由'}
+                        </span>
                         <p className="preserve">{pick.reason}</p>
                       </div>
                     )}
@@ -164,6 +225,43 @@ export function GuideView({
                 );
               })}
             </div>
+            <section className="glyph-library">
+              <div className="section-caption">
+                <h2>
+                  <Layers size={22} />
+                  本流派雕文
+                </h2>
+                <span>模式专属 · 非排位装备</span>
+              </div>
+              {(b.glyphIds || []).length ? (
+                <div className="glyph-grid">
+                  {(b.glyphIds || [])
+                    .map((id) => guide.glyphs.find((g) => g.id === id))
+                    .filter((g) => !!g)
+                    .map((g) => (
+                      <article key={g.id} className="glyph-card">
+                        <span className="glyph-icon">
+                          <Layers size={23} />
+                        </span>
+                        <div>
+                          <h3>{g.name}</h3>
+                          <p className="preserve">{g.effect}</p>
+                          {g.usage && (
+                            <div className="glyph-usage">
+                              <strong>适配与取舍</strong>
+                              <p className="preserve">{g.usage}</p>
+                            </div>
+                          )}
+                        </div>
+                      </article>
+                    ))}
+                </div>
+              ) : (
+                <p className="empty-inline">
+                  雕文搭配待补充。作者录入雕文效果后，可为每个流派分别选择。
+                </p>
+              )}
+            </section>
             {(b.glyphs || b.runes || b.arcana) && (
               <section className="support-grid">
                 {[

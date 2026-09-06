@@ -1,5 +1,6 @@
 import { getDb } from '@/db';
 import { validateGuide } from '@/lib/guide';
+import { ensureInitialGuides } from '@/lib/initial-guides';
 import {
   identity,
   authorize,
@@ -12,6 +13,7 @@ import {
 export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
+    await ensureInitialGuides();
     const { access } = await identity();
     return json({ access, guides: await listGuides(access.canEdit) });
   } catch (e) {

@@ -195,7 +195,7 @@ export default function Notebook() {
                       选对天赋，<span>打出你的流派。</span>
                     </h1>
                     <p className="muted">
-                      18 个小天赋，按核心流派讲清选择、顺序与理由。
+                      从核心到小天赋，再到雕文搭配，讲清选择与理由。
                     </p>
                   </div>
                   <div className="intro-index">
@@ -299,7 +299,8 @@ export default function Notebook() {
                           <div className="published-meta">
                             <span>
                               {d.verified ? '作者已核验' : '待核验'} ·{' '}
-                              {d.talents.filter((t) => t.name).length}/18 天赋
+                              {d.cores?.filter((c) => c.name).length || 0} 核心
+                              · {d.talents.filter((t) => t.name).length} 天赋
                             </span>
                             <span>{d.author}</span>
                           </div>
@@ -414,7 +415,7 @@ export default function Notebook() {
                     <EmptyHeader>
                       <EmptyTitle>还没有保存的攻略</EmptyTitle>
                       <EmptyDescription>
-                        选择你熟悉的模式英雄，从18个小天赋开始。
+                        选择你熟悉的模式英雄，从核心与小天赋开始。
                       </EmptyDescription>
                     </EmptyHeader>
                     <Button className="touch" onClick={() => start()}>
@@ -461,7 +462,7 @@ export default function Notebook() {
               </article>
               <article className="reference-card">
                 <span className="eyebrow">02 / 攻略结构</span>
-                <h2>18 个天赋，多个核心流派</h2>
+                <h2>核心、天赋与雕文，一起搭配</h2>
                 <p>
                   每个流派单独说明天赋推荐、选择顺序与理由。还可补充模式雕文、铭文与秘法，不混入排位装备。
                 </p>
@@ -470,7 +471,7 @@ export default function Notebook() {
                 <span className="eyebrow">03 / 版本与来源</span>
                 <h2>攻略会随版本变化</h2>
                 <p>
-                  “作者已核验”表示作者核对过18个天赋并记录来源，不是官方认证。请结合攻略标注的版本阅读。
+                  “作者已核验”表示作者核对过核心、天赋并记录来源，不是官方认证。请结合攻略标注的版本阅读。
                 </p>
               </article>
               <article className="reference-card">

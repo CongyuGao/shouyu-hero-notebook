@@ -1,0 +1,272 @@
+[
+  {
+    "heroId": "166",
+    "title": "亚瑟 · 飞雷神连斩流",
+    "intro": "根据游戏内天赋备战截图整理，收录 3 个技能的 6 个核心和 24 个小天赋。高亮项还原截图中的勾选，供继续完善攻略。",
+    "version": "截图版本 · 日期待确认",
+    "author": "截图资料整理",
+    "source": "玩家提供的游戏内截图：IMG_3111.PNG—IMG_3116.PNG。文字与勾选按截图转录，未补写截图没有给出的数值。尚未经过游戏内复核；名称字形与版本适用性可由编辑继续核对。雕文资料位于另行提供的腾讯文档，暂未录入。",
+    "verified": false,
+    "cores": [
+      {
+        "id": "c1",
+        "skill": 1,
+        "name": "对御",
+        "description": "生成魔法盾牌，每秒吸收1次来自正面的子弹和伤害",
+        "source": "IMG_3111.PNG、IMG_3112.PNG"
+      },
+      {
+        "id": "c2",
+        "skill": 1,
+        "name": "影破",
+        "description": "自身周围若存在敌人，则会追击挥砍敌人",
+        "source": "IMG_3111.PNG、IMG_3112.PNG"
+      },
+      {
+        "id": "c3",
+        "skill": 2,
+        "name": "宏图",
+        "description": "盾牌数量额外+3，并大大提升技能范围",
+        "source": "IMG_3113.PNG、IMG_3114.PNG"
+      },
+      {
+        "id": "c4",
+        "skill": 2,
+        "name": "磐坚",
+        "description": "以4副巨大盾牌造成伤害，目标首次被命中后附加旋转效果",
+        "source": "IMG_3113.PNG、IMG_3114.PNG"
+      },
+      {
+        "id": "c5",
+        "skill": 3,
+        "name": "处决",
+        "description": "立即斩杀生命低于25%的目标，施法5秒后，目标死亡将刷新冷却",
+        "source": "IMG_3115.PNG、IMG_3116.PNG"
+      },
+      {
+        "id": "c6",
+        "skill": 3,
+        "name": "圣辉",
+        "description": "召唤圣殿骑士汇聚圣印之力常侍身旁，以圣光打击周围敌人",
+        "source": "IMG_3115.PNG、IMG_3116.PNG"
+      }
+    ],
+    "talents": [
+      {
+        "id": "t01",
+        "skill": 1,
+        "name": "回生",
+        "description": "举盾碰撞目标可造成伤害，并为自身回复生命",
+        "source": "IMG_3111.PNG"
+      },
+      {
+        "id": "t02",
+        "skill": 1,
+        "name": "急空",
+        "description": "获得爆发移速",
+        "source": "IMG_3111.PNG"
+      },
+      {
+        "id": "t03",
+        "skill": 1,
+        "name": "庇抵",
+        "description": "施法后获得护盾（技能结束或进行普攻后清除）",
+        "source": "IMG_3111.PNG、IMG_3112.PNG"
+      },
+      {
+        "id": "t04",
+        "skill": 1,
+        "name": "幻移",
+        "description": "强普命中时，生成3个幻影，协同斩击目标，并对目标附加额外伤害",
+        "source": "IMG_3111.PNG、IMG_3112.PNG"
+      },
+      {
+        "id": "t05",
+        "skill": 1,
+        "name": "连斩",
+        "description": "对目标连斩2次",
+        "source": "IMG_3111.PNG、IMG_3112.PNG"
+      },
+      {
+        "id": "t06",
+        "skill": 1,
+        "name": "持续",
+        "description": "举盾持续时间+3秒",
+        "source": "IMG_3111.PNG、IMG_3112.PNG"
+      },
+      {
+        "id": "t07",
+        "skill": 1,
+        "name": "回复",
+        "description": "举盾期间，5米内每有1名敌方英雄，将为自身回复生命值",
+        "source": "IMG_3112.PNG"
+      },
+      {
+        "id": "t08",
+        "skill": 1,
+        "name": "顽抗",
+        "description": "技能期间，击败目标将立即刷新冷却",
+        "source": "IMG_3112.PNG"
+      },
+      {
+        "id": "t09",
+        "skill": 2,
+        "name": "灵息",
+        "description": "伤害附带额外真实伤害",
+        "source": "IMG_3114.PNG"
+      },
+      {
+        "id": "t10",
+        "skill": 2,
+        "name": "意志",
+        "description": "命中目标后，获得护盾（技能结束后清除）",
+        "source": "IMG_3114.PNG"
+      },
+      {
+        "id": "t11",
+        "skill": 2,
+        "name": "漩涡",
+        "description": "施法期间，每次造成伤害时，冷却-0.2秒",
+        "source": "IMG_3113.PNG、IMG_3114.PNG"
+      },
+      {
+        "id": "t12",
+        "skill": 2,
+        "name": "超频",
+        "description": "盾牌攻击频率提升",
+        "source": "IMG_3113.PNG、IMG_3114.PNG"
+      },
+      {
+        "id": "t13",
+        "skill": 2,
+        "name": "同棘",
+        "description": "释放技能瞬间向周围敌方英雄单位甩出飞盾，造成伤害与沉默效果",
+        "source": "IMG_3113.PNG、IMG_3114.PNG"
+      },
+      {
+        "id": "t14",
+        "skill": 2,
+        "name": "轮游",
+        "description": "使用技能后，盾牌可抵挡1次飞行子弹",
+        "source": "IMG_3113.PNG、IMG_3114.PNG"
+      },
+      {
+        "id": "t15",
+        "skill": 2,
+        "name": "益谷",
+        "description": "每次造成伤害时，回复生命值",
+        "source": "IMG_3113.PNG"
+      },
+      {
+        "id": "t16",
+        "skill": 2,
+        "name": "持恒",
+        "description": "技能持续时间+3秒",
+        "source": "IMG_3113.PNG"
+      },
+      {
+        "id": "t17",
+        "skill": 3,
+        "name": "劲域",
+        "description": "圣印造成额外真实伤害",
+        "source": "IMG_3115.PNG"
+      },
+      {
+        "id": "t18",
+        "skill": 3,
+        "name": "沉驭",
+        "description": "可将敌方英雄击飞得更高，并眩晕1秒",
+        "source": "IMG_3115.PNG"
+      },
+      {
+        "id": "t19",
+        "skill": 3,
+        "name": "广愈",
+        "description": "该技能每次命中英雄回复，斩击回复更多",
+        "source": "IMG_3115.PNG、IMG_3116.PNG"
+      },
+      {
+        "id": "t20",
+        "skill": 3,
+        "name": "续裁",
+        "description": "施法后额外斩击1次",
+        "source": "IMG_3115.PNG、IMG_3116.PNG"
+      },
+      {
+        "id": "t21",
+        "skill": 3,
+        "name": "长续",
+        "description": "圣印持续时间增加3秒",
+        "source": "IMG_3115.PNG、IMG_3116.PNG"
+      },
+      {
+        "id": "t22",
+        "skill": 3,
+        "name": "共裁",
+        "description": "圣印范围内，所有敌人都将受到圣剑伤害",
+        "source": "IMG_3115.PNG、IMG_3116.PNG"
+      },
+      {
+        "id": "t23",
+        "skill": 3,
+        "name": "频促",
+        "description": "圣印伤害频率大大提升",
+        "source": "IMG_3116.PNG"
+      },
+      {
+        "id": "t24",
+        "skill": 3,
+        "name": "环愈",
+        "description": "圣印范围内，亚瑟将持续回复生命",
+        "source": "IMG_3116.PNG"
+      }
+    ],
+    "builds": [
+      {
+        "id": "arthur-screenshot-build",
+        "name": "飞雷神连斩流",
+        "summary": "原图方案选择：影破、磐坚、处决。小天赋勾选持续、回复、同棘、持恒、沉驭、环愈。本页先还原截图，强度判断和取舍理由由作者继续补充。",
+        "order": "",
+        "coreIds": ["c2", "c4", "c5"],
+        "picks": [
+          {
+            "talentId": "t06",
+            "priority": "selected",
+            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
+          },
+          {
+            "talentId": "t07",
+            "priority": "selected",
+            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
+          },
+          {
+            "talentId": "t13",
+            "priority": "selected",
+            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
+          },
+          {
+            "talentId": "t16",
+            "priority": "selected",
+            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
+          },
+          {
+            "talentId": "t18",
+            "priority": "selected",
+            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
+          },
+          {
+            "talentId": "t24",
+            "priority": "selected",
+            "reason": "原截图勾选；选择顺序与实战取舍待作者补充。"
+          }
+        ],
+        "glyphIds": [],
+        "glyphs": "",
+        "runes": "",
+        "arcana": "",
+        "notes": ""
+      }
+    ],
+    "glyphs": []
+  }
+]

@@ -268,15 +268,14 @@ export function GuideEditor({
   async function loadHistory() {
     try {
       const r = await fetch(`/api/history?heroId=${doc.heroId}`);
-      const j =
-        await readResponse<
-          Array<{
-            revision: number;
-            snapshot: string;
-            action: string;
-            createdAt: string;
-          }>
-        >(r);
+      const j = await readResponse<
+        Array<{
+          revision: number;
+          snapshot: string;
+          action: string;
+          createdAt: string;
+        }>
+      >(r);
       setHistory(j);
       if (!j.length) setMessage('暂时没有保存记录。');
     } catch (e) {
@@ -343,8 +342,8 @@ export function GuideEditor({
               ) : (
                 <Tabs defaultValue="talents">
                   <TabsList className="editor-tabs">
-                    <TabsTrigger value="talents">① 英雄与18天赋</TabsTrigger>
-                    <TabsTrigger value="builds">② 核心流派</TabsTrigger>
+                    <TabsTrigger value="talents">① 核心与天赋</TabsTrigger>
+                    <TabsTrigger value="builds">② 流派搭配</TabsTrigger>
                     <TabsTrigger value="glyphs">③ 雕文介绍</TabsTrigger>
                     <TabsTrigger value="publish">④ 发布信息</TabsTrigger>
                   </TabsList>
@@ -401,10 +400,64 @@ export function GuideEditor({
                       />
                     </section>
                     <section className="form-section">
+                      <h2>流派核心 · 原始效果</h2>
+                      {!(doc.cores || []).length && (
+                        <Button
+                          variant="outline"
+                          className="touch"
+                          onClick={() =>
+                            patch({ cores: blankGuide(doc.heroId).cores })
+                          }
+                        >
+                          创建6个核心栏位
+                        </Button>
+                      )}
+                      <p className="muted">
+                        按技能录入核心；在“流派搭配”中选择这个打法用哪一个。
+                      </p>
+                      <div className="talent-edit-grid">
+                        {(doc.cores || []).map((c) => (
+                          <div className="talent-edit" key={c.id}>
+                            <span className="talent-number">
+                              {c.skill} 技能核心
+                            </span>
+                            <Field
+                              label="核心名称"
+                              value={c.name}
+                              max={60}
+                              onChange={(v) =>
+                                patch({
+                                  cores: doc.cores.map((x) =>
+                                    x.id === c.id ? { ...x, name: v } : x,
+                                  ),
+                                })
+                              }
+                            />
+                            <Field
+                              label="核心效果"
+                              value={c.description}
+                              max={2000}
+                              multiline
+                              onChange={(v) =>
+                                patch({
+                                  cores: doc.cores.map((x) =>
+                                    x.id === c.id
+                                      ? { ...x, description: v }
+                                      : x,
+                                  ),
+                                })
+                              }
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+                    <section className="form-section">
                       <div className="section-caption">
-                        <h2>18 个小天赋</h2>
+                        <h2>{doc.talents.length} 个小天赋</h2>
                         <span>
-                          {doc.talents.filter((t) => t.name).length}/18 已填写
+                          {doc.talents.filter((t) => t.name).length}/
+                          {doc.talents.length} 已填写
                         </span>
                       </div>
                       <p className="muted">
@@ -414,6 +467,7 @@ export function GuideEditor({
                         {doc.talents.map((t, i) => (
                           <div className="talent-edit" key={t.id}>
                             <span className="talent-number">
+                              {t.skill ? `${t.skill} 技能 · ` : ''}
                               {String(i + 1).padStart(2, '0')}
                             </span>
                             <Field
@@ -448,12 +502,62 @@ export function GuideEditor({
                           </div>
                         ))}
                       </div>
+                      <div className="button-row slot-actions">
+                        <Button
+                          variant="outline"
+                          className="touch"
+                          disabled={doc.talents.length >= 36}
+                          onClick={() => {
+                            const i = doc.talents.length;
+                            patch({
+                              talents: [
+                                ...doc.talents,
+                                {
+                                  id: `t${String(i + 1).padStart(2, '0')}`,
+                                  name: '',
+                                  description: '',
+                                },
+                              ],
+                            });
+                          }}
+                        >
+                          增加一个栏位
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="touch"
+                          disabled={
+                            doc.talents.length <= 1 ||
+                            !!doc.talents.at(-1)?.name ||
+                            !!doc.talents.at(-1)?.description ||
+                            doc.builds.some((b) =>
+                              b.picks.some(
+                                (p) =>
+                                  p.talentId === doc.talents.at(-1)?.id &&
+                                  p.priority !== 'none',
+                              ),
+                            )
+                          }
+                          onClick={() => {
+                            const id = doc.talents.at(-1)!.id;
+                            patch({
+                              talents: doc.talents.slice(0, -1),
+                              builds: doc.builds.map((b) => ({
+                                ...b,
+                                picks: b.picks.filter((p) => p.talentId !== id),
+                              })),
+                            });
+                          }}
+                        >
+                          移除末尾空栏位
+                        </Button>
+                      </div>
                     </section>
                   </TabsContent>
                   <TabsContent value="builds">
                     <section className="form-section">
                       <div className="section-caption">
-                        <h2>核心流派</h2>
+                        <h2>流派搭配与攻略</h2>
                         <Button
                           variant="outline"
                           className="touch"
@@ -503,6 +607,55 @@ export function GuideEditor({
                         placeholder="先拿什么，再补什么；没有刷到核心天赋时如何过渡。"
                         max={2000}
                       />
+                      <h3 className="subheading">选择本流派核心</h3>
+                      <div className="core-choice-grid">
+                        {[1, 2, 3].map((skill) => (
+                          <div className="core-choice" key={skill}>
+                            <strong>{skill} 技能核心</strong>
+                            {(doc.cores || [])
+                              .filter((c) => c.skill === skill && c.name)
+                              .map((c) => (
+                                <label key={c.id} className="choice-card">
+                                  <Checkbox
+                                    checked={(current.coreIds || []).includes(
+                                      c.id,
+                                    )}
+                                    onCheckedChange={(v) =>
+                                      patchBuild({
+                                        coreIds: v
+                                          ? [
+                                              ...(current.coreIds || []).filter(
+                                                (id) =>
+                                                  doc.cores.find(
+                                                    (x) => x.id === id,
+                                                  )?.skill !== skill,
+                                              ),
+                                              c.id,
+                                            ]
+                                          : (current.coreIds || []).filter(
+                                              (id) => id !== c.id,
+                                            ),
+                                      })
+                                    }
+                                  />
+                                  <span>
+                                    <strong>{c.name}</strong>
+                                    <small>
+                                      {c.description || '效果待补充'}
+                                    </small>
+                                  </span>
+                                </label>
+                              ))}
+                            {!(doc.cores || []).some(
+                              (c) => c.skill === skill && c.name,
+                            ) && (
+                              <p className="muted">
+                                先在“核心与天赋”填写名称。
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                       <h3 className="subheading">逐项写下你的推荐</h3>
                       <p className="muted">
                         每个流派独立评价，不同流派可以对同一个天赋给出不同建议。
@@ -559,7 +712,46 @@ export function GuideEditor({
                           );
                         })}
                       </div>
-                      <h3 className="subheading">补充搭配与打法（选填）</h3>
+                      <h3 className="subheading">选择本流派雕文</h3>
+                      <p className="muted">
+                        先在“雕文介绍”录入，再在这里勾选。不同流派独立保存。
+                      </p>
+                      {doc.glyphs.length ? (
+                        <div className="glyph-choice-grid">
+                          {doc.glyphs.map((g) => (
+                            <label className="choice-card" key={g.id}>
+                              <Checkbox
+                                checked={(current.glyphIds || []).includes(
+                                  g.id,
+                                )}
+                                onCheckedChange={(v) =>
+                                  patchBuild({
+                                    glyphIds: v
+                                      ? [
+                                          ...(current.glyphIds || []).filter(
+                                            (id) => id !== g.id,
+                                          ),
+                                          g.id,
+                                        ]
+                                      : (current.glyphIds || []).filter(
+                                          (id) => id !== g.id,
+                                        ),
+                                  })
+                                }
+                              />
+                              <span>
+                                <strong>{g.name || '未命名雕文'}</strong>
+                                <small>{g.effect || '效果待补充'}</small>
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="empty-inline">
+                          尚未录入雕文，请先打开上方“雕文介绍”。
+                        </p>
+                      )}
+                      <h3 className="subheading">搭配说明与打法（选填）</h3>
                       <Field
                         label="模式专属雕文搭配"
                         value={current.glyphs}
@@ -656,6 +848,12 @@ export function GuideEditor({
                                   glyphs: doc.glyphs.filter(
                                     (x) => x.id !== g.id,
                                   ),
+                                  builds: doc.builds.map((b) => ({
+                                    ...b,
+                                    glyphIds: (b.glyphIds || []).filter(
+                                      (id) => id !== g.id,
+                                    ),
+                                  })),
                                 })
                               }
                             >
@@ -740,7 +938,10 @@ export function GuideEditor({
                             patch({ verified: v === true })
                           }
                         />
-                        <span>我已核对全部18个天赋，并在上方记录核验来源</span>
+                        <span>
+                          我已核对全部核心与{doc.talents.length}
+                          个天赋，并在上方记录核验来源
+                        </span>
                       </label>
                       <p className="muted">
                         未勾选时，读者会看到“待核验”。发布前必须至少有一个完整的流派推荐。

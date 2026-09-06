@@ -50,7 +50,7 @@ const doc = {
   version: 'TEST',
   source: '隔离功能检查',
   verified: false,
-  talents: Array.from({ length: 18 }, (_, i) => ({
+  talents: Array.from({ length: 24 }, (_, i) => ({
     id: `t${String(i + 1).padStart(2, '0')}`,
     name: `测试天赋${i + 1}`,
     description: '非游戏数据',
@@ -66,6 +66,8 @@ const doc = {
       runes: '',
       arcana: '',
       notes: '',
+      coreIds: ['test-core'],
+      glyphIds: ['test-glyph'],
     },
   ],
   glyphs: [
@@ -75,6 +77,9 @@ const doc = {
       effect: '非游戏数据',
       usage: '仅测试',
     },
+  ],
+  cores: [
+    { id: 'test-core', skill: 1, name: '测试核心', description: '非游戏数据' },
   ],
 };
 try {
@@ -132,6 +137,9 @@ try {
     assert.equal(visible.draft, undefined);
     assert.equal(visible.updatedBy, undefined);
     assert.equal(visible.published.glyphs[0].name, '测试雕文');
+    assert.equal(visible.published.talents.length, 24);
+    assert.deepEqual(visible.published.builds[0].coreIds, ['test-core']);
+    assert.deepEqual(visible.published.builds[0].glyphIds, ['test-glyph']);
   });
   r = await post({
     doc: { ...doc, title: marker + '_PRIVATE' },
