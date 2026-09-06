@@ -1,0 +1,1588 @@
+{
+  "fetchedAt": "2026-09-06",
+  "heroes": [
+    {
+      "id": "105",
+      "name": "廉颇",
+      "pinyin": "lianpo",
+      "title": "正义爆轰",
+      "roles": [
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/105/105.jpg"
+    },
+    {
+      "id": "106",
+      "name": "小乔",
+      "pinyin": "xiaoqiao",
+      "title": "恋之微风",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/106/106.jpg"
+    },
+    {
+      "id": "107",
+      "name": "赵云",
+      "pinyin": "zhaoyun",
+      "title": "苍天翔龙",
+      "roles": [
+        "战士",
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/107/107.jpg"
+    },
+    {
+      "id": "108",
+      "name": "墨子",
+      "pinyin": "mozi",
+      "title": "和平守望",
+      "roles": [
+        "法师",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/108/108.jpg"
+    },
+    {
+      "id": "109",
+      "name": "妲己",
+      "pinyin": "daji",
+      "title": "魅力之狐",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/109/109.jpg"
+    },
+    {
+      "id": "110",
+      "name": "嬴政",
+      "pinyin": "yingzheng",
+      "title": "王者独尊",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/110/110.jpg"
+    },
+    {
+      "id": "111",
+      "name": "孙尚香",
+      "pinyin": "sunshangxiang",
+      "title": "千金重弩",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/111/111.jpg"
+    },
+    {
+      "id": "112",
+      "name": "鲁班七号",
+      "pinyin": "lubanqihao",
+      "title": "机关造物",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/112/112.jpg"
+    },
+    {
+      "id": "113",
+      "name": "庄周",
+      "pinyin": "zhuangzhou",
+      "title": "逍遥梦幻",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/113/113.jpg"
+    },
+    {
+      "id": "114",
+      "name": "刘禅",
+      "pinyin": "liushan",
+      "title": "暴走机关",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/114/114.jpg"
+    },
+    {
+      "id": "115",
+      "name": "高渐离",
+      "pinyin": "gaojianli",
+      "title": "叛逆吟游",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/115/115.jpg"
+    },
+    {
+      "id": "116",
+      "name": "阿轲",
+      "pinyin": "ake",
+      "title": "信念之刃",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/116/116.jpg"
+    },
+    {
+      "id": "117",
+      "name": "钟无艳",
+      "pinyin": "zhongwuyan",
+      "title": "野蛮之锤",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/117/117.jpg"
+    },
+    {
+      "id": "118",
+      "name": "孙膑",
+      "pinyin": "sunbin",
+      "title": "逆流之时",
+      "roles": [
+        "辅助",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/118/118.jpg"
+    },
+    {
+      "id": "119",
+      "name": "扁鹊",
+      "pinyin": "bianque",
+      "title": "善恶怪医",
+      "roles": [
+        "法师",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/119/119.jpg"
+    },
+    {
+      "id": "167",
+      "name": "孙悟空",
+      "pinyin": "sunwukong",
+      "title": "齐天大圣",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/167/167.jpg"
+    },
+    {
+      "id": "549",
+      "name": "心魔六耳",
+      "pinyin": "xinmoliuer",
+      "title": "孙悟空命格",
+      "roles": [
+        "刺客",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/549/549.jpg"
+    },
+    {
+      "id": "120",
+      "name": "白起",
+      "pinyin": "baiqi",
+      "title": "最终兵器",
+      "roles": [
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/120/120.jpg"
+    },
+    {
+      "id": "121",
+      "name": "芈月",
+      "pinyin": "miyue",
+      "title": "永恒之月",
+      "roles": [
+        "法师",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/121/121.jpg"
+    },
+    {
+      "id": "123",
+      "name": "吕布",
+      "pinyin": "lvbu",
+      "title": "无双之魔",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/123/123.jpg"
+    },
+    {
+      "id": "124",
+      "name": "周瑜",
+      "pinyin": "zhouyv",
+      "title": "铁血都督",
+      "roles": [
+        "法师",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/124/124.jpg"
+    },
+    {
+      "id": "126",
+      "name": "夏侯惇",
+      "pinyin": "xiahoudun",
+      "title": "不羁之风",
+      "roles": [
+        "坦克",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/126/126.jpg"
+    },
+    {
+      "id": "127",
+      "name": "甄姬",
+      "pinyin": "zhenji",
+      "title": "洛神降临",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/127/127.jpg"
+    },
+    {
+      "id": "128",
+      "name": "曹操",
+      "pinyin": "caocao",
+      "title": "鲜血枭雄",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/128/128.jpg"
+    },
+    {
+      "id": "129",
+      "name": "典韦",
+      "pinyin": "dianwei",
+      "title": "狂战士",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/129/129.jpg"
+    },
+    {
+      "id": "130",
+      "name": "宫本武藏",
+      "pinyin": "gongbenwuzang",
+      "title": "剑圣",
+      "roles": [
+        "战士",
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/130/130.jpg"
+    },
+    {
+      "id": "131",
+      "name": "李白",
+      "pinyin": "libai",
+      "title": "青莲剑仙",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/131/131.jpg"
+    },
+    {
+      "id": "132",
+      "name": "马可波罗",
+      "pinyin": "makeboluo",
+      "title": "远游之枪",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/132/132.jpg"
+    },
+    {
+      "id": "133",
+      "name": "狄仁杰",
+      "pinyin": "direnjie",
+      "title": "断案大师",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/133/133.jpg"
+    },
+    {
+      "id": "134",
+      "name": "达摩",
+      "pinyin": "damo",
+      "title": "拳僧",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/134/134.jpg"
+    },
+    {
+      "id": "135",
+      "name": "项羽",
+      "pinyin": "xiangyu",
+      "title": "霸王",
+      "roles": [
+        "坦克",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/135/135.jpg"
+    },
+    {
+      "id": "136",
+      "name": "武则天",
+      "pinyin": "wuzetian",
+      "title": "女帝",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/136/136.jpg"
+    },
+    {
+      "id": "139",
+      "name": "老夫子",
+      "pinyin": "laofuzi",
+      "title": "万古长明",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/139/139.jpg"
+    },
+    {
+      "id": "140",
+      "name": "关羽",
+      "pinyin": "guanyu",
+      "title": "一骑当千",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/140/140.jpg"
+    },
+    {
+      "id": "141",
+      "name": "貂蝉",
+      "pinyin": "diaochan",
+      "title": "绝世舞姬",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/141/141.jpg"
+    },
+    {
+      "id": "142",
+      "name": "安琪拉",
+      "pinyin": "anqila",
+      "title": "暗夜萝莉",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/142/142.jpg"
+    },
+    {
+      "id": "144",
+      "name": "程咬金",
+      "pinyin": "chengyaojin",
+      "title": "热烈之斧",
+      "roles": [
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/144/144.jpg"
+    },
+    {
+      "id": "146",
+      "name": "露娜",
+      "pinyin": "luna",
+      "title": "月光之女",
+      "roles": [
+        "刺客",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/146/146.jpg"
+    },
+    {
+      "id": "148",
+      "name": "姜子牙",
+      "pinyin": "jiangziya",
+      "title": "封神者",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/148/148.jpg"
+    },
+    {
+      "id": "149",
+      "name": "刘邦",
+      "pinyin": "liubang",
+      "title": "双面君主",
+      "roles": [
+        "坦克",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/149/149.jpg"
+    },
+    {
+      "id": "150",
+      "name": "韩信",
+      "pinyin": "hanxin",
+      "title": "国士无双",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/150/150.jpg"
+    },
+    {
+      "id": "152",
+      "name": "王昭君",
+      "pinyin": "wangzhaojun",
+      "title": "冰雪之华",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/152/152.jpg"
+    },
+    {
+      "id": "153",
+      "name": "兰陵王",
+      "pinyin": "lanlingwang",
+      "title": "暗影刀锋",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/153/153.jpg"
+    },
+    {
+      "id": "154",
+      "name": "花木兰",
+      "pinyin": "huamulan",
+      "title": "传说之刃",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/154/154.jpg"
+    },
+    {
+      "id": "156",
+      "name": "张良",
+      "pinyin": "zhangliang",
+      "title": "言灵之书",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/156/156.jpg"
+    },
+    {
+      "id": "157",
+      "name": "不知火舞",
+      "pinyin": "buzhihuowu",
+      "title": "明媚烈焰",
+      "roles": [
+        "刺客",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/157/157.jpg"
+    },
+    {
+      "id": "162",
+      "name": "娜可露露",
+      "pinyin": "nakelulu",
+      "title": "鹰之守护",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/162/162.jpg"
+    },
+    {
+      "id": "163",
+      "name": "橘右京",
+      "pinyin": "jvyoujing",
+      "title": "神梦一刀",
+      "roles": [
+        "刺客",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/163/163.jpg"
+    },
+    {
+      "id": "166",
+      "name": "亚瑟",
+      "pinyin": "yase",
+      "title": "圣骑之力",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/166/166.jpg"
+    },
+    {
+      "id": "168",
+      "name": "牛魔",
+      "pinyin": "niumo",
+      "title": "精英酋长",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/168/168.jpg"
+    },
+    {
+      "id": "169",
+      "name": "后羿",
+      "pinyin": "houyi",
+      "title": "半神之弓",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/169/169.jpg"
+    },
+    {
+      "id": "170",
+      "name": "刘备",
+      "pinyin": "liubei",
+      "title": "仁德义枪",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/170/170.jpg"
+    },
+    {
+      "id": "171",
+      "name": "张飞",
+      "pinyin": "zhangfei",
+      "title": "禁血狂兽",
+      "roles": [
+        "坦克",
+        "辅助"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/171/171.jpg"
+    },
+    {
+      "id": "173",
+      "name": "李元芳",
+      "pinyin": "liyuanfang",
+      "title": "王都密探",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/173/173.jpg"
+    },
+    {
+      "id": "174",
+      "name": "虞姬",
+      "pinyin": "yuji",
+      "title": "森之风灵",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/174/174.jpg"
+    },
+    {
+      "id": "175",
+      "name": "钟馗",
+      "pinyin": "zhongkui",
+      "title": "虚灵城判",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/175/175.jpg"
+    },
+    {
+      "id": "178",
+      "name": "杨戬",
+      "pinyin": "yangjian",
+      "title": "根源之目",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/178/178.jpg"
+    },
+    {
+      "id": "183",
+      "name": "雅典娜",
+      "pinyin": "yadianna",
+      "title": "圣域余晖",
+      "roles": [
+        "战士",
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/183/183.jpg"
+    },
+    {
+      "id": "184",
+      "name": "蔡文姬",
+      "pinyin": "caiwenji",
+      "title": "天籁弦音",
+      "roles": [
+        "辅助",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/184/184.jpg"
+    },
+    {
+      "id": "186",
+      "name": "太乙真人",
+      "pinyin": "taiyizhenren",
+      "title": "炼金大师",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/186/186.jpg"
+    },
+    {
+      "id": "180",
+      "name": "哪吒",
+      "pinyin": "nezha",
+      "title": "桀骜炎枪",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/180/180.jpg"
+    },
+    {
+      "id": "190",
+      "name": "诸葛亮",
+      "pinyin": "zhugeliang",
+      "title": "绝代智谋",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/190/190.jpg"
+    },
+    {
+      "id": "192",
+      "name": "黄忠",
+      "pinyin": "huangzhong",
+      "title": "燃魂重炮",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/192/192.jpg"
+    },
+    {
+      "id": "191",
+      "name": "大乔",
+      "pinyin": "daqiao",
+      "title": "沧海之曜",
+      "roles": [
+        "辅助",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/191/191.jpg"
+    },
+    {
+      "id": "187",
+      "name": "东皇太一",
+      "pinyin": "donghuangtaiyi",
+      "title": "噬灭日蚀",
+      "roles": [
+        "辅助",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/187/187.jpg"
+    },
+    {
+      "id": "182",
+      "name": "干将莫邪",
+      "pinyin": "ganjiangmoye",
+      "title": "淬命双剑",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/182/182.jpg"
+    },
+    {
+      "id": "189",
+      "name": "鬼谷子",
+      "pinyin": "guiguzi",
+      "title": "万物有灵",
+      "roles": [
+        "辅助",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/189/189.jpg"
+    },
+    {
+      "id": "193",
+      "name": "铠",
+      "pinyin": "kai",
+      "title": "破灭刃锋",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/193/193.jpg"
+    },
+    {
+      "id": "196",
+      "name": "百里守约",
+      "pinyin": "bailishouyue",
+      "title": "静谧之眼",
+      "roles": [
+        "射手",
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/196/196.jpg"
+    },
+    {
+      "id": "195",
+      "name": "百里玄策",
+      "pinyin": "bailixuance",
+      "title": "嚣狂之镰",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/195/195.jpg"
+    },
+    {
+      "id": "194",
+      "name": "苏烈",
+      "pinyin": "sulie",
+      "title": "不屈铁壁",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/194/194.jpg"
+    },
+    {
+      "id": "198",
+      "name": "梦奇",
+      "pinyin": "mengqi",
+      "title": "入梦之灵",
+      "roles": [
+        "坦克",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/198/198.jpg"
+    },
+    {
+      "id": "179",
+      "name": "女娲",
+      "pinyin": "nvwa",
+      "title": "至高创世",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/179/179.jpg"
+    },
+    {
+      "id": "501",
+      "name": "明世隐",
+      "pinyin": "mingshiyin",
+      "title": "灵魂劫卜",
+      "roles": [
+        "辅助"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/501/501.jpg"
+    },
+    {
+      "id": "199",
+      "name": "公孙离",
+      "pinyin": "gongsunli",
+      "title": "幻舞玲珑",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/199/199.jpg"
+    },
+    {
+      "id": "176",
+      "name": "杨玉环",
+      "pinyin": "yangyuhuan",
+      "title": "霓裳风华",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/176/176.jpg"
+    },
+    {
+      "id": "502",
+      "name": "裴擒虎",
+      "pinyin": "peiqinhu",
+      "title": "六合虎拳",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/502/502.jpg"
+    },
+    {
+      "id": "197",
+      "name": "弈星",
+      "pinyin": "yixing",
+      "title": "天元之弈",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/197/197.jpg"
+    },
+    {
+      "id": "503",
+      "name": "狂铁",
+      "pinyin": "kuangtie",
+      "title": "战车意志",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/503/503.jpg"
+    },
+    {
+      "id": "504",
+      "name": "米莱狄",
+      "pinyin": "milaidi",
+      "title": "筑城者",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/504/504.jpg"
+    },
+    {
+      "id": "125",
+      "name": "元歌",
+      "pinyin": "yuange",
+      "title": "无间傀儡",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/125/125.jpg"
+    },
+    {
+      "id": "510",
+      "name": "孙策",
+      "pinyin": "sunce",
+      "title": "光明之海",
+      "roles": [
+        "坦克",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/510/510.jpg"
+    },
+    {
+      "id": "137",
+      "name": "司马懿",
+      "pinyin": "simayi",
+      "title": "寂灭之心",
+      "roles": [
+        "刺客",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/137/137.jpg"
+    },
+    {
+      "id": "509",
+      "name": "盾山",
+      "pinyin": "dunshan",
+      "title": "无尽之盾",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/509/509.jpg"
+    },
+    {
+      "id": "508",
+      "name": "伽罗",
+      "pinyin": "jialuo",
+      "title": "破魔之箭",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/508/508.jpg"
+    },
+    {
+      "id": "312",
+      "name": "沈梦溪",
+      "pinyin": "shenmengxi",
+      "title": "爆弹怪猫",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/312/312.jpg"
+    },
+    {
+      "id": "507",
+      "name": "李信",
+      "pinyin": "lixin",
+      "title": "谋世之战",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/507/507.jpg"
+    },
+    {
+      "id": "513",
+      "name": "上官婉儿",
+      "pinyin": "shangguanwaner",
+      "title": "惊鸿之笔",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/513/513.jpg"
+    },
+    {
+      "id": "515",
+      "name": "嫦娥",
+      "pinyin": "change",
+      "title": "寒月公主",
+      "roles": [
+        "法师",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/515/515.jpg"
+    },
+    {
+      "id": "511",
+      "name": "猪八戒",
+      "pinyin": "zhubajie",
+      "title": "无忧猛士",
+      "roles": [
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/511/511.jpg"
+    },
+    {
+      "id": "529",
+      "name": "盘古",
+      "pinyin": "pangu",
+      "title": "破晓之神",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/529/529.jpg"
+    },
+    {
+      "id": "505",
+      "name": "瑶",
+      "pinyin": "yao",
+      "title": "鹿灵守心",
+      "roles": [
+        "辅助",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/505/505.jpg"
+    },
+    {
+      "id": "506",
+      "name": "云中君",
+      "pinyin": "yunzhongjun",
+      "title": "流云之翼",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/506/506.jpg"
+    },
+    {
+      "id": "522",
+      "name": "曜",
+      "pinyin": "dongfangyao",
+      "title": "星辰之子",
+      "roles": [
+        "战士",
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/522/522.jpg"
+    },
+    {
+      "id": "518",
+      "name": "马超",
+      "pinyin": "machao",
+      "title": "冷晖之枪",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/518/518.jpg"
+    },
+    {
+      "id": "523",
+      "name": "西施",
+      "pinyin": "xishi",
+      "title": "幻纱之灵",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/523/523.jpg"
+    },
+    {
+      "id": "525",
+      "name": "鲁班大师",
+      "pinyin": "lubandashi",
+      "title": "神匠",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/525/525.jpg"
+    },
+    {
+      "id": "524",
+      "name": "蒙犽",
+      "pinyin": "mengya",
+      "title": "烈炮小子",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/524/524.jpg"
+    },
+    {
+      "id": "531",
+      "name": "镜",
+      "pinyin": "jing",
+      "title": "破镜之刃",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/531/531.jpg"
+    },
+    {
+      "id": "527",
+      "name": "蒙恬",
+      "pinyin": "mengtian",
+      "title": "秩序统将",
+      "roles": [
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/527/527.jpg"
+    },
+    {
+      "id": "533",
+      "name": "阿古朵",
+      "pinyin": "aguduo",
+      "title": "山林之子",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/533/533.jpg"
+    },
+    {
+      "id": "536",
+      "name": "夏洛特",
+      "pinyin": "xialuote",
+      "title": "玫瑰剑士",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/536/536.jpg"
+    },
+    {
+      "id": "528",
+      "name": "澜",
+      "pinyin": "lan",
+      "title": "鲨之猎刃",
+      "roles": [
+        "刺客",
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/528/528.jpg"
+    },
+    {
+      "id": "537",
+      "name": "司空震",
+      "pinyin": "sikongzhen",
+      "title": "雷霆之王",
+      "roles": [
+        "战士",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/537/537.jpg"
+    },
+    {
+      "id": "155",
+      "name": "艾琳",
+      "pinyin": "ailin",
+      "title": "精灵之舞",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/155/155.jpg"
+    },
+    {
+      "id": "538",
+      "name": "云缨",
+      "pinyin": "yunying",
+      "title": "燎原之心",
+      "roles": [
+        "战士",
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/538/538.jpg"
+    },
+    {
+      "id": "540",
+      "name": "金蝉",
+      "pinyin": "jinchan",
+      "title": "渡世行者",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/540/540.jpg"
+    },
+    {
+      "id": "542",
+      "name": "暃",
+      "pinyin": "fei",
+      "title": "玉城之子",
+      "roles": [
+        "刺客"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/542/542.jpg"
+    },
+    {
+      "id": "534",
+      "name": "桑启",
+      "pinyin": "sangqi",
+      "title": "萤火之旅",
+      "roles": [
+        "辅助",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/534/534.jpg"
+    },
+    {
+      "id": "548",
+      "name": "戈娅",
+      "pinyin": "geya",
+      "title": "沙海飞舟",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/548/548.jpg"
+    },
+    {
+      "id": "521",
+      "name": "海月",
+      "pinyin": "haiyue",
+      "title": "永夜之心",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/521/521.jpg"
+    },
+    {
+      "id": "544",
+      "name": "赵怀真",
+      "pinyin": "zhaohuaizhen",
+      "title": "自在之心",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/544/544.jpg"
+    },
+    {
+      "id": "545",
+      "name": "莱西奥",
+      "pinyin": "laixiao",
+      "title": "火鹰船长",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/545/545.jpg"
+    },
+    {
+      "id": "564",
+      "name": "姬小满",
+      "pinyin": "jixiaoman",
+      "title": "武道奇才",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/564/564.jpg"
+    },
+    {
+      "id": "514",
+      "name": "亚连",
+      "pinyin": "yalian",
+      "title": "追忆之刃",
+      "roles": [
+        "战士",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/514/514.jpg"
+    },
+    {
+      "id": "159",
+      "name": "朵莉亚",
+      "pinyin": "duoliya",
+      "title": "人鱼之歌",
+      "roles": [
+        "辅助",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/159/159.jpg"
+    },
+    {
+      "id": "563",
+      "name": "海诺",
+      "pinyin": "hainuo",
+      "title": "命运之引",
+      "roles": [
+        "战士",
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/563/563.jpg"
+    },
+    {
+      "id": "519",
+      "name": "敖隐",
+      "pinyin": "aoyin",
+      "title": "凌霄真龙",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/519/519.jpg"
+    },
+    {
+      "id": "517",
+      "name": "大司命",
+      "pinyin": "dasiming",
+      "title": "肃归之戈",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/517/517.jpg"
+    },
+    {
+      "id": "582",
+      "name": "元流之子(法师)",
+      "pinyin": "yuanliuzhizi_magic",
+      "title": "万妙之心",
+      "roles": [
+        "法师"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/582/582.jpg"
+    },
+    {
+      "id": "581",
+      "name": "元流之子(坦克)",
+      "pinyin": "yuanliuzhizi_tank",
+      "title": "止戈之道",
+      "roles": [
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/581/581.jpg"
+    },
+    {
+      "id": "577",
+      "name": "少司缘",
+      "pinyin": "shaosiyuan",
+      "title": "聆愿之祝",
+      "roles": [
+        "辅助"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/577/577.jpg"
+    },
+    {
+      "id": "558",
+      "name": "影",
+      "pinyin": "ying",
+      "title": "黯羽东君",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/558/558.jpg"
+    },
+    {
+      "id": "177",
+      "name": "苍",
+      "pinyin": "cang",
+      "title": "苍狼末裔",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/177/177.jpg"
+    },
+    {
+      "id": "550",
+      "name": "空空儿",
+      "pinyin": "kongkonger",
+      "title": "笑面诡手",
+      "roles": [
+        "辅助"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/550/550.jpg"
+    },
+    {
+      "id": "584",
+      "name": "元流之子(射手)",
+      "pinyin": "yuanliuzhizi_archer",
+      "title": "沉舟之志",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/584/584.jpg"
+    },
+    {
+      "id": "151",
+      "name": "孙权",
+      "pinyin": "sunquan",
+      "title": "定旌之谋",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/151/151.jpg"
+    },
+    {
+      "id": "172",
+      "name": "蚩奼",
+      "pinyin": "chicha",
+      "title": "五兵之主",
+      "roles": [
+        "战士"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/172/172.jpg"
+    },
+    {
+      "id": "585",
+      "name": "元流之子(辅助)",
+      "pinyin": "yuanliuzhizi_support",
+      "title": "守望之诺",
+      "roles": [
+        "辅助"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/585/585.jpg"
+    },
+    {
+      "id": "188",
+      "name": "大禹",
+      "pinyin": "dayu",
+      "title": "鼎镇山河",
+      "roles": [
+        "辅助",
+        "坦克"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/188/188.jpg"
+    },
+    {
+      "id": "583",
+      "name": "元流之子(刺客)",
+      "pinyin": "yuanliuzhizi_assassin",
+      "title": "守望之诺",
+      "roles": [
+        "辅助"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/583/583.jpg"
+    },
+    {
+      "id": "547",
+      "name": "卢雅那",
+      "pinyin": "luyana",
+      "title": "蛇焰使者",
+      "roles": [
+        "射手"
+      ],
+      "avatar": "https://game.gtimg.cn/images/yxzj/img201606/heroimg/547/547.jpg"
+    }
+  ],
+  "runes": [
+    {
+      "id": "1501",
+      "name": "圣人",
+      "grade": 5,
+      "color": "红色",
+      "description": "法术攻击力+5.3"
+    },
+    {
+      "id": "1503",
+      "name": "传承",
+      "grade": 5,
+      "color": "红色",
+      "description": "物理攻击力+3.2"
+    },
+    {
+      "id": "1504",
+      "name": "异变",
+      "grade": 5,
+      "color": "红色",
+      "description": "物理攻击力+2\n物理穿透+3.6"
+    },
+    {
+      "id": "1505",
+      "name": "纷争",
+      "grade": 5,
+      "color": "红色",
+      "description": "物理攻击力+2.5\n物理吸血+0.5%"
+    },
+    {
+      "id": "1510",
+      "name": "无双",
+      "grade": 5,
+      "color": "红色",
+      "description": "暴击率+0.7%\n暴击效果+3.6%"
+    },
+    {
+      "id": "1512",
+      "name": "宿命",
+      "grade": 5,
+      "color": "红色",
+      "description": "攻速加成+1%\n最大生命+33.7\n物理防御力+2.3"
+    },
+    {
+      "id": "1514",
+      "name": "梦魇",
+      "grade": 5,
+      "color": "红色",
+      "description": "法术攻击力+4.2\n法术穿透+2.4"
+    },
+    {
+      "id": "1517",
+      "name": "凶兆",
+      "grade": 5,
+      "color": "红色",
+      "description": "法术攻击力+4.2\n攻速加成+0.6%"
+    },
+    {
+      "id": "1519",
+      "name": "祸源",
+      "grade": 5,
+      "color": "红色",
+      "description": "暴击率+1.6%"
+    },
+    {
+      "id": "1520",
+      "name": "红月",
+      "grade": 5,
+      "color": "红色",
+      "description": "攻速加成+1.6%\n暴击率+0.5%"
+    },
+    {
+      "id": "2501",
+      "name": "长生",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "最大生命+75"
+    },
+    {
+      "id": "2503",
+      "name": "贪婪",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "法术吸血+1.6%"
+    },
+    {
+      "id": "2504",
+      "name": "夺萃",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "物理吸血+1.6%"
+    },
+    {
+      "id": "2506",
+      "name": "兽痕",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "暴击率+0.5%\n最大生命+60"
+    },
+    {
+      "id": "2510",
+      "name": "冥想",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "最大生命+60\n生命回复+4.5"
+    },
+    {
+      "id": "2511",
+      "name": "繁荣",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "物理吸血+1%\n法术防御力+4.1"
+    },
+    {
+      "id": "2512",
+      "name": "轮回",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "法术攻击力+2.4\n法术吸血+1%"
+    },
+    {
+      "id": "2515",
+      "name": "调和",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "最大生命+45\n生命回复+5.2\n移速+0.4%"
+    },
+    {
+      "id": "2517",
+      "name": "隐匿",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "物理攻击力+1.6\n移速+1%"
+    },
+    {
+      "id": "2520",
+      "name": "狩猎",
+      "grade": 5,
+      "color": "蓝色",
+      "description": "攻速加成+1%\n移速+1%"
+    },
+    {
+      "id": "3501",
+      "name": "霸者",
+      "grade": 5,
+      "color": "绿色",
+      "description": "物理防御力+9"
+    },
+    {
+      "id": "3503",
+      "name": "均衡",
+      "grade": 5,
+      "color": "绿色",
+      "description": "物理防御力+5\n法术防御力+5"
+    },
+    {
+      "id": "3509",
+      "name": "虚空",
+      "grade": 5,
+      "color": "绿色",
+      "description": "最大生命+37.5\n冷却缩减+0.6%"
+    },
+    {
+      "id": "3510",
+      "name": "灵山",
+      "grade": 5,
+      "color": "绿色",
+      "description": "法术防御力+9"
+    },
+    {
+      "id": "3511",
+      "name": "献祭",
+      "grade": 5,
+      "color": "绿色",
+      "description": "法术攻击力+2.4\n冷却缩减+0.7%"
+    },
+    {
+      "id": "3514",
+      "name": "鹰眼",
+      "grade": 5,
+      "color": "绿色",
+      "description": "物理攻击力+0.9\n物理穿透+6.4"
+    },
+    {
+      "id": "3515",
+      "name": "心眼",
+      "grade": 5,
+      "color": "绿色",
+      "description": "攻速加成+0.6%\n法术穿透+6.4"
+    },
+    {
+      "id": "3516",
+      "name": "怜悯",
+      "grade": 5,
+      "color": "绿色",
+      "description": "冷却缩减+1%"
+    },
+    {
+      "id": "3517",
+      "name": "敬畏",
+      "grade": 5,
+      "color": "绿色",
+      "description": "法术吸血+0.7%\n物理防御力+5.9"
+    },
+    {
+      "id": "3518",
+      "name": "回声",
+      "grade": 5,
+      "color": "绿色",
+      "description": "物理防御力+2.7\n法术防御力+2.7\n冷却缩减+0.6%"
+    }
+  ]
+}
