@@ -201,6 +201,132 @@ try {
   editor = creds(r, 'edit');
   let access = (await request('/api/guides', editor)).data.access;
   check('shared is editor never admin', access.canEdit && !access.isAdmin);
+  const bug = {
+    id: 'isolated-bug',
+    title: '隔离测试 BUG',
+    body: '测试现象，不是真实游戏资料',
+    status: '待确认',
+    version: '',
+    scope: '',
+    steps: '',
+    workaround: '',
+    updatedAt: 'forged-date-must-be-ignored',
+  };
+  const otherData = await Promise.all(
+    ['/api/primer', '/api/library', '/api/guides'].map(
+      async (path) => (await request(path)).data,
+    ),
+  );
+  let bugs = await request('/api/bugs');
+  check(
+    'BUG library starts empty and public',
+    bugs.status === 200 &&
+      bugs.data.items.length === 0 &&
+      bugs.data.revision === 0,
+  );
+  check(
+    'anonymous cannot add BUGs',
+    (await request('/api/bugs', base, { entry: bug, expectedRevision: 0 }))
+      .status === 401,
+  );
+  check(
+    'read URL cookie cannot add BUGs',
+    (
+      await request(
+        '/api/bugs',
+        { ...base, Cookie: editor.Cookie },
+        { entry: bug, expectedRevision: 0 },
+      )
+    ).status === 401,
+  );
+  check(
+    'cross-origin BUG edits rejected',
+    (
+      await request(
+        '/api/bugs',
+        { ...editor, Origin: 'https://other.example' },
+        { entry: bug, expectedRevision: 0 },
+      )
+    ).status === 403,
+  );
+  check(
+    'empty BUG description rejected',
+    (
+      await request('/api/bugs', editor, {
+        entry: { ...bug, body: ' ' },
+        expectedRevision: 0,
+      })
+    ).status === 400,
+  );
+  check(
+    'invalid BUG status rejected',
+    (
+      await request('/api/bugs', editor, {
+        entry: { ...bug, status: 'unknown' },
+        expectedRevision: 0,
+      })
+    ).status === 400,
+  );
+  bugs = await request('/api/bugs', editor, {
+    entry: bug,
+    expectedRevision: 0,
+  });
+  check(
+    'password editor can add BUG with optional fields empty',
+    bugs.status === 200 &&
+      bugs.data.items[0].body === bug.body &&
+      bugs.data.revision === 1,
+  );
+  check(
+    'BUG update date is server generated',
+    Number.isFinite(Date.parse(bugs.data.items[0].updatedAt)),
+  );
+  check(
+    'BUG survives public reload',
+    (await request('/api/bugs')).data.items[0].title === bug.title,
+  );
+  check(
+    'stale BUG edit rejected',
+    (
+      await request('/api/bugs', owner, {
+        entry: { ...bug, body: '不得覆盖' },
+        expectedRevision: 0,
+      })
+    ).status === 409,
+  );
+  bugs = await request('/api/bugs', owner, {
+    entry: { ...bug, status: '已修复', workaround: '测试应对办法' },
+    expectedRevision: 1,
+  });
+  check(
+    'owner can edit existing BUG without duplicating it',
+    bugs.status === 200 &&
+      bugs.data.items.length === 1 &&
+      bugs.data.items[0].status === '已修复' &&
+      bugs.data.revision === 2,
+  );
+  const simultaneous = await Promise.all(
+    ['A', 'B'].map((id) =>
+      request('/api/bugs', editor, {
+        entry: { ...bug, id },
+        expectedRevision: 2,
+      }),
+    ),
+  );
+  check(
+    'concurrent BUG writers have exactly one winner',
+    simultaneous.filter((value) => value.status === 200).length === 1 &&
+      simultaneous.filter((value) => value.status === 409).length === 1,
+  );
+  assert.deepEqual(
+    await Promise.all(
+      ['/api/primer', '/api/library', '/api/guides'].map(
+        async (path) => (await request(path)).data,
+      ),
+    ),
+    otherData,
+  );
+  check('BUG writes do not change primer, glyphs, runes or guides', true);
   check(
     'shared cannot manage passwords',
     (await request('/api/edit-password', editor)).status === 403,
@@ -282,6 +408,11 @@ try {
   check(
     'old shared password rejected',
     (await loginEdit(shared)).status === 401,
+  );
+  check(
+    'revoked editor cannot change BUGs',
+    (await request('/api/bugs', editor, { entry: bug, expectedRevision: 3 }))
+      .status === 401,
   );
   check(
     'old editing link revoked',

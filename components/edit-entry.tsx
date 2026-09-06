@@ -58,7 +58,8 @@ export function EditEntry() {
         }),
       );
       setPassword('');
-      if (!new URLSearchParams(location.search).has('hero'))
+      const params = new URLSearchParams(location.search);
+      if (!params.has('hero') && params.get('page') !== 'bugs')
         history.replaceState(null, '', '/edit?page=workspace');
       setReady(true);
     } catch (e) {
@@ -97,7 +98,7 @@ export function EditEntry() {
             </label>
             <Button type="submit" disabled={busy || !password}>
               <KeyRound />
-              {busy ? '验证中…' : '验证并进入工作台'}
+              {busy ? '验证中…' : '验证并继续编辑'}
               <ArrowRight />
             </Button>
             <p className="muted">

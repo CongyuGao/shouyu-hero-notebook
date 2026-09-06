@@ -6174,3 +6174,114 @@ textarea::placeholder {
     flex: 1 1 9rem;
   }
 }
+
+/* Shared, editable issue notes retain the notebook's game palette. */
+.bug-records {
+  display: grid;
+  gap: 1.1rem;
+}
+.bug-record {
+  min-width: 0;
+  border-left: 2px solid #d2b77680;
+}
+.bug-record > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.bug-record > h2 {
+  margin: 0.9rem 0 0.5rem;
+  color: #f6e1ad;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.bug-status {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.875rem;
+}
+.bug-status-0 {
+  color: #ebc786;
+  background: #a9711326;
+}
+.bug-status-1 {
+  color: #ffb4be;
+  background: #ba344329;
+}
+.bug-status-2 {
+  color: #92e2c0;
+  background: #16845426;
+}
+.bug-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  color: #a3b4ce;
+  font-size: 0.875rem;
+}
+.bug-body,
+.bug-detail p {
+  color: #d6e1ef;
+  font-size: 1rem;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.bug-detail {
+  border-top: 1px solid #92aac528;
+  margin-top: 1rem;
+  padding-top: 0.7rem;
+}
+.bug-detail > summary {
+  cursor: pointer;
+  color: #9dceef;
+  font-size: 0.9375rem;
+  padding: 0.55rem 0;
+}
+.bug-detail h3 {
+  color: #f1d59f;
+  font-size: 1rem;
+  margin: 1rem 0 0.35rem;
+}
+.bug-edit-entry {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: #add8f4;
+  min-height: 44px;
+  font-size: 0.9375rem;
+}
+.bug-editor[data-slot='dialog-content'] {
+  width: min(42rem, calc(100vw - 1.5rem));
+  max-width: 42rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #172940, #0c1729);
+  border: 1px solid #b4cbe34a;
+}
+.bug-editor .detail-edit-fields {
+  flex: none;
+  overflow: visible;
+  min-width: 0;
+}
+.bug-editor textarea {
+  resize: vertical;
+}
+.bug-editor [data-slot='dialog-footer'] {
+  flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+  .bug-editor[data-slot='dialog-content'] {
+    padding: 1rem;
+  }
+  .bug-editor [data-slot='dialog-footer'] > button {
+    flex: 1 1 8rem;
+  }
+}

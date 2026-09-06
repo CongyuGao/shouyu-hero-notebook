@@ -1,0 +1,43 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { readFileSync } from 'node:fs';
+const require = createRequire(import.meta.url);
+const { build } = await import(require.resolve('esbuild', { paths: [require.resolve('wrangler')] }));
+const output = await build({ entryPoints: ['lib/bugs.ts'], bundle: true, format: 'esm', write: false });
+const { blankBug, validateBugEntry, saveBugEntry, MAX_BUGS } = await import(
+  `data:text/javascript;base64,${Buffer.from(output.outputFiles[0].text).toString('base64')}`,
+);
+const blank = blankBug();
+assert.equal(blank.status, '待确认');
+assert.notEqual(blank.id, blankBug().id);
+const input = { ...blank, title: ' 标题 ', body: ' 现象\n第二行 ', updatedAt: 'untrusted-date', unexpected: 'secret' };
+const entry = validateBugEntry(input);
+assert.equal(entry.title, '标题');
+assert.equal(entry.body, '现象\n第二行');
+assert(!('updatedAt' in entry));
+assert(!('unexpected' in entry));
+assert.equal(entry.version, '');
+for (const invalid of [null, [], {}, { ...input, body: ' ' }, { ...input, title: 123 }, { ...input, status: '未知' }, { ...input, body: 'a'.repeat(6001) }])
+  assert.throws(() => validateBugEntry(invalid));
+const original = [{ ...entry, id: 'existing', body: '保留', updatedAt: '2026-09-01T00:00:00.000Z' }];
+const snapshot = structuredClone(original);
+const appended = saveBugEntry(original, entry, '2026-09-07T00:00:00.000Z');
+assert.deepEqual(original, snapshot);
+assert.deepEqual(appended[1], original[0]);
+assert.equal(appended[0].updatedAt, '2026-09-07T00:00:00.000Z');
+const updated = saveBugEntry(appended, { ...entry, status: '已修复', steps: '先使用技能' }, '2026-09-08T00:00:00.000Z');
+assert.equal(updated.length, 2);
+assert.equal(updated[0].status, '已修复');
+assert.deepEqual(updated[1], original[0]);
+const full = Array.from({ length: MAX_BUGS }, (_, index) => ({ ...original[0], id: `b-${index}` }));
+assert.throws(() => saveBugEntry(full, entry, 'today'));
+assert.equal(saveBugEntry(full, { ...entry, id: 'b-0' }, 'today').length, MAX_BUGS);
+const ui = readFileSync('components/bug-guide.tsx', 'utf8');
+assert.match(ui, /scrollable-site-dialog/);
+assert.match(ui, /expectedRevision: library.revision/);
+assert.match(ui, /保存成功/);
+assert.match(ui, /setDraft\(null\)/);
+assert.match(ui, /\/edit\?page=bugs/);
+assert.match(ui, /beforeunload/);
+assert.match(readFileSync('components/edit-entry.tsx', 'utf8'), /params\.get\('page'\) !== 'bugs'/);
+console.log('PASS: BUG validation, optional details, trusted dates, immutable save, capacity, edit navigation, scroll and input-protection wiring.');

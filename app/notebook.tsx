@@ -23,6 +23,7 @@ import { OwnerPasswordPanel } from '@/components/owner-password-panel';
 import { isCloudflareDeployment } from '@/lib/deployment';
 import { WorkspaceGuides } from '@/components/workspace-guides';
 import { GuidePrimer } from '@/components/guide-primer';
+import { BugGuide } from '@/components/bug-guide';
 import { HeroLibrary } from '@/components/hero-library';
 import { heroTemplate, type GuideEditTarget } from '@/lib/hero-template';
 import {
@@ -245,7 +246,9 @@ export default function Notebook({
               href={
                 selected
                   ? `/edit?hero=${encodeURIComponent(selected)}`
-                  : '/edit?page=workspace'
+                  : tab === 'bugs'
+                    ? '/edit?page=bugs'
+                    : '/edit?page=workspace'
               }
             >
               <Pencil size={17} /> 编辑攻略
@@ -437,23 +440,7 @@ export default function Notebook({
             )}
           </TabsContent>
           <TabsContent value="bugs">
-            <section className="intro">
-              <div>
-                <p className="eyebrow">无尽守御 · 异常记录</p>
-                <h1>BUG 说明</h1>
-                <p className="muted">
-                  后续补充已知异常、复现条件、影响范围与临时应对办法。
-                </p>
-              </div>
-            </section>
-            <section className="reference-card bug-placeholder">
-              <Bug size={30} />
-              <h2>内容待补充</h2>
-              <p>
-                此处先预留入口，暂不列出未经核实的
-                BUG。后续记录会注明版本，并区分待确认、已复现与已修复。
-              </p>
-            </section>
+            <BugGuide editable={access.canEdit} />
           </TabsContent>
           {access.canEdit && (
             <TabsContent value="workspace">
