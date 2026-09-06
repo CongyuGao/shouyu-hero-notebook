@@ -95,8 +95,55 @@ try {
   assert.equal(response.status, 200);
   assert.equal(fetched.length, 1);
   assert.equal(fetched[0].url, arthur[0].image);
-  assert.equal(fetched[0].options.redirect, 'error');
+  assert.equal(fetched[0].options.redirect, 'manual');
   assert.match(response.headers.get('Cache-Control'), /public/);
+  for (const status of [301, 302, 307, 308, 404, 503]) {
+    let calls = 0;
+    globalThis.fetch = async (_url, options) => {
+      calls++;
+      assert.equal(options.redirect, 'manual');
+      return new Response(null, {
+        status,
+        headers: {
+          Location: 'https://attacker.example/private',
+          'Content-Type': 'image/webp',
+        },
+      });
+    };
+    assert.equal(
+      (
+        await GET(
+          new Request(`https://example.com/api/skin-image?id=${arthur[0].id}`),
+        )
+      ).status,
+      502,
+      `Upstream ${status} must not be served or followed`,
+    );
+    assert.equal(calls, 1, 'Redirect targets must never be fetched');
+  }
+  globalThis.fetch = async () =>
+    new Response('<html>not an image</html>', {
+      headers: { 'Content-Type': 'text/html' },
+    });
+  assert.equal(
+    (
+      await GET(
+        new Request(`https://example.com/api/skin-image?id=${arthur[0].id}`),
+      )
+    ).status,
+    502,
+  );
+  globalThis.fetch = async () => {
+    throw new Error('network unavailable');
+  };
+  assert.equal(
+    (
+      await GET(
+        new Request(`https://example.com/api/skin-image?id=${arthur[0].id}`),
+      )
+    ).status,
+    502,
+  );
 } finally {
   globalThis.fetch = originalFetch;
 }

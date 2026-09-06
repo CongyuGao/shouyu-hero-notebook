@@ -18,7 +18,9 @@ export async function GET(req: Request) {
   try {
     const upstream = await fetch(source, {
       signal: AbortSignal.timeout(15000),
-      redirect: 'error',
+      // Workers supports only "manual" and "follow". Never follow a redirect
+      // away from the pinned catalog URL; the status check below rejects 3xx.
+      redirect: 'manual',
       cf: { cacheTtl: 604800, cacheEverything: true },
     });
     const type = upstream.headers.get('content-type') || '';
