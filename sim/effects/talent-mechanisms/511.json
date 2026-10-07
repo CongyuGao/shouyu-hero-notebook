@@ -1,0 +1,813 @@
+{
+  "heroId": "511",
+  "heroName": "猪八戒",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "天上掉下个猪",
+      "text": "弹跳次数增加两次，且八戒短暂施展变大法术并获得回复增益",
+      "reading": "一技能核心。一技能的弹跳次数增加两次（“两次”是汉字数字，字面为多2次，仍需核对）；同时八戒短暂施展变大法术，并获得回复增益。仓库里没有本模式猪八戒的基础技能原文，一技能原本弹跳几次、每次弹跳落地是否都造成伤害都不知道；「泰山压顶」(t03)提到“下砸范围”，说明一技能有下砸判定，但没写是每次弹跳都下砸还是只有最后一次。原文没有写：新增两次弹跳的伤害、范围是否与原弹跳相同；变大持续多久（原文“短暂”）、体型放大多少、变大是否放大技能判定范围或改变伤害；“回复增益”是回复效果提升、持续回血还是与灰血有关的增益，以及数值和持续时间；变大和回复增益在释放时触发还是在新增弹跳时触发。若每次弹跳都造成伤害，多两次弹跳就是多两次伤害，按直接影响处理。",
+      "mechanisms": ["skill-change", "proc", "area", "buff", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "extraBounces", "what": "新增的弹跳次数（原文写“两次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "核心 c1 增加的弹跳次数，核对字面的“两次”，需以资源包为准" },
+        { "key": "baseBounces", "what": "一技能原本的弹跳次数", "unit": "count", "claimed": null, "packHint": "一技能基础弹跳次数，用于计算选核心后的总弹跳次数" },
+        { "key": "bounceBaseDamage", "what": "每次弹跳落地伤害的基础值（新增弹跳是否相同未写）", "unit": "flat", "claimed": null, "packHint": "一技能每次弹跳落地伤害的基础值，确认新增两次与原弹跳是否相同、各次是否递增或衰减" },
+        { "key": "bounceDamageRatio", "what": "每次弹跳落地伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "一技能弹跳伤害的系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "bounceRadius", "what": "每次弹跳落地的伤害范围", "unit": "meters", "claimed": null, "packHint": "一技能落地下砸的判定半径和目标数上限" },
+        { "key": "bounceInterval", "what": "相邻两次弹跳的间隔", "unit": "frames", "claimed": null, "packHint": "一技能每次弹跳的动作帧数和出伤帧，用于时间轴结算" },
+        { "key": "enlargeDuration", "what": "变大法术的持续时间（原文“短暂”）", "unit": "seconds", "claimed": null, "packHint": "核心 c1 变大状态的持续时间" },
+        { "key": "enlargeScale", "what": "变大后体型或判定范围的放大倍率（原文没写变大是否影响判定）", "unit": "ratio", "claimed": null, "packHint": "变大状态的模型缩放倍率，确认是否同时放大技能判定或碰撞范围" },
+        { "key": "healBoostValue", "what": "回复增益的数值（原文没写是回复效果提升还是持续回血）", "unit": "percent", "claimed": null, "packHint": "核心 c1 回复增益 buff 的类型与数值（回复效果加成比例或每秒回复量）" },
+        { "key": "healBoostDuration", "what": "回复增益的持续时间", "unit": "seconds", "claimed": null, "packHint": "回复增益 buff 的持续时间，确认是否与变大同时结束" }
+      ],
+      "ambiguities": [
+        "一技能原本弹跳次数没有写",
+        "“两次”是汉字数字，字面为2次，未作为 claimed",
+        "每次弹跳是否都造成伤害、新增弹跳伤害是否与原弹跳相同没有写",
+        "变大持续时间（“短暂”）、放大倍率、是否影响技能判定没有写",
+        "“回复增益”的类型、数值、持续时间没有写",
+        "变大和回复增益的触发时机（释放时还是新增弹跳时）没有写",
+        "仓库里没有本模式一技能的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "傻得可爱",
+      "text": "跳跃结束后会翻滚撞击敌人，滚动期间造成爆炸",
+      "reading": "一技能核心。一技能跳跃结束后，八戒会翻滚撞击敌人，翻滚期间造成爆炸。仓库里没有本模式一技能基础原文。原文没有写：翻滚的方向（沿跳跃方向、朝最近敌人还是朝摇杆方向）、距离和持续时间；撞击本身是否单独造成伤害、是否附带击退等控制；“滚动期间造成爆炸”是翻滚中持续多次爆炸还是只爆炸一次，爆炸的间隔、次数、伤害、系数、伤害类型和范围；能否暴击；撞击和爆炸是否算一技能命中，从而触发「越战越勇」(t05)、「余波」(t08)；「泰山压顶」(t03)的范围加成是否作用于爆炸。",
+      "mechanisms": ["skill-change", "mobility", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能跳跃结束后",
+      "slots": [
+        { "key": "rollDistance", "what": "翻滚的距离", "unit": "meters", "claimed": null, "packHint": "核心 c2 翻滚位移的距离和方向规则" },
+        { "key": "rollDuration", "what": "翻滚持续时间", "unit": "seconds", "claimed": null, "packHint": "翻滚动作的时长或帧数，用于时间轴结算" },
+        { "key": "impactBaseDamage", "what": "翻滚撞击伤害的基础值（原文没写撞击是否单独造成伤害）", "unit": "flat", "claimed": null, "packHint": "核心 c2 撞击伤害是否存在及其基础值" },
+        { "key": "impactDamageRatio", "what": "翻滚撞击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "撞击伤害的系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "impactRadius", "what": "翻滚撞击的判定范围", "unit": "meters", "claimed": null, "packHint": "撞击判定的宽度或半径、目标数，以及是否附带击退等控制" },
+        { "key": "explosionCount", "what": "翻滚期间爆炸的次数（原文没写是一次还是多次）", "unit": "count", "claimed": null, "packHint": "核心 c2 翻滚期间爆炸的总次数" },
+        { "key": "explosionInterval", "what": "翻滚期间相邻两次爆炸的间隔", "unit": "seconds", "claimed": null, "packHint": "翻滚爆炸的触发间隔（秒或帧）" },
+        { "key": "explosionBaseDamage", "what": "每次爆炸伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c2 爆炸伤害的基础值" },
+        { "key": "explosionDamageRatio", "what": "每次爆炸伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "爆炸伤害的系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "explosionRadius", "what": "爆炸的作用范围", "unit": "meters", "claimed": null, "packHint": "翻滚爆炸的判定半径和目标数，以及同一目标能否被多次爆炸命中" }
+      ],
+      "ambiguities": [
+        "翻滚方向、距离、持续时间没有写",
+        "撞击是否单独造成伤害、是否附带控制没有写",
+        "爆炸次数、间隔、伤害、系数、伤害类型、范围没有写",
+        "能否暴击没有写",
+        "撞击和爆炸是否算一技能命中、能否触发 t05、t08 没有写",
+        "t03 的范围加成是否作用于爆炸没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "与猪共舞",
+      "text": "首次释放会留下一个高墙，五秒内可再次释放，敌人被拉的越远伤害越高",
+      "reading": "二技能核心。二技能首次释放时会留下一个高墙（“一个”是汉字数字）；之后五秒内（“五秒”是汉字数字，字面为5秒，仍需核对）可以再次释放二技能；敌人被拉得越远，受到的伤害越高。从“被拉”和其他二技能天赋（拉人、撞墙）看，二技能会拉动敌人，高墙可能用于让敌人撞墙，但原文没有写高墙和撞墙效果的关系。仓库里没有本模式二技能基础原文。原文没有写：高墙出现在哪里（释放位置、命中点还是八戒身后）、长度、存在时间、是否阻挡敌人或友方；再次释放的效果、伤害是否与首次相同；“被拉的越远伤害越高”适用于首次、再次还是两次释放，伤害随距离如何增长（按每米提升多少、从哪里开始算距离、是否有上限）；二技能冷却从首次还是再次释放后开始计算。",
+      "mechanisms": ["skill-change", "charges", "damage-amp", "area", "other"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时；首次释放后五秒内再次释放二技能时",
+      "slots": [
+        { "key": "recastWindow", "what": "可再次释放二技能的时间窗口（原文写“五秒”，是汉字数字，没有作为 claimed）", "unit": "seconds", "claimed": null, "packHint": "核心 c3 二段释放窗口，核对字面的“五秒”，需以资源包为准" },
+        { "key": "wallDuration", "what": "高墙存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c3 高墙的持续时间，确认是否与再次释放窗口相同" },
+        { "key": "wallLength", "what": "高墙的长度或尺寸", "unit": "meters", "claimed": null, "packHint": "高墙的长度、厚度和生成位置规则" },
+        { "key": "pullDistance", "what": "二技能把敌人拉动的距离（决定距离加成的大小）", "unit": "meters", "claimed": null, "packHint": "二技能拉动敌人的距离或最大距离" },
+        { "key": "damagePerDistance", "what": "伤害随拉动距离的提升幅度（每单位距离提升多少）", "unit": "percent", "claimed": null, "packHint": "核心 c3 距离增伤公式：每米或每段距离的伤害加成，以及距离的计算起点" },
+        { "key": "maxDistanceBonus", "what": "距离增伤的上限（原文没写是否存在）", "unit": "percent", "claimed": null, "packHint": "核心 c3 距离增伤是否有上限及其数值" },
+        { "key": "recastBaseDamage", "what": "再次释放时伤害的基础值（原文没写是否与首次相同）", "unit": "flat", "claimed": null, "packHint": "核心 c3 二段释放的伤害基础值，与首次释放对比" },
+        { "key": "recastDamageRatio", "what": "再次释放时伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "二段释放伤害的系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "“五秒”“一个”是汉字数字，未作为 claimed",
+        "高墙位置、尺寸、存在时间、是否阻挡单位没有写",
+        "高墙与撞墙相关天赋（t11、t13、t14）的关系没有写",
+        "再次释放的效果和伤害是否与首次相同没有写",
+        "距离增伤适用于哪一次释放、增长方式、距离起点、上限没有写",
+        "二技能冷却从哪次释放后开始计算没有写",
+        "仓库里没有本模式二技能的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "猪八戒背媳妇",
+      "text": "强普会将目标背在身后2.5秒并获得护盾，若护盾被打破则目标脱离",
+      "reading": "二技能核心。强普（强化普攻，按核心所属位置理解为二技能提供的强普）会把目标背在八戒身后2.5秒，同时八戒获得护盾；如果护盾被打破，目标提前脱离。按字面理解，被背住的目标在这段时间内被控制。原文没有写：哪些目标可以被背（普通怪、精英、挑战怪、首领是否都可以）；一次能背几个目标；被背期间目标能否行动或攻击、是否持续受到伤害；护盾量及计算方式；护盾持续时间（是否与2.5秒相同、目标到时脱离后护盾是否保留）；强普本身的伤害是否改变；有无冷却。属于控制和生存效果，列为间接影响。",
+      "mechanisms": ["skill-change", "control", "shield"],
+      "damageRelevance": "indirect",
+      "trigger": "强普命中目标后",
+      "slots": [
+        { "key": "carryDuration", "what": "把目标背在身后的时长", "unit": "seconds", "claimed": { "value": 2.5, "quote": "背在身后2.5秒" }, "packHint": "核心 c4 背负控制的持续时间，核对描述的2.5秒，需以资源包为准" },
+        { "key": "shieldFlat", "what": "护盾的固定值部分", "unit": "flat", "claimed": null, "packHint": "核心 c4 护盾量，确认是固定值、按攻击力系数还是按最大生命百分比" },
+        { "key": "shieldRatio", "what": "护盾的加成系数或最大生命比例（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾的加成属性与系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾 buff 的持续时间，确认是否与背负时长相同、目标脱离后是否保留" },
+        { "key": "maxCarriedTargets", "what": "一次能背住的目标数", "unit": "count", "claimed": null, "packHint": "强普背负的目标数上限，以及首领、挑战怪是否可被背负" },
+        { "key": "carryCooldown", "what": "背负效果的冷却或内置冷却（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "核心 c4 背负效果是否有冷却及其时长" }
+      ],
+      "ambiguities": [
+        "可被背负的目标类型没有写",
+        "一次能背几个目标没有写",
+        "被背期间目标能否行动、是否持续受伤没有写",
+        "护盾量及计算方式没有写",
+        "护盾持续时间、目标脱离后护盾是否保留没有写",
+        "强普本身伤害是否改变没有写",
+        "是否有冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "吃俺老猪亿耙",
+      "text": "大招不再阻挡友方，使用大招后会持续使用钉耙下砸",
+      "reading": "大招核心。大招不再阻挡友方（按字面理解，大招原本会形成阻挡友方单位的障碍，选此核心后友方可以通过）；使用大招后，八戒会持续用钉耙下砸。仓库里没有本模式大招基础原文。原文没有写：持续下砸的时长、间隔或总次数；每次下砸的伤害、系数、伤害类型、范围；下砸期间八戒能否移动、普攻或释放其他技能；每次下砸是否都算“大招下砸”，从而每次都触发「大师兄救我！」(t19)；能否暴击；对敌人的阻挡是否保留。",
+      "mechanisms": ["skill-change", "proc", "area", "team"],
+      "damageRelevance": "direct",
+      "trigger": "使用大招后",
+      "slots": [
+        { "key": "smashDuration", "what": "持续下砸的总时长", "unit": "seconds", "claimed": null, "packHint": "核心 c5 持续下砸状态的持续时间" },
+        { "key": "smashInterval", "what": "相邻两次下砸的间隔", "unit": "seconds", "claimed": null, "packHint": "下砸的触发间隔（秒或帧），用于时间轴结算" },
+        { "key": "smashCount", "what": "下砸的总次数（若按次数而不是时长结束）", "unit": "count", "claimed": null, "packHint": "核心 c5 下砸次数上限，确认按时长还是按次数结束" },
+        { "key": "smashBaseDamage", "what": "每次下砸伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c5 每次下砸伤害的基础值" },
+        { "key": "smashDamageRatio", "what": "每次下砸伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "下砸伤害的系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "smashRadius", "what": "每次下砸的作用范围", "unit": "meters", "claimed": null, "packHint": "下砸的判定半径、目标数，以及下砸位置（八戒周围还是大招区域）" }
+      ],
+      "ambiguities": [
+        "持续下砸的时长、间隔、次数没有写",
+        "每次下砸的伤害、系数、伤害类型、范围没有写",
+        "下砸期间八戒能否行动没有写",
+        "每次下砸是否都触发 t19 没有写",
+        "能否暴击没有写",
+        "对敌人的阻挡是否保留没有写",
+        "仓库里没有本模式大招的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "墙力阻击",
+      "text": "大招不再阻挡友方，首段自动伸出钉耙攻击敌人，二段可以将敌人顶飞",
+      "reading": "大招核心。大招不再阻挡友方；大招首段会自动伸出钉耙攻击敌人，二段可以把敌人顶飞（击飞）。“首段”“二段”说明选此核心后大招分两段，二段是否需要再次按下大招，原文没写清。仓库里没有本模式大招基础原文。原文没有写：首段自动攻击持续多久、攻击间隔、每次攻击几个敌人、攻击范围，每次伤害和系数；二段的释放时机或窗口、顶飞的范围和时长、二段是否造成伤害；能否暴击；首段或二段是否算“大招下砸”，从而触发「大师兄救我！」(t19)；「再吃一口」(t17)在哪一段刷新冷却。",
+      "mechanisms": ["skill-change", "proc", "control", "area", "team"],
+      "damageRelevance": "direct",
+      "trigger": "大招首段期间自动攻击；大招二段释放时",
+      "slots": [
+        { "key": "autoStrikeDuration", "what": "首段自动攻击的持续时间", "unit": "seconds", "claimed": null, "packHint": "核心 c6 首段状态的持续时间" },
+        { "key": "autoStrikeInterval", "what": "首段自动攻击的间隔", "unit": "seconds", "claimed": null, "packHint": "首段钉耙自动攻击的触发间隔（秒或帧）" },
+        { "key": "autoStrikeRange", "what": "首段自动攻击的范围", "unit": "meters", "claimed": null, "packHint": "首段钉耙伸出的距离或索敌范围" },
+        { "key": "autoStrikeMaxTargets", "what": "首段每次自动攻击的目标数", "unit": "count", "claimed": null, "packHint": "首段每次攻击命中的目标数上限" },
+        { "key": "autoStrikeBaseDamage", "what": "首段每次自动攻击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c6 首段自动攻击伤害的基础值" },
+        { "key": "autoStrikeDamageRatio", "what": "首段每次自动攻击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "首段自动攻击伤害的系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "secondStageWindow", "what": "可释放二段的时间窗口", "unit": "seconds", "claimed": null, "packHint": "核心 c6 二段的释放时机或窗口，确认是否需要再次按下大招" },
+        { "key": "secondStageRadius", "what": "二段顶飞的作用范围", "unit": "meters", "claimed": null, "packHint": "二段顶飞的判定范围和目标数" },
+        { "key": "knockupDuration", "what": "顶飞（击飞）的控制时长", "unit": "seconds", "claimed": null, "packHint": "二段顶飞的控制持续时间" },
+        { "key": "secondStageBaseDamage", "what": "二段伤害的基础值（原文没写二段是否造成伤害）", "unit": "flat", "claimed": null, "packHint": "核心 c6 二段是否造成伤害及其基础值" },
+        { "key": "secondStageDamageRatio", "what": "二段伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "二段伤害的系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "二段是否需要再次按下大招没有写",
+        "首段自动攻击的持续时间、间隔、范围、目标数、伤害没有写",
+        "二段顶飞范围、时长、是否造成伤害没有写",
+        "能否暴击没有写",
+        "首段或二段是否算“大招下砸”、能否触发 t19 没有写",
+        "t17 在哪一段刷新冷却没有写",
+        "仓库里没有本模式大招的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "超级跳",
+      "text": "跳跃的距离增加20%",
+      "reading": "一技能小天赋。一技能跳跃的距离增加20%。原文没有写原本跳跃距离，没写20%是每次弹跳的距离都增加还是总距离增加，没写跳跃时长是否随之变化，也没写与其他距离加成如何叠加。跳跃距离只影响落点能到多远，原文没有写会改变伤害，列为间接影响。",
+      "mechanisms": ["mobility", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放一技能时生效）",
+      "slots": [
+        { "key": "jumpDistanceIncrease", "what": "一技能跳跃距离的提升比例", "unit": "percent", "claimed": { "value": 20, "quote": "跳跃的距离增加20%" }, "packHint": "该天赋对一技能跳跃距离的加成，核对描述的20%，需以资源包为准；确认是乘算还是与其他加成相加" },
+        { "key": "baseJumpDistance", "what": "一技能原本的跳跃距离", "unit": "meters", "claimed": null, "packHint": "一技能每次弹跳的基础距离" }
+      ],
+      "ambiguities": [
+        "原本跳跃距离没有写",
+        "每次弹跳还是总距离增加没有写",
+        "跳跃时长是否变化没有写",
+        "与其他距离加成的叠加方式没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "心肠不坏",
+      "text": "灰血转真血率提升20%",
+      "reading": "一技能小天赋。灰血转化为真血（实际生命值）的比率提升20%。原文用到“灰血”“真血”，仓库里没有本模式猪八戒的基础技能或被动原文，灰血怎样产生、在什么时候按什么比例转为真血都没有写；天赋归在一技能，可能与一技能有关，但原文未写明。“提升20%”可能是转化率增加20个百分点，也可能是原转化率再乘以提升比例，原文不能确定。只影响生存，列为间接影响。",
+      "mechanisms": ["heal", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "灰血转化为真血时",
+      "slots": [
+        { "key": "conversionRateIncrease", "what": "灰血转真血率的提升", "unit": "percent", "claimed": { "value": 20, "quote": "灰血转真血率提升20%" }, "packHint": "该天赋对灰血转真血率的提升，核对描述的20%，需以资源包为准；确认是加百分点还是乘算" },
+        { "key": "baseConversionRate", "what": "原本的灰血转真血率", "unit": "percent", "claimed": null, "packHint": "灰血转真血的基础比率及转化时机（被动或一技能规则）" },
+        { "key": "greyHpRatio", "what": "受到伤害中转为灰血的比例", "unit": "percent", "claimed": null, "packHint": "灰血基础规则：受到伤害后多少转为灰血，模拟生存时需要" }
+      ],
+      "ambiguities": [
+        "灰血如何产生、何时转为真血没有写",
+        "原本转化率没有写",
+        "“提升20%”是加百分点还是乘算没有写",
+        "与一技能的关系没有写",
+        "仓库里没有本模式猪八戒的基础技能或被动原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "泰山压顶",
+      "text": "下砸范围增大30%",
+      "reading": "一技能小天赋。一技能下砸（按所属位置理解为一技能跳跃落地时的砸地判定）的范围增大30%。原文没有写原本范围，没写30%是半径增大还是面积增大，也没写是否作用于核心新增的弹跳(c1)、翻滚爆炸(c2)或「余波」(t08)的爆炸。范围变大可能命中更多敌人，不改变单次伤害，按间接影响处理。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能下砸时生效）",
+      "slots": [
+        { "key": "radiusIncrease", "what": "一技能下砸范围的提升比例", "unit": "percent", "claimed": { "value": 30, "quote": "下砸范围增大30%" }, "packHint": "该天赋对一技能下砸范围的加成，核对描述的30%，需以资源包为准；确认加在半径还是面积上" },
+        { "key": "baseRadius", "what": "一技能下砸原本的范围", "unit": "meters", "claimed": null, "packHint": "一技能落地下砸判定的基础半径" }
+      ],
+      "ambiguities": [
+        "原本范围没有写",
+        "30%加在半径还是面积上没有写",
+        "是否作用于 c1 新增弹跳、c2 翻滚爆炸、t08 爆炸没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "肥头大耳朵",
+      "text": "灰血持续时间增加8秒，扣除率减少一半",
+      "reading": "一技能小天赋。灰血的持续时间增加8秒，灰血的扣除率减少一半（“一半”是汉字，字面为扣除率变为原来的一半）。按字面理解，灰血会随时间被扣除，本天赋让灰血保留更久、消失更慢，从而有更多机会转为真血。仓库里没有灰血基础规则原文，原本持续时间和扣除率都不知道；“扣除率”是每秒扣除剩余灰血的比例还是固定量，原文没写。只影响生存，列为间接影响。",
+      "mechanisms": ["heal", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（灰血存在期间）",
+      "slots": [
+        { "key": "greyHpDurationIncrease", "what": "灰血持续时间的增加量", "unit": "seconds", "claimed": { "value": 8, "quote": "灰血持续时间增加8秒" }, "packHint": "该天赋增加的灰血持续时间，核对描述的8秒，需以资源包为准" },
+        { "key": "baseGreyHpDuration", "what": "灰血原本的持续时间", "unit": "seconds", "claimed": null, "packHint": "灰血基础持续时间" },
+        { "key": "decayRateMultiplier", "what": "灰血扣除率的倍率（原文写“减少一半”，是汉字，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该天赋对灰血扣除率的修正，核对字面的“减少一半”，需以资源包为准" },
+        { "key": "baseDecayRate", "what": "灰血原本的扣除率", "unit": "percent", "claimed": null, "packHint": "灰血基础扣除速度（每秒比例或固定值）" }
+      ],
+      "ambiguities": [
+        "灰血原本持续时间、扣除率没有写",
+        "“扣除率”是比例还是固定量没有写",
+        "“减少一半”是汉字，未作为 claimed",
+        "仓库里没有灰血基础规则原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "越战越勇",
+      "text": "一技能每命中一个目标获得5%伤害增益效果，最多5层",
+      "reading": "一技能小天赋。一技能每命中一个目标，八戒获得一层5%的伤害增益，可叠加，最多5层。“一技能”“一个目标”里的“一”是汉字。原文没有写：增益持续多久、重复命中是刷新持续时间还是每层独立计时；同一次一技能多次弹跳命中同一目标是否每次都算；“伤害增益”是对八戒所有伤害生效还是只对一技能生效；各层是加算还是乘算；「余波」(t08)爆炸、核心翻滚爆炸(c2)命中是否也算一技能命中。",
+      "mechanisms": ["buff", "stacking", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "一技能每命中一个目标",
+      "slots": [
+        { "key": "damageAmpPerStack", "what": "每层伤害增益", "unit": "percent", "claimed": { "value": 5, "quote": "获得5%伤害增益效果" }, "packHint": "该天赋 buff 每层的伤害增益，核对描述的5%，需以资源包为准；确认作用于哪些伤害" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": { "value": 5, "quote": "最多5层" }, "packHint": "buff 最大层数，核对描述的5层，需以资源包为准" },
+        { "key": "duration", "what": "伤害增益持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的持续时间，以及刷新还是每层独立计时" }
+      ],
+      "ambiguities": [
+        "持续时间没有写",
+        "重复命中时刷新规则没有写",
+        "同一目标被多次弹跳命中是否每次都叠层没有写",
+        "增益作用于所有伤害还是只有一技能没有写",
+        "各层加算还是乘算没有写",
+        "t08、c2 的爆炸命中是否算一技能命中没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "吃亏是福",
+      "text": "一技能期间获得20%反伤",
+      "reading": "一技能小天赋。一技能释放期间，八戒获得20%反伤，按字面理解为受到伤害时把一部分伤害反弹给攻击者，20%按字面是受到伤害的20%，但原文没写明计算基数。原文没有写：“一技能期间”具体多长（从起跳到最后落地，还是包括核心翻滚）；反伤按减伤前还是减伤后的伤害计算、反弹伤害的类型；是否只对普攻或近战攻击生效；能否暴击、能否触发其他命中效果；跳跃期间八戒能否被攻击。反伤会对攻击八戒的敌人造成伤害，列为直接影响。",
+      "mechanisms": ["buff", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能期间受到伤害时",
+      "slots": [
+        { "key": "reflectPct", "what": "反伤比例", "unit": "percent", "claimed": { "value": 20, "quote": "获得20%反伤" }, "packHint": "该天赋的反伤比例，核对描述的20%，需以资源包为准；确认计算基数（减伤前或后）和反弹伤害类型" },
+        { "key": "skill1Duration", "what": "一技能期间的时长（反伤生效时间）", "unit": "seconds", "claimed": null, "packHint": "一技能从释放到结束的时长或帧数，确认核心翻滚是否算在内" }
+      ],
+      "ambiguities": [
+        "反伤的计算基数没有写",
+        "反弹伤害类型没有写",
+        "“一技能期间”的时长没有写",
+        "是否只对普攻或近战生效没有写",
+        "能否暴击、能否触发命中效果没有写",
+        "跳跃期间八戒能否被攻击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "来去自如",
+      "text": "使用一技能时可以干扰防御塔并获得一定的真实护盾",
+      "reading": "一技能小天赋。使用一技能时，八戒可以干扰防御塔（具体效果原文没写，按字面理解为让防御塔暂时无法正常攻击），并获得一定量的真实护盾（“一定的”没有数值；“真实护盾”可能指能吸收所有类型伤害的护盾，原文没解释）。无尽守御里是否有敌方防御塔原文没写，干扰防御塔在本模式可能没有作用。原文没有写：护盾量及计算方式、持续时间；干扰防御塔的时长和范围；有无冷却。只影响生存，列为间接影响。",
+      "mechanisms": ["shield", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "使用一技能时",
+      "slots": [
+        { "key": "shieldFlat", "what": "真实护盾的固定值部分（原文“一定的”）", "unit": "flat", "claimed": null, "packHint": "该天赋护盾量，确认是固定值、按攻击力系数还是按最大生命百分比" },
+        { "key": "shieldRatio", "what": "真实护盾的加成系数或最大生命比例（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾的加成属性与系数" },
+        { "key": "shieldDuration", "what": "真实护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾 buff 的持续时间，以及“真实护盾”能吸收哪些伤害类型" },
+        { "key": "towerDisruptDuration", "what": "干扰防御塔的持续时间（纯功能效果）", "unit": "seconds", "claimed": null, "packHint": "干扰防御塔的效果、时长和范围；确认本模式是否有敌方防御塔" }
+      ],
+      "ambiguities": [
+        "“一定的”护盾量及计算方式没有写",
+        "护盾持续时间没有写",
+        "“真实护盾”的含义没有写",
+        "“干扰防御塔”的具体效果、时长、范围没有写",
+        "本模式是否存在敌方防御塔没有写",
+        "是否有冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "余波",
+      "text": "命中目标会以其为中心再爆炸一次",
+      "reading": "一技能小天赋。一技能命中目标后，会以该目标为中心再爆炸一次（“一次”是汉字数字）。原文没写是哪个技能命中，按所属位置理解为一技能。原文没有写：爆炸伤害的数值、系数、加成属性、伤害类型，是否按一技能伤害的一定比例计算；爆炸范围；一次一技能多次弹跳命中同一目标时是否每次都爆炸；命中多个目标时是否各爆一次；爆炸算不算一技能命中、能否再次触发本天赋或「越战越勇」(t05)；爆炸延迟；能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能命中目标后",
+      "slots": [
+        { "key": "explosionsPerHit", "what": "每次命中引发的爆炸次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该天赋每次命中引发的爆炸次数，核对字面的“一次”" },
+        { "key": "explosionBaseDamage", "what": "爆炸伤害的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋爆炸伤害的基础值，或相对一技能伤害的比例" },
+        { "key": "explosionDamageRatio", "what": "爆炸伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "爆炸伤害的系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "explosionRadius", "what": "爆炸范围", "unit": "meters", "claimed": null, "packHint": "以目标为中心的爆炸半径和目标数" },
+        { "key": "explosionDelay", "what": "命中到爆炸的延迟", "unit": "frames", "claimed": null, "packHint": "爆炸相对命中的延迟帧数，用于时间轴结算" },
+        { "key": "internalCooldown", "what": "同一目标重复触发的间隔或内置冷却（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否有触发冷却，以及多次弹跳命中同一目标是否每次都爆炸" }
+      ],
+      "ambiguities": [
+        "爆炸伤害数值、系数、伤害类型没有写",
+        "爆炸范围没有写",
+        "多次弹跳命中同一目标是否每次都爆炸没有写",
+        "命中多个目标是否各爆一次没有写",
+        "爆炸能否触发本天赋或 t05 没有写",
+        "爆炸延迟、能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "如意九齿耙",
+      "text": "施法距离增加20%",
+      "reading": "二技能小天赋。二技能的施法距离增加20%（原文没写是哪个技能，按所属位置理解为二技能）。原文没有写二技能原本的施法距离，也没写是否同时增加拉人距离或判定范围。施法距离只影响能打到多远的敌人，不改变单次伤害，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放二技能时生效）",
+      "slots": [
+        { "key": "castRangeIncrease", "what": "二技能施法距离的提升比例", "unit": "percent", "claimed": { "value": 20, "quote": "施法距离增加20%" }, "packHint": "该天赋对二技能施法距离的加成，核对描述的20%，需以资源包为准" },
+        { "key": "baseCastRange", "what": "二技能原本的施法距离", "unit": "meters", "claimed": null, "packHint": "二技能的基础施法距离" }
+      ],
+      "ambiguities": [
+        "是哪个技能的施法距离（按位置理解为二技能）没有写",
+        "原本施法距离没有写",
+        "是否同时增加拉人距离或判定范围没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "再靠近一点点",
+      "text": "二技能命中会将敌人拉回一段距离",
+      "reading": "二技能小天赋。二技能命中后，会把敌人拉回一段距离（“一段”是汉字）。仓库里没有本模式二技能基础原文，不知道二技能原本是否已经会拉人；核心「与猪共舞」(c3)写了“敌人被拉的越远”，说明二技能可能原本就会拉动敌人，本天赋的“拉回”是额外的拉动还是改变原有拉动，原文不能确定。原文没有写：拉回的距离、方向（拉向八戒还是拉回某处）、拉动耗时；对哪些目标生效（首领、挑战怪能否被拉动）。拉动属于控制；选 c3 时拉得更远可能提高伤害，但原文没写二者关系，按间接影响处理。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中后",
+      "slots": [
+        { "key": "pullDistance", "what": "把敌人拉回的距离（原文“一段距离”）", "unit": "meters", "claimed": null, "packHint": "该天赋拉回敌人的距离和方向" },
+        { "key": "pullDuration", "what": "拉动过程的耗时", "unit": "frames", "claimed": null, "packHint": "拉动位移的帧数或速度，用于时间轴结算" }
+      ],
+      "ambiguities": [
+        "拉回距离、方向、耗时没有写",
+        "二技能原本是否会拉人、本天赋是额外拉动还是改变原拉动没有写",
+        "对哪些目标生效没有写",
+        "与 c3 距离增伤的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "皮糙肉厚",
+      "text": "二技能将敌方英雄成功撞到墙上，将永久增加自身2点格挡值",
+      "reading": "二技能小天赋。二技能把敌方英雄成功撞到墙上时，永久增加八戒2点格挡值。“永久”按字面理解为本局内保留并可多次累积，原文没写上限。原文没有写“格挡值”的含义（减少每次受到的伤害、格挡概率还是其他属性）和每点的效果；没写墙从哪里来（地形、核心 c3 的高墙或大招）；只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能不触发。只影响生存，列为间接影响。",
+      "mechanisms": ["stacking", "stat", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能将敌方英雄撞到墙上时",
+      "slots": [
+        { "key": "blockPerTrigger", "what": "每次撞墙增加的格挡值", "unit": "flat", "claimed": { "value": 2, "quote": "增加自身2点格挡值" }, "packHint": "该天赋每次触发增加的格挡值，核对描述的2点，需以资源包为准" },
+        { "key": "blockEffectPerPoint", "what": "每点格挡值的效果（例如减伤比例，原文没写含义）", "unit": "percent", "claimed": null, "packHint": "格挡值属性的定义与每点效果" },
+        { "key": "maxBlock", "what": "格挡值累计上限（原文写“永久”，没写上限）", "unit": "flat", "claimed": null, "packHint": "该天赋格挡值是否有累计上限及其数值" },
+        { "key": "internalCooldown", "what": "触发的冷却或内置冷却（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否有触发冷却，以及同一次撞多个英雄是否分别计数" }
+      ],
+      "ambiguities": [
+        "“格挡值”的含义和每点效果没有写",
+        "累计上限没有写",
+        "墙的来源没有写",
+        "只写了“敌方英雄”，本模式敌人是否算英雄不明",
+        "是否有冷却、一次撞多个英雄是否分别计数没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "五指山",
+      "text": "强普范围增加60%",
+      "reading": "二技能小天赋。强普（强化普攻，按所属位置理解为二技能提供的强普）的范围增加60%。原文没写原本范围，没写60%是半径、长度还是面积增加，也没写是否作用于核心「猪八戒背媳妇」(c4)的背人强普。范围变大可能命中更多敌人，不改变单次伤害，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（强普生效）",
+      "slots": [
+        { "key": "rangeIncrease", "what": "强普范围的提升比例", "unit": "percent", "claimed": { "value": 60, "quote": "强普范围增加60%" }, "packHint": "该天赋对强普范围的加成，核对描述的60%，需以资源包为准；确认加在半径、长度还是面积上" },
+        { "key": "baseRange", "what": "强普原本的范围", "unit": "meters", "claimed": null, "packHint": "强普的基础判定范围和目标数" }
+      ],
+      "ambiguities": [
+        "原本范围没有写",
+        "60%加在半径、长度还是面积上没有写",
+        "是否作用于 c4 的背人强普没有写",
+        "强普的来源（按位置理解为二技能）没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "强力壁咚",
+      "text": "将敌人撞到墙上的伤害翻2倍",
+      "reading": "二技能小天赋。把敌人撞到墙上时造成的伤害“翻2倍”。“翻2倍”有两种理解：变为原来的2倍，或在原来基础上增加2倍，原文不能确定。仓库里没有二技能撞墙的基础原文。原文没有写：撞墙伤害本身的数值、系数和伤害类型；翻倍是只作用于撞墙那一下的伤害，还是也包括「山崩地裂」(t14)的爆炸蔓延；是否只限二技能撞墙；能否暴击。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "将敌人撞到墙上时",
+      "slots": [
+        { "key": "wallSlamMultiplier", "what": "撞墙伤害倍率（原文“翻2倍”，可能是变为2倍，也可能是增加2倍）", "unit": "ratio", "claimed": { "value": 2, "quote": "伤害翻2倍" }, "packHint": "该天赋对撞墙伤害的倍率，核对描述的2倍，需以资源包为准；确认是乘以2还是增加2倍" },
+        { "key": "wallSlamBaseDamage", "what": "撞墙伤害的基础值（未选本天赋时）", "unit": "flat", "claimed": null, "packHint": "二技能撞墙伤害的基础值" },
+        { "key": "wallSlamDamageRatio", "what": "撞墙伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "撞墙伤害的系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "“翻2倍”是变为2倍还是增加2倍没有写",
+        "撞墙伤害本身数值、系数、伤害类型没有写",
+        "是否作用于 t14 的爆炸蔓延没有写",
+        "是否只限二技能撞墙没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "山崩地裂",
+      "text": "撞墙的爆炸会继续向两侧和后面蔓延",
+      "reading": "二技能小天赋。敌人撞墙时产生的爆炸会继续向两侧和后面蔓延（按字面理解为向三个方向延伸）。“撞墙的爆炸”说明敌人撞墙时会有爆炸，但仓库里没有二技能撞墙爆炸的基础原文。原文没有写：蔓延的距离、宽度、速度；蔓延部分的伤害是否与原爆炸相同、是否衰减；同一敌人被原爆炸和蔓延多次命中时是否都受伤；是否附带撞墙的其他效果（如控制）；能否暴击。蔓延可以命中更多敌人并造成额外伤害，列为直接影响。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "敌人撞墙产生爆炸时",
+      "slots": [
+        { "key": "spreadDistance", "what": "爆炸向每个方向蔓延的距离", "unit": "meters", "claimed": null, "packHint": "该天赋爆炸蔓延的距离，确认两侧和后面是否相同" },
+        { "key": "spreadWidth", "what": "蔓延区域的宽度", "unit": "meters", "claimed": null, "packHint": "蔓延判定的宽度或每段爆炸的半径" },
+        { "key": "spreadDelay", "what": "蔓延到达各处所需时间（蔓延速度）", "unit": "frames", "claimed": null, "packHint": "蔓延的推进速度或分段爆炸的间隔帧数" },
+        { "key": "spreadDamagePct", "what": "蔓延部分伤害相对原爆炸的比例（原文没写是否相同）", "unit": "percent", "claimed": null, "packHint": "蔓延伤害与原撞墙爆炸伤害的关系" },
+        { "key": "explosionBaseDamage", "what": "撞墙爆炸伤害的基础值", "unit": "flat", "claimed": null, "packHint": "二技能撞墙爆炸伤害的基础值" },
+        { "key": "explosionDamageRatio", "what": "撞墙爆炸伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "撞墙爆炸伤害的系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "蔓延距离、宽度、速度没有写",
+        "蔓延伤害是否与原爆炸相同没有写",
+        "同一敌人能否被多次命中没有写",
+        "是否附带撞墙的其他效果没有写",
+        "能否暴击没有写",
+        "仓库里没有二技能撞墙爆炸的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "老猪快跑",
+      "text": "脱战状态下突破移速上限，每0.5秒提升自身10%移速",
+      "reading": "二技能位置的小天赋（原文内容与二技能无关）。脱离战斗状态下，八戒可以突破移速上限，并且每0.5秒提升自身10%移速。按字面理解为脱战后每过0.5秒移速再提升10%，逐步累加，原文没写累加上限，也没写是加算还是乘算。原文没有写：多久不攻击或不受伤算脱战；进入战斗后加成是否立刻清空；突破后是否还有新的上限。只在脱战时生效，不影响战斗中的伤害，列为无影响。",
+      "mechanisms": ["mobility", "stacking", "buff"],
+      "damageRelevance": "none",
+      "trigger": "脱离战斗状态时，每0.5秒",
+      "slots": [
+        { "key": "tickInterval", "what": "移速提升的间隔", "unit": "seconds", "claimed": { "value": 0.5, "quote": "每0.5秒" }, "packHint": "该天赋移速提升的周期，核对描述的0.5秒，需以资源包为准" },
+        { "key": "moveSpeedPerTick", "what": "每次提升的移速", "unit": "percent", "claimed": { "value": 10, "quote": "提升自身10%移速" }, "packHint": "该天赋每次提升的移速，核对描述的10%，需以资源包为准；确认加算还是乘算" },
+        { "key": "maxMoveSpeedBonus", "what": "移速提升的累计上限（原文没写是否存在）", "unit": "percent", "claimed": null, "packHint": "该天赋移速加成的累计上限或层数上限" },
+        { "key": "outOfCombatDelay", "what": "进入脱战状态所需的时间", "unit": "seconds", "claimed": null, "packHint": "脱战判定时间，以及进入战斗后加成如何清除" }
+      ],
+      "ambiguities": [
+        "累加上限没有写",
+        "加算还是乘算没有写",
+        "脱战判定条件没有写",
+        "进入战斗后加成是否立即清空没有写",
+        "突破后是否有新的移速上限没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "连吃带拿",
+      "text": "拉人的碰撞范围变大，身后目标也可以被拉住",
+      "reading": "二技能小天赋。二技能拉人的碰撞（判定）范围变大，并且身后的目标也可以被拉住。“身后”可能指八戒身后，也可能指第一个被拉目标的身后（即可同时拉住多个目标），原文不能确定。原文没有写：碰撞范围增大多少（固定值还是比例）；能同时拉住几个目标；身后目标被拉住后是否受到同样的伤害和撞墙效果。更容易命中并拉住更多目标，不改变单次伤害，列为间接影响。",
+      "mechanisms": ["area", "control"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（二技能拉人时生效）",
+      "slots": [
+        { "key": "hitboxIncrease", "what": "拉人碰撞范围增大的幅度（原文没写数值或单位）", "unit": "percent", "claimed": null, "packHint": "该天赋对二技能拉人判定范围的加成，确认是比例还是固定距离" },
+        { "key": "baseHitbox", "what": "二技能拉人原本的碰撞范围", "unit": "meters", "claimed": null, "packHint": "二技能拉人判定的基础宽度或半径" },
+        { "key": "maxPulledTargets", "what": "可同时拉住的目标数", "unit": "count", "claimed": null, "packHint": "选本天赋后二技能可拉住的目标数上限" }
+      ],
+      "ambiguities": [
+        "“身后”指八戒身后还是被拉目标身后没有写",
+        "碰撞范围增大多少没有写",
+        "能同时拉住几个目标没有写",
+        "身后目标是否受到同样伤害和撞墙效果没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "再吃一口",
+      "text": "开大刷新一二技能冷却",
+      "reading": "大招小天赋。释放大招时刷新一技能和二技能的冷却（“一二技能”是汉字）。“刷新”按字面理解为冷却立即结束，原文没有数字。原文没有写：选核心「墙力阻击」(c6)大招分两段时，首段还是二段刷新；是否有次数限制或额外冷却。提高一二技能释放频率，间接提高输出。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "refreshAmount", "what": "刷新一二技能冷却的比例（原文“刷新”，没有数字）", "unit": "percent", "claimed": null, "packHint": "该天赋重置一二技能冷却的方式（清零还是减少一定比例或秒数）" },
+        { "key": "refreshCooldown", "what": "刷新效果自身的冷却或次数限制（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否有触发冷却或每次大招的次数限制" }
+      ],
+      "ambiguities": [
+        "“刷新”是否为完全清除冷却没有写数字",
+        "c6 两段大招时哪一段刷新没有写",
+        "是否有次数限制或额外冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "远见之墙",
+      "text": "施法距离+30%",
+      "reading": "大招小天赋。大招的施法距离提升30%（原文写“+30%”，原文没写是哪个技能，按所属位置理解为大招）。原文没有写大招原本的施法距离，没写是在原距离上乘算还是与其他距离加成相加，也没写大招框住的范围是否变化。只影响能在多远处释放，不改变单次伤害，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放大招时生效）",
+      "slots": [
+        { "key": "castRangeIncrease", "what": "大招施法距离的提升比例（原文写“+30%”，表示增加）", "unit": "percent", "claimed": { "value": 30, "quote": "施法距离+30%" }, "packHint": "该天赋对大招施法距离的加成，核对描述的30%，需以资源包为准" },
+        { "key": "baseCastRange", "what": "大招原本的施法距离", "unit": "meters", "claimed": null, "packHint": "大招的基础施法距离" }
+      ],
+      "ambiguities": [
+        "是哪个技能的施法距离（按位置理解为大招）没有写",
+        "原本施法距离没有写",
+        "乘算还是加算没有写",
+        "大招框住的范围是否变化没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "大师兄救我！",
+      "text": "大招下砸时，召唤悟空劈一棒，必定暴击",
+      "reading": "大招小天赋。大招下砸时，召唤悟空劈一棒（“一棒”是汉字数字，字面为一次攻击），这一棒必定暴击。“大招下砸”说明大招有下砸动作，但仓库里没有本模式大招基础原文。原文没有写：悟空这一棒的伤害基础值、系数、加成属性（按八戒还是悟空的属性计算）、伤害类型、范围和目标数；必定暴击时的暴击伤害倍率按八戒的暴击效果还是固定值；选核心「吃俺老猪亿耙」(c5)持续下砸时，是否每次下砸都召唤悟空、有无内置冷却；选核心「墙力阻击」(c6)时哪一段算下砸；悟空出手的延迟。",
+      "mechanisms": ["summon", "proc", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "大招下砸时",
+      "slots": [
+        { "key": "strikeCount", "what": "每次下砸召唤悟空攻击的次数（原文写“一棒”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该天赋每次触发悟空攻击的次数，核对字面的“一棒”" },
+        { "key": "strikeBaseDamage", "what": "悟空一棒伤害的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋悟空攻击伤害的基础值" },
+        { "key": "strikeDamageRatio", "what": "悟空一棒伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "悟空攻击伤害的系数、加成属性（八戒还是悟空的属性）、伤害类型" },
+        { "key": "strikeRadius", "what": "悟空一棒的作用范围", "unit": "meters", "claimed": null, "packHint": "悟空攻击的判定范围和目标数" },
+        { "key": "critMultiplier", "what": "必定暴击时的暴击伤害倍率（原文没写按谁的暴击效果计算）", "unit": "ratio", "claimed": null, "packHint": "悟空攻击暴击时的伤害倍率，确认是否吃八戒的暴击效果加成" },
+        { "key": "strikeDelay", "what": "下砸到悟空出手的延迟", "unit": "frames", "claimed": null, "packHint": "悟空出现和出伤的帧数，用于时间轴结算" },
+        { "key": "internalCooldown", "what": "召唤悟空的冷却或内置冷却（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否有触发冷却，以及 c5 持续下砸时是否每次都触发" }
+      ],
+      "ambiguities": [
+        "“一棒”是汉字数字，未作为 claimed",
+        "悟空攻击的伤害数值、系数、加成属性、伤害类型、范围没有写",
+        "必定暴击时的暴击倍率按谁计算没有写",
+        "c5 持续下砸时是否每次都触发、有无内置冷却没有写",
+        "c6 时哪一段算下砸没有写",
+        "仓库里没有本模式大招的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "攻守兼备",
+      "text": "每50点生命值会转换为1点攻击力",
+      "reading": "大招位置的小天赋（原文内容与大招无关）。每50点生命值转换为1点攻击力。“生命值”可能是最大生命值，也可能是当前生命值或额外生命值，原文没写；“转换”是否会扣除生命值，原文也没写。原文没有写：攻击力是物理攻击还是其他攻击属性；不足50点的部分是否舍去；有无转换上限；是实时更新还是只计算一次。攻击力直接影响伤害，列为直接影响。",
+      "mechanisms": ["conversion", "stat"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "hpPerConversion", "what": "每次转换所需的生命值", "unit": "flat", "claimed": { "value": 50, "quote": "每50点生命值" }, "packHint": "该天赋转换比例中的生命值部分，核对描述的50点，需以资源包为准；确认按最大生命、当前生命还是额外生命计算" },
+        { "key": "atkPerConversion", "what": "每次转换得到的攻击力", "unit": "flat", "claimed": { "value": 1, "quote": "转换为1点攻击力" }, "packHint": "该天赋转换比例中的攻击力部分，核对描述的1点，需以资源包为准；确认是物理攻击还是其他攻击属性" },
+        { "key": "conversionCap", "what": "转换得到攻击力的上限（原文没写是否存在）", "unit": "flat", "claimed": null, "packHint": "该天赋转换攻击力是否有上限及其数值" }
+      ],
+      "ambiguities": [
+        "按哪种生命值计算没有写",
+        "转换是否扣除生命值没有写",
+        "攻击力属性类型没有写",
+        "不足50点的部分如何取整没有写",
+        "是否有上限没有写",
+        "实时更新还是计算一次没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "变形术",
+      "text": "被框住的敌方英雄会短暂变成野猪",
+      "reading": "大招小天赋。被大招框住的敌方英雄会短暂变成野猪（变形）。“被框住”按所属位置理解为处于大招围出的区域内，但仓库里没有本模式大招基础原文。原文没有写：变形持续多久（原文“短暂”）；变成野猪后敌人能否攻击、释放技能，移速如何变化；同一目标多久能再次被变形；只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能不触发。属于控制，列为间接影响。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "敌方英雄被大招框住时",
+      "slots": [
+        { "key": "polymorphDuration", "what": "变成野猪的持续时间（原文“短暂”）", "unit": "seconds", "claimed": null, "packHint": "该天赋变形控制的持续时间" },
+        { "key": "boarMoveSpeedChange", "what": "野猪形态的移速变化（原文没写是否改变）", "unit": "percent", "claimed": null, "packHint": "野猪形态的移速修正，以及能否攻击、释放技能" },
+        { "key": "repeatCooldown", "what": "同一目标再次被变形的间隔（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋对同一目标的触发冷却" }
+      ],
+      "ambiguities": [
+        "变形持续时间（“短暂”）没有写",
+        "野猪形态的具体限制没有写",
+        "同一目标的重复触发规则没有写",
+        "只写了“敌方英雄”，本模式敌人是否算英雄不明",
+        "仓库里没有本模式大招的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "一起摇摆",
+      "text": "释放技能即可回复自身最大生命值6%的血量，周围队友3%",
+      "reading": "大招位置的小天赋。释放技能即可为自身回复最大生命值6%的血量，同时为周围队友回复3%。“技能”按字面是任意技能（不限大招），原文没写清；队友的3%是按队友自己的最大生命值还是按八戒的最大生命值计算，原文不能确定。原文没有写：“周围”的范围；是否有冷却或内置冷却；普攻或强普是否算技能；回复是立即生效还是持续一段时间。只影响生存，列为间接影响。",
+      "mechanisms": ["heal", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "释放技能时",
+      "slots": [
+        { "key": "selfHealPct", "what": "自身回复量占自身最大生命值的比例", "unit": "percent", "claimed": { "value": 6, "quote": "回复自身最大生命值6%的血量" }, "packHint": "该天赋自身回复比例，核对描述的6%，需以资源包为准" },
+        { "key": "allyHealPct", "what": "周围队友的回复比例（原文没写按谁的最大生命值计算）", "unit": "percent", "claimed": { "value": 3, "quote": "周围队友3%" }, "packHint": "该天赋队友回复比例，核对描述的3%，需以资源包为准；确认按队友还是八戒的最大生命计算" },
+        { "key": "allyRadius", "what": "为队友回复的范围（原文“周围”）", "unit": "meters", "claimed": null, "packHint": "队友回复的作用半径" },
+        { "key": "internalCooldown", "what": "回复的冷却或内置冷却（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否有触发冷却，以及哪些技能会触发" }
+      ],
+      "ambiguities": [
+        "“技能”是否包括所有技能、强普是否算没有写",
+        "队友回复按谁的最大生命值计算没有写",
+        "“周围”的范围没有写",
+        "是否有冷却没有写",
+        "立即回复还是持续回复没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "储备能源",
+      "text": "释放大招后获得最大生命值上限提升",
+      "reading": "大招小天赋。释放大招后，八戒的最大生命值上限提升。原文没有写：提升多少（固定值还是百分比）；是持续一段时间还是永久保留；多次释放大招能否叠加、上限多少；提升时是否同时回复相应的当前生命值。与「攻守兼备」(t20)同时选择时，最大生命值提升可能转换为攻击力（取决于 t20 按哪种生命值计算），从而影响伤害；单独看只影响生存，列为间接影响。",
+      "mechanisms": ["buff", "stat"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招后",
+      "slots": [
+        { "key": "maxHpBonusFlat", "what": "最大生命值提升的固定值", "unit": "flat", "claimed": null, "packHint": "该天赋最大生命提升量，确认是固定值还是百分比" },
+        { "key": "maxHpBonusPct", "what": "最大生命值提升的百分比", "unit": "percent", "claimed": null, "packHint": "该天赋最大生命提升比例（若按百分比计算）" },
+        { "key": "duration", "what": "提升的持续时间（原文没写是否限时）", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的持续时间，确认是限时还是永久" },
+        { "key": "maxStacks", "what": "多次释放大招的叠加层数上限", "unit": "count", "claimed": null, "packHint": "该天赋能否叠加及层数上限" }
+      ],
+      "ambiguities": [
+        "提升量及计算方式没有写",
+        "限时还是永久没有写",
+        "能否叠加、上限没有写",
+        "是否同时回复当前生命值没有写",
+        "与 t20 的联动取决于 t20 按哪种生命值计算"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "旋风猪猪",
+      "text": "召唤旋风向自身移动，命中敌人造成伤害和减速，自身增加攻速",
+      "reading": "大招小天赋。召唤旋风向八戒自身移动，旋风命中敌人时造成伤害并减速；同时八戒增加攻速。原文没写召唤时机，按所属位置理解为释放大招时；旋风从哪里出现（大招区域边缘、施法点还是固定距离）没写。“自身增加攻速”是召唤时就获得、旋风命中后获得，还是旋风到达八戒时获得，原文不能确定。原文没有写：旋风数量、移动速度和宽度；伤害数值、系数、伤害类型，同一敌人能否被多次命中；减速幅度和持续时间；攻速加成数值和持续时间；能否暴击。",
+      "mechanisms": ["summon", "proc", "control", "buff", "area"],
+      "damageRelevance": "direct",
+      "trigger": "召唤旋风时（按所属位置理解为释放大招时）；旋风命中敌人时",
+      "slots": [
+        { "key": "whirlwindCount", "what": "召唤的旋风数量", "unit": "count", "claimed": null, "packHint": "该天赋每次召唤的旋风数量" },
+        { "key": "spawnDistance", "what": "旋风出现位置与八戒的距离", "unit": "meters", "claimed": null, "packHint": "旋风的生成位置规则" },
+        { "key": "travelTime", "what": "旋风移动到八戒处的时间（移动速度）", "unit": "seconds", "claimed": null, "packHint": "旋风的移动速度或飞行时长" },
+        { "key": "whirlwindWidth", "what": "旋风的判定宽度", "unit": "meters", "claimed": null, "packHint": "旋风的判定半径或宽度，以及同一敌人能否被多次命中" },
+        { "key": "whirlwindBaseDamage", "what": "旋风伤害的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋旋风伤害的基础值" },
+        { "key": "whirlwindDamageRatio", "what": "旋风伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "旋风伤害的系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "slowPct", "what": "减速幅度", "unit": "percent", "claimed": null, "packHint": "旋风命中后的减速比例" },
+        { "key": "slowDuration", "what": "减速持续时间", "unit": "seconds", "claimed": null, "packHint": "旋风减速的持续时间" },
+        { "key": "attackSpeedBonus", "what": "自身攻速加成", "unit": "percent", "claimed": null, "packHint": "该天赋攻速 buff 的数值，以及获得时机（召唤时、命中时或旋风到达时）" },
+        { "key": "attackSpeedDuration", "what": "攻速加成持续时间", "unit": "seconds", "claimed": null, "packHint": "攻速 buff 的持续时间，以及能否叠加" }
+      ],
+      "ambiguities": [
+        "召唤时机（按位置理解为释放大招时）没有写",
+        "旋风出现位置、数量、移动速度、宽度没有写",
+        "伤害数值、系数、伤害类型没有写",
+        "同一敌人能否被多次命中没有写",
+        "减速幅度和持续时间没有写",
+        "攻速加成的数值、持续时间、获得时机没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

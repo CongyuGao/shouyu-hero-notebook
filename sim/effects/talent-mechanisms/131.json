@@ -1,0 +1,770 @@
+{
+  "heroId": "131",
+  "heroName": "李白",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "天上来",
+      "text": "突进距离+200，突进过程中霸体，释放获得一层护盾",
+      "reading": "选择该核心（一技能核心）后：一技能的突进距离增加200（原文“+200”没写单位，可能是游戏内距离单位，不一定是米）；突进过程中获得霸体（免疫控制）；释放时获得一层护盾（“一层”是汉字数字，没有作为 claimed）。另外，天醉仙（t03）、杯中月（t04）、杯推盏（t06）、落九天（t08）的原文都写有“觉醒【天上来】时”的额外效果，说明这个核心还会强化这些小天赋；原文没有明说“觉醒”就是指选择该核心，这些额外效果记在对应小天赋条目里。原文没有写：突进原本的距离；霸体只覆盖突进动作还是更久；“释放”是指每次突进都获得护盾，还是一技能首次施放时获得一次；护盾吸收量及其计算基准、持续时间；“一层”说明护盾按层计，但层数上限、多层是否叠加都没写。核心自身文字只涉及位移、免控和护盾，按间接影响记录。",
+      "mechanisms": ["mobility", "area", "control-immunity", "shield"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（选择该核心后每次释放一技能突进）",
+      "slots": [
+        { "key": "dashDistanceBonus", "what": "突进距离增加量（原文“+200”没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位）", "unit": "flat", "claimed": { "value": 200, "quote": "突进距离+200" }, "packHint": "该核心对一技能突进距离的加成数值与单位，核对描述的+200（描述值不可靠，需资源包核对，注意距离单位换算）" },
+        { "key": "baseDashDistance", "what": "一技能原本的突进距离", "unit": "meters", "claimed": null, "packHint": "一技能默认突进距离及其单位，用于换算+200的实际效果" },
+        { "key": "superArmorDuration", "what": "霸体持续时间（原文只写“突进过程中”）", "unit": "seconds", "claimed": null, "packHint": "突进动作时长，或该核心霸体 buff 的持续时间" },
+        { "key": "shieldLayersPerCast", "what": "每次释放获得的护盾层数（原文写“一层”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该核心每次释放给予的护盾层数，核对“一层”，并确认按每次突进还是每次施放一技能计算" },
+        { "key": "shieldBasePerLayer", "what": "每层护盾吸收量基础值", "unit": "flat", "claimed": null, "packHint": "该核心护盾每层的吸收量基础值" },
+        { "key": "shieldRatioPerLayer", "what": "每层护盾吸收量的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该核心护盾的加成系数及加成属性（攻击力、最大生命等）" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心护盾 buff 的持续时间" },
+        { "key": "shieldMaxLayers", "what": "护盾层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "该核心护盾是否可叠加及最大层数" }
+      ],
+      "ambiguities": [
+        "“+200”的单位未写",
+        "一技能原本的突进距离未写",
+        "霸体是否只覆盖突进动作未写",
+        "“释放获得一层护盾”是每次突进还是每次施放一技能未写",
+        "护盾吸收量、计算基准、持续时间、层数上限未写",
+        "“觉醒【天上来】”是否就是指选择该核心，原文未明说"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "三百杯",
+      "text": "突进次数+2",
+      "reading": "选择该核心（一技能核心）后，一技能可以突进的次数增加2次。原文没有写：原本的突进次数；两次突进之间允许再次施放的时间窗口，一技能整体存续时间是否随之延长；新增的突进伤害是否与原有突进相同；一技能冷却从第一次突进还是最后一次突进后开始计算。突进次数增加会放大所有按“每次突进”“突进每次命中”触发的小天赋（天紫烟、天醉仙、杯中月、杯莫停、落九天等），原文没写这些效果是否有每次施放的触发上限。",
+      "mechanisms": ["charges", "mobility"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选择该核心后释放一技能）",
+      "slots": [
+        { "key": "extraDashes", "what": "增加的突进次数", "unit": "count", "claimed": { "value": 2, "quote": "突进次数+2" }, "packHint": "该核心增加的一技能突进次数，核对描述的+2（描述值不可靠，需资源包核对）" },
+        { "key": "baseDashCount", "what": "一技能原本的突进次数", "unit": "count", "claimed": null, "packHint": "一技能默认可突进次数" },
+        { "key": "recastWindow", "what": "两次突进之间可再次施放的时间窗口", "unit": "seconds", "claimed": null, "packHint": "一技能再次突进的等待窗口，及选该核心后是否变化" },
+        { "key": "dashBaseDamage", "what": "每次突进伤害基础值（新增突进是否相同未写）", "unit": "flat", "claimed": null, "packHint": "一技能每次突进的伤害基础值，确认新增的突进是否与原有突进相同" },
+        { "key": "dashDamageRatio", "what": "每次突进伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "一技能突进伤害的系数、加成属性、伤害类型及能否暴击" }
+      ],
+      "ambiguities": [
+        "原本的突进次数未写",
+        "突进再次施放窗口和一技能总存续时间是否变化未写",
+        "新增突进的伤害是否与原有突进相同未写",
+        "冷却开始计算的时机未写",
+        "按突进触发的小天赋是否有每次施放的触发上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "意隐",
+      "text": "李白在剑阵内获得隐身状态（使用普攻不会显形）",
+      "reading": "选择该核心（二技能核心）后，李白处于剑阵内时获得隐身状态，期间普攻不会让他显形。“剑阵”应指二技能生成的区域（c4 原文称“青莲剑阵”，二技能小天赋原文称“剑圈”），原文没有明说剑阵和剑圈是同一物。原文没有写：进入剑阵后多久进入隐身；离开剑阵后隐身是否保留一段时间；释放技能、受到伤害是否会显形；隐身在无尽守御里对敌人有什么实际效果（敌人是否因此丢失目标）。原文没写隐身带来伤害加成，这里不作假设；隐身影响生存，按间接影响记录。",
+      "mechanisms": ["invulnerable"],
+      "damageRelevance": "indirect",
+      "trigger": "李白处于剑阵内时",
+      "slots": [
+        { "key": "stealthEnterDelay", "what": "进入剑阵到进入隐身的延迟", "unit": "seconds", "claimed": null, "packHint": "该核心隐身 buff 的生效延迟（若有）" },
+        { "key": "stealthLingerAfterLeave", "what": "离开剑阵后隐身保留的时间", "unit": "seconds", "claimed": null, "packHint": "离开剑阵后隐身 buff 是否立即移除或保留多久" },
+        { "key": "zoneRadius", "what": "剑阵（剑圈）半径", "unit": "meters", "claimed": null, "packHint": "二技能剑阵的判定半径" },
+        { "key": "zoneDuration", "what": "剑阵持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能剑阵的存续时间，决定隐身最长可维持多久" }
+      ],
+      "ambiguities": [
+        "“剑阵”与小天赋原文的“剑圈”是否为同一物未明说",
+        "进入隐身的延迟、离开后保留时间未写",
+        "释放技能、受到伤害是否显形未写",
+        "隐身对无尽守御敌人的实际效果未写",
+        "隐身是否带来伤害加成未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "句随",
+      "text": "青莲剑阵将跟随自身移动",
+      "reading": "选择该核心（二技能核心）后，二技能的青莲剑阵会跟随李白移动，而不是固定在施放位置。这样“李白在剑圈内”类的小天赋（折句、壮意、肆意）在剑阵存续期间更容易保持满足，剑阵也能随李白覆盖新的敌人。原文没有写：剑阵是以李白为中心，还是保持施放时的相对位置；跟随是否有延迟或速度上限；剑阵的半径和持续时间；与禁句（进入剑圈的敌人无法离开）同时选择时，被困敌人是否随剑阵一起移动。该核心不改变伤害数值，影响剑阵覆盖与圈内条件的满足，按间接影响记录。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能后，剑阵存续期间",
+      "slots": [
+        { "key": "zoneRadius", "what": "剑阵半径", "unit": "meters", "claimed": null, "packHint": "二技能剑阵的判定半径" },
+        { "key": "zoneDuration", "what": "剑阵持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能剑阵的存续时间" },
+        { "key": "followSpeed", "what": "剑阵跟随移动的速度（若不是瞬时贴身跟随）", "unit": "flat", "claimed": null, "packHint": "剑阵跟随李白的移动方式与速度（游戏内速度单位）" },
+        { "key": "centerOffset", "what": "剑阵中心相对李白的偏移距离（若不以李白为中心）", "unit": "meters", "claimed": null, "packHint": "剑阵跟随时的中心位置规则" }
+      ],
+      "ambiguities": [
+        "剑阵是否以李白为中心未写",
+        "跟随是否有延迟或速度上限未写",
+        "剑阵半径、持续时间未写",
+        "与禁句同时选择时被困敌人是否随剑阵移动未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "诗剑酒",
+      "text": "大招默认解锁，不需要叠层",
+      "reading": "选择该核心（三技能核心）后，大招一开始就可以使用，不需要先叠层解锁。“不需要叠层”说明不选这个核心时，大招要先叠到一定层数才能解锁；拖笔（t16）原文写有“叠加1道剑气”，层数可能指剑气，但原文没有明说。原文没有写：默认解锁所需层数和叠层方式；“默认解锁”是只在开局时免叠层，还是每次释放后都不需要重新叠层；大招冷却时间；是否改变大招本身的伤害。该核心影响大招可用次数，按间接影响记录。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（选择该核心后）",
+      "slots": [
+        { "key": "defaultRequiredStacks", "what": "不选该核心时解锁大招所需的层数", "unit": "count", "claimed": null, "packHint": "大招解锁所需层数及叠层来源（普攻、技能命中等）" },
+        { "key": "stackDuration", "what": "叠层的持续时间（不选该核心时）", "unit": "seconds", "claimed": null, "packHint": "大招解锁层数的持续时间或衰减规则" },
+        { "key": "ultCooldown", "what": "大招冷却时间", "unit": "seconds", "claimed": null, "packHint": "大招基础冷却，确认选该核心后是否变化" }
+      ],
+      "ambiguities": [
+        "默认解锁所需层数和叠层方式未写",
+        "层数是否就是拖笔里的“剑气”未明说",
+        "“默认解锁”是仅开局还是每次释放后都免叠层未写",
+        "大招冷却时间未写",
+        "是否改变大招伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "酒过三巡",
+      "text": "剑气穿梭次数翻倍",
+      "reading": "选择该核心（三技能核心）后，大招剑气穿梭的次数变为原来的两倍（原文“翻倍”，是汉字表述，没有作为 claimed）。原文没有写：原本的穿梭次数；每次穿梭的伤害基础值、系数、判定范围、间隔；翻倍后大招总时长是否延长；“剑气穿梭”与大招小天赋原文里的“每段斩击”是否为同一计数单位（如果相同，洗剑、雷动、剑□、长歌这些按段触发的效果也会随之翻倍）。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "baseShuttleCount", "what": "大招原本的剑气穿梭次数", "unit": "count", "claimed": null, "packHint": "大招默认剑气穿梭（斩击）次数" },
+        { "key": "shuttleMultiplier", "what": "穿梭次数倍率（原文写“翻倍”，为汉字表述，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该核心对穿梭次数的修正，核对“翻倍”是否为2倍（描述值不可靠，需资源包核对）" },
+        { "key": "shuttleBaseDamage", "what": "每次穿梭伤害基础值", "unit": "flat", "claimed": null, "packHint": "大招每次剑气穿梭的伤害基础值" },
+        { "key": "shuttleDamageRatio", "what": "每次穿梭伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "大招每次穿梭的伤害系数、加成属性、伤害类型" },
+        { "key": "shuttleInterval", "what": "两次穿梭之间的间隔", "unit": "seconds", "claimed": null, "packHint": "大招穿梭的时间间隔，确认次数翻倍后大招总时长是否变长" },
+        { "key": "shuttleHitWidth", "what": "每次穿梭的判定宽度或范围", "unit": "meters", "claimed": null, "packHint": "剑气穿梭的判定范围" }
+      ],
+      "ambiguities": [
+        "原本穿梭次数未写",
+        "每次穿梭的伤害、系数、范围、间隔未写",
+        "翻倍后大招总时长是否延长未写",
+        "“剑气穿梭”是否等同于小天赋里的“每段斩击”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "天紫烟",
+      "text": "每次突进时，原地留下残影并持续造成伤害，技能结束时残影自动攻击附近敌人",
+      "reading": "一技能每次突进时，在出发位置留下残影，残影持续造成伤害；一技能结束时，残影会自动攻击附近敌人。原文没有写：每次突进留下几个残影；残影持续伤害的间隔、每跳伤害基础值和系数、作用半径；残影是否一直存在到技能结束；“技能结束时”自动攻击的伤害、系数、索敌范围和目标数；残影伤害能否暴击，是否算作突进伤害（能否吃到杯推盏的突进伤害提升）。",
+      "mechanisms": ["summon", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能每次突进时；一技能结束时",
+      "slots": [
+        { "key": "afterimagesPerDash", "what": "每次突进留下的残影数", "unit": "count", "claimed": null, "packHint": "该天赋每次突进生成的残影数量" },
+        { "key": "tickInterval", "what": "残影持续伤害的间隔", "unit": "seconds", "claimed": null, "packHint": "残影持续伤害的跳伤间隔" },
+        { "key": "tickBaseDamage", "what": "残影每跳伤害基础值", "unit": "flat", "claimed": null, "packHint": "残影持续伤害每跳的基础值" },
+        { "key": "tickDamageRatio", "what": "残影每跳伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "残影持续伤害的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "tickRadius", "what": "残影持续伤害的作用半径", "unit": "meters", "claimed": null, "packHint": "残影持续伤害的判定范围" },
+        { "key": "afterimageLifetime", "what": "残影存在时间（是否持续到技能结束未写）", "unit": "seconds", "claimed": null, "packHint": "残影的存在时长" },
+        { "key": "finalStrikeBaseDamage", "what": "技能结束时残影自动攻击的伤害基础值", "unit": "flat", "claimed": null, "packHint": "残影收尾攻击的伤害基础值" },
+        { "key": "finalStrikeDamageRatio", "what": "残影自动攻击的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "残影收尾攻击的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "finalStrikeSearchRadius", "what": "残影自动攻击的索敌范围", "unit": "meters", "claimed": null, "packHint": "“附近敌人”的判定范围" },
+        { "key": "finalStrikeTargets", "what": "每个残影自动攻击的目标数", "unit": "count", "claimed": null, "packHint": "残影收尾攻击的目标数量" }
+      ],
+      "ambiguities": [
+        "每次突进留下的残影数未写",
+        "持续伤害的间隔、数值、系数、范围未写",
+        "残影存在时间未写",
+        "收尾攻击的伤害、系数、索敌范围、目标数未写",
+        "残影伤害能否暴击、是否算突进伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "天琼浆",
+      "text": "突进路径上的敌人将被击飞0.75秒",
+      "reading": "一技能突进路径上的敌人被击飞0.75秒。原文没有写：路径判定宽度；同一目标被多次突进经过时是否重复击飞、有没有免疫间隔；首领、精英是否免疫。击飞本身不造成伤害，通过控制间接影响输出。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能突进经过敌人时",
+      "slots": [
+        { "key": "knockupDuration", "what": "击飞持续时间", "unit": "seconds", "claimed": { "value": 0.75, "quote": "被击飞0.75秒" }, "packHint": "该天赋击飞效果的持续时间，核对描述的0.75秒（描述值不可靠，需资源包核对）" },
+        { "key": "pathWidth", "what": "突进路径的判定宽度", "unit": "meters", "claimed": null, "packHint": "一技能突进路径的碰撞宽度" },
+        { "key": "reKnockupImmunity", "what": "同一目标再次被击飞前的免疫间隔（若有）", "unit": "seconds", "claimed": null, "packHint": "击飞效果的重复施加规则或免疫时间" }
+      ],
+      "ambiguities": [
+        "路径判定宽度未写",
+        "同一目标是否可被多次突进重复击飞未写",
+        "首领、精英是否免疫未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "天醉仙",
+      "text": "突进后，朝前释放残影，造成伤害（觉醒【天上来】时残影+2）",
+      "reading": "一技能突进后，朝前方释放残影造成伤害；觉醒【天上来】（推测指选择一技能核心 c1 天上来，原文未明说）时，残影数量增加2个。原文没有写：未觉醒时释放几个残影；“突进后”是每次突进后都释放，还是整个一技能结束后释放；残影飞行距离、宽度；每个残影的伤害基础值和系数；同一目标被多个残影命中是否都受伤害；残影能否暴击。",
+      "mechanisms": ["summon", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能突进后",
+      "slots": [
+        { "key": "baseAfterimageCount", "what": "未觉醒时朝前释放的残影数", "unit": "count", "claimed": null, "packHint": "该天赋默认释放的残影数量" },
+        { "key": "awakenedExtraAfterimages", "what": "觉醒【天上来】时增加的残影数", "unit": "count", "claimed": { "value": 2, "quote": "残影+2" }, "packHint": "觉醒【天上来】时该天赋残影数量修正，核对描述的+2（描述值不可靠，需资源包核对）；同时确认“觉醒”的条件" },
+        { "key": "afterimageBaseDamage", "what": "每个残影伤害基础值", "unit": "flat", "claimed": null, "packHint": "朝前残影的伤害基础值" },
+        { "key": "afterimageDamageRatio", "what": "每个残影伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "朝前残影的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "travelDistance", "what": "残影朝前飞行的距离", "unit": "meters", "claimed": null, "packHint": "残影飞行距离" },
+        { "key": "hitWidth", "what": "残影的判定宽度", "unit": "meters", "claimed": null, "packHint": "残影的碰撞宽度或范围" },
+        { "key": "sameTargetHitCap", "what": "同一目标被同一批残影命中的次数上限", "unit": "count", "claimed": null, "packHint": "多个残影对同一目标是否都能造成伤害" }
+      ],
+      "ambiguities": [
+        "未觉醒时的残影数未写",
+        "“突进后”是每次突进后还是一技能结束后未写",
+        "“觉醒【天上来】”是否就是选择核心 c1 未明说",
+        "残影飞行距离、宽度、伤害、系数未写",
+        "同一目标能否被多个残影重复命中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "杯中月",
+      "text": "突进路径上，发出残影跟随自身，造成伤害（觉醒【天上来】时残影+2）",
+      "reading": "一技能突进过程中，在路径上发出残影跟随李白移动并造成伤害；觉醒【天上来】（推测指选择一技能核心 c1 天上来，原文未明说）时，残影数量增加2个。原文没有写：未觉醒时的残影数；残影跟随多久（只在突进过程中，还是持续到一技能结束）；伤害是每次突进结算一次还是持续造成；每次伤害的基础值、系数、判定范围；多个残影能否重复命中同一目标；能否暴击。",
+      "mechanisms": ["summon", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能突进过程中",
+      "slots": [
+        { "key": "baseAfterimageCount", "what": "未觉醒时跟随的残影数", "unit": "count", "claimed": null, "packHint": "该天赋默认残影数量" },
+        { "key": "awakenedExtraAfterimages", "what": "觉醒【天上来】时增加的残影数", "unit": "count", "claimed": { "value": 2, "quote": "残影+2" }, "packHint": "觉醒【天上来】时该天赋残影数量修正，核对描述的+2（描述值不可靠，需资源包核对）；同时确认“觉醒”的条件" },
+        { "key": "afterimageBaseDamage", "what": "残影每次伤害基础值", "unit": "flat", "claimed": null, "packHint": "跟随残影的伤害基础值" },
+        { "key": "afterimageDamageRatio", "what": "残影每次伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "跟随残影的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "followDuration", "what": "残影跟随李白的持续时间", "unit": "seconds", "claimed": null, "packHint": "跟随残影的存在时长" },
+        { "key": "hitInterval", "what": "残影伤害间隔（若为持续伤害）", "unit": "seconds", "claimed": null, "packHint": "跟随残影的伤害频率，或确认是否每次突进只结算一次" },
+        { "key": "hitRadius", "what": "残影伤害判定范围", "unit": "meters", "claimed": null, "packHint": "跟随残影的伤害判定范围" }
+      ],
+      "ambiguities": [
+        "未觉醒时的残影数未写",
+        "残影跟随时长未写",
+        "伤害频率（单次还是持续）未写",
+        "伤害、系数、判定范围未写",
+        "多个残影能否重复命中同一目标未写",
+        "“觉醒【天上来】”是否就是选择核心 c1 未明说"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "杯莫停",
+      "text": "突进每次命中时，技能结束后冷却-15%",
+      "reading": "一技能突进每命中一次，在一技能结束后使冷却减少15%（原文写作“-15%”，表示减少）。按字面理解，命中次数在技能期间累计，技能结束后再结算。该条在一技能页下，推测减少的是一技能冷却，但原文只写“冷却”。原文没有写：“每次命中”是按每次突进（命中至少一个敌人算一次）还是按每个被命中的敌人计；15%按总冷却还是剩余冷却计算；多次命中的减少是相加还是相乘、有没有上限。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能突进每次命中时（一技能结束后结算）",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每次命中使冷却减少的比例（原文“-15%”，表示减少）", "unit": "percent", "claimed": { "value": 15, "quote": "冷却-15%" }, "packHint": "该天赋每次命中的冷却减少比例，核对描述的15%（描述值不可靠，需资源包核对），并确认按总冷却还是剩余冷却计算" },
+        { "key": "maxTriggersPerDash", "what": "每次突进最多计入的命中次数", "unit": "count", "claimed": null, "packHint": "一次突进命中多个敌人时计入几次" },
+        { "key": "totalReductionCap", "what": "一次施放累计冷却减少的上限", "unit": "percent", "claimed": null, "packHint": "多次命中累计减少冷却是否有上限及叠加方式" },
+        { "key": "baseCooldown", "what": "一技能基础冷却", "unit": "seconds", "claimed": null, "packHint": "一技能基础冷却时间" }
+      ],
+      "ambiguities": [
+        "“每次命中”按突进次数还是按命中敌人数计未写",
+        "15%按总冷却还是剩余冷却计算未写",
+        "多次命中的叠加方式和上限未写",
+        "原文只写“冷却”，是否限定一技能未明说"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "杯推盏",
+      "text": "突进伤害提升（觉醒【天上来】时伤害进一步提升）",
+      "reading": "一技能突进伤害提升；觉醒【天上来】（推测指选择一技能核心 c1 天上来，原文未明说）时伤害进一步提升。原文没有写任何提升幅度：是百分比提升还是固定值；觉醒后进一步提升多少；是否作用于残影类小天赋（天紫烟、天醉仙、杯中月、落九天）的伤害。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（一技能突进造成伤害时）",
+      "slots": [
+        { "key": "dashDamageBonusPct", "what": "突进伤害提升比例（若为百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋对突进伤害的提升幅度及形式" },
+        { "key": "dashDamageBonusFlat", "what": "突进伤害提升值（若为固定值）", "unit": "flat", "claimed": null, "packHint": "若提升为固定值，找该数值；与 dashDamageBonusPct 只会有一个有值" },
+        { "key": "awakenedExtraBonusPct", "what": "觉醒【天上来】时进一步提升的幅度", "unit": "percent", "claimed": null, "packHint": "觉醒【天上来】时该天赋额外的伤害提升" },
+        { "key": "dashBaseDamage", "what": "一技能突进伤害基础值", "unit": "flat", "claimed": null, "packHint": "一技能突进的伤害基础值" },
+        { "key": "dashDamageRatio", "what": "一技能突进伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "一技能突进伤害的系数、加成属性、伤害类型及能否暴击" }
+      ],
+      "ambiguities": [
+        "提升幅度和形式（百分比或固定值）未写",
+        "觉醒后进一步提升的幅度未写",
+        "是否作用于残影类天赋的伤害未写",
+        "“觉醒【天上来】”是否就是选择核心 c1 未明说"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "不留行",
+      "text": "一技能存续期间，自身附带60%概率的闪避效果",
+      "reading": "一技能存续期间，李白有60%概率闪避。原文没有写：“存续期间”具体多长（应与突进次数、再次施放窗口有关）；闪避对哪些伤害生效（只对普攻，还是技能也能闪避）；闪避是否有内置冷却。闪避影响生存，间接影响输出。",
+      "mechanisms": ["invulnerable"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能存续期间",
+      "slots": [
+        { "key": "dodgeChance", "what": "闪避概率", "unit": "percent", "claimed": { "value": 60, "quote": "60%概率的闪避效果" }, "packHint": "该天赋闪避概率，核对描述的60%（描述值不可靠，需资源包核对），并确认可闪避的伤害类型" },
+        { "key": "skillActiveDuration", "what": "一技能存续时间", "unit": "seconds", "claimed": null, "packHint": "一技能从施放到结束的存续时长（含再次突进窗口）" },
+        { "key": "dodgeInternalCooldown", "what": "闪避的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "闪避触发后是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "“存续期间”的时长未写",
+        "可闪避的伤害类型未写",
+        "是否有内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "落九天",
+      "text": "在突进终点向四周发出残影，造成范围伤害（觉醒【天上来】时翻倍）",
+      "reading": "一技能突进到达终点时，向四周发出残影造成范围伤害；觉醒【天上来】（推测指选择一技能核心 c1 天上来，原文未明说）时“翻倍”。原文没有写：翻倍的是残影数量还是伤害；是否每次突进的终点都触发；残影数量、伤害基础值和系数、范围半径；同一目标被多个残影命中是否重复受伤；能否暴击。",
+      "mechanisms": ["summon", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能突进到达终点时",
+      "slots": [
+        { "key": "afterimageCount", "what": "向四周发出的残影数", "unit": "count", "claimed": null, "packHint": "该天赋终点残影的数量" },
+        { "key": "aoeBaseDamage", "what": "范围伤害基础值", "unit": "flat", "claimed": null, "packHint": "终点残影范围伤害的基础值" },
+        { "key": "aoeDamageRatio", "what": "范围伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "终点残影范围伤害的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "aoeRadius", "what": "范围伤害半径", "unit": "meters", "claimed": null, "packHint": "终点残影的作用范围" },
+        { "key": "awakenedMultiplier", "what": "觉醒后的倍率（原文写“翻倍”，为汉字表述，没有作为 claimed；翻倍对象未写）", "unit": "ratio", "claimed": null, "packHint": "觉醒【天上来】时该天赋的修正，确认翻倍的是残影数还是伤害、是否为2倍" }
+      ],
+      "ambiguities": [
+        "翻倍的对象（残影数或伤害）未写",
+        "是否每次突进终点都触发未写",
+        "残影数量、伤害、系数、半径未写",
+        "同一目标能否被多个残影重复命中未写",
+        "“觉醒【天上来】”是否就是选择核心 c1 未明说"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "复句",
+      "text": "剑圈内的敌人，也将受到1次剑圈伤害",
+      "reading": "二技能剑圈内的敌人“也”会受到1次剑圈伤害。“也”说明默认情况下剑圈伤害只作用于另一部分敌人（可能是剑圈边缘或越过边界的敌人），本天赋把伤害扩展到圈内的敌人，但原文没写默认的判定方式。原文没有写：这1次伤害在什么时候结算（剑圈生成时还是剑圈结束时）；剑圈伤害的基础值、系数；能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "剑圈存续期间，对圈内敌人",
+      "slots": [
+        { "key": "extraHits", "what": "圈内敌人额外受到的剑圈伤害次数", "unit": "count", "claimed": { "value": 1, "quote": "也将受到1次剑圈伤害" }, "packHint": "该天赋对圈内敌人追加的伤害次数，核对描述的1次（描述值不可靠，需资源包核对）" },
+        { "key": "zoneDamageBase", "what": "剑圈伤害基础值", "unit": "flat", "claimed": null, "packHint": "二技能剑圈伤害的基础值" },
+        { "key": "zoneDamageRatio", "what": "剑圈伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "剑圈伤害的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "zoneRadius", "what": "剑圈半径", "unit": "meters", "claimed": null, "packHint": "二技能剑圈的判定半径" },
+        { "key": "hitDelay", "what": "这1次伤害相对剑圈生成的结算时间", "unit": "seconds", "claimed": null, "packHint": "圈内追加伤害的结算时机" }
+      ],
+      "ambiguities": [
+        "默认剑圈伤害的判定方式未写",
+        "这1次伤害的结算时机未写",
+        "剑圈伤害数值、系数未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "折句",
+      "text": "自身在剑圈内，每第2次普攻会对敌人附带1次剑圈伤害",
+      "reading": "李白在剑圈内时，每第2次普攻会对敌人额外附带1次剑圈伤害。原文没有写：附带伤害作用于普攻目标单体，还是剑圈内所有敌人；离开剑圈后普攻计数是否保留；剑圈伤害的基础值、系数；附带的剑圈伤害能否暴击、能否再触发其他效果。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "李白在剑圈内普攻时（每第2次）",
+      "slots": [
+        { "key": "everyNthBasic", "what": "每第几次普攻触发", "unit": "count", "claimed": { "value": 2, "quote": "每第2次普攻" }, "packHint": "该天赋的普攻计数阈值，核对描述的第2次（描述值不可靠，需资源包核对）" },
+        { "key": "procHits", "what": "每次触发附带的剑圈伤害次数", "unit": "count", "claimed": { "value": 1, "quote": "附带1次剑圈伤害" }, "packHint": "该天赋每次触发附带的伤害次数，核对描述的1次（描述值不可靠，需资源包核对）" },
+        { "key": "zoneDamageBase", "what": "附带的剑圈伤害基础值", "unit": "flat", "claimed": null, "packHint": "剑圈伤害基础值，确认附带伤害是否与剑圈本身伤害相同" },
+        { "key": "zoneDamageRatio", "what": "附带的剑圈伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "附带剑圈伤害的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "procTargets", "what": "附带伤害的目标数", "unit": "count", "claimed": null, "packHint": "附带伤害是单体（普攻目标）还是作用于圈内所有敌人" }
+      ],
+      "ambiguities": [
+        "附带伤害的目标范围未写",
+        "离开剑圈后普攻计数是否保留未写",
+        "剑圈伤害数值、系数未写",
+        "能否暴击、能否再触发其他效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "禁句",
+      "text": "进入剑圈的敌人无法离开",
+      "reading": "进入二技能剑圈的敌人无法离开剑圈。原文没写限制持续到何时，推测为剑圈存续期间。原文没有写：施放时已在圈内的敌人是否算“进入”；首领、精英是否受影响；是否属于可被韧性或免控抵抗的控制效果。该效果让敌人持续处于剑圈内，持续受剑圈伤害和圈内减益影响，间接影响输出。",
+      "mechanisms": ["control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "敌人进入剑圈时",
+      "slots": [
+        { "key": "zoneDuration", "what": "剑圈持续时间（推测即困住敌人的时长）", "unit": "seconds", "claimed": null, "packHint": "剑圈存续时间，确认禁锢效果是否持续到剑圈消失" },
+        { "key": "zoneRadius", "what": "剑圈半径", "unit": "meters", "claimed": null, "packHint": "二技能剑圈的判定半径" }
+      ],
+      "ambiguities": [
+        "禁锢持续到何时未写",
+        "施放时已在圈内的敌人是否算“进入”未写",
+        "首领、精英是否受影响未写",
+        "是否可被韧性或免控抵抗未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "醉意",
+      "text": "剑圈内的敌人，物理防御-35%",
+      "reading": "处于二技能剑圈内的敌人物理防御降低35%（原文写作“-35%”，表示减少）。原文没有写：离开剑圈后减防是否保留一段时间；35%是按物理防御乘算还是另有计算方式；与其他减防、穿透如何叠加；对首领是否生效。",
+      "mechanisms": ["buff", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "敌人处于剑圈内时",
+      "slots": [
+        { "key": "physDefReductionPct", "what": "物理防御降低比例（原文“-35%”，表示减少）", "unit": "percent", "claimed": { "value": 35, "quote": "物理防御-35%" }, "packHint": "该天赋减物理防御的比例，核对描述的35%（描述值不可靠，需资源包核对），并确认与穿透的叠加方式" },
+        { "key": "lingerAfterLeave", "what": "离开剑圈后减防保留的时间", "unit": "seconds", "claimed": null, "packHint": "减防 debuff 在敌人离开剑圈后的持续时间" }
+      ],
+      "ambiguities": [
+        "离开剑圈后减防是否保留未写",
+        "35%的计算方式及与其他减防、穿透的叠加未写",
+        "对首领是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "壮意",
+      "text": "李白在剑圈内，每秒回复3%生命",
+      "reading": "李白处于剑圈内时，每秒回复3%生命。原文没有写3%的计算基准（最大生命还是已损失生命）；是每秒结算一次还是连续回复；是否受治疗效果加成影响。回复影响生存，间接影响输出。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "李白处于剑圈内时（每秒）",
+      "slots": [
+        { "key": "healPctPerSecond", "what": "每秒回复的生命比例（计算基准未写）", "unit": "percent", "claimed": { "value": 3, "quote": "每秒回复3%生命" }, "packHint": "该天赋每秒回复比例及计算基准（最大生命或已损失生命），核对描述的3%（描述值不可靠，需资源包核对）" },
+        { "key": "tickInterval", "what": "回复结算间隔（原文“每秒”为汉字表述，没有作为 claimed）", "unit": "seconds", "claimed": null, "packHint": "回复的跳数间隔，确认是否为1秒一跳" }
+      ],
+      "ambiguities": [
+        "3%的计算基准未写",
+        "回复是按秒跳还是连续未写",
+        "是否受治疗效果加成影响未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "肆意",
+      "text": "李白在剑圈内，自身攻速+100%",
+      "reading": "李白处于剑圈内时，攻速增加100%。原文没有写：离开剑圈后加成是否保留一段时间；是否受攻速上限限制；与其他攻速加成相加还是相乘。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "李白处于剑圈内时",
+      "slots": [
+        { "key": "attackSpeedBonusPct", "what": "攻速加成", "unit": "percent", "claimed": { "value": 100, "quote": "攻速+100%" }, "packHint": "该天赋的攻速加成，核对描述的100%（描述值不可靠，需资源包核对）" },
+        { "key": "lingerAfterLeave", "what": "离开剑圈后加成保留的时间", "unit": "seconds", "claimed": null, "packHint": "攻速 buff 在离开剑圈后的持续时间" },
+        { "key": "attackSpeedCap", "what": "攻速上限（是否限制该加成）", "unit": "percent", "claimed": null, "packHint": "无尽守御模式的攻速上限，以及该加成是否计入上限" }
+      ],
+      "ambiguities": [
+        "离开剑圈后是否保留未写",
+        "是否受攻速上限限制未写",
+        "与其他攻速加成的叠加方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "叠笔",
+      "text": "剑圈持续时间+50%",
+      "reading": "二技能剑圈的持续时间增加50%。原文没有写原本的持续时间；50%是否按原持续时间乘算。剑圈持续越久，剑圈伤害和圈内效果（醉意、壮意、肆意、拖笔等）生效越久，间接影响输出。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "durationBonusPct", "what": "剑圈持续时间增加比例", "unit": "percent", "claimed": { "value": 50, "quote": "剑圈持续时间+50%" }, "packHint": "该天赋对剑圈持续时间的修正，核对描述的50%（描述值不可靠，需资源包核对）" },
+        { "key": "baseZoneDuration", "what": "剑圈原本的持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能剑圈的默认存续时间" }
+      ],
+      "ambiguities": [
+        "剑圈原本的持续时间未写",
+        "50%的计算方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "拖笔",
+      "text": "剑圈内的敌人每秒受到1次剑圈打击，同时自身叠加1道剑气",
+      "reading": "二技能剑圈内的敌人每秒受到1次剑圈打击；同时李白叠加1道剑气。原文没有写：“剑圈打击”与复句、折句里的“剑圈伤害”是否相同，伤害基础值和系数；“叠加1道剑气”是每秒叠1道，还是每打中一个敌人叠1道；剑气层数上限、持续时间以及剑气的作用（原文未写；诗剑酒原文提到大招默认“不需要叠层”，剑气可能与大招解锁有关，但原文没有明说）。",
+      "mechanisms": ["proc", "area", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "剑圈存续期间（每秒）",
+      "slots": [
+        { "key": "hitsPerSecond", "what": "圈内敌人每秒受到的剑圈打击次数", "unit": "count", "claimed": { "value": 1, "quote": "每秒受到1次剑圈打击" }, "packHint": "该天赋的打击频率，核对描述的每秒1次（描述值不可靠，需资源包核对）" },
+        { "key": "tickInterval", "what": "打击间隔（原文“每秒”为汉字表述，没有作为 claimed）", "unit": "seconds", "claimed": null, "packHint": "剑圈打击的结算间隔，确认是否为1秒" },
+        { "key": "strikeBaseDamage", "what": "每次剑圈打击伤害基础值", "unit": "flat", "claimed": null, "packHint": "剑圈打击的伤害基础值，确认是否与剑圈伤害相同" },
+        { "key": "strikeDamageRatio", "what": "每次剑圈打击伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "剑圈打击的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "qiStacksPerTrigger", "what": "每次触发叠加的剑气层数", "unit": "count", "claimed": { "value": 1, "quote": "叠加1道剑气" }, "packHint": "该天赋每次触发给予的剑气层数，核对描述的1道（描述值不可靠，需资源包核对），并确认按每秒还是按每个命中敌人计" },
+        { "key": "qiMaxStacks", "what": "剑气层数上限", "unit": "count", "claimed": null, "packHint": "剑气 buff 的最大层数" },
+        { "key": "qiDuration", "what": "剑气持续时间", "unit": "seconds", "claimed": null, "packHint": "剑气 buff 的持续时间与刷新规则" }
+      ],
+      "ambiguities": [
+        "“剑圈打击”是否与“剑圈伤害”相同未写",
+        "打击伤害、系数未写",
+        "剑气按每秒还是按命中敌人数叠加未写",
+        "剑气层数上限、持续时间、作用未写",
+        "剑气是否就是大招解锁所需的层数未明说"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "指剑",
+      "text": "技能变更：指定位置施法",
+      "reading": "大招改为在指定位置施放。原文没有写原本的施放方式；可指定的最远距离；李白本人是否会移动到该位置；大招范围是否随之变化。这只改变施放位置，不改变伤害数值，但会影响能覆盖多少敌人，按间接影响记录。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "castRange", "what": "可指定施放位置的最远距离", "unit": "meters", "claimed": null, "packHint": "该天赋下大招的施放距离" },
+        { "key": "areaRadius", "what": "指定位置施放时大招的作用范围", "unit": "meters", "claimed": null, "packHint": "指定位置施放时的大招范围，确认是否与默认相同" }
+      ],
+      "ambiguities": [
+        "原本施放方式未写",
+        "最远施放距离未写",
+        "李白是否移动到该位置未写",
+        "大招范围是否变化未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "洗剑",
+      "text": "每段斩击命中时，冷却-0.7秒",
+      "reading": "大招每段斩击命中时，冷却减少0.7秒（原文写作“-0.7秒”，表示减少）。该条在大招页下，推测减少的是大招冷却，但原文只写“冷却”。原文没有写：一段斩击命中多个敌人时是否各减一次；减少的是当前剩余冷却还是下一次冷却（大招施放过程中冷却是否已开始计算）；大招共有几段斩击。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "大招每段斩击命中时",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每段斩击命中时冷却减少量（原文“-0.7秒”，表示减少）", "unit": "seconds", "claimed": { "value": 0.7, "quote": "冷却-0.7秒" }, "packHint": "该天赋每段命中减少的冷却，核对描述的0.7秒（描述值不可靠，需资源包核对），并确认作用于哪个技能" },
+        { "key": "maxTriggersPerSegment", "what": "一段斩击最多触发的次数（多目标时）", "unit": "count", "claimed": null, "packHint": "一段斩击命中多个敌人时减冷却的次数" },
+        { "key": "segmentCount", "what": "大招斩击段数", "unit": "count", "claimed": null, "packHint": "大招默认斩击段数，确认与酒过三巡的“剑气穿梭次数”关系" },
+        { "key": "baseCooldown", "what": "大招基础冷却", "unit": "seconds", "claimed": null, "packHint": "大招基础冷却时间" }
+      ],
+      "ambiguities": [
+        "原文只写“冷却”，是否限定大招未明说",
+        "多目标时是否各减一次未写",
+        "减少的是剩余冷却还是下次冷却未写",
+        "大招斩击段数未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "崩剑",
+      "text": "斩击可触发暴击，且斩击期间暴击率+50%",
+      "reading": "大招斩击可以暴击（“可触发暴击”说明默认不能暴击），且斩击期间李白暴击率增加50%。原文没有写：斩击暴击的伤害倍率是否按李白自身暴击效果计算；“斩击期间”有多长；暴击率加成是否对斩击期间的其他伤害（如雷动的落雷）也生效；暴击率是否有上限。",
+      "mechanisms": ["crit", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "大招斩击期间",
+      "slots": [
+        { "key": "critRateBonusPct", "what": "斩击期间暴击率加成", "unit": "percent", "claimed": { "value": 50, "quote": "暴击率+50%" }, "packHint": "该天赋的暴击率加成，核对描述的50%（描述值不可靠，需资源包核对）" },
+        { "key": "critDamageRatio", "what": "斩击暴击时的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "斩击暴击倍率，确认是否按自身暴击效果计算" },
+        { "key": "slashPhaseDuration", "what": "“斩击期间”的时长", "unit": "seconds", "claimed": null, "packHint": "大招斩击阶段的持续时间，即暴击率 buff 的生效时长" }
+      ],
+      "ambiguities": [
+        "斩击暴击倍率的计算方式未写",
+        "“斩击期间”的时长未写",
+        "暴击率加成是否作用于斩击以外的伤害未写",
+        "暴击率是否有上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "雷动",
+      "text": "每段斩击会对随机目标追加1次落雷伤害",
+      "reading": "大招每段斩击会对一个随机目标追加1次落雷伤害。原文没有写：随机目标的选取范围；落雷伤害的基础值、系数、伤害类型；落雷是单体还是小范围；斩击未命中时是否也会落雷；落雷能否暴击（崩剑的暴击率加成是否作用于落雷）。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招每段斩击时",
+      "slots": [
+        { "key": "strikesPerSegment", "what": "每段斩击追加的落雷次数", "unit": "count", "claimed": { "value": 1, "quote": "追加1次落雷伤害" }, "packHint": "该天赋每段追加的落雷次数，核对描述的1次（描述值不可靠，需资源包核对）" },
+        { "key": "lightningBaseDamage", "what": "落雷伤害基础值", "unit": "flat", "claimed": null, "packHint": "落雷伤害的基础值" },
+        { "key": "lightningDamageRatio", "what": "落雷伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "落雷的系数、加成属性、伤害类型及能否暴击" },
+        { "key": "targetSearchRadius", "what": "随机目标的选取范围", "unit": "meters", "claimed": null, "packHint": "落雷随机选目标的范围" },
+        { "key": "lightningRadius", "what": "落雷的伤害范围（若不是单体）", "unit": "meters", "claimed": null, "packHint": "落雷是单体还是范围伤害，范围半径" }
+      ],
+      "ambiguities": [
+        "随机目标的选取范围未写",
+        "落雷伤害、系数、伤害类型未写",
+        "落雷是单体还是范围未写",
+        "斩击未命中时是否落雷未写",
+        "落雷能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "狂歌",
+      "text": "命中多个目标时伤害不再衰减",
+      "reading": "大招命中多个目标时伤害不再衰减。“不再衰减”说明默认情况下大招命中多个目标时伤害会衰减，本天赋取消这种衰减。原文没有写默认衰减规则（每多一个目标降低多少、最低降到多少，是按段还是按整次大招计算）；是否也作用于雷动、逆剑等附加伤害。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中多个目标时",
+      "slots": [
+        { "key": "baseDecayPerTarget", "what": "默认情况下每多命中一个目标的伤害衰减比例", "unit": "percent", "claimed": null, "packHint": "大招多目标伤害衰减的默认规则" },
+        { "key": "baseDecayFloor", "what": "默认衰减的下限（最低保留伤害比例）", "unit": "percent", "claimed": null, "packHint": "大招多目标衰减后的最低伤害比例" }
+      ],
+      "ambiguities": [
+        "默认衰减规则未写",
+        "衰减按段还是按整次大招计算未写",
+        "是否作用于雷动、逆剑等附加伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "剑□（名称待核对）",
+      "text": "大招结束时，根据斩击命中段数获得相应层数的护盾，持续3秒",
+      "reading": "大招结束时，按斩击命中的段数获得相应层数的护盾，护盾持续3秒。原文没有写：每命中一段给几层（“相应层数”）；“命中段数”按段计还是按每段命中的敌人数计；每层护盾的吸收量和计算基准；层数上限。护盾影响生存，间接影响输出。原始资料中该天赋名称第二字待核对。",
+      "mechanisms": ["shield", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "大招结束时",
+      "slots": [
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "持续3秒" }, "packHint": "该天赋护盾 buff 的持续时间，核对描述的3秒（描述值不可靠，需资源包核对）" },
+        { "key": "layersPerSegment", "what": "每命中一段获得的护盾层数", "unit": "count", "claimed": null, "packHint": "命中段数换算护盾层数的规则" },
+        { "key": "shieldBasePerLayer", "what": "每层护盾吸收量基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾每层吸收量基础值" },
+        { "key": "shieldRatioPerLayer", "what": "每层护盾吸收量加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋护盾的加成系数及加成属性" },
+        { "key": "maxLayers", "what": "护盾层数上限", "unit": "count", "claimed": null, "packHint": "该天赋护盾最大层数" }
+      ],
+      "ambiguities": [
+        "每段对应的护盾层数未写",
+        "“命中段数”按段计还是按命中敌人数计未写",
+        "每层护盾吸收量和计算基准未写",
+        "层数上限未写",
+        "天赋名称第二字待核对"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "逆剑",
+      "text": "在施法的反方向区域生成剑气",
+      "reading": "释放大招时，在施法方向的反方向区域也生成剑气。原文没有写：反方向的剑气是否造成伤害、伤害是否与正向剑气相同；反方向区域的大小；反向剑气是否计入斩击段数（会不会触发洗剑、雷动、剑□、长歌）。如果反向剑气与正向相同，大招覆盖范围扩大，会直接增加伤害；但原文没有明说它造成伤害，这一点需要资源包确认。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "reverseDamageRatioToForward", "what": "反向剑气伤害相对正向剑气的比例", "unit": "ratio", "claimed": null, "packHint": "反向剑气是否造成伤害，以及伤害与正向剑气的关系" },
+        { "key": "reverseAreaSize", "what": "反方向区域的范围", "unit": "meters", "claimed": null, "packHint": "反向剑气区域的尺寸" },
+        { "key": "reverseShuttleCount", "what": "反向剑气的穿梭次数或段数", "unit": "count", "claimed": null, "packHint": "反向剑气的段数，确认是否计入斩击段数" }
+      ],
+      "ambiguities": [
+        "反向剑气是否造成伤害未明说",
+        "反向剑气伤害与正向是否相同未写",
+        "反方向区域大小未写",
+        "是否计入斩击段数、能否触发按段效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "长歌",
+      "text": "每段斩击命中时，回复(200+40%额外AD)生命",
+      "reading": "大招每段斩击命中时，李白回复(200+40%额外物理攻击)点生命（“额外AD”指额外物理攻击）。原文没有写：一段斩击命中多个敌人时是否各回复一次；200是否随等级成长；是否受治疗效果加成影响。回复影响生存，间接影响输出。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "大招每段斩击命中时",
+      "slots": [
+        { "key": "healBase", "what": "每段命中回复的基础值", "unit": "flat", "claimed": { "value": 200, "quote": "回复(200" }, "packHint": "该天赋回复基础值，核对描述的200（描述值不可靠，需资源包核对），并确认是否随等级成长" },
+        { "key": "healBonusAdPct", "what": "额外物理攻击（额外AD）加成比例，40%即额外物理攻击的0.4倍", "unit": "percent", "claimed": { "value": 40, "quote": "40%额外AD" }, "packHint": "该天赋回复的额外物理攻击系数，核对描述的40%（描述值不可靠，需资源包核对）" },
+        { "key": "maxTriggersPerSegment", "what": "一段斩击最多触发回复的次数（多目标时）", "unit": "count", "claimed": null, "packHint": "一段斩击命中多个敌人时回复次数" }
+      ],
+      "ambiguities": [
+        "多目标时是否各回复一次未写",
+        "200是否随等级成长未写",
+        "是否受治疗效果加成影响未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

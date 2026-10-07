@@ -1,0 +1,1074 @@
+{
+  "heroId": "179",
+  "heroName": "女娲",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "五色蕴华",
+      "text": "自动以矩阵爆炸攻击周围敌人，并可凝五行强化该效果",
+      "reading": "一技能核心。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 c3（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“自动以矩阵爆炸攻击周围敌人”：选该核心后，女娲会自动用“矩阵爆炸”攻击周围的敌人，不需要手动操作；“并可凝五行强化该效果”：可以通过“凝五行”强化这个自动矩阵爆炸。原文没有写：自动攻击的间隔或触发条件、“周围”的范围、矩阵爆炸的伤害数值与加成属性、伤害类型、可命中目标数、“凝五行”是什么以及如何获得、强化的内容与幅度、最多能凝几次（“五行”是汉字，原文没写它是否表示上限为五），也没写选该核心后一技能原有效果是否保留。",
+      "mechanisms": ["skill-change", "proc", "area", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻自动触发（间隔或条件原文未写）",
+      "slots": [
+        { "key": "autoInterval", "what": "自动矩阵爆炸的触发间隔（或触发条件对应的时间）", "unit": "seconds", "claimed": null, "packHint": "「五色蕴华」自动矩阵爆炸的触发间隔或触发条件（女娲一技能页，需资源包核对）" },
+        { "key": "searchRadius", "what": "自动攻击“周围敌人”的索敌/爆炸半径", "unit": "meters", "claimed": null, "packHint": "自动矩阵爆炸的索敌范围与爆炸半径（女娲一技能页，需资源包核对）" },
+        { "key": "maxTargets", "what": "每次矩阵爆炸最多命中的目标数（若有上限）", "unit": "count", "claimed": null, "packHint": "矩阵爆炸的目标数上限（女娲一技能页，需资源包核对）" },
+        { "key": "explosionDamageBase", "what": "矩阵爆炸基础伤害", "unit": "flat", "claimed": null, "packHint": "矩阵爆炸伤害基础值与伤害类型（女娲一技能页，需资源包核对）" },
+        { "key": "explosionDamageRatio", "what": "矩阵爆炸伤害加成系数（及对应属性，如法术攻击）", "unit": "ratio", "claimed": null, "packHint": "矩阵爆炸伤害的属性加成系数，以及能否暴击（女娲一技能页，需资源包核对）" },
+        { "key": "wuxingMax", "what": "凝五行的最大层数或次数（原文“五行”是汉字，未写是否等于上限，不作 claimed）", "unit": "count", "claimed": null, "packHint": "凝五行的上限（女娲一技能页，需资源包核对）" },
+        { "key": "wuxingGainInterval", "what": "获得一次凝五行所需的时间（或获得条件）", "unit": "seconds", "claimed": null, "packHint": "凝五行的获得方式、时间或条件（女娲一技能页，需资源包核对）" },
+        { "key": "wuxingAmpPerStack", "what": "每次凝五行对矩阵爆炸的强化幅度（强化内容原文未写，暂按伤害提升百分比建槽）", "unit": "percent", "claimed": null, "packHint": "凝五行每次强化的内容与数值（女娲一技能页，需资源包核对）" },
+        { "key": "wuxingDuration", "what": "凝五行强化的持续时间（若非永久）", "unit": "seconds", "claimed": null, "packHint": "凝五行强化是否有持续时间（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "自动攻击的间隔或触发条件未写",
+        "“周围”范围、目标数上限未写",
+        "矩阵爆炸伤害数值、加成属性、伤害类型、能否暴击未写",
+        "“凝五行”的含义、获得方式、上限未写",
+        "凝五行强化的内容（伤害、范围、频率还是其他）与幅度未写",
+        "选该核心后一技能原有效果是否保留未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 c3 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "太虚四象",
+      "text": "矩阵碰撞减少二技能冷却，额外合成上限",
+      "reading": "一技能核心。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 c4（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵碰撞减少二技能冷却”：每发生一次“矩阵碰撞”，二技能的冷却减少（本条在一技能页，但原文写的是减少二技能冷却）；“额外合成上限”：获得额外的“合成”上限，原文没写合成的是什么、上限加多少。原文也没写：每次碰撞减少的冷却是秒数还是百分比、减少多少、是否有内置冷却或单次施法内的计数上限、矩阵碰撞本身是否造成伤害、合成上限提高后对伤害有什么影响。原文里的“二技能”是技能编号（汉字），不是数值。",
+      "mechanisms": ["cooldown", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "矩阵碰撞时（冷却缩减）；常驻（合成上限）",
+      "slots": [
+        { "key": "cdReducePerCollision", "what": "每次矩阵碰撞减少的二技能冷却（原文未写是秒数还是百分比，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "「太虚四象」每次矩阵碰撞的二技能冷却缩减量与缩减方式（女娲一技能页，需资源包核对）" },
+        { "key": "cdReduceInternalCooldown", "what": "冷却缩减的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "碰撞减冷却的触发间隔限制（女娲一技能页，需资源包核对）" },
+        { "key": "maxCollisionsPerCast", "what": "单次施法内最多计入冷却缩减的碰撞次数（若有上限）", "unit": "count", "claimed": null, "packHint": "碰撞减冷却的计数上限（女娲一技能页，需资源包核对）" },
+        { "key": "baseSynthesisCap", "what": "未选该核心时的合成上限", "unit": "count", "claimed": null, "packHint": "“合成”机制的默认上限，以及合成的对象（女娲一技能页，需资源包核对）" },
+        { "key": "extraSynthesisCap", "what": "该核心额外增加的合成上限", "unit": "count", "claimed": null, "packHint": "「太虚四象」增加的合成上限数量（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "每次碰撞减少的冷却数值、是秒数还是百分比未写",
+        "冷却缩减是否有内置冷却或计数上限未写",
+        "“合成”指什么、原上限多少、额外增加多少未写",
+        "矩阵碰撞何时发生、本身是否造成伤害未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 c4 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "五色蕴华",
+      "text": "自动以矩阵爆炸攻击周围敌人，并可凝五行强化该效果",
+      "reading": "二技能核心。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 c1（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“自动以矩阵爆炸攻击周围敌人”：选该核心后，女娲会自动用“矩阵爆炸”攻击周围的敌人，不需要手动操作；“并可凝五行强化该效果”：可以通过“凝五行”强化这个自动矩阵爆炸。原文没有写：自动攻击的间隔或触发条件、“周围”的范围、矩阵爆炸的伤害数值与加成属性、伤害类型、可命中目标数、“凝五行”是什么以及如何获得、强化的内容与幅度、最多能凝几次（“五行”是汉字，原文没写它是否表示上限为五），也没写选该核心后二技能原有效果是否保留。",
+      "mechanisms": ["skill-change", "proc", "area", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻自动触发（间隔或条件原文未写）",
+      "slots": [
+        { "key": "autoInterval", "what": "自动矩阵爆炸的触发间隔（或触发条件对应的时间）", "unit": "seconds", "claimed": null, "packHint": "「五色蕴华」自动矩阵爆炸的触发间隔或触发条件（女娲二技能页，需资源包核对）" },
+        { "key": "searchRadius", "what": "自动攻击“周围敌人”的索敌/爆炸半径", "unit": "meters", "claimed": null, "packHint": "自动矩阵爆炸的索敌范围与爆炸半径（女娲二技能页，需资源包核对）" },
+        { "key": "maxTargets", "what": "每次矩阵爆炸最多命中的目标数（若有上限）", "unit": "count", "claimed": null, "packHint": "矩阵爆炸的目标数上限（女娲二技能页，需资源包核对）" },
+        { "key": "explosionDamageBase", "what": "矩阵爆炸基础伤害", "unit": "flat", "claimed": null, "packHint": "矩阵爆炸伤害基础值与伤害类型（女娲二技能页，需资源包核对）" },
+        { "key": "explosionDamageRatio", "what": "矩阵爆炸伤害加成系数（及对应属性，如法术攻击）", "unit": "ratio", "claimed": null, "packHint": "矩阵爆炸伤害的属性加成系数，以及能否暴击（女娲二技能页，需资源包核对）" },
+        { "key": "wuxingMax", "what": "凝五行的最大层数或次数（原文“五行”是汉字，未写是否等于上限，不作 claimed）", "unit": "count", "claimed": null, "packHint": "凝五行的上限（女娲二技能页，需资源包核对）" },
+        { "key": "wuxingGainInterval", "what": "获得一次凝五行所需的时间（或获得条件）", "unit": "seconds", "claimed": null, "packHint": "凝五行的获得方式、时间或条件（女娲二技能页，需资源包核对）" },
+        { "key": "wuxingAmpPerStack", "what": "每次凝五行对矩阵爆炸的强化幅度（强化内容原文未写，暂按伤害提升百分比建槽）", "unit": "percent", "claimed": null, "packHint": "凝五行每次强化的内容与数值（女娲二技能页，需资源包核对）" },
+        { "key": "wuxingDuration", "what": "凝五行强化的持续时间（若非永久）", "unit": "seconds", "claimed": null, "packHint": "凝五行强化是否有持续时间（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "自动攻击的间隔或触发条件未写",
+        "“周围”范围、目标数上限未写",
+        "矩阵爆炸伤害数值、加成属性、伤害类型、能否暴击未写",
+        "“凝五行”的含义、获得方式、上限未写",
+        "凝五行强化的内容（伤害、范围、频率还是其他）与幅度未写",
+        "选该核心后二技能原有效果是否保留未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 c1 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "太虚四象",
+      "text": "矩阵碰撞减少二技能冷却，额外合成上限",
+      "reading": "二技能核心。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 c2（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵碰撞减少二技能冷却”：每发生一次“矩阵碰撞”，二技能的冷却减少；“额外合成上限”：获得额外的“合成”上限，原文没写合成的是什么、上限加多少。原文也没写：每次碰撞减少的冷却是秒数还是百分比、减少多少、是否有内置冷却或单次施法内的计数上限、矩阵碰撞本身是否造成伤害、合成上限提高后对伤害有什么影响。原文里的“二技能”是技能编号（汉字），不是数值。",
+      "mechanisms": ["cooldown", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "矩阵碰撞时（冷却缩减）；常驻（合成上限）",
+      "slots": [
+        { "key": "cdReducePerCollision", "what": "每次矩阵碰撞减少的二技能冷却（原文未写是秒数还是百分比，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "「太虚四象」每次矩阵碰撞的二技能冷却缩减量与缩减方式（女娲二技能页，需资源包核对）" },
+        { "key": "cdReduceInternalCooldown", "what": "冷却缩减的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "碰撞减冷却的触发间隔限制（女娲二技能页，需资源包核对）" },
+        { "key": "maxCollisionsPerCast", "what": "单次施法内最多计入冷却缩减的碰撞次数（若有上限）", "unit": "count", "claimed": null, "packHint": "碰撞减冷却的计数上限（女娲二技能页，需资源包核对）" },
+        { "key": "baseSynthesisCap", "what": "未选该核心时的合成上限", "unit": "count", "claimed": null, "packHint": "“合成”机制的默认上限，以及合成的对象（女娲二技能页，需资源包核对）" },
+        { "key": "extraSynthesisCap", "what": "该核心额外增加的合成上限", "unit": "count", "claimed": null, "packHint": "「太虚四象」增加的合成上限数量（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "每次碰撞减少的冷却数值、是秒数还是百分比未写",
+        "冷却缩减是否有内置冷却或计数上限未写",
+        "“合成”指什么、原上限多少、额外增加多少未写",
+        "矩阵碰撞何时发生、本身是否造成伤害未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 c2 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "瞬息千里",
+      "text": "传送过程可施法，且传送距离大幅度增加",
+      "reading": "三技能核心。原文写“传送过程可施法”：三技能传送的过程中女娲可以释放技能；“且传送距离大幅度增加”：传送的最远距离大幅增加。原文没写：“大幅度”是多少（固定距离还是百分比）、原传送距离、传送过程持续多久、哪些技能可以在传送中释放、施法是否影响传送、三技能冷却是否变化。传送距离会影响 t19「所念必至」、t21「天佑尔诚」等依据传送距离生效的小天赋。",
+      "mechanisms": ["skill-change", "mobility", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能传送过程中（可施法）；常驻（传送距离）",
+      "slots": [
+        { "key": "baseTeleportRange", "what": "未选该核心时三技能的传送距离", "unit": "meters", "claimed": null, "packHint": "三技能默认传送距离（需资源包核对）" },
+        { "key": "teleportRangeBonus", "what": "传送距离增加量（原文“大幅度增加”，未写是固定距离还是百分比，暂按米建槽）", "unit": "meters", "claimed": null, "packHint": "「瞬息千里」传送距离的增加量与形式（需资源包核对）" },
+        { "key": "teleportDuration", "what": "传送过程持续时间（可施法的时间窗口）", "unit": "seconds", "claimed": null, "packHint": "三技能传送过程时长（需资源包核对）" },
+        { "key": "teleportCooldown", "what": "选该核心后三技能冷却（是否与默认不同）", "unit": "seconds", "claimed": null, "packHint": "该核心下三技能冷却时间（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“大幅度增加”的具体值、是固定距离还是百分比未写",
+        "原传送距离、传送过程时长未写",
+        "传送中可释放哪些技能、施法是否打断或影响传送未写",
+        "三技能冷却是否变化未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "亘古长青",
+      "text": "传送后获得高额真实护盾，并持续造成伤害",
+      "reading": "三技能核心。原文写“传送后获得高额真实护盾”：三技能传送结束后女娲获得“高额”的“真实护盾”（原文没解释真实护盾与普通护盾的区别，“高额”没写具体值）；“并持续造成伤害”：同时会持续造成伤害，原文没写伤害以什么形式、对谁、在什么范围内造成，是否只在护盾存在期间造成。原文也没写护盾持续时间、伤害数值、结算间隔、伤害类型。",
+      "mechanisms": ["shield", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "三技能传送结束后",
+      "slots": [
+        { "key": "shieldBase", "what": "真实护盾基础值（原文写“高额”，未写数值）", "unit": "flat", "claimed": null, "packHint": "「亘古长青」真实护盾基础值（需资源包核对）" },
+        { "key": "shieldRatio", "what": "护盾加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "真实护盾的属性加成系数（需资源包核对）" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "真实护盾持续时间（需资源包核对）" },
+        { "key": "dotDuration", "what": "持续伤害的持续时间（是否与护盾绑定未写）", "unit": "seconds", "claimed": null, "packHint": "持续伤害的总时长及与护盾的关系（需资源包核对）" },
+        { "key": "dotTickInterval", "what": "持续伤害的结算间隔", "unit": "seconds", "claimed": null, "packHint": "持续伤害的跳伤间隔（需资源包核对）" },
+        { "key": "dotDamageBase", "what": "每次结算的基础伤害", "unit": "flat", "claimed": null, "packHint": "持续伤害基础值与伤害类型（需资源包核对）" },
+        { "key": "dotDamageRatio", "what": "每次结算的伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "持续伤害的属性加成系数（需资源包核对）" },
+        { "key": "dotRadius", "what": "持续伤害的作用范围", "unit": "meters", "claimed": null, "packHint": "持续伤害的范围（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“高额”的具体护盾值未写",
+        "“真实护盾”与普通护盾的区别未写",
+        "护盾持续时间未写",
+        "持续伤害的形式、范围、目标、数值、间隔、伤害类型未写",
+        "持续伤害是否只在护盾存在期间生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c7",
+      "kind": "core",
+      "skill": 4,
+      "name": "向文明低头",
+      "text": "对英雄造成伤害会标记目标，该技能自动瞄准标记目标。",
+      "reading": "四技能核心。原文写“对英雄造成伤害会标记目标”：女娲对英雄造成伤害时（原文没限定是哪个技能或普攻的伤害）给该目标打上标记；“该技能自动瞄准标记目标”：四技能会自动朝被标记的目标瞄准。原文没写标记持续多久、可同时标记几个、有多个标记时瞄准谁、自动瞄准是否有距离限制、是否仍需手动释放、对非英雄目标是否生效。原文没写标记本身有增伤效果。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "对英雄造成伤害时（施加标记）；释放四技能时（自动瞄准）",
+      "slots": [
+        { "key": "markDuration", "what": "标记持续时间", "unit": "seconds", "claimed": null, "packHint": "「向文明低头」标记持续时间（需资源包核对）" },
+        { "key": "maxMarkedTargets", "what": "可同时被标记的目标数", "unit": "count", "claimed": null, "packHint": "标记目标数上限（需资源包核对）" },
+        { "key": "autoAimRange", "what": "自动瞄准的最大距离（若有限制）", "unit": "meters", "claimed": null, "packHint": "四技能自动瞄准的距离限制（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "施加标记的伤害来源是否限定未写",
+        "标记持续时间、目标数上限未写",
+        "多个标记时的瞄准优先级未写",
+        "自动瞄准的距离限制、是否仍需手动释放未写",
+        "对非英雄目标是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c8",
+      "kind": "core",
+      "skill": 4,
+      "name": "世界的法则",
+      "text": "越远命中英雄，减少越多冷却并造成更高伤害",
+      "reading": "四技能核心。原文写“越远命中英雄，减少越多冷却并造成更高伤害”：四技能命中英雄时距离越远，减少的冷却越多，造成的伤害也越高。原文没写“远”是女娲与目标的距离还是技能飞行距离、减少的是哪个技能的冷却（本条在四技能页，原文只写“冷却”）、冷却减少和增伤与距离的换算关系、起算距离与封顶距离、最大值，以及增伤作用于本次命中还是之后。",
+      "mechanisms": ["cooldown", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "四技能命中英雄时",
+      "slots": [
+        { "key": "minDistance", "what": "开始生效的起算距离", "unit": "meters", "claimed": null, "packHint": "「世界的法则」距离效果的起算距离（需资源包核对）" },
+        { "key": "maxDistance", "what": "效果封顶的距离", "unit": "meters", "claimed": null, "packHint": "距离效果的封顶距离（需资源包核对）" },
+        { "key": "cdReductionScaling", "what": "每米距离对应的冷却减少量（换算方式未写，未写秒数还是百分比，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "冷却减少量与距离的换算（需资源包核对）" },
+        { "key": "cdReductionCap", "what": "冷却减少量上限", "unit": "seconds", "claimed": null, "packHint": "冷却减少上限（需资源包核对）" },
+        { "key": "damageAmpScaling", "what": "每米距离对应的伤害提升（换算方式未写）", "unit": "percent", "claimed": null, "packHint": "增伤与距离的换算（需资源包核对）" },
+        { "key": "damageAmpCap", "what": "伤害提升上限", "unit": "percent", "claimed": null, "packHint": "增伤上限（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“远”指与目标的距离还是技能飞行距离未写",
+        "减少的是哪个技能的冷却未写",
+        "冷却减少、增伤与距离的换算及上限未写",
+        "增伤作用于本次命中还是之后未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "天倾西北",
+      "text": "十字列阵额外触发一次",
+      "reading": "一技能小天赋。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 t09（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“十字列阵额外触发一次”：“十字列阵”在原有触发之外再多触发一次（“一次”是汉字，校验只认阿拉伯数字，所以没有作为 claimed）。原文没有解释十字列阵是什么效果、是否造成伤害，也没写额外这次在原次之后多久触发、位置是否相同、伤害是否与原次相同、是否会连带触发与十字列阵相关的其他效果（如 t06「日月星辰移」的矩阵碰撞）。十字列阵若造成伤害，额外一次会直接增加伤害，所以按直接影响伤害处理。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "十字列阵触发时",
+      "slots": [
+        { "key": "extraTriggerCount", "what": "额外触发次数（原文“额外触发一次”，“一次”是汉字，不作 claimed）", "unit": "count", "claimed": null, "packHint": "「天倾西北」额外触发十字列阵的次数，核对描述的“一次”（女娲一技能页，需资源包核对）" },
+        { "key": "extraTriggerDelay", "what": "额外触发与原次触发的间隔", "unit": "seconds", "claimed": null, "packHint": "额外十字列阵的触发延迟（女娲一技能页，需资源包核对）" },
+        { "key": "crossDamageBase", "what": "十字列阵的基础伤害（若有伤害）", "unit": "flat", "claimed": null, "packHint": "十字列阵的伤害基础值与伤害类型（女娲一技能页，需资源包核对）" },
+        { "key": "crossDamageRatio", "what": "十字列阵的伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "十字列阵伤害的属性加成系数（女娲一技能页，需资源包核对）" },
+        { "key": "extraTriggerDamageRatio", "what": "额外一次相对原次的伤害倍率（原文未写是否与原次相同）", "unit": "ratio", "claimed": null, "packHint": "额外十字列阵是否有伤害衰减（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "十字列阵是什么效果、是否造成伤害未写",
+        "额外触发的延迟、位置未写",
+        "额外一次伤害是否与原次相同未写",
+        "额外一次是否也会触发 t06「日月星辰移」等与十字列阵相关的效果未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 t09 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "与大道同行",
+      "text": "矩阵爆炸产生回复",
+      "reading": "一技能小天赋。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 t10（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵爆炸产生回复”：每次矩阵爆炸时产生生命回复。原文没写回复的对象（女娲自身还是也包括友方）、回复量和计算属性、是否按命中目标数计算、是否有内置冷却。矩阵爆炸何时发生原文未写（核心「五色蕴华」写了会自动以矩阵爆炸攻击）。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "矩阵爆炸时",
+      "slots": [
+        { "key": "healBase", "what": "每次矩阵爆炸的回复基础值", "unit": "flat", "claimed": null, "packHint": "「与大道同行」回复量基础值（女娲一技能页，需资源包核对）" },
+        { "key": "healRatio", "what": "回复量加成系数（及对应属性，如法术攻击或最大生命）", "unit": "ratio", "claimed": null, "packHint": "回复量的属性加成系数（女娲一技能页，需资源包核对）" },
+        { "key": "healTargetCap", "what": "回复按命中目标数计算时的目标上限（若按目标数计算）", "unit": "count", "claimed": null, "packHint": "回复是否按命中数叠加及其上限（女娲一技能页，需资源包核对）" },
+        { "key": "healInternalCooldown", "what": "回复的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "回复的触发间隔限制（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "回复对象（自身或友方）未写",
+        "回复量与计算属性未写",
+        "是否按命中目标数计算未写",
+        "是否有内置冷却未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 t10 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "过往辉煌",
+      "text": "技能可以标记英雄，女娲对其伤害时获得回复和加速",
+      "reading": "一技能小天赋。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 t11（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“技能可以标记英雄”：技能命中英雄时给其打上标记（原文只写“技能”，没写限于一技能还是任意技能，也没写施加标记的条件）；“女娲对其伤害时获得回复和加速”：女娲对被标记的英雄造成伤害时，自己获得生命回复和加速。原文没写：标记持续时间、可同时标记几个目标、回复量、“加速”是移动速度还是其他速度、加速幅度与持续时间、是否有内置冷却、造成伤害后标记是否消失。原文只写了“英雄”，对非英雄目标是否生效未写。",
+      "mechanisms": ["heal", "buff", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "女娲对被标记的英雄造成伤害时（技能命中英雄时施加标记）",
+      "slots": [
+        { "key": "markDuration", "what": "标记持续时间", "unit": "seconds", "claimed": null, "packHint": "「过往辉煌」标记的持续时间（女娲一技能页，需资源包核对）" },
+        { "key": "maxMarkedTargets", "what": "可同时被标记的目标数", "unit": "count", "claimed": null, "packHint": "标记目标数上限（女娲一技能页，需资源包核对）" },
+        { "key": "healBase", "what": "每次触发的回复基础值", "unit": "flat", "claimed": null, "packHint": "回复量基础值（女娲一技能页，需资源包核对）" },
+        { "key": "healRatio", "what": "回复量加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "回复量的属性加成系数（女娲一技能页，需资源包核对）" },
+        { "key": "speedBonus", "what": "加速幅度（原文只写“加速”，未写是移速还是其他速度，暂按移速百分比建槽）", "unit": "percent", "claimed": null, "packHint": "加速效果的类型与数值（女娲一技能页，需资源包核对）" },
+        { "key": "speedDuration", "what": "加速持续时间", "unit": "seconds", "claimed": null, "packHint": "加速持续时间（女娲一技能页，需资源包核对）" },
+        { "key": "triggerInternalCooldown", "what": "回复和加速的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "触发间隔限制（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“技能”是否限于一技能未写",
+        "标记持续时间、可标记目标数未写",
+        "回复量、加速类型与幅度、持续时间未写",
+        "是否有内置冷却、造成伤害后标记是否消失未写",
+        "对非英雄目标是否生效未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 t11 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "降维打击",
+      "text": "碰撞击退效果会将目标夹扁，降低其双抗",
+      "reading": "一技能小天赋。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 t12（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“碰撞击退效果会将目标夹扁”：被“碰撞击退”效果击退的目标会被“夹扁”（原文没写“碰撞击退”是否就是矩阵碰撞造成的击退）；“降低其双抗”：被夹扁的目标物理防御和法术防御降低。原文没写：降低多少、是固定值还是百分比、持续多久、能否叠加、“夹扁”除降低双抗外是否还有控制或其他效果。降低目标双抗会直接提高对其造成的伤害。",
+      "mechanisms": ["damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "碰撞击退效果作用于目标时",
+      "slots": [
+        { "key": "physDefReduction", "what": "目标物理防御降低量（固定值还是百分比未写，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "「降维打击」物理防御降低值及其形式（女娲一技能页，需资源包核对）" },
+        { "key": "magicDefReduction", "what": "目标法术防御降低量（固定值还是百分比未写，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "「降维打击」法术防御降低值及其形式（女娲一技能页，需资源包核对）" },
+        { "key": "debuffDuration", "what": "降低双抗的持续时间", "unit": "seconds", "claimed": null, "packHint": "夹扁/降双抗状态的持续时间（女娲一技能页，需资源包核对）" },
+        { "key": "maxStacks", "what": "可叠加时的层数上限（是否可叠加未写）", "unit": "count", "claimed": null, "packHint": "降双抗是否可叠加及层数上限（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“碰撞击退”是否就是矩阵碰撞造成的击退未写",
+        "双抗降低量、是固定值还是百分比未写",
+        "持续时间、能否叠加未写",
+        "“夹扁”是否附带控制或其他效果未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 t12 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "归于尘",
+      "text": "矩阵空间造成额外真实伤害",
+      "reading": "一技能小天赋。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 t13（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵空间造成额外真实伤害”：“矩阵空间”在原有效果之外额外造成真实伤害。原文没有解释矩阵空间是什么（t08「宫阙千重」写了矩阵空间有存储上限），也没写真实伤害的数值、加成属性、何时结算（每次矩阵空间造成伤害时附加，还是持续伤害）、作用范围与目标数、是否受存储数量影响。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "矩阵空间造成伤害时（具体时机原文未写）",
+      "slots": [
+        { "key": "trueDamageBase", "what": "额外真实伤害基础值", "unit": "flat", "claimed": null, "packHint": "「归于尘」真实伤害基础值（女娲一技能页，需资源包核对）" },
+        { "key": "trueDamageRatio", "what": "额外真实伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "真实伤害的属性加成系数（女娲一技能页，需资源包核对）" },
+        { "key": "tickInterval", "what": "若为持续伤害，结算间隔", "unit": "seconds", "claimed": null, "packHint": "真实伤害的结算方式与间隔（女娲一技能页，需资源包核对）" },
+        { "key": "radius", "what": "矩阵空间的作用范围", "unit": "meters", "claimed": null, "packHint": "矩阵空间的范围大小（女娲一技能页，需资源包核对）" },
+        { "key": "maxTargets", "what": "每次结算最多命中的目标数（若有上限）", "unit": "count", "claimed": null, "packHint": "真实伤害的目标数上限（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“矩阵空间”是什么、何时生成未写",
+        "真实伤害数值、加成属性未写",
+        "结算时机（单次附加还是持续）与间隔未写",
+        "作用范围、目标数未写",
+        "是否随矩阵空间存储数量变化未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 t13 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "日月星辰移",
+      "text": "十字列阵触发一次矩阵碰撞",
+      "reading": "一技能小天赋。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 t14（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“十字列阵触发一次矩阵碰撞”：十字列阵触发时会引发一次“矩阵碰撞”（“一次”是汉字，不作 claimed）。原文没写：矩阵碰撞的伤害、位置与范围，是否也会触发与矩阵碰撞相关的效果（核心「太虚四象」的二技能冷却缩减、小天赋「降维打击」的碰撞击退），十字列阵额外触发（t01「天倾西北」）时是否也各引发一次。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "十字列阵触发时",
+      "slots": [
+        { "key": "collisionsPerTrigger", "what": "每次十字列阵引发的矩阵碰撞次数（原文“一次”是汉字，不作 claimed）", "unit": "count", "claimed": null, "packHint": "「日月星辰移」每次引发的矩阵碰撞次数，核对描述的“一次”（女娲一技能页，需资源包核对）" },
+        { "key": "collisionDamageBase", "what": "矩阵碰撞的基础伤害（若有伤害）", "unit": "flat", "claimed": null, "packHint": "矩阵碰撞伤害基础值与伤害类型（女娲一技能页，需资源包核对）" },
+        { "key": "collisionDamageRatio", "what": "矩阵碰撞伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "矩阵碰撞伤害的属性加成系数（女娲一技能页，需资源包核对）" },
+        { "key": "collisionRadius", "what": "矩阵碰撞的作用范围", "unit": "meters", "claimed": null, "packHint": "矩阵碰撞的范围与位置（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "矩阵碰撞的伤害、范围、位置未写",
+        "是否联动「太虚四象」「降维打击」等矩阵碰撞效果未写",
+        "与 t01「天倾西北」同时选择时额外触发的十字列阵是否也引发碰撞未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 t14 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "天地永固",
+      "text": "矩阵爆炸带来护盾",
+      "reading": "一技能小天赋。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 t15（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵爆炸带来护盾”：每次矩阵爆炸时获得护盾。原文没写护盾给谁（女娲自身还是也包括友方）、护盾量与计算属性、持续时间、多次爆炸时护盾是叠加还是刷新、是否有内置冷却。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "矩阵爆炸时",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "「天地永固」护盾基础值（女娲一技能页，需资源包核对）" },
+        { "key": "shieldRatio", "what": "护盾加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "护盾的属性加成系数（女娲一技能页，需资源包核对）" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间（女娲一技能页，需资源包核对）" },
+        { "key": "shieldCap", "what": "多次矩阵爆炸护盾叠加时的上限（是否叠加未写）", "unit": "flat", "claimed": null, "packHint": "护盾叠加规则与上限（女娲一技能页，需资源包核对）" },
+        { "key": "shieldInternalCooldown", "what": "护盾的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "护盾触发间隔限制（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "护盾对象（自身或友方）未写",
+        "护盾量、计算属性、持续时间未写",
+        "多次爆炸护盾叠加还是刷新未写",
+        "是否有内置冷却未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 t15 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "宫阙千重",
+      "text": "矩阵空间存储上限加1",
+      "reading": "一技能小天赋。本条在一技能页（IMG_1609.PNG）；二技能页有文字完全相同的 t16（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵空间存储上限加1”：矩阵空间可存储的数量上限增加1。原文没写原有上限是多少、存储的是什么（次数还是矩阵）、存储如何获得与消耗、多存一份对伤害有什么影响。",
+      "mechanisms": ["charges"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "storageCapBonus", "what": "矩阵空间存储上限增加量（描述值）", "unit": "count", "claimed": { "value": 1, "quote": "存储上限加1" }, "packHint": "「宫阙千重」矩阵空间存储上限的增加量，核对描述的“加1”（描述值，需资源包核对）" },
+        { "key": "baseStorageCap", "what": "未选该天赋时矩阵空间的存储上限", "unit": "count", "claimed": null, "packHint": "矩阵空间默认存储上限及存储对象（女娲一技能页，需资源包核对）" },
+        { "key": "storageGainInterval", "what": "获得一份存储所需时间（或获得条件）", "unit": "seconds", "claimed": null, "packHint": "矩阵空间存储的获得方式与时间（女娲一技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "原有存储上限未写",
+        "存储的对象（次数还是矩阵）未写",
+        "存储的获得与消耗方式未写",
+        "多一份存储对伤害的影响未写",
+        "原文没写本条只作用于一技能，还是与二技能共用同一套矩阵/十字列阵机制；与二技能页同文的 t16 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "天倾西北",
+      "text": "十字列阵额外触发一次",
+      "reading": "二技能小天赋。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 t01（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“十字列阵额外触发一次”：“十字列阵”在原有触发之外再多触发一次（“一次”是汉字，校验只认阿拉伯数字，所以没有作为 claimed）。原文没有解释十字列阵是什么效果、是否造成伤害，也没写额外这次在原次之后多久触发、位置是否相同、伤害是否与原次相同、是否会连带触发与十字列阵相关的其他效果（如 t14「日月星辰移」的矩阵碰撞）。十字列阵若造成伤害，额外一次会直接增加伤害，所以按直接影响伤害处理。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "十字列阵触发时",
+      "slots": [
+        { "key": "extraTriggerCount", "what": "额外触发次数（原文“额外触发一次”，“一次”是汉字，不作 claimed）", "unit": "count", "claimed": null, "packHint": "「天倾西北」额外触发十字列阵的次数，核对描述的“一次”（女娲二技能页，需资源包核对）" },
+        { "key": "extraTriggerDelay", "what": "额外触发与原次触发的间隔", "unit": "seconds", "claimed": null, "packHint": "额外十字列阵的触发延迟（女娲二技能页，需资源包核对）" },
+        { "key": "crossDamageBase", "what": "十字列阵的基础伤害（若有伤害）", "unit": "flat", "claimed": null, "packHint": "十字列阵的伤害基础值与伤害类型（女娲二技能页，需资源包核对）" },
+        { "key": "crossDamageRatio", "what": "十字列阵的伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "十字列阵伤害的属性加成系数（女娲二技能页，需资源包核对）" },
+        { "key": "extraTriggerDamageRatio", "what": "额外一次相对原次的伤害倍率（原文未写是否与原次相同）", "unit": "ratio", "claimed": null, "packHint": "额外十字列阵是否有伤害衰减（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "十字列阵是什么效果、是否造成伤害未写",
+        "额外触发的延迟、位置未写",
+        "额外一次伤害是否与原次相同未写",
+        "额外一次是否也会触发 t14「日月星辰移」等与十字列阵相关的效果未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 t01 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "与大道同行",
+      "text": "矩阵爆炸产生回复",
+      "reading": "二技能小天赋。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 t02（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵爆炸产生回复”：每次矩阵爆炸时产生生命回复。原文没写回复的对象（女娲自身还是也包括友方）、回复量和计算属性、是否按命中目标数计算、是否有内置冷却。矩阵爆炸何时发生原文未写（核心「五色蕴华」写了会自动以矩阵爆炸攻击）。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "矩阵爆炸时",
+      "slots": [
+        { "key": "healBase", "what": "每次矩阵爆炸的回复基础值", "unit": "flat", "claimed": null, "packHint": "「与大道同行」回复量基础值（女娲二技能页，需资源包核对）" },
+        { "key": "healRatio", "what": "回复量加成系数（及对应属性，如法术攻击或最大生命）", "unit": "ratio", "claimed": null, "packHint": "回复量的属性加成系数（女娲二技能页，需资源包核对）" },
+        { "key": "healTargetCap", "what": "回复按命中目标数计算时的目标上限（若按目标数计算）", "unit": "count", "claimed": null, "packHint": "回复是否按命中数叠加及其上限（女娲二技能页，需资源包核对）" },
+        { "key": "healInternalCooldown", "what": "回复的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "回复的触发间隔限制（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "回复对象（自身或友方）未写",
+        "回复量与计算属性未写",
+        "是否按命中目标数计算未写",
+        "是否有内置冷却未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 t02 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "过往辉煌",
+      "text": "技能可以标记英雄，女娲对其伤害时获得回复和加速",
+      "reading": "二技能小天赋。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 t03（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“技能可以标记英雄”：技能命中英雄时给其打上标记（原文只写“技能”，没写限于二技能还是任意技能，也没写施加标记的条件）；“女娲对其伤害时获得回复和加速”：女娲对被标记的英雄造成伤害时，自己获得生命回复和加速。原文没写：标记持续时间、可同时标记几个目标、回复量、“加速”是移动速度还是其他速度、加速幅度与持续时间、是否有内置冷却、造成伤害后标记是否消失。原文只写了“英雄”，对非英雄目标是否生效未写。",
+      "mechanisms": ["heal", "buff", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "女娲对被标记的英雄造成伤害时（技能命中英雄时施加标记）",
+      "slots": [
+        { "key": "markDuration", "what": "标记持续时间", "unit": "seconds", "claimed": null, "packHint": "「过往辉煌」标记的持续时间（女娲二技能页，需资源包核对）" },
+        { "key": "maxMarkedTargets", "what": "可同时被标记的目标数", "unit": "count", "claimed": null, "packHint": "标记目标数上限（女娲二技能页，需资源包核对）" },
+        { "key": "healBase", "what": "每次触发的回复基础值", "unit": "flat", "claimed": null, "packHint": "回复量基础值（女娲二技能页，需资源包核对）" },
+        { "key": "healRatio", "what": "回复量加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "回复量的属性加成系数（女娲二技能页，需资源包核对）" },
+        { "key": "speedBonus", "what": "加速幅度（原文只写“加速”，未写是移速还是其他速度，暂按移速百分比建槽）", "unit": "percent", "claimed": null, "packHint": "加速效果的类型与数值（女娲二技能页，需资源包核对）" },
+        { "key": "speedDuration", "what": "加速持续时间", "unit": "seconds", "claimed": null, "packHint": "加速持续时间（女娲二技能页，需资源包核对）" },
+        { "key": "triggerInternalCooldown", "what": "回复和加速的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "触发间隔限制（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“技能”是否限于二技能未写",
+        "标记持续时间、可标记目标数未写",
+        "回复量、加速类型与幅度、持续时间未写",
+        "是否有内置冷却、造成伤害后标记是否消失未写",
+        "对非英雄目标是否生效未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 t03 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "降维打击",
+      "text": "碰撞击退效果会将目标夹扁，降低其双抗",
+      "reading": "二技能小天赋。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 t04（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“碰撞击退效果会将目标夹扁”：被“碰撞击退”效果击退的目标会被“夹扁”（原文没写“碰撞击退”是否就是矩阵碰撞造成的击退）；“降低其双抗”：被夹扁的目标物理防御和法术防御降低。原文没写：降低多少、是固定值还是百分比、持续多久、能否叠加、“夹扁”除降低双抗外是否还有控制或其他效果。降低目标双抗会直接提高对其造成的伤害。",
+      "mechanisms": ["damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "碰撞击退效果作用于目标时",
+      "slots": [
+        { "key": "physDefReduction", "what": "目标物理防御降低量（固定值还是百分比未写，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "「降维打击」物理防御降低值及其形式（女娲二技能页，需资源包核对）" },
+        { "key": "magicDefReduction", "what": "目标法术防御降低量（固定值还是百分比未写，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "「降维打击」法术防御降低值及其形式（女娲二技能页，需资源包核对）" },
+        { "key": "debuffDuration", "what": "降低双抗的持续时间", "unit": "seconds", "claimed": null, "packHint": "夹扁/降双抗状态的持续时间（女娲二技能页，需资源包核对）" },
+        { "key": "maxStacks", "what": "可叠加时的层数上限（是否可叠加未写）", "unit": "count", "claimed": null, "packHint": "降双抗是否可叠加及层数上限（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“碰撞击退”是否就是矩阵碰撞造成的击退未写",
+        "双抗降低量、是固定值还是百分比未写",
+        "持续时间、能否叠加未写",
+        "“夹扁”是否附带控制或其他效果未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 t04 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "归于尘",
+      "text": "矩阵空间造成额外真实伤害",
+      "reading": "二技能小天赋。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 t05（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵空间造成额外真实伤害”：“矩阵空间”在原有效果之外额外造成真实伤害。原文没有解释矩阵空间是什么（t16「宫阙千重」写了矩阵空间有存储上限），也没写真实伤害的数值、加成属性、何时结算（每次矩阵空间造成伤害时附加，还是持续伤害）、作用范围与目标数、是否受存储数量影响。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "矩阵空间造成伤害时（具体时机原文未写）",
+      "slots": [
+        { "key": "trueDamageBase", "what": "额外真实伤害基础值", "unit": "flat", "claimed": null, "packHint": "「归于尘」真实伤害基础值（女娲二技能页，需资源包核对）" },
+        { "key": "trueDamageRatio", "what": "额外真实伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "真实伤害的属性加成系数（女娲二技能页，需资源包核对）" },
+        { "key": "tickInterval", "what": "若为持续伤害，结算间隔", "unit": "seconds", "claimed": null, "packHint": "真实伤害的结算方式与间隔（女娲二技能页，需资源包核对）" },
+        { "key": "radius", "what": "矩阵空间的作用范围", "unit": "meters", "claimed": null, "packHint": "矩阵空间的范围大小（女娲二技能页，需资源包核对）" },
+        { "key": "maxTargets", "what": "每次结算最多命中的目标数（若有上限）", "unit": "count", "claimed": null, "packHint": "真实伤害的目标数上限（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“矩阵空间”是什么、何时生成未写",
+        "真实伤害数值、加成属性未写",
+        "结算时机（单次附加还是持续）与间隔未写",
+        "作用范围、目标数未写",
+        "是否随矩阵空间存储数量变化未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 t05 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "日月星辰移",
+      "text": "十字列阵触发一次矩阵碰撞",
+      "reading": "二技能小天赋。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 t06（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“十字列阵触发一次矩阵碰撞”：十字列阵触发时会引发一次“矩阵碰撞”（“一次”是汉字，不作 claimed）。原文没写：矩阵碰撞的伤害、位置与范围，是否也会触发与矩阵碰撞相关的效果（核心「太虚四象」的二技能冷却缩减、小天赋「降维打击」的碰撞击退），十字列阵额外触发（t09「天倾西北」）时是否也各引发一次。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "十字列阵触发时",
+      "slots": [
+        { "key": "collisionsPerTrigger", "what": "每次十字列阵引发的矩阵碰撞次数（原文“一次”是汉字，不作 claimed）", "unit": "count", "claimed": null, "packHint": "「日月星辰移」每次引发的矩阵碰撞次数，核对描述的“一次”（女娲二技能页，需资源包核对）" },
+        { "key": "collisionDamageBase", "what": "矩阵碰撞的基础伤害（若有伤害）", "unit": "flat", "claimed": null, "packHint": "矩阵碰撞伤害基础值与伤害类型（女娲二技能页，需资源包核对）" },
+        { "key": "collisionDamageRatio", "what": "矩阵碰撞伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "矩阵碰撞伤害的属性加成系数（女娲二技能页，需资源包核对）" },
+        { "key": "collisionRadius", "what": "矩阵碰撞的作用范围", "unit": "meters", "claimed": null, "packHint": "矩阵碰撞的范围与位置（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "矩阵碰撞的伤害、范围、位置未写",
+        "是否联动「太虚四象」「降维打击」等矩阵碰撞效果未写",
+        "与 t09「天倾西北」同时选择时额外触发的十字列阵是否也引发碰撞未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 t06 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "天地永固",
+      "text": "矩阵爆炸带来护盾",
+      "reading": "二技能小天赋。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 t07（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵爆炸带来护盾”：每次矩阵爆炸时获得护盾。原文没写护盾给谁（女娲自身还是也包括友方）、护盾量与计算属性、持续时间、多次爆炸时护盾是叠加还是刷新、是否有内置冷却。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "矩阵爆炸时",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "「天地永固」护盾基础值（女娲二技能页，需资源包核对）" },
+        { "key": "shieldRatio", "what": "护盾加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "护盾的属性加成系数（女娲二技能页，需资源包核对）" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间（女娲二技能页，需资源包核对）" },
+        { "key": "shieldCap", "what": "多次矩阵爆炸护盾叠加时的上限（是否叠加未写）", "unit": "flat", "claimed": null, "packHint": "护盾叠加规则与上限（女娲二技能页，需资源包核对）" },
+        { "key": "shieldInternalCooldown", "what": "护盾的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "护盾触发间隔限制（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "护盾对象（自身或友方）未写",
+        "护盾量、计算属性、持续时间未写",
+        "多次爆炸护盾叠加还是刷新未写",
+        "是否有内置冷却未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 t07 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "宫阙千重",
+      "text": "矩阵空间存储上限加1",
+      "reading": "二技能小天赋。本条在二技能页（IMG_1610.PNG）；一技能页有文字完全相同的 t08（据 docs/hero-talent-transcription.md，两页卡片文字相同、高亮所属技能不同）。原文写“矩阵空间存储上限加1”：矩阵空间可存储的数量上限增加1。原文没写原有上限是多少、存储的是什么（次数还是矩阵）、存储如何获得与消耗、多存一份对伤害有什么影响。",
+      "mechanisms": ["charges"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "storageCapBonus", "what": "矩阵空间存储上限增加量（描述值）", "unit": "count", "claimed": { "value": 1, "quote": "存储上限加1" }, "packHint": "「宫阙千重」矩阵空间存储上限的增加量，核对描述的“加1”（描述值，需资源包核对）" },
+        { "key": "baseStorageCap", "what": "未选该天赋时矩阵空间的存储上限", "unit": "count", "claimed": null, "packHint": "矩阵空间默认存储上限及存储对象（女娲二技能页，需资源包核对）" },
+        { "key": "storageGainInterval", "what": "获得一份存储所需时间（或获得条件）", "unit": "seconds", "claimed": null, "packHint": "矩阵空间存储的获得方式与时间（女娲二技能页，需资源包核对）" }
+      ],
+      "ambiguities": [
+        "原有存储上限未写",
+        "存储的对象（次数还是矩阵）未写",
+        "存储的获得与消耗方式未写",
+        "多一份存储对伤害的影响未写",
+        "原文没写本条只作用于二技能，还是与一技能共用同一套矩阵/十字列阵机制；与一技能页同文的 t08 同时选择时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "所愿必成",
+      "text": "依据距离减少冷却，越近减少越多",
+      "reading": "三技能小天赋。原文写“依据距离减少冷却，越近减少越多”：根据某个距离减少冷却，距离越近减少越多。原文没写这里的“距离”是传送距离还是与敌人的距离、减少的是哪个技能的冷却（本条在三技能页，原文只写“冷却”）、减少量与距离的换算关系、最大减少量、在什么时刻结算。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能传送后（结算时机原文未写）",
+      "slots": [
+        { "key": "maxCdReduction", "what": "距离最近时的冷却减少量（原文未写是秒数还是百分比，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "「所愿必成」最大冷却减少量与形式（需资源包核对）" },
+        { "key": "minCdReduction", "what": "距离最远时的冷却减少量", "unit": "seconds", "claimed": null, "packHint": "「所愿必成」最小冷却减少量（需资源包核对）" },
+        { "key": "nearDistance", "what": "减少量达到最大的距离阈值", "unit": "meters", "claimed": null, "packHint": "冷却减少的近端距离阈值（需资源包核对）" },
+        { "key": "farDistance", "what": "减少量降到最低或不再减少的距离阈值", "unit": "meters", "claimed": null, "packHint": "冷却减少的远端距离阈值与换算方式（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“距离”指传送距离还是与敌人的距离未写",
+        "减少的是哪个技能的冷却未写",
+        "距离与减少量的换算关系、最大值未写",
+        "结算时机未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "超维之躯",
+      "text": "传送后进入超维之躯状态，获得随机强化",
+      "reading": "三技能小天赋。原文写“传送后进入超维之躯状态，获得随机强化”：三技能传送结束后进入“超维之躯”状态，并获得随机的强化。原文没写：随机强化有哪些种类、各自的数值、出现概率、一次获得几个、状态持续多久、多次传送时效果叠加还是覆盖。强化是否包含伤害类加成原文没写；因为模拟时必须先知道强化内容，按直接影响伤害处理。",
+      "mechanisms": ["buff", "other"],
+      "damageRelevance": "direct",
+      "trigger": "三技能传送结束后",
+      "slots": [
+        { "key": "stateDuration", "what": "超维之躯状态持续时间", "unit": "seconds", "claimed": null, "packHint": "「超维之躯」状态持续时间（需资源包核对）" },
+        { "key": "enhancementKinds", "what": "随机强化的种类数", "unit": "count", "claimed": null, "packHint": "超维之躯可随机出的强化列表（需资源包核对）" },
+        { "key": "enhancementsPerTrigger", "what": "每次获得的强化数量", "unit": "count", "claimed": null, "packHint": "每次传送获得几个强化（需资源包核对）" },
+        { "key": "enhancementValue", "what": "每种强化的数值（内容未写，暂按百分比建槽，需按种类分别填）", "unit": "percent", "claimed": null, "packHint": "每种强化的属性与数值（需资源包核对）" },
+        { "key": "enhancementWeight", "what": "各强化出现的概率", "unit": "percent", "claimed": null, "packHint": "随机强化的权重或概率（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "随机强化的种类与数值未写",
+        "随机概率、每次获得数量未写",
+        "状态持续时间未写",
+        "多次传送时叠加还是覆盖未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "所念必至",
+      "text": "依据传送距离加速传送过程",
+      "reading": "三技能小天赋。原文写“依据传送距离加速传送过程”：根据本次传送的距离加快传送过程，缩短传送用时。原文没写距离与加速幅度的换算关系（越远越快还是越近越快）、加速上限、原传送过程用时。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能传送时",
+      "slots": [
+        { "key": "baseTeleportDuration", "what": "未加速时的传送过程用时", "unit": "seconds", "claimed": null, "packHint": "三技能默认传送时长（需资源包核对）" },
+        { "key": "speedupPerMeter", "what": "每米传送距离对应的传送加速幅度（换算方式未写）", "unit": "percent", "claimed": null, "packHint": "「所念必至」加速幅度与距离的换算（需资源包核对）" },
+        { "key": "speedupCap", "what": "传送加速的上限", "unit": "percent", "claimed": null, "packHint": "加速上限（需资源包核对）" },
+        { "key": "minTeleportDuration", "what": "加速后的传送用时下限（若有）", "unit": "seconds", "claimed": null, "packHint": "传送时长下限（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "越远越快还是越近越快未写",
+        "距离与加速幅度的换算、上限未写",
+        "原传送用时未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "定玄黄",
+      "text": "落地眩晕近身范围",
+      "reading": "三技能小天赋。原文写“落地眩晕近身范围”：三技能传送落地时，眩晕女娲近身范围内的敌人。原文没写眩晕持续时间、“近身范围”多大、是否同时造成伤害、对首领类目标是否生效。",
+      "mechanisms": ["control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能传送落地时",
+      "slots": [
+        { "key": "stunDuration", "what": "眩晕持续时间", "unit": "seconds", "claimed": null, "packHint": "「定玄黄」眩晕时长（需资源包核对）" },
+        { "key": "stunRadius", "what": "“近身范围”的半径", "unit": "meters", "claimed": null, "packHint": "眩晕范围（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "眩晕时长未写",
+        "“近身范围”大小未写",
+        "是否同时造成伤害未写",
+        "对首领类目标是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "天佑尔诚",
+      "text": "依据传送距离获得最大生命或法强",
+      "reading": "三技能小天赋。原文写“依据传送距离获得最大生命或法强”：根据本次传送距离获得最大生命或法术攻击（法强）。原文没写“或”怎么决定获得哪一种（随机、按距离区间、还是玩家选择），也没写获得量与距离的换算关系、上限、是临时增益还是永久累积、多次传送是否叠加。",
+      "mechanisms": ["buff", "stat", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "三技能传送后",
+      "slots": [
+        { "key": "magicAtkPerMeter", "what": "每米传送距离获得的法术攻击（换算方式未写）", "unit": "flat", "claimed": null, "packHint": "「天佑尔诚」法术攻击获得量与距离的换算（需资源包核对）" },
+        { "key": "maxHpPerMeter", "what": "每米传送距离获得的最大生命（换算方式未写）", "unit": "flat", "claimed": null, "packHint": "「天佑尔诚」最大生命获得量与距离的换算（需资源包核对）" },
+        { "key": "magicAtkCap", "what": "法术攻击获得量上限", "unit": "flat", "claimed": null, "packHint": "法术攻击获得上限（需资源包核对）" },
+        { "key": "maxHpCap", "what": "最大生命获得量上限", "unit": "flat", "claimed": null, "packHint": "最大生命获得上限（需资源包核对）" },
+        { "key": "buffDuration", "what": "增益持续时间（是否永久原文未写）", "unit": "seconds", "claimed": null, "packHint": "增益是临时还是永久及其时长（需资源包核对）" },
+        { "key": "maxStacks", "what": "多次传送叠加时的层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "增益叠加规则与上限（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "获得最大生命还是法强的决定规则未写",
+        "获得量与距离的换算、上限未写",
+        "临时还是永久、多次传送是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "天汉灿烂",
+      "text": "落地后获得法术吸血",
+      "reading": "三技能小天赋。原文写“落地后获得法术吸血”：三技能传送落地后，女娲获得法术吸血。原文没写吸血比例、持续时间、多次落地是否叠加。",
+      "mechanisms": ["buff", "lifesteal"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能传送落地后",
+      "slots": [
+        { "key": "magicLifesteal", "what": "法术吸血比例", "unit": "percent", "claimed": null, "packHint": "「天汉灿烂」法术吸血数值（需资源包核对）" },
+        { "key": "duration", "what": "法术吸血持续时间", "unit": "seconds", "claimed": null, "packHint": "法术吸血持续时间（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "吸血比例未写",
+        "持续时间未写",
+        "多次落地是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "妄议天道",
+      "text": "受到英雄伤害时，会获得护盾和加速，并对周围敌人造成伤害",
+      "reading": "三技能小天赋。原文写“受到英雄伤害时，会获得护盾和加速，并对周围敌人造成伤害”：女娲受到英雄的伤害时，获得护盾和加速，同时对周围敌人造成伤害。原文没写这个效果是否和三技能有关（本条在三技能页，但触发条件没提传送）、护盾量与持续时间、“加速”是移速还是其他、加速幅度与持续时间、伤害数值与范围、内置冷却。原文只写了“英雄”，受到非英雄目标伤害时是否触发未写。",
+      "mechanisms": ["shield", "buff", "mobility", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "受到英雄伤害时",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "「妄议天道」护盾基础值（需资源包核对）" },
+        { "key": "shieldRatio", "what": "护盾加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "护盾的属性加成系数（需资源包核对）" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间（需资源包核对）" },
+        { "key": "speedBonus", "what": "加速幅度（原文只写“加速”，暂按移速百分比建槽）", "unit": "percent", "claimed": null, "packHint": "加速类型与数值（需资源包核对）" },
+        { "key": "speedDuration", "what": "加速持续时间", "unit": "seconds", "claimed": null, "packHint": "加速持续时间（需资源包核对）" },
+        { "key": "damageBase", "what": "对周围敌人造成的基础伤害", "unit": "flat", "claimed": null, "packHint": "反击伤害基础值与伤害类型（需资源包核对）" },
+        { "key": "damageRatio", "what": "伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "反击伤害的属性加成系数（需资源包核对）" },
+        { "key": "damageRadius", "what": "“周围敌人”的范围", "unit": "meters", "claimed": null, "packHint": "反击伤害范围（需资源包核对）" },
+        { "key": "internalCooldown", "what": "触发的内置冷却", "unit": "seconds", "claimed": null, "packHint": "「妄议天道」触发间隔限制（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "是否与三技能有关未写",
+        "护盾量、持续时间未写",
+        "加速类型、幅度、持续时间未写",
+        "伤害数值、范围、伤害类型未写",
+        "内置冷却未写",
+        "受到非英雄目标伤害时是否触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "造乾坤",
+      "text": "落点建造日之塔，持续造成伤害",
+      "reading": "三技能小天赋。原文写“落点建造日之塔，持续造成伤害”：三技能传送的落点处建造一座“日之塔”，日之塔持续造成伤害。原文没写日之塔存在多久、伤害数值与加成属性、结算间隔、攻击范围、每次攻击几个目标、可同时存在几座、日之塔能否被攻击。",
+      "mechanisms": ["summon", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "三技能传送落地时",
+      "slots": [
+        { "key": "towerDuration", "what": "日之塔存在时间", "unit": "seconds", "claimed": null, "packHint": "「造乾坤」日之塔持续时间（需资源包核对）" },
+        { "key": "tickInterval", "what": "日之塔伤害结算间隔", "unit": "seconds", "claimed": null, "packHint": "日之塔攻击间隔（需资源包核对）" },
+        { "key": "damageBase", "what": "日之塔每次伤害基础值", "unit": "flat", "claimed": null, "packHint": "日之塔伤害基础值与伤害类型（需资源包核对）" },
+        { "key": "damageRatio", "what": "日之塔伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "日之塔伤害的属性加成系数（需资源包核对）" },
+        { "key": "attackRadius", "what": "日之塔攻击范围", "unit": "meters", "claimed": null, "packHint": "日之塔攻击范围（需资源包核对）" },
+        { "key": "targetsPerTick", "what": "每次结算命中的目标数", "unit": "count", "claimed": null, "packHint": "日之塔单次攻击目标数（需资源包核对）" },
+        { "key": "maxTowers", "what": "可同时存在的日之塔数量", "unit": "count", "claimed": null, "packHint": "日之塔数量上限（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "日之塔持续时间未写",
+        "伤害数值、加成属性、间隔、伤害类型未写",
+        "攻击范围、目标数未写",
+        "可同时存在几座、能否被攻击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t25",
+      "kind": "talent",
+      "skill": 4,
+      "name": "千古不过须臾",
+      "text": "越远命中英雄时，临时强化该技能越多伤害",
+      "reading": "四技能小天赋。原文写“越远命中英雄时，临时强化该技能越多伤害”：四技能在越远的距离命中英雄时，临时提升四技能的伤害，距离越远提升越多。“临时”说明有持续时间，但原文没写持续多久；也没写提升只作用于之后的四技能还是包括本次命中、距离与提升量的换算、上限、多次命中是否叠加、与核心「世界的法则」的距离增伤是否叠加。",
+      "mechanisms": ["damage-amp", "buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "四技能命中英雄时",
+      "slots": [
+        { "key": "damageAmpPerMeter", "what": "每米距离对应的伤害提升（换算方式未写）", "unit": "percent", "claimed": null, "packHint": "「千古不过须臾」增伤与距离的换算（需资源包核对）" },
+        { "key": "damageAmpCap", "what": "伤害提升上限", "unit": "percent", "claimed": null, "packHint": "增伤上限（需资源包核对）" },
+        { "key": "minDistance", "what": "开始生效的起算距离", "unit": "meters", "claimed": null, "packHint": "增伤起算距离（需资源包核对）" },
+        { "key": "maxDistance", "what": "增伤封顶的距离", "unit": "meters", "claimed": null, "packHint": "增伤封顶距离（需资源包核对）" },
+        { "key": "buffDuration", "what": "“临时强化”的持续时间", "unit": "seconds", "claimed": null, "packHint": "强化持续时间（需资源包核对）" },
+        { "key": "maxStacks", "what": "多次命中叠加时的层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "强化叠加规则与上限（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“临时”的持续时间未写",
+        "是否包括本次命中未写",
+        "距离与增伤的换算、上限未写",
+        "多次命中是否叠加未写",
+        "与「世界的法则」的增伤是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t26",
+      "kind": "talent",
+      "skill": 4,
+      "name": "汝之造物主",
+      "text": "该技能每命中英雄18次，召唤至高神",
+      "reading": "四技能小天赋。原文写“该技能每命中英雄18次，召唤至高神”：四技能每累计命中英雄18次，召唤一次“至高神”。原文没写至高神做什么（伤害、控制还是增益）、存在多久、伤害数值、计数是否跨多次施法累积、一次施法多段命中如何计数、召唤后计数是否清零、能否同时存在多个。",
+      "mechanisms": ["summon", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "四技能累计命中英雄达到次数时",
+      "slots": [
+        { "key": "hitsRequired", "what": "召唤一次至高神所需的四技能命中英雄次数（描述值）", "unit": "count", "claimed": { "value": 18, "quote": "每命中英雄18次" }, "packHint": "「汝之造物主」召唤所需命中次数，核对描述的18次（描述值，需资源包核对）" },
+        { "key": "summonDuration", "what": "至高神存在时间", "unit": "seconds", "claimed": null, "packHint": "至高神持续时间（需资源包核对）" },
+        { "key": "summonDamageBase", "what": "至高神每次伤害基础值", "unit": "flat", "claimed": null, "packHint": "至高神伤害基础值与伤害类型（需资源包核对）" },
+        { "key": "summonDamageRatio", "what": "至高神伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "至高神伤害的属性加成系数（需资源包核对）" },
+        { "key": "summonAttackInterval", "what": "至高神攻击间隔", "unit": "seconds", "claimed": null, "packHint": "至高神攻击频率（需资源包核对）" },
+        { "key": "summonRange", "what": "至高神攻击范围", "unit": "meters", "claimed": null, "packHint": "至高神攻击范围（需资源包核对）" },
+        { "key": "maxSummons", "what": "可同时存在的至高神数量", "unit": "count", "claimed": null, "packHint": "至高神数量上限（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "至高神的行为（伤害、控制、增益）未写",
+        "至高神持续时间、伤害数值、攻击频率与范围未写",
+        "计数是否跨施法累积、多段命中如何计数未写",
+        "召唤后计数是否清零、能否同时存在多个未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t27",
+      "kind": "talent",
+      "skill": 4,
+      "name": "仙神之名",
+      "text": "女娲依据等级获得强化",
+      "reading": "四技能小天赋。原文写“女娲依据等级获得强化”：女娲根据“等级”获得强化。原文没写“等级”是英雄等级还是其他等级、强化的是什么（属性、技能效果还是其他）、每级强化多少、上限、是否只作用于四技能。因为强化内容未知、模拟时必须先知道内容，按直接影响伤害处理。",
+      "mechanisms": ["stat", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（随等级变化）",
+      "slots": [
+        { "key": "bonusPerLevel", "what": "每级强化量（强化的属性和单位原文未写，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "「仙神之名」强化的属性与每级数值（需资源包核对）" },
+        { "key": "startLevel", "what": "开始获得强化的等级（若有门槛）", "unit": "count", "claimed": null, "packHint": "强化的起始等级（需资源包核对）" },
+        { "key": "levelCap", "what": "强化计算的等级上限", "unit": "count", "claimed": null, "packHint": "强化的等级上限（需资源包核对）" },
+        { "key": "bonusCap", "what": "强化总量上限", "unit": "flat", "claimed": null, "packHint": "强化总量上限（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“等级”指什么等级未写",
+        "强化的内容未写",
+        "每级强化量、上限未写",
+        "是否只作用于四技能未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t28",
+      "kind": "talent",
+      "skill": 4,
+      "name": "天地同春",
+      "text": "该技能对英雄造成伤害时依据已损生命回复",
+      "reading": "四技能小天赋。原文写“该技能对英雄造成伤害时依据已损生命回复”：四技能对英雄造成伤害时，按已损生命回复生命。原文没写回复的是谁、按谁的已损生命计算（女娲自身还是目标）、回复比例、多段伤害是否每段都回复、有无内置冷却。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "四技能对英雄造成伤害时",
+      "slots": [
+        { "key": "healPctOfMissingHp", "what": "按已损生命计算的回复比例", "unit": "percent", "claimed": null, "packHint": "「天地同春」回复比例（需资源包核对）" },
+        { "key": "healInternalCooldown", "what": "回复的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "回复触发间隔限制（需资源包核对）" },
+        { "key": "maxHealsPerCast", "what": "单次施法最多触发回复的次数（若有上限）", "unit": "count", "claimed": null, "packHint": "多段伤害的回复次数限制（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "回复对象、按谁的已损生命计算未写",
+        "回复比例未写",
+        "多段伤害是否每段都回复、内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t29",
+      "kind": "talent",
+      "skill": 4,
+      "name": "前尘既灭",
+      "text": "目标血量越低，该技能伤害越高",
+      "reading": "四技能小天赋。原文写“目标血量越低，该技能伤害越高”：四技能对生命值越低的目标造成越高的伤害。原文没写“血量”按当前生命百分比还是数值算、从多少血量开始提高、提升与血量的换算关系、最大提升量。",
+      "mechanisms": ["execute", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "四技能造成伤害时（按目标当前血量）",
+      "slots": [
+        { "key": "hpThresholdStart", "what": "开始提高伤害的目标血量阈值", "unit": "percent", "claimed": null, "packHint": "「前尘既灭」增伤起始血量（需资源包核对）" },
+        { "key": "hpThresholdCap", "what": "增伤达到最大时的目标血量", "unit": "percent", "claimed": null, "packHint": "增伤封顶血量（需资源包核对）" },
+        { "key": "damageAmpScaling", "what": "目标血量每降低一个单位对应的增伤（换算方式未写）", "unit": "percent", "claimed": null, "packHint": "增伤与血量的换算（需资源包核对）" },
+        { "key": "maxDamageAmp", "what": "最大增伤", "unit": "percent", "claimed": null, "packHint": "增伤上限（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“血量”按百分比还是数值未写",
+        "起始阈值、换算关系、最大增伤未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t30",
+      "kind": "talent",
+      "skill": 4,
+      "name": "百川归位",
+      "text": "该技能有概率多重施法，造成较低伤害",
+      "reading": "四技能小天赋。原文写“该技能有概率多重施法，造成较低伤害”：释放四技能时有一定概率“多重施法”（额外再施放），多重施法造成的伤害较低。原文没写概率、额外施放几次、“较低”是多少、较低伤害只针对额外施放还是所有施放、额外施放的方向和间隔、额外施放是否计入命中次数（如 t26「汝之造物主」）和其他四技能效果。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放四技能时",
+      "slots": [
+        { "key": "multicastChance", "what": "多重施法的触发概率", "unit": "percent", "claimed": null, "packHint": "「百川归位」触发概率（需资源包核对）" },
+        { "key": "extraCasts", "what": "每次多重施法额外施放的次数", "unit": "count", "claimed": null, "packHint": "多重施法次数（需资源包核对）" },
+        { "key": "extraCastDamageRatio", "what": "多重施法伤害相对正常施放的倍率（原文“较低伤害”）", "unit": "ratio", "claimed": null, "packHint": "多重施法伤害倍率，以及是否只作用于额外施放（需资源包核对）" },
+        { "key": "extraCastDelay", "what": "额外施放与原施放的间隔", "unit": "seconds", "claimed": null, "packHint": "多重施法的延迟（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "触发概率、额外施放次数未写",
+        "“较低伤害”的具体倍率、作用对象未写",
+        "额外施放的方向与间隔未写",
+        "额外施放是否计入命中次数、是否触发其他四技能效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t31",
+      "kind": "talent",
+      "skill": 4,
+      "name": "山河万卷",
+      "text": "技能宽度增加",
+      "reading": "四技能小天赋。原文写“技能宽度增加”：四技能（原文只写“技能”，本条在四技能页）的宽度增加。原文没写原宽度、增加多少（固定值还是百分比）。宽度影响能命中的目标数和命中率，不直接改变单次伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "baseWidth", "what": "未选该天赋时四技能的宽度", "unit": "meters", "claimed": null, "packHint": "四技能默认宽度（需资源包核对）" },
+        { "key": "widthBonus", "what": "宽度增加量（固定值还是百分比未写，暂按米建槽）", "unit": "meters", "claimed": null, "packHint": "「山河万卷」宽度增加量与形式（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“技能”是否限于四技能未写",
+        "原宽度未写",
+        "增加量及其形式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t32",
+      "kind": "talent",
+      "skill": 4,
+      "name": "天道始终",
+      "text": "命中英雄时将自身道痕刻于天地，可消耗18道痕选位置复生并伤害眩晕敌人",
+      "reading": "四技能小天赋。原文写“命中英雄时将自身道痕刻于天地”：命中英雄时（原文没写限于四技能，本条在四技能页）积累“道痕”；“可消耗18道痕选位置复生并伤害眩晕敌人”：可以消耗18道痕，自选位置复生，并对敌人造成伤害和眩晕。“复生”字面指阵亡后复活，原文没写是否只能在阵亡后使用、每次命中获得几道痕、道痕上限、复生时的生命值、伤害与眩晕的范围、伤害数值、眩晕时长、复生次数限制或冷却、复生后道痕是否清空。",
+      "mechanisms": ["revive", "stacking", "proc", "control", "area"],
+      "damageRelevance": "direct",
+      "trigger": "命中英雄时（积累道痕）；消耗道痕复生时（是否限于阵亡后未写）",
+      "slots": [
+        { "key": "tracesPerHit", "what": "每次命中英雄获得的道痕数", "unit": "count", "claimed": null, "packHint": "「天道始终」每次命中获得的道痕数（需资源包核对）" },
+        { "key": "reviveCost", "what": "复生消耗的道痕数（描述值）", "unit": "count", "claimed": { "value": 18, "quote": "可消耗18道痕" }, "packHint": "「天道始终」复生所需道痕数，核对描述的18道痕（描述值，需资源包核对）" },
+        { "key": "maxTraces", "what": "道痕存储上限", "unit": "count", "claimed": null, "packHint": "道痕上限（需资源包核对）" },
+        { "key": "reviveHpPct", "what": "复生时恢复的生命比例", "unit": "percent", "claimed": null, "packHint": "复生生命值（需资源包核对）" },
+        { "key": "reviveDamageBase", "what": "复生时伤害的基础值", "unit": "flat", "claimed": null, "packHint": "复生伤害基础值与伤害类型（需资源包核对）" },
+        { "key": "reviveDamageRatio", "what": "复生时伤害的加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "复生伤害的属性加成系数（需资源包核对）" },
+        { "key": "reviveStunDuration", "what": "复生时眩晕持续时间", "unit": "seconds", "claimed": null, "packHint": "复生眩晕时长（需资源包核对）" },
+        { "key": "reviveRadius", "what": "复生时伤害与眩晕的范围", "unit": "meters", "claimed": null, "packHint": "复生效果范围（需资源包核对）" },
+        { "key": "reviveCooldown", "what": "复生的冷却或次数限制（若有）", "unit": "seconds", "claimed": null, "packHint": "复生冷却或每局次数限制（需资源包核对）" }
+      ],
+      "ambiguities": [
+        "“命中英雄”是否限于四技能未写",
+        "每次命中获得几道痕、道痕上限未写",
+        "是否只能在阵亡后复生未写",
+        "复生生命值、复生冷却或次数限制未写",
+        "伤害数值、眩晕时长、范围未写",
+        "复生后道痕是否清空未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}
