@@ -1,0 +1,826 @@
+{
+  "heroId": "112",
+  "heroName": "鲁班七号",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "六芒爆弹",
+      "text": "手雷爆炸后将分裂6个小手雷",
+      "reading": "一技能核心。手雷（按所属一技能理解为一技能的手雷）爆炸后，分裂出6个小手雷。原文没有写：小手雷如何散布、落点离原爆炸点多远；小手雷是立即爆炸还是延迟爆炸；小手雷的伤害是与原手雷相同、按原手雷的一定比例，还是有独立的基础值和系数，伤害类型和加成属性；小手雷的爆炸半径；同一目标被多个小手雷命中时伤害是否衰减；小手雷能否再分裂；小手雷命中是否算“手雷命中”，能否触发暴走河豚、河豚剧毒、极限减速等一技能命中类小天赋；双响爆雷的弹跳后爆炸、跃导星雷的弹跳手雷是否也会分裂；超新星爆破的爆炸半径加成是否作用于小手雷；能否暴击。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能手雷爆炸后",
+      "slots": [
+        { "key": "splitCount", "what": "手雷爆炸后分裂出的小手雷数量", "unit": "count", "claimed": { "value": 6, "quote": "分裂6个小手雷" }, "packHint": "该核心分裂小手雷的数量，核对描述的6个（描述值不可靠，需资源包核对）" },
+        { "key": "miniDamagePct", "what": "小手雷伤害占原手雷伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "小手雷是否引用原手雷伤害公式及其比例" },
+        { "key": "miniBaseDamage", "what": "小手雷伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "小手雷伤害基础值" },
+        { "key": "miniRatio", "what": "小手雷伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "小手雷伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "miniRadius", "what": "小手雷爆炸半径", "unit": "meters", "claimed": null, "packHint": "小手雷爆炸的伤害范围，并确认是否受超新星爆破加成" },
+        { "key": "scatterDistance", "what": "小手雷落点离原爆炸点的距离", "unit": "meters", "claimed": null, "packHint": "小手雷的散布方式和落点距离" },
+        { "key": "miniDelay", "what": "分裂到小手雷爆炸的延迟", "unit": "seconds", "claimed": null, "packHint": "小手雷的飞行或延迟爆炸时间（帧数）" },
+        { "key": "sameTargetDamagePct", "what": "同一目标被多个小手雷命中时后续命中的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "多个小手雷命中同一目标的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "小手雷的散布方式和落点距离未写",
+        "小手雷爆炸时机（立即或延迟）未写",
+        "小手雷伤害数值或比例、伤害类型未写",
+        "小手雷爆炸半径未写",
+        "同一目标被多个小手雷命中是否衰减未写",
+        "小手雷能否再分裂未写",
+        "小手雷命中是否算“手雷命中”、能否触发一技能命中类小天赋未写",
+        "与双响爆雷、跃导星雷、超新星爆破的交互未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "跃导星雷",
+      "text": "使用一技能后的强普，将生成弹跳手雷",
+      "reading": "一技能核心。使用一技能之后打出的强普（强化普攻）会生成弹跳手雷。“使用一技能后的强普”是指一技能后的下一次强普，还是一技能后一段时间内的所有强普，原文不能确定。本条没有写强普从哪里获得（二技能小天赋双重散射提到“施放飞弹后，可连续打出2次强化普攻”，强普来源需资源包确认）。原文没有写：每次强普生成几颗弹跳手雷；弹跳手雷在哪里生成（强普命中处还是鲁班身边）；弹跳次数、每次弹跳距离、每次弹跳是否爆炸造成伤害；弹跳手雷的伤害是否引用一技能手雷伤害、比例或独立数值、伤害类型；爆炸半径；同一目标多次被弹跳爆炸命中是否衰减；弹跳手雷命中是否算“手雷命中”，能否触发暴走河豚、河豚剧毒等小天赋，是否会被六芒爆弹分裂；能否暴击。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "使用一技能后的强化普攻",
+      "slots": [
+        { "key": "effectWindow", "what": "使用一技能后多久内的强普会生成弹跳手雷", "unit": "seconds", "claimed": null, "packHint": "一技能施放后该效果的生效时限（若有）" },
+        { "key": "affectedEnhancedBasics", "what": "使用一技能后会生成弹跳手雷的强普次数", "unit": "count", "claimed": null, "packHint": "确认是下一次强普还是时限内所有强普" },
+        { "key": "grenadesPerEnhancedBasic", "what": "每次强普生成的弹跳手雷数量", "unit": "count", "claimed": null, "packHint": "每次强普生成弹跳手雷的数量" },
+        { "key": "bounceCount", "what": "弹跳手雷的弹跳次数", "unit": "count", "claimed": null, "packHint": "弹跳手雷的弹跳次数，确认每次弹跳是否都爆炸" },
+        { "key": "bounceDistance", "what": "每次弹跳的距离", "unit": "meters", "claimed": null, "packHint": "弹跳手雷每次弹跳的距离和方向规则" },
+        { "key": "grenadeDamagePct", "what": "弹跳手雷伤害占一技能手雷伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "弹跳手雷是否引用一技能手雷伤害公式及其比例" },
+        { "key": "grenadeBaseDamage", "what": "弹跳手雷每次爆炸的伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "弹跳手雷伤害基础值" },
+        { "key": "grenadeRatio", "what": "弹跳手雷伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "弹跳手雷伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "explosionRadius", "what": "弹跳手雷爆炸半径", "unit": "meters", "claimed": null, "packHint": "弹跳手雷爆炸的伤害范围，并确认是否受超新星爆破加成" },
+        { "key": "sameTargetDamagePct", "what": "同一目标被多次弹跳爆炸命中时后续命中的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "弹跳手雷多次命中同一目标的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "“使用一技能后的强普”是下一次强普还是一段时间内所有强普未写",
+        "强普的来源本条未写",
+        "每次强普生成的弹跳手雷数量和生成位置未写",
+        "弹跳次数、弹跳距离、每次弹跳是否爆炸未写",
+        "弹跳手雷伤害数值或比例、伤害类型未写",
+        "爆炸半径未写",
+        "同一目标多次命中是否衰减未写",
+        "是否算“手雷命中”、能否触发一技能命中类小天赋、是否会被六芒爆弹分裂未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "轰炸堡垒",
+      "text": "飞弹不再直接命中，转而在飞行路径上连续投弹",
+      "reading": "二技能核心。二技能的飞弹（按所属二技能理解）不再直接命中目标，改为在飞行路径上连续投弹，由投下的炸弹造成伤害。原文没有写：沿路径投弹的数量或间隔；每颗炸弹的伤害（是否引用原飞弹伤害、比例或独立数值）、伤害类型和加成属性；炸弹爆炸半径；飞行路径长度和飞行速度；同一目标被多颗炸弹命中时伤害是否衰减；能否暴击。因为飞弹“不再直接命中”，依赖飞弹命中的二技能小天赋（绝命鲨鱼的斩杀、核爆充能的“二技能命中”、超距击退的“飞弹远程命中”）是否还能由炸弹触发，原文不能确定；超新星核爆的“飞弹伤害范围+40%”是否作用于炸弹、超距制导的额外飞弹是否也改为投弹，原文也没写。三技能小天赋空援充能写的“每次投弹”是否包括本核心的投弹，原文不能确定。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能飞弹飞行过程中",
+      "slots": [
+        { "key": "bombCount", "what": "飞行路径上投弹总数", "unit": "count", "claimed": null, "packHint": "该核心沿路径投弹的数量" },
+        { "key": "bombInterval", "what": "相邻两次投弹的间隔", "unit": "seconds", "claimed": null, "packHint": "投弹的时间间隔（帧数）或距离间隔" },
+        { "key": "bombDamagePct", "what": "每颗炸弹伤害占原飞弹伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "炸弹是否引用原飞弹伤害公式及其比例" },
+        { "key": "bombBaseDamage", "what": "每颗炸弹伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "炸弹伤害基础值" },
+        { "key": "bombRatio", "what": "每颗炸弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "炸弹伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "bombRadius", "what": "每颗炸弹的爆炸半径", "unit": "meters", "claimed": null, "packHint": "炸弹爆炸的伤害范围，并确认是否受超新星核爆加成" },
+        { "key": "pathLength", "what": "飞弹飞行路径长度", "unit": "meters", "claimed": null, "packHint": "飞弹的飞行距离" },
+        { "key": "flightTime", "what": "飞弹走完路径所需时间", "unit": "seconds", "claimed": null, "packHint": "飞弹飞行速度或飞行帧数" },
+        { "key": "sameTargetDamagePct", "what": "同一目标被多颗炸弹命中时后续命中的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "多颗炸弹命中同一目标的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "投弹数量或间隔未写",
+        "炸弹伤害数值或比例、伤害类型未写",
+        "炸弹爆炸半径未写",
+        "飞行路径长度和飞行速度未写",
+        "同一目标多颗炸弹命中是否衰减未写",
+        "依赖飞弹命中的小天赋（绝命鲨鱼、核爆充能、超距击退）能否由炸弹触发未写",
+        "与超新星核爆、超距制导、空援充能的交互未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "幻影散射",
+      "text": "强普召唤分身协同：攻击范围+30%；结束或打断时自身缩小，移速+100%",
+      "reading": "二技能核心。鲁班打出强普（强化普攻）时召唤分身一起攻击；同时攻击范围增加30%（“攻击范围”指强普射程、普攻射程还是强普扫射的覆盖范围，是鲁班本体还是分身，原文不能确定）。强普结束或被打断时，鲁班自身缩小（缩小是否影响受击判定、是否有其他效果，原文没写），并获得移速加成100%。原文没有写：分身数量；分身攻击的伤害是与本体强普相同、按比例，还是独立数值，伤害类型和加成属性；分身能否暴击、分身命中能否触发强普命中类小天赋（爆雷充能、核爆充能、跃导星雷）；分身存在时长；攻击范围+30%是加法还是乘法；缩小的比例和持续时间；移速加成的持续时间、是否衰减、是否受移速上限限制。分身协同直接增加强普伤害，列为直接影响；缩小和移速本身不改变伤害。",
+      "mechanisms": ["summon", "skill-change", "area", "mobility"],
+      "damageRelevance": "direct",
+      "trigger": "强化普攻时；强化普攻结束或被打断时",
+      "slots": [
+        { "key": "cloneCount", "what": "强普时召唤的分身数量", "unit": "count", "claimed": null, "packHint": "该核心召唤分身的数量" },
+        { "key": "cloneDamagePct", "what": "分身攻击伤害占本体强普伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "分身攻击是否引用本体强普伤害公式及其比例" },
+        { "key": "cloneBaseDamage", "what": "分身攻击伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "分身攻击伤害基础值" },
+        { "key": "cloneRatio", "what": "分身攻击伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "分身攻击的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "cloneDuration", "what": "分身存在时长", "unit": "seconds", "claimed": null, "packHint": "分身是否与强普同步结束及其存在时长" },
+        { "key": "attackRangeIncreasePct", "what": "攻击范围增加的百分比（作用对象未写）", "unit": "percent", "claimed": { "value": 30, "quote": "攻击范围+30%" }, "packHint": "该核心的攻击范围加成，核对描述的30%（描述值不可靠，需资源包核对），并确认作用于强普射程还是普攻射程、加法还是乘法" },
+        { "key": "baseAttackRange", "what": "原本的攻击范围", "unit": "meters", "claimed": null, "packHint": "强普或普攻的原始射程，用于换算加成后的范围" },
+        { "key": "shrinkScalePct", "what": "缩小后体型占原体型的比例", "unit": "percent", "claimed": null, "packHint": "缩小效果的体型比例及是否影响受击判定" },
+        { "key": "shrinkDuration", "what": "缩小持续时间", "unit": "seconds", "claimed": null, "packHint": "缩小效果的持续时间" },
+        { "key": "moveSpeedBonusPct", "what": "强普结束或被打断时获得的移速加成", "unit": "percent", "claimed": { "value": 100, "quote": "移速+100%" }, "packHint": "该核心的移速加成，核对描述的100%（描述值不可靠，需资源包核对），并确认是否衰减、是否受移速上限限制" },
+        { "key": "moveSpeedDuration", "what": "移速加成持续时间", "unit": "seconds", "claimed": null, "packHint": "移速 buff 的持续时间" }
+      ],
+      "ambiguities": [
+        "分身数量、存在时长未写",
+        "分身伤害数值或比例、伤害类型未写",
+        "分身能否暴击、能否触发强普命中类小天赋未写",
+        "“攻击范围”指强普射程、普攻射程还是扫射覆盖范围未写，是否作用于分身未写",
+        "攻击范围+30%是加法还是乘法未写",
+        "缩小的比例、持续时间和实际作用未写",
+        "移速加成持续时间、是否衰减未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "超维打击",
+      "text": "在飞艇范围内，所有敌人头顶生成强化普攻，持续扫射",
+      "reading": "三技能核心。三技能飞艇的范围内，每个敌人头顶都会生成强化普攻，对其持续扫射（理解为每个敌人各自被一道强普扫射）。原文没有写：飞艇范围半径；扫射持续多久（是否与飞艇存在时间相同）、每秒几段或每段间隔；每段伤害是否引用鲁班强普伤害、比例或独立数值，伤害类型和加成属性；是否受攻速影响；能否暴击；最多同时扫射多少个敌人；敌人离开范围后扫射是否停止；“所有敌人”是否包括首领；扫射命中是否算强普命中，能否触发爆雷充能、核爆充能、跃导星雷；与超新星轰炸（轰炸范围和伤害+30%）、双重空堡（额外飞艇）的交互。",
+      "mechanisms": ["skill-change", "summon", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "三技能飞艇存在期间，敌人处于飞艇范围内时",
+      "slots": [
+        { "key": "airshipRadius", "what": "飞艇范围半径", "unit": "meters", "claimed": null, "packHint": "三技能飞艇的作用范围" },
+        { "key": "sweepDuration", "what": "扫射持续时间", "unit": "seconds", "claimed": null, "packHint": "扫射的持续时间，确认是否与飞艇存在时间相同" },
+        { "key": "hitInterval", "what": "扫射每段伤害的间隔", "unit": "seconds", "claimed": null, "packHint": "扫射的伤害频率（帧数），确认是否受攻速影响" },
+        { "key": "hitDamagePct", "what": "每段扫射伤害占鲁班强普伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "扫射是否引用强普伤害公式及其比例" },
+        { "key": "hitBaseDamage", "what": "每段扫射伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "扫射每段伤害基础值" },
+        { "key": "hitRatio", "what": "每段扫射伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "扫射伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "maxTargets", "what": "最多同时扫射的敌人数", "unit": "count", "claimed": null, "packHint": "该核心同时扫射目标数上限（若有）" }
+      ],
+      "ambiguities": [
+        "飞艇范围半径未写",
+        "扫射持续时间、伤害频率未写，是否受攻速影响未写",
+        "扫射伤害数值或比例、伤害类型未写",
+        "能否暴击未写",
+        "最多目标数未写",
+        "敌人离开范围后是否停止未写",
+        "扫射是否算强普命中、能否触发强普命中类小天赋未写",
+        "与超新星轰炸、双重空堡的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "双重空堡",
+      "text": "额外生成1个飞艇，且会追踪敌方英雄",
+      "reading": "三技能核心。释放三技能时（原文没写时机，按所属三技能理解）额外生成1个飞艇，并且会追踪敌方英雄。“且会追踪敌方英雄”是只有额外飞艇追踪，还是两个飞艇都追踪，原文不能确定。无尽守御中敌方单位多为野怪、挑战怪，是否算“英雄”不明；若没有敌方英雄，飞艇如何移动原文没写。原文没有写：额外飞艇的范围、投弹伤害、持续时间是否与原飞艇相同；追踪的目标选择规则、追踪移动速度；两个飞艇范围重叠时伤害和效果是否叠加（包括三技能小天赋里的“自身处于大招范围内”类效果、空援充能的每次投弹减冷却）。",
+      "mechanisms": ["summon", "skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能时（按所属三技能理解）",
+      "slots": [
+        { "key": "extraAirshipCount", "what": "额外生成的飞艇数量", "unit": "count", "claimed": { "value": 1, "quote": "额外生成1个飞艇" }, "packHint": "该核心额外飞艇的数量，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "extraAirshipDamagePct", "what": "额外飞艇伤害占原飞艇伤害的比例（若不同）", "unit": "percent", "claimed": null, "packHint": "额外飞艇是否完全复制原飞艇的伤害和范围" },
+        { "key": "extraAirshipDuration", "what": "额外飞艇存在时间", "unit": "seconds", "claimed": null, "packHint": "额外飞艇的持续时间，确认是否与原飞艇相同" },
+        { "key": "trackingSearchRange", "what": "追踪敌方英雄的索敌范围", "unit": "meters", "claimed": null, "packHint": "飞艇追踪目标的检测范围和目标选择规则" },
+        { "key": "trackingSpeed", "what": "飞艇追踪移动速度（单位为距离/秒，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "飞艇的移动速度，并确认是否受极速追击加成" }
+      ],
+      "ambiguities": [
+        "只有额外飞艇追踪还是两个飞艇都追踪未写",
+        "无尽守御中敌方单位是否算“英雄”未写，没有敌方英雄时飞艇如何移动未写",
+        "额外飞艇的范围、伤害、持续时间是否与原飞艇相同未写",
+        "追踪目标选择规则、追踪速度未写",
+        "两个飞艇范围重叠时效果是否叠加未写",
+        "生成时机未写，按所属三技能理解"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "双响爆雷",
+      "text": "手雷落地会再次弹跳，并爆炸",
+      "reading": "一技能小天赋。手雷落地后会再弹跳一次并爆炸，即比原本多一次爆炸。“再次弹跳”的次数没有阿拉伯数字，按字面理解为再弹跳一次；原本手雷落地是否已经爆炸一次、“再次”是相对什么而言，原文不能确定。原文没有写：弹跳的距离和方向；弹跳后爆炸的伤害是与原爆炸相同、按比例，还是独立数值；弹跳后爆炸的半径；同一目标被两次爆炸命中时伤害是否衰减；弹跳后爆炸能否触发暴走河豚、河豚剧毒、极限减速等手雷命中类小天赋；选择六芒爆弹时弹跳后爆炸是否也分裂小手雷；能否暴击。",
+      "mechanisms": ["proc", "skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能手雷落地时",
+      "slots": [
+        { "key": "extraBounceCount", "what": "额外弹跳次数（原文“再次弹跳”，没有阿拉伯数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "手雷额外弹跳并爆炸的次数，核对“再次”" },
+        { "key": "bounceDistance", "what": "弹跳距离", "unit": "meters", "claimed": null, "packHint": "手雷弹跳的距离和方向规则" },
+        { "key": "bounceDelay", "what": "落地到弹跳后爆炸的时间", "unit": "seconds", "claimed": null, "packHint": "弹跳过程的帧数" },
+        { "key": "secondExplosionDamagePct", "what": "弹跳后爆炸伤害占原爆炸伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "弹跳后爆炸是否引用原手雷伤害公式及其比例" },
+        { "key": "secondExplosionBaseDamage", "what": "弹跳后爆炸伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "弹跳后爆炸的伤害基础值" },
+        { "key": "secondExplosionRatio", "what": "弹跳后爆炸伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "弹跳后爆炸的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "secondExplosionRadius", "what": "弹跳后爆炸半径", "unit": "meters", "claimed": null, "packHint": "弹跳后爆炸的伤害范围，并确认是否受超新星爆破加成" },
+        { "key": "sameTargetDamagePct", "what": "同一目标被第二次爆炸命中时的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "两次爆炸命中同一目标的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "“再次弹跳”的次数没有阿拉伯数字，需核对",
+        "原本落地是否已爆炸一次未写",
+        "弹跳距离和方向未写",
+        "弹跳后爆炸的伤害数值或比例、半径未写",
+        "同一目标两次命中是否衰减未写",
+        "能否触发手雷命中类小天赋未写",
+        "与六芒爆弹的交互未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "超新星爆破",
+      "text": "爆炸半径+40%",
+      "reading": "一技能小天赋。手雷（按所属一技能理解）的爆炸半径增加40%。原文没有写+40%是在原半径上乘以1.4，还是与其他范围加成相加；是否同时作用于六芒爆弹的小手雷、双响爆雷的弹跳后爆炸、跃导星雷的弹跳手雷。半径变大不改变单次伤害，但能命中更多敌人，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能）",
+      "slots": [
+        { "key": "radiusIncreasePct", "what": "爆炸半径增加的百分比", "unit": "percent", "claimed": { "value": 40, "quote": "爆炸半径+40%" }, "packHint": "该天赋对手雷爆炸半径的加成，核对描述的40%（描述值不可靠，需资源包核对），并确认与其他范围加成的叠加方式" },
+        { "key": "baseRadius", "what": "手雷原始爆炸半径", "unit": "meters", "claimed": null, "packHint": "一技能手雷的原始爆炸半径，用于换算加成后的范围" }
+      ],
+      "ambiguities": [
+        "+40%与其他范围加成的叠加方式未写",
+        "是否作用于小手雷、弹跳后爆炸、弹跳手雷未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "极限减速",
+      "text": "命中敌人附加极限减速效果（可刷新时间）",
+      "reading": "一技能小天赋。一技能（按所属一技能理解）命中敌人后，给敌人附加“极限减速”效果；重复命中时可以刷新减速的持续时间。“极限减速”具体是多大比例的减速、是否随时间衰减，原文没写。原文没有写：减速比例；减速持续时间；是否对首领生效；分裂小手雷、弹跳爆炸命中是否也附加。减速不改变伤害，但能让敌人在手雷、飞艇等范围内停留更久，列为间接影响。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能命中敌人后",
+      "slots": [
+        { "key": "slowPct", "what": "减速比例", "unit": "percent", "claimed": null, "packHint": "“极限减速”的减速数值，确认是否随时间衰减" },
+        { "key": "slowDuration", "what": "减速持续时间", "unit": "seconds", "claimed": null, "packHint": "减速 debuff 的持续时间，确认重复命中只刷新时间不叠加" }
+      ],
+      "ambiguities": [
+        "“极限减速”的减速比例未写",
+        "减速持续时间未写",
+        "减速是否随时间衰减未写",
+        "对首领是否生效未写",
+        "小手雷、弹跳爆炸命中是否附加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "超距爆破",
+      "text": "施放距离+40%",
+      "reading": "一技能小天赋。一技能（按所属一技能理解）的施放距离增加40%。原文没有写+40%是在原距离上乘以1.4，还是与其他加成相加，也没写一技能原本的施放距离。施放距离不改变单次伤害，但能更早、更远地命中敌人，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能）",
+      "slots": [
+        { "key": "castRangeIncreasePct", "what": "施放距离增加的百分比", "unit": "percent", "claimed": { "value": 40, "quote": "施放距离+40%" }, "packHint": "该天赋对一技能施放距离的加成，核对描述的40%（描述值不可靠，需资源包核对）" },
+        { "key": "baseCastRange", "what": "一技能原始施放距离", "unit": "meters", "claimed": null, "packHint": "一技能的原始施放距离，用于换算加成后的距离" }
+      ],
+      "ambiguities": [
+        "+40%与其他加成的叠加方式未写",
+        "一技能原始施放距离未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "暴走河豚",
+      "text": "手雷命中时，自身暴击率和物理吸血+30%，持续3秒（可叠加）",
+      "reading": "一技能小天赋。手雷命中时，鲁班自身的暴击率和物理吸血各增加30%，持续3秒，可以叠加。“+30%”按常见理解是加30个百分点，原文没有明说。原文没有写：叠加层数上限；叠加时是每层独立计时还是刷新全部层数的时间；一次手雷命中多个敌人是叠一层还是每个敌人一层；分裂小手雷、弹跳爆炸、弹跳手雷命中是否算“手雷命中”；有没有内置冷却；暴击率超过100%的部分如何处理。暴击率直接改变伤害期望，列为直接影响。",
+      "mechanisms": ["buff", "stacking", "crit", "lifesteal"],
+      "damageRelevance": "direct",
+      "trigger": "一技能手雷命中时",
+      "slots": [
+        { "key": "critRatePerStack", "what": "每层暴击率加成", "unit": "percent", "claimed": { "value": 30, "quote": "自身暴击率和物理吸血+30%" }, "packHint": "该天赋 buff 每层的暴击率加成，核对描述的30%（描述值不可靠，需资源包核对），并确认是加法还是乘法" },
+        { "key": "lifestealPerStack", "what": "每层物理吸血加成", "unit": "percent", "claimed": { "value": 30, "quote": "自身暴击率和物理吸血+30%" }, "packHint": "该天赋 buff 每层的物理吸血加成，核对描述的30%（描述值不可靠，需资源包核对）" },
+        { "key": "duration", "what": "持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "持续3秒" }, "packHint": "该天赋 buff 的持续时间，核对描述的3秒（描述值不可靠，需资源包核对）" },
+        { "key": "maxStacks", "what": "叠加层数上限", "unit": "count", "claimed": null, "packHint": "该天赋 buff 的最大层数" },
+        { "key": "stacksPerHit", "what": "一次手雷命中多个敌人时获得的层数", "unit": "count", "claimed": null, "packHint": "按命中次数还是命中目标数叠层" },
+        { "key": "internalCooldown", "what": "叠层的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的触发间隔限制" }
+      ],
+      "ambiguities": [
+        "“+30%”是加法还是乘法未写",
+        "叠加层数上限未写",
+        "每层独立计时还是刷新全部层数未写",
+        "一次命中多个敌人叠几层未写",
+        "小手雷、弹跳爆炸、弹跳手雷命中是否算“手雷命中”未写",
+        "内置冷却未写",
+        "暴击率溢出的处理未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "爆雷充能",
+      "text": "强化普攻命中时，一技能当前冷却-10%",
+      "reading": "一技能小天赋。强化普攻命中时，一技能的当前冷却减少10%（“当前冷却”理解为命中时的剩余冷却，原文没有明说是剩余冷却的10%还是总冷却的10%）。原文没有写：一次强普命中多个敌人或多段命中是否多次触发；有没有内置冷却；选择爆雷储能（储存2次）时减少的是哪一次充能的冷却；幻影散射的分身、超维打击的扫射命中是否算强化普攻命中。增加一技能的释放频率，间接提高输出。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "强化普攻命中时",
+      "slots": [
+        { "key": "cooldownReductionPct", "what": "一技能当前冷却减少比例（原文“-10%”，表示减少10%）", "unit": "percent", "claimed": { "value": 10, "quote": "一技能当前冷却-10%" }, "packHint": "该天赋的冷却减少数值，核对描述的10%（描述值不可靠，需资源包核对），并确认按剩余冷却还是总冷却计算" },
+        { "key": "baseCooldown", "what": "一技能原本冷却时间", "unit": "seconds", "claimed": null, "packHint": "一技能的冷却时间" },
+        { "key": "triggersPerEnhancedBasic", "what": "一次强普最多触发的次数（多目标或多段命中是否多次触发未写）", "unit": "count", "claimed": null, "packHint": "冷却减少的触发规则" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发间隔限制" }
+      ],
+      "ambiguities": [
+        "“当前冷却-10%”按剩余冷却还是总冷却计算未写",
+        "多目标或多段命中是否多次触发未写",
+        "内置冷却未写",
+        "与爆雷储能充能机制的交互未写",
+        "分身、扫射命中是否算强化普攻命中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "爆雷储能",
+      "text": "一技能可以储存2次",
+      "reading": "一技能小天赋。一技能可以储存2次（充能），即可以连续释放两次。“储存2次”理解为充能上限为2次，而不是额外增加2次，原文没有明说。原文没有写：每次充能的恢复时间是否等于原冷却；两次释放之间的最小间隔；与爆雷充能的冷却减少如何作用于充能。增加一技能的释放频率，间接提高输出。",
+      "mechanisms": ["charges", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能）",
+      "slots": [
+        { "key": "maxCharges", "what": "一技能最大储存次数", "unit": "count", "claimed": { "value": 2, "quote": "一技能可以储存2次" }, "packHint": "该天赋下一技能的充能上限，核对描述的2次（描述值不可靠，需资源包核对），并确认是上限2次还是额外2次" },
+        { "key": "chargeRechargeTime", "what": "每次充能的恢复时间", "unit": "seconds", "claimed": null, "packHint": "一技能单次充能恢复时间，确认是否与原冷却相同" },
+        { "key": "chargeCastInterval", "what": "两次释放之间的最小间隔", "unit": "seconds", "claimed": null, "packHint": "充能技能连续释放的最小间隔（若有）" }
+      ],
+      "ambiguities": [
+        "“储存2次”是上限2次还是额外2次未明说",
+        "充能恢复时间未写",
+        "连续释放最小间隔未写",
+        "与爆雷充能的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "河豚剧毒",
+      "text": "手雷命中时，降低目标双防，持续3秒",
+      "reading": "一技能小天赋。手雷命中时，降低被命中目标的双防（物理防御和法术防御），持续3秒。原文没有写：降低多少，是固定值还是百分比；物理防御和法术防御降低量是否相同；重复命中是叠加还是刷新持续时间、叠加上限；对首领是否生效；分裂小手雷、弹跳爆炸、弹跳手雷命中是否也触发。降低防御会提高鲁班和队友对该目标的伤害，列为直接影响。",
+      "mechanisms": ["buff", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "一技能手雷命中时",
+      "slots": [
+        { "key": "physDefReduction", "what": "目标物理防御降低量（固定值还是百分比未写，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "该天赋降低物理防御的数值，并确认是固定值还是百分比" },
+        { "key": "magicDefReduction", "what": "目标法术防御降低量（固定值还是百分比未写，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "该天赋降低法术防御的数值，并确认是固定值还是百分比" },
+        { "key": "duration", "what": "降低双防的持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "持续3秒" }, "packHint": "该天赋 debuff 的持续时间，核对描述的3秒（描述值不可靠，需资源包核对）" },
+        { "key": "maxStacks", "what": "叠加层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "该 debuff 是否叠加及最大层数，重复命中是刷新还是叠加" }
+      ],
+      "ambiguities": [
+        "双防降低量及其是固定值还是百分比未写",
+        "重复命中叠加还是刷新未写",
+        "对首领是否生效未写",
+        "小手雷、弹跳爆炸、弹跳手雷命中是否触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "绝命鲨鱼",
+      "text": "二技能斩杀血量低于20%的敌人",
+      "reading": "二技能小天赋。二技能命中血量低于20%的敌人时将其斩杀。“血量低于20%”按通常理解是当前生命低于最大生命的20%，原文没有写基数，也没写是严格低于还是含等于。原文没有写：斩杀是直接击杀还是造成额外伤害；对首领、挑战怪是否生效或有上限；有没有内置冷却；选择轰炸堡垒（飞弹不再直接命中）时炸弹能否触发斩杀；超距制导的额外飞弹能否触发。",
+      "mechanisms": ["execute"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中血量低于20%的敌人时",
+      "slots": [
+        { "key": "executeHpThreshold", "what": "斩杀生效的目标血量比例阈值", "unit": "percent", "claimed": { "value": 20, "quote": "血量低于20%的敌人" }, "packHint": "斩杀判定的血量百分比阈值，核对描述的20%（描述值不可靠，需资源包核对），并确认基数和边界" },
+        { "key": "executeDamageCap", "what": "斩杀伤害上限或对首领的限制（若有）", "unit": "flat", "claimed": null, "packHint": "斩杀是直接击杀还是造成伤害，对首领、挑战怪的限制或上限" },
+        { "key": "internalCooldown", "what": "斩杀的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "斩杀效果的内置冷却" }
+      ],
+      "ambiguities": [
+        "“血量低于20%”的基数和边界未写",
+        "斩杀方式（直接击杀或造成伤害）未写",
+        "对首领、挑战怪是否生效未写",
+        "内置冷却未写",
+        "与轰炸堡垒、超距制导的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "超新星核爆",
+      "text": "飞弹伤害范围+40%",
+      "reading": "二技能小天赋。二技能飞弹的伤害范围增加40%。原文没有写“伤害范围”是爆炸半径还是面积；+40%是乘以1.4还是与其他加成相加；是否作用于轰炸堡垒的炸弹、超距制导的额外飞弹。范围变大不改变单次伤害，但能命中更多敌人，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（二技能）",
+      "slots": [
+        { "key": "damageAreaIncreasePct", "what": "飞弹伤害范围增加的百分比（半径还是面积未写）", "unit": "percent", "claimed": { "value": 40, "quote": "飞弹伤害范围+40%" }, "packHint": "该天赋对飞弹伤害范围的加成，核对描述的40%（描述值不可靠，需资源包核对），并确认加的是半径还是面积" },
+        { "key": "baseDamageRadius", "what": "飞弹原始伤害范围半径", "unit": "meters", "claimed": null, "packHint": "二技能飞弹的原始伤害范围，用于换算加成后的范围" }
+      ],
+      "ambiguities": [
+        "“伤害范围”是半径还是面积未写",
+        "+40%与其他加成的叠加方式未写",
+        "是否作用于轰炸堡垒的炸弹、超距制导的额外飞弹未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "核爆充能",
+      "text": "二技能和强普每次命中时，二技能当前冷却-20%（非英雄-5%）",
+      "reading": "二技能小天赋。二技能和强普每次命中时，二技能的当前冷却减少：命中英雄减少20%，命中非英雄减少5%。“当前冷却”理解为命中时的剩余冷却，原文没有明说是剩余冷却还是总冷却的比例。无尽守御中敌方单位多为野怪、挑战怪，是否算“英雄”不明，若都不算则实际按5%计算。原文没有写：“每次命中”是每命中一个目标算一次还是每段伤害算一次；有没有内置冷却或单次释放的触发上限；幻影散射的分身、超维打击的扫射、轰炸堡垒的炸弹命中是否算。增加二技能的释放频率，间接提高输出。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能或强化普攻每次命中时",
+      "slots": [
+        { "key": "heroHitReductionPct", "what": "命中英雄时二技能当前冷却减少比例（原文“-20%”，表示减少20%）", "unit": "percent", "claimed": { "value": 20, "quote": "二技能当前冷却-20%" }, "packHint": "该天赋命中英雄的冷却减少数值，核对描述的20%（描述值不可靠，需资源包核对），并确认按剩余冷却还是总冷却计算" },
+        { "key": "nonHeroHitReductionPct", "what": "命中非英雄时二技能当前冷却减少比例（原文“-5%”，表示减少5%）", "unit": "percent", "claimed": { "value": 5, "quote": "非英雄-5%" }, "packHint": "该天赋命中非英雄的冷却减少数值，核对描述的5%（描述值不可靠，需资源包核对），并确认无尽守御中哪些单位算英雄" },
+        { "key": "baseCooldown", "what": "二技能原本冷却时间", "unit": "seconds", "claimed": null, "packHint": "二技能的冷却时间" },
+        { "key": "maxTriggersPerCast", "what": "单次二技能或强普最多触发次数（若有上限）", "unit": "count", "claimed": null, "packHint": "冷却减少的触发规则，按命中目标数还是按段数计算" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发间隔限制" }
+      ],
+      "ambiguities": [
+        "“当前冷却”按剩余冷却还是总冷却计算未写",
+        "无尽守御中敌方单位是否算“英雄”未写",
+        "“每次命中”按目标数还是按段数计算未写",
+        "内置冷却或触发上限未写",
+        "分身、扫射、炸弹命中是否算未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "超距制导",
+      "text": "施法时，额外朝最近的敌方英雄施放飞弹（在更大范围内检测）",
+      "reading": "二技能小天赋。释放二技能时，额外朝最近的敌方英雄施放飞弹；寻找目标时在比原施放范围更大的范围内检测。额外飞弹的数量没有写明，按字面可能为一枚。无尽守御中敌方单位多为野怪、挑战怪，是否算“英雄”不明，若只检测英雄，没有敌方英雄时是否还会施放原文没写。原文没有写：检测范围具体多大；额外飞弹的伤害是否与原飞弹相同；同一目标被原飞弹和额外飞弹同时命中时伤害是否衰减；额外飞弹命中能否触发绝命鲨鱼斩杀、核爆充能、超距击退；选择轰炸堡垒时额外飞弹是否也改为投弹；能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "extraMissileCount", "what": "额外施放的飞弹数量（原文没写）", "unit": "count", "claimed": null, "packHint": "该天赋额外飞弹的数量" },
+        { "key": "detectRange", "what": "寻找敌方英雄的检测范围（原文写“更大范围”）", "unit": "meters", "claimed": null, "packHint": "额外飞弹的索敌范围，并与二技能原施放范围对比" },
+        { "key": "extraMissileDamagePct", "what": "额外飞弹伤害占原飞弹伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "额外飞弹是否引用原飞弹伤害公式及其比例" },
+        { "key": "extraMissileBaseDamage", "what": "额外飞弹伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "额外飞弹伤害基础值" },
+        { "key": "extraMissileRatio", "what": "额外飞弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外飞弹伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "sameTargetDamagePct", "what": "同一目标被原飞弹和额外飞弹命中时后续命中的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "多枚飞弹命中同一目标的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "额外飞弹数量未写",
+        "检测范围具体数值未写",
+        "无尽守御中敌方单位是否算“英雄”、没有英雄时是否施放未写",
+        "额外飞弹伤害数值或比例未写",
+        "同一目标多枚飞弹命中是否衰减未写",
+        "能否触发其他飞弹命中类小天赋未写",
+        "与轰炸堡垒的交互未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "双重散射",
+      "text": "施放飞弹后，可连续打出2次强化普攻",
+      "reading": "二技能小天赋。施放飞弹（二技能）后，可以连续打出2次强化普攻。原文没有写原本施放飞弹后是否就会获得强化普攻、原本几次，所以“2次”是总数还是在原本基础上增加，不能确定。原文没有写：获得强普后的可用时限；两次强普之间的最小间隔；第二次强普伤害是否与第一次相同；强普本身的伤害。多打出强普直接增加伤害，列为直接影响。",
+      "mechanisms": ["skill-change", "charges"],
+      "damageRelevance": "direct",
+      "trigger": "施放二技能飞弹后",
+      "slots": [
+        { "key": "enhancedBasicCount", "what": "施放飞弹后可连续打出的强普次数", "unit": "count", "claimed": { "value": 2, "quote": "可连续打出2次强化普攻" }, "packHint": "该天赋下施放飞弹后的强普次数，核对描述的2次（描述值不可靠，需资源包核对），并确认是总数还是额外增加" },
+        { "key": "enhancedBasicWindow", "what": "获得强普后的可用时限", "unit": "seconds", "claimed": null, "packHint": "强普 buff 的持续时间" },
+        { "key": "minInterval", "what": "两次强普之间的最小间隔", "unit": "seconds", "claimed": null, "packHint": "连续强普的出手间隔或动作帧数" },
+        { "key": "secondEnhancedDamagePct", "what": "第二次强普伤害占第一次的比例（若不同）", "unit": "percent", "claimed": null, "packHint": "连续强普的伤害是否相同" }
+      ],
+      "ambiguities": [
+        "原本施放飞弹后是否获得强普、原本几次未写，“2次”是总数还是增加量不能确定",
+        "强普可用时限未写",
+        "两次强普之间的间隔未写",
+        "第二次强普伤害是否相同未写",
+        "强普本身的伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "疯狂鲨鱼",
+      "text": "施放飞弹后，攻击速度和物理吸血+当前的30%，持续3秒",
+      "reading": "二技能小天赋。施放飞弹（二技能）后，攻击速度和物理吸血增加“当前的30%”，持续3秒。“+当前的30%”字面理解为按施放时当前攻速和当前物理吸血的30%增加（即乘以1.3），而不是加30个百分点；“当前”取施放瞬间的数值还是持续期间动态计算、攻速的“当前”指攻速加成百分比还是实际攻速，原文不能确定。原文没有写：重复施放是刷新还是叠加；是否受攻速上限限制。攻速提高间接增加输出。",
+      "mechanisms": ["buff", "lifesteal"],
+      "damageRelevance": "indirect",
+      "trigger": "施放二技能飞弹后",
+      "slots": [
+        { "key": "attackSpeedBonusPct", "what": "攻击速度按当前值增加的比例", "unit": "percent", "claimed": { "value": 30, "quote": "攻击速度和物理吸血+当前的30%" }, "packHint": "该天赋的攻速加成方式和数值，核对描述的“当前的30%”（描述值不可靠，需资源包核对），并确认是乘以当前值还是加百分点" },
+        { "key": "lifestealBonusPct", "what": "物理吸血按当前值增加的比例", "unit": "percent", "claimed": { "value": 30, "quote": "攻击速度和物理吸血+当前的30%" }, "packHint": "该天赋的物理吸血加成方式和数值，核对描述的“当前的30%”（描述值不可靠，需资源包核对）" },
+        { "key": "duration", "what": "持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "持续3秒" }, "packHint": "该天赋 buff 的持续时间，核对描述的3秒（描述值不可靠，需资源包核对）" },
+        { "key": "maxStacks", "what": "叠加层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "重复施放时 buff 刷新还是叠加及最大层数" }
+      ],
+      "ambiguities": [
+        "“+当前的30%”是乘以当前值还是加百分点未明说",
+        "“当前”取施放瞬间快照还是动态计算未写",
+        "攻速的“当前”指攻速加成还是实际攻速未写",
+        "重复施放刷新还是叠加未写",
+        "是否受攻速上限限制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "霸蛋",
+      "text": "强化普攻不会被控制技能打断",
+      "reading": "二技能小天赋。鲁班打出强化普攻期间，受到控制技能时不会被打断。原文没有写：控制效果本身是否仍生效（例如被眩晕但强普继续，还是完全免疫控制）；是否包括击飞、位移等所有控制类型；是否同时有减伤。不改变伤害数值，但能保证强普打满，间接影响输出；若无尽守御中敌人控制很少，影响也较小。",
+      "mechanisms": ["control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "强化普攻期间",
+      "slots": [
+        { "key": "protectedWindow", "what": "强化普攻的持续时长（不被打断的窗口）", "unit": "seconds", "claimed": null, "packHint": "强化普攻的施放帧数，以及霸体状态覆盖的时间段" }
+      ],
+      "ambiguities": [
+        "控制效果本身是否仍生效未写",
+        "覆盖哪些控制类型未写",
+        "是否附带减伤未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "超距击退",
+      "text": "飞弹远程命中时，附加击退效果",
+      "reading": "二技能小天赋。飞弹在“远程”命中时附加击退效果；“远程命中”理解为在距离鲁班较远处命中，远近的分界距离原文没写。原文没有写：击退距离和方向、击退控制时长；对首领是否生效；选择轰炸堡垒（飞弹不再直接命中）时是否还能触发；超距制导的额外飞弹是否也附加。击退不改变伤害，可能把敌人推离范围技能，也可能拉开距离，列为间接影响。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能飞弹远程命中时",
+      "slots": [
+        { "key": "longRangeThreshold", "what": "算作“远程命中”的距离阈值", "unit": "meters", "claimed": null, "packHint": "远程命中的判定距离" },
+        { "key": "knockbackDistance", "what": "击退距离", "unit": "meters", "claimed": null, "packHint": "击退的距离和方向" },
+        { "key": "knockbackDuration", "what": "击退控制时长", "unit": "seconds", "claimed": null, "packHint": "击退过程的控制时长" }
+      ],
+      "ambiguities": [
+        "“远程命中”的距离阈值未写",
+        "击退距离、方向、时长未写",
+        "对首领是否生效未写",
+        "与轰炸堡垒、超距制导的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "霸予己身",
+      "text": "自身处于大招范围内，每秒获得1层转血护盾，持续4秒（最多2层）",
+      "reading": "三技能小天赋。鲁班自身处于大招（三技能）范围内时，每秒获得1层“转血护盾”，持续4秒，最多2层。“转血护盾”字面理解为会转化为生命的护盾，什么时候转化、转化比例原文没写。“持续4秒”是每层护盾持续4秒，还是整个效果持续4秒，原文不能确定。原文没有写：每层护盾量及其计算属性；获得护盾的间隔“每秒”没有阿拉伯数字；“大招范围”是否等于飞艇范围，选择双重空堡时两个飞艇的范围是否都算。护盾只提高生存，间接影响输出。",
+      "mechanisms": ["shield", "stacking", "heal"],
+      "damageRelevance": "indirect",
+      "trigger": "自身处于三技能范围内时，每秒",
+      "slots": [
+        { "key": "stacksPerTick", "what": "每次获得的护盾层数", "unit": "count", "claimed": { "value": 1, "quote": "每秒获得1层转血护盾" }, "packHint": "每次获得的护盾层数，核对描述的1层（描述值不可靠，需资源包核对）" },
+        { "key": "tickInterval", "what": "获得护盾的间隔（原文“每秒”，没有阿拉伯数字，没有作为 claimed）", "unit": "seconds", "claimed": null, "packHint": "护盾获取的触发间隔，核对“每秒”" },
+        { "key": "shieldPerStack", "what": "每层护盾量基础值", "unit": "flat", "claimed": null, "packHint": "每层转血护盾的基础值" },
+        { "key": "shieldRatio", "what": "每层护盾量加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾按什么属性加成及系数" },
+        { "key": "duration", "what": "护盾持续时间（每层还是整体未写）", "unit": "seconds", "claimed": { "value": 4, "quote": "持续4秒" }, "packHint": "护盾的持续时间，核对描述的4秒（描述值不可靠，需资源包核对），并确认是每层独立计时还是整体计时" },
+        { "key": "maxStacks", "what": "护盾层数上限", "unit": "count", "claimed": { "value": 2, "quote": "最多2层" }, "packHint": "护盾最大层数，核对描述的2层（描述值不可靠，需资源包核对）" },
+        { "key": "convertPct", "what": "护盾转化为生命的比例", "unit": "percent", "claimed": null, "packHint": "转血护盾的转化时机和转化比例" },
+        { "key": "ultimateRadius", "what": "大招范围半径", "unit": "meters", "claimed": null, "packHint": "三技能作用范围，确认是否等于飞艇范围" }
+      ],
+      "ambiguities": [
+        "“转血护盾”的转化时机和比例未写",
+        "“持续4秒”是每层还是整体未写",
+        "每层护盾量及计算属性未写",
+        "“每秒”没有阿拉伯数字，间隔需核对",
+        "“大招范围”是否等于飞艇范围未写",
+        "选择双重空堡时两个飞艇范围是否都算、是否加速获得未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "空投回能",
+      "text": "自身处于大招范围内，每秒持续回复生命",
+      "reading": "三技能小天赋。鲁班自身处于大招（三技能）范围内时，每秒持续回复生命。原文没有写：每次回复多少、按什么属性计算（固定值、最大生命比例或攻击力）；“每秒”没有阿拉伯数字；离开范围后是否立即停止；“大招范围”是否等于飞艇范围，选择双重空堡时两个飞艇重叠是否加倍。只提高生存，间接影响输出。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "自身处于三技能范围内时，每秒",
+      "slots": [
+        { "key": "healPerTick", "what": "每次回复量基础值", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复的生命基础值" },
+        { "key": "healRatio", "what": "回复量加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "回复按什么属性加成及系数" },
+        { "key": "healPctMaxHp", "what": "回复量占最大生命的比例（若按最大生命计算）", "unit": "percent", "claimed": null, "packHint": "回复是否按最大生命百分比计算" },
+        { "key": "tickInterval", "what": "回复间隔（原文“每秒”，没有阿拉伯数字，没有作为 claimed）", "unit": "seconds", "claimed": null, "packHint": "回复的触发间隔，核对“每秒”" },
+        { "key": "ultimateRadius", "what": "大招范围半径", "unit": "meters", "claimed": null, "packHint": "三技能作用范围，确认是否等于飞艇范围" }
+      ],
+      "ambiguities": [
+        "回复量及计算属性未写",
+        "“每秒”没有阿拉伯数字，间隔需核对",
+        "离开范围后是否立即停止未写",
+        "“大招范围”是否等于飞艇范围未写",
+        "选择双重空堡时两个飞艇重叠是否加倍未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "致命武装",
+      "text": "自身处于大招范围内，提升暴击率和双抗",
+      "reading": "三技能小天赋。鲁班自身处于大招（三技能）范围内时，提升暴击率和双抗（物理防御和法术防御）。原文没有写：暴击率提升多少；双抗提升多少、是固定值还是百分比；离开范围后是否保留一段时间；“大招范围”是否等于飞艇范围，选择双重空堡时是否叠加。暴击率直接改变伤害期望，列为直接影响；双抗只提高生存。",
+      "mechanisms": ["buff", "crit", "damage-reduction"],
+      "damageRelevance": "direct",
+      "trigger": "自身处于三技能范围内时",
+      "slots": [
+        { "key": "critRateBonus", "what": "暴击率加成", "unit": "percent", "claimed": null, "packHint": "该天赋的暴击率加成数值" },
+        { "key": "physDefBonus", "what": "物理防御加成（固定值还是百分比未写，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "该天赋的物理防御加成数值，并确认是固定值还是百分比" },
+        { "key": "magicDefBonus", "what": "法术防御加成（固定值还是百分比未写，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "该天赋的法术防御加成数值，并确认是固定值还是百分比" },
+        { "key": "lingerDuration", "what": "离开范围后效果保留时间（若有）", "unit": "seconds", "claimed": null, "packHint": "离开大招范围后 buff 是否保留及时长" },
+        { "key": "ultimateRadius", "what": "大招范围半径", "unit": "meters", "claimed": null, "packHint": "三技能作用范围，确认是否等于飞艇范围" }
+      ],
+      "ambiguities": [
+        "暴击率提升数值未写",
+        "双抗提升数值及其是固定值还是百分比未写",
+        "离开范围后是否保留未写",
+        "“大招范围”是否等于飞艇范围未写",
+        "选择双重空堡时是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "空援充能",
+      "text": "每次投弹造成伤害时，大招当前冷却-10%",
+      "reading": "三技能小天赋。每次投弹造成伤害时，大招（三技能）的当前冷却减少10%（“当前冷却”理解为剩余冷却，原文没有明说是剩余冷却还是总冷却的比例）。原文没有写：“每次投弹造成伤害”是每颗炸弹算一次，还是每命中一个敌人算一次；有没有内置冷却或单次大招的触发上限；大招冷却是在释放时就开始计算还是飞艇结束后才开始（若飞艇结束后才开始，飞艇期间的减少可能无效）；轰炸堡垒（二技能沿路径投弹）的投弹是否也算；空天轰炸的随机投弹、双重空堡额外飞艇的投弹是否算。增加大招释放频率，间接提高输出。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "每次投弹造成伤害时",
+      "slots": [
+        { "key": "cooldownReductionPct", "what": "大招当前冷却减少比例（原文“-10%”，表示减少10%）", "unit": "percent", "claimed": { "value": 10, "quote": "大招当前冷却-10%" }, "packHint": "该天赋的冷却减少数值，核对描述的10%（描述值不可靠，需资源包核对），并确认按剩余冷却还是总冷却计算" },
+        { "key": "baseCooldown", "what": "大招原本冷却时间", "unit": "seconds", "claimed": null, "packHint": "三技能的冷却时间，以及冷却从何时开始计算" },
+        { "key": "maxTriggersPerCast", "what": "单次大招最多触发次数（若有上限）", "unit": "count", "claimed": null, "packHint": "冷却减少的触发规则，按炸弹数还是命中目标数计算" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发间隔限制" }
+      ],
+      "ambiguities": [
+        "“当前冷却”按剩余冷却还是总冷却计算未写",
+        "按每颗炸弹还是每命中一个敌人触发未写",
+        "内置冷却或触发上限未写",
+        "大招冷却开始计算的时间点未写",
+        "轰炸堡垒、空天轰炸、双重空堡的投弹是否算未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "空天轰炸",
+      "text": "在轰炸范围内，随机3个位置，持续投弹",
+      "reading": "三技能小天赋。在大招的轰炸范围内随机选3个位置持续投弹。原文没有写：这是在原有轰炸之外额外投弹，还是改变原有投弹方式；3个位置是一次选定还是会重新随机；持续投弹的时长、每个位置的投弹频率；每颗炸弹的伤害、伤害类型和加成属性；炸弹爆炸半径；同一目标被多颗命中是否衰减；能否暴击；与极限轰炸（投弹频率+50%）、超新星轰炸（范围和伤害+30%）、空援充能的交互。随机落点意味着命中次数需按概率或按目标分布估算。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "三技能轰炸期间",
+      "slots": [
+        { "key": "positionCount", "what": "随机投弹位置数量", "unit": "count", "claimed": { "value": 3, "quote": "随机3个位置" }, "packHint": "该天赋随机投弹位置的数量，核对描述的3个（描述值不可靠，需资源包核对）" },
+        { "key": "bombInterval", "what": "每个位置的投弹间隔", "unit": "seconds", "claimed": null, "packHint": "随机投弹的频率（帧数），确认是否受极限轰炸加成" },
+        { "key": "duration", "what": "持续投弹的时长", "unit": "seconds", "claimed": null, "packHint": "随机投弹的持续时间，确认是否与大招持续时间相同" },
+        { "key": "bombBaseDamage", "what": "每颗炸弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "随机投弹的伤害基础值，确认是否引用大招原投弹伤害" },
+        { "key": "bombRatio", "what": "每颗炸弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "随机投弹的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "bombRadius", "what": "每颗炸弹爆炸半径", "unit": "meters", "claimed": null, "packHint": "随机投弹的爆炸范围" },
+        { "key": "bombingAreaRadius", "what": "轰炸范围半径（随机位置的取值范围）", "unit": "meters", "claimed": null, "packHint": "大招轰炸范围，用于估算随机落点命中概率" }
+      ],
+      "ambiguities": [
+        "额外投弹还是改变原投弹方式未写",
+        "3个位置是否会重新随机未写",
+        "持续时长、投弹频率未写",
+        "炸弹伤害数值、伤害类型未写",
+        "炸弹爆炸半径未写",
+        "同一目标多颗命中是否衰减未写",
+        "能否暴击未写",
+        "与极限轰炸、超新星轰炸、空援充能的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "极限轰炸",
+      "text": "轰炸投弹频率+50%",
+      "reading": "三技能小天赋。大招轰炸的投弹频率提高50%，即同样时间内投下更多炸弹。原文没有写：+50%是每秒投弹数乘以1.5（间隔变为原来的三分之二），还是间隔缩短50%；大招总持续时间是否不变；是否作用于空天轰炸的随机投弹、双重空堡的额外飞艇、超维打击的扫射。投弹更多直接增加伤害，列为直接影响。",
+      "mechanisms": ["proc", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（三技能）",
+      "slots": [
+        { "key": "frequencyIncreasePct", "what": "投弹频率提高的百分比", "unit": "percent", "claimed": { "value": 50, "quote": "轰炸投弹频率+50%" }, "packHint": "该天赋的投弹频率加成，核对描述的50%（描述值不可靠，需资源包核对），并确认是频率乘以1.5还是间隔缩短50%" },
+        { "key": "baseBombInterval", "what": "原本投弹间隔", "unit": "seconds", "claimed": null, "packHint": "三技能原始投弹间隔（帧数）" },
+        { "key": "skillDuration", "what": "大招轰炸持续时间", "unit": "seconds", "claimed": null, "packHint": "三技能轰炸持续时间，确认频率提高后是否不变" }
+      ],
+      "ambiguities": [
+        "+50%是频率乘以1.5还是间隔缩短50%未写",
+        "大招持续时间是否不变未写",
+        "是否作用于空天轰炸、双重空堡、超维打击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "超新星轰炸",
+      "text": "轰炸范围和伤害+30%",
+      "reading": "三技能小天赋。大招轰炸的范围和伤害各增加30%。原文没有写：“范围”是轰炸区域半径、每颗炸弹爆炸半径还是面积；伤害+30%是乘以1.3还是与其他增伤相加；是否作用于空天轰炸的随机投弹、双重空堡的额外飞艇、超维打击的扫射；范围变大是否同时扩大三技能小天赋里的“大招范围”。伤害加成直接改变伤害。",
+      "mechanisms": ["area", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（三技能）",
+      "slots": [
+        { "key": "areaIncreasePct", "what": "轰炸范围增加的百分比（半径还是面积未写）", "unit": "percent", "claimed": { "value": 30, "quote": "轰炸范围和伤害+30%" }, "packHint": "该天赋的轰炸范围加成，核对描述的30%（描述值不可靠，需资源包核对），并确认加的是哪个范围、半径还是面积" },
+        { "key": "damageIncreasePct", "what": "轰炸伤害增加的百分比", "unit": "percent", "claimed": { "value": 30, "quote": "轰炸范围和伤害+30%" }, "packHint": "该天赋的轰炸伤害加成，核对描述的30%（描述值不可靠，需资源包核对），并确认乘法还是加法叠加" },
+        { "key": "baseRadius", "what": "原本轰炸范围半径", "unit": "meters", "claimed": null, "packHint": "三技能原始轰炸范围，用于换算加成后的范围" }
+      ],
+      "ambiguities": [
+        "“范围”指轰炸区域还是每颗炸弹半径、半径还是面积未写",
+        "伤害+30%的叠加方式未写",
+        "是否作用于空天轰炸、双重空堡、超维打击未写",
+        "是否同时扩大“大招范围”类小天赋的判定未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "极速追击",
+      "text": "飞艇和鲁班自身移动速度永久加快30%",
+      "reading": "三技能小天赋。飞艇和鲁班自身的移动速度都永久加快30%。“永久”理解为选择该天赋后常驻，不只在大招期间。原文没有写：+30%是加法移速加成还是乘以1.3；是否受移速上限限制；飞艇如何移动（跟随鲁班、追踪敌人还是由玩家控制），选择双重空堡时额外飞艇是否也加速。鲁班移速不改变伤害；飞艇移速影响轰炸范围能否跟住敌人，列为间接影响。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "heroMoveSpeedPct", "what": "鲁班自身移动速度加成", "unit": "percent", "claimed": { "value": 30, "quote": "移动速度永久加快30%" }, "packHint": "该天赋对鲁班的移速加成，核对描述的30%（描述值不可靠，需资源包核对），并确认加法还是乘法" },
+        { "key": "airshipMoveSpeedPct", "what": "飞艇移动速度加成", "unit": "percent", "claimed": { "value": 30, "quote": "移动速度永久加快30%" }, "packHint": "该天赋对飞艇的移速加成，核对描述的30%（描述值不可靠，需资源包核对）" },
+        { "key": "airshipBaseSpeed", "what": "飞艇原本移动速度（单位为距离/秒，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "三技能飞艇的移动速度和移动方式" }
+      ],
+      "ambiguities": [
+        "+30%是加法还是乘法未写",
+        "是否受移速上限限制未写",
+        "飞艇的移动方式未写",
+        "双重空堡的额外飞艇是否也加速未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

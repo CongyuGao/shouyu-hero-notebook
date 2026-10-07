@@ -1,0 +1,735 @@
+{
+  "heroId": "170",
+  "heroName": "刘备",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "双龙出海",
+      "text": "强普变为发射三颗爆弹",
+      "reading": "一技能的强化普攻（强普）改为一次发射三颗爆弹。原文只写了改成三颗，没写原本强普发射几颗、原本是否就是爆弹，也没写三颗爆弹的发射方向或夹角、每颗爆弹的伤害，以及同一目标能否同时被几颗爆弹命中。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能强普发射时",
+      "slots": [
+        { "key": "boltCount", "what": "每次强普发射的爆弹数量（原文写汉字“三颗”，校验只认阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "该核心下强普的爆弹数量字段，需资源包核对原文所写的三颗" },
+        { "key": "boltBaseDamage", "what": "每颗爆弹的基础伤害", "unit": "flat", "claimed": null, "packHint": "该核心下每颗爆弹的基础伤害数值" },
+        { "key": "boltDamageRatio", "what": "每颗爆弹的属性加成系数（按哪项属性加成原文未写）", "unit": "ratio", "claimed": null, "packHint": "每颗爆弹伤害的加成系数、加成属性（物理攻击或其他）和伤害类型" },
+        { "key": "boltSpreadAngle", "what": "三颗爆弹之间的夹角（角度，单位为度）", "unit": "flat", "claimed": null, "packHint": "该核心下爆弹的散布角度或发射方向配置" },
+        { "key": "maxBoltsPerTarget", "what": "一次强普中同一目标最多被几颗爆弹命中", "unit": "count", "claimed": null, "packHint": "爆弹对同一目标的命中判定规则（是否可多颗叠加命中）" }
+      ],
+      "ambiguities": [
+        "原文没写原本强普发射几颗、原本是否就是爆弹",
+        "每颗爆弹的基础伤害、加成系数、加成属性和伤害类型未写",
+        "三颗爆弹的夹角或发射方向未写",
+        "同一目标能否同时被多颗爆弹命中未写",
+        "每颗爆弹的伤害是否与原来单次强普相同未写",
+        "爆弹主体伤害能否暴击未写",
+        "“三颗”是汉字数字，claimed 留空，数量写在 boltCount 的 what 里"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "连环爆弹",
+      "text": "3秒内持续强普",
+      "reading": "在3秒时间内持续进行强化普攻（强普）。原文没写这3秒从什么时候开始算（按该核心属于一技能理解为释放一技能后），也没写这段时间里是自动连续射击还是每次普攻都变为强普、强普的间隔和总次数，以及每次强普的伤害是否和单次强普相同。",
+      "mechanisms": ["skill-change", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "一技能释放后（原文只写“3秒内”，起算时机未写明）",
+      "slots": [
+        { "key": "windowDuration", "what": "持续强普的时间窗口", "unit": "seconds", "claimed": { "value": 3, "quote": "3秒内" }, "packHint": "持续强普状态的持续时间，需资源包核对描述的3秒" },
+        { "key": "enhancedAttackInterval", "what": "持续强普期间两次强普之间的间隔", "unit": "seconds", "claimed": null, "packHint": "持续强普的射击间隔，以及该间隔是否受攻速影响" },
+        { "key": "maxEnhancedAttacks", "what": "时间窗口内最多强普次数", "unit": "count", "claimed": null, "packHint": "持续强普的次数上限（如果有）" },
+        { "key": "enhancedBaseDamage", "what": "持续强普期间每次强普的基础伤害", "unit": "flat", "claimed": null, "packHint": "该核心下每次强普的基础伤害数值" },
+        { "key": "enhancedDamageRatio", "what": "持续强普期间每次强普的属性加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "该核心下每次强普的加成系数、加成属性和伤害类型" }
+      ],
+      "ambiguities": [
+        "3秒的起算时机未写",
+        "是自动连续射击还是每次手动普攻都变为强普未写",
+        "强普间隔、是否受攻速影响、总次数上限未写",
+        "每次强普的伤害、加成属性和伤害类型未写，是否与单次强普相同未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "仁者无敌",
+      "text": "获得巨额护盾，且技能命中伤害和范围大幅提升",
+      "reading": "获得一个“巨额”护盾，同时技能命中时的伤害和范围“大幅”提升。原文没写触发时机（按该核心属于二技能理解为释放二技能时），没写护盾数值、护盾持续时间，没写伤害和范围各提升多少，也没写“技能”只指二技能还是所有技能。",
+      "mechanisms": ["shield", "damage-amp", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能释放时（原文未写触发时机，按该核心属于二技能理解）",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾基础值（原文只写“巨额”）", "unit": "flat", "claimed": null, "packHint": "该核心护盾的基础数值" },
+        { "key": "shieldRatio", "what": "护盾值的属性加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "该核心护盾按哪项属性加成及其系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心护盾的持续时间" },
+        { "key": "hitDamageIncrease", "what": "技能命中伤害提升幅度（原文只写“大幅提升”）", "unit": "percent", "claimed": null, "packHint": "该核心下技能命中伤害的提升比例，或替换后的伤害系数" },
+        { "key": "hitRangeIncrease", "what": "技能范围提升幅度（原文只写“大幅提升”，没写是百分比还是固定距离；如果资源包是固定距离，改为 meters）", "unit": "percent", "claimed": null, "packHint": "该核心下技能命中范围的提升量或替换后的范围" }
+      ],
+      "ambiguities": [
+        "触发时机未写",
+        "护盾数值、加成属性和持续时间未写（原文只写“巨额”）",
+        "伤害提升幅度未写（原文只写“大幅”）",
+        "范围提升幅度未写，是百分比还是固定距离也未写",
+        "“技能”是只指二技能还是所有技能未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "飞一般的感觉",
+      "text": "位移变为长距离凌空抽射",
+      "reading": "二技能的位移改为长距离的“凌空抽射”。原文只写了位移距离变长、形式变成凌空抽射，没写具体距离。“抽射”字面带射击含义，但原文没有明确写这次抽射是否造成伤害、伤害多少、有没有作用范围或控制效果，也没写凌空期间能否被选中。",
+      "mechanisms": ["skill-change", "mobility"],
+      "damageRelevance": "direct",
+      "trigger": "二技能释放时",
+      "slots": [
+        { "key": "dashDistance", "what": "凌空抽射的位移距离（原文只写“长距离”）", "unit": "meters", "claimed": null, "packHint": "该核心下二技能的位移距离" },
+        { "key": "airborneDuration", "what": "凌空阶段的持续时间", "unit": "seconds", "claimed": null, "packHint": "凌空抽射从起跳到落地的时长或帧数" },
+        { "key": "shotBaseDamage", "what": "凌空抽射的基础伤害（原文没写是否有伤害）", "unit": "flat", "claimed": null, "packHint": "凌空抽射是否附带伤害；如有，基础伤害数值" },
+        { "key": "shotDamageRatio", "what": "凌空抽射的属性加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "凌空抽射伤害的加成系数、加成属性和伤害类型" },
+        { "key": "shotRadius", "what": "凌空抽射的伤害范围", "unit": "meters", "claimed": null, "packHint": "凌空抽射的命中范围或弹道宽度" }
+      ],
+      "ambiguities": [
+        "位移距离未写（原文只写“长距离”）",
+        "凌空抽射是否造成伤害、伤害数值和加成属性未写；如果资源包显示它不造成伤害，只改变位移，damageRelevance 应改为 indirect",
+        "伤害范围、是否有控制效果未写",
+        "凌空阶段时长、期间能否被选中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "仁德济世",
+      "text": "额外散射弹丸，大招期间自动普攻，子弹可穿透，攻速转攻击",
+      "reading": "包含四个效果：一是额外散射出弹丸；二是大招期间自动进行普攻；三是子弹可以穿透目标；四是攻速转化为攻击力。原文没写额外弹丸的数量和伤害，没写散射弹丸、穿透、攻速转攻击是只在大招期间生效还是常驻，没写自动普攻的频率是否按攻速，没写穿透能打几个目标、穿透后伤害是否衰减，也没写攻速转攻击的转换比例、是否有上限、转换后原攻速是否保留。",
+      "mechanisms": ["skill-change", "area", "conversion"],
+      "damageRelevance": "direct",
+      "trigger": "大招期间（自动普攻）；散射弹丸、穿透、攻速转攻击的生效时段原文未写明",
+      "slots": [
+        { "key": "extraPelletCount", "what": "额外散射的弹丸数量", "unit": "count", "claimed": null, "packHint": "该核心下每次普攻额外散射的弹丸数" },
+        { "key": "extraPelletDamageRatio", "what": "额外弹丸伤害相对普通弹丸的比例", "unit": "ratio", "claimed": null, "packHint": "额外散射弹丸的伤害系数，是否与普通弹丸相同" },
+        { "key": "extraPelletSpreadAngle", "what": "额外散射弹丸的夹角（角度，单位为度）", "unit": "flat", "claimed": null, "packHint": "额外散射弹丸的散布角度" },
+        { "key": "autoAttackInterval", "what": "大招期间自动普攻的间隔（是否按攻速计算原文未写）", "unit": "seconds", "claimed": null, "packHint": "大招期间自动普攻的触发间隔及其与攻速的关系" },
+        { "key": "pierceMaxTargets", "what": "子弹穿透最多命中的目标数", "unit": "count", "claimed": null, "packHint": "子弹穿透的目标数上限（如果有）" },
+        { "key": "pierceFalloff", "what": "穿透后对后续目标的伤害衰减", "unit": "percent", "claimed": null, "packHint": "穿透子弹对第二个及之后目标的伤害比例" },
+        { "key": "atkPerAttackSpeed", "what": "攻速转攻击的转换比例：每1%攻速转为多少点攻击力", "unit": "flat", "claimed": null, "packHint": "攻速转攻击的转换系数，以及转换的是全部攻速还是超出部分" },
+        { "key": "conversionCap", "what": "攻速转攻击获得的攻击力上限", "unit": "flat", "claimed": null, "packHint": "攻速转攻击的上限（如果有）" }
+      ],
+      "ambiguities": [
+        "额外弹丸数量、伤害和夹角未写",
+        "散射弹丸、子弹穿透、攻速转攻击是只在大招期间还是常驻生效未写",
+        "大招期间自动普攻的间隔、是否按攻速计算未写",
+        "穿透目标数上限、穿透后伤害是否衰减未写",
+        "攻速转攻击的转换比例、上限、转换的是全部还是部分攻速、转换后攻速是否保留未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "先扫一屋",
+      "text": "弹丸夹角变小，大招期间普攻变为二连",
+      "reading": "弹丸之间的夹角变小（散布更集中）；大招期间普攻变为二连（一次普攻打出两次）。原文没写夹角缩小多少、夹角变小是常驻还是只在大招期间，没写二连两次之间的间隔、第二次的伤害是否与第一次相同，以及二连是否占用两次普攻的时间。",
+      "mechanisms": ["area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "夹角变小：原文未写生效时段；普攻二连：大招期间",
+      "slots": [
+        { "key": "pelletSpreadAngle", "what": "缩小后的弹丸夹角或缩小幅度（角度，单位为度）", "unit": "flat", "claimed": null, "packHint": "该核心下弹丸散布角度，与默认角度对比" },
+        { "key": "shotsPerAttack", "what": "大招期间每次普攻的射击次数（原文写汉字“二连”，校验只认阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "大招期间普攻连发次数，需资源包核对原文所写的二连" },
+        { "key": "secondShotDamageRatio", "what": "二连第二次射击相对第一次的伤害比例", "unit": "ratio", "claimed": null, "packHint": "二连第二发的伤害系数" },
+        { "key": "doubleShotGap", "what": "二连两次射击之间的间隔", "unit": "seconds", "claimed": null, "packHint": "二连两发之间的时间或帧数，以及二连是否延长普攻间隔" }
+      ],
+      "ambiguities": [
+        "夹角缩小多少未写",
+        "夹角变小是常驻还是只在大招期间未写",
+        "二连两次之间的间隔、第二次伤害是否与第一次相同未写",
+        "二连是否占用两次普攻的时间未写",
+        "“二连”是汉字数字，claimed 留空，次数写在 shotsPerAttack 的 what 里"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "煮酒论英雄",
+      "text": "爆弹触发雷暴",
+      "reading": "爆弹会触发雷暴。原文没写触发条件（爆弹命中时、爆炸时，还是按概率），没写雷暴的伤害数值、伤害类型、作用范围、打几段，也没写有没有冷却。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "爆弹触发时（原文未写是命中还是爆炸时）",
+      "slots": [
+        { "key": "thunderBaseDamage", "what": "雷暴每段的基础伤害", "unit": "flat", "claimed": null, "packHint": "雷暴伤害的基础数值" },
+        { "key": "thunderDamageRatio", "what": "雷暴每段的属性加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "雷暴伤害的加成系数、加成属性和伤害类型" },
+        { "key": "thunderRadius", "what": "雷暴作用半径", "unit": "meters", "claimed": null, "packHint": "雷暴的作用范围" },
+        { "key": "thunderHitCount", "what": "雷暴打几段", "unit": "count", "claimed": null, "packHint": "雷暴的伤害段数和段间间隔" },
+        { "key": "procChance", "what": "爆弹触发雷暴的概率", "unit": "percent", "claimed": null, "packHint": "雷暴的触发概率（是否必定触发）" },
+        { "key": "internalCooldown", "what": "雷暴的内置冷却", "unit": "seconds", "claimed": null, "packHint": "雷暴触发的冷却时间（如果有）" },
+        { "key": "canCrit", "what": "雷暴伤害能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "雷暴伤害的可暴击标记" }
+      ],
+      "ambiguities": [
+        "触发条件未写（命中、爆炸还是概率触发）",
+        "雷暴伤害数值、加成属性和伤害类型未写",
+        "雷暴范围、段数未写",
+        "是否有冷却未写",
+        "能否暴击未写",
+        "多颗爆弹（如核心“双龙出海”）是否各自触发雷暴未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "储备弹药",
+      "text": "强普获得额外使用机会",
+      "reading": "一技能强普获得额外的使用机会，也就是能多用几次强普。原文没写额外几次，没写是充能形式还是释放后的追加机会，没写额外机会有没有时限，也没写与核心“连环爆弹”同时选择时怎么算。",
+      "mechanisms": ["charges"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能强普使用时",
+      "slots": [
+        { "key": "extraUses", "what": "额外使用次数", "unit": "count", "claimed": null, "packHint": "该天赋给强普增加的使用次数" },
+        { "key": "rechargeTime", "what": "额外使用机会的充能或恢复时间", "unit": "seconds", "claimed": null, "packHint": "额外强普机会的恢复方式和时间（是否跟随一技能冷却）" },
+        { "key": "extraUseWindow", "what": "额外使用机会的可用时限", "unit": "seconds", "claimed": null, "packHint": "额外强普机会在多长时间内不用就失效（如果有）" }
+      ],
+      "ambiguities": [
+        "额外几次未写",
+        "是充能形式还是追加机会未写，恢复时间未写",
+        "额外机会有没有时限未写",
+        "与核心“连环爆弹”同时生效时怎么计算未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "高爆弹药",
+      "text": "溅射伤害可暴击",
+      "reading": "溅射伤害可以暴击。原文没写是哪种攻击的溅射（按所属一技能理解为爆弹的溅射），没写暴击率是否用自身暴击率、暴击伤害倍率是否与普攻相同；字面上意味着不选该天赋时溅射伤害不能暴击，但原文没有明说。",
+      "mechanisms": ["crit"],
+      "damageRelevance": "direct",
+      "trigger": "溅射伤害结算时",
+      "slots": [
+        { "key": "splashCritChance", "what": "溅射伤害使用的暴击率（是否等于自身暴击率）", "unit": "percent", "claimed": null, "packHint": "溅射伤害暴击判定使用的暴击率来源" },
+        { "key": "splashCritMultiplier", "what": "溅射伤害暴击时的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "溅射暴击的伤害倍率，是否等于自身暴击效果" },
+        { "key": "splashDamageRatio", "what": "溅射伤害相对主伤害的比例或系数（计算该天赋收益需要，原文未写）", "unit": "ratio", "claimed": null, "packHint": "爆弹溅射伤害的系数" },
+        { "key": "splashRadius", "what": "溅射范围", "unit": "meters", "claimed": null, "packHint": "爆弹溅射的半径" }
+      ],
+      "ambiguities": [
+        "溅射来自哪种攻击未写",
+        "暴击率来源和暴击伤害倍率未写",
+        "不选该天赋时溅射是否完全不能暴击未写",
+        "溅射伤害本身的系数和范围未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "肾上腺素",
+      "text": "爆弹每命中一个目标，获得一次回复",
+      "reading": "爆弹每命中一个目标，刘备获得一次回复。原文只写“回复”，没写回复的是生命值还是其他资源，也没写回复量、一次爆弹最多计几个目标、对小兵和野怪是否同样生效。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "爆弹每命中一个目标",
+      "slots": [
+        { "key": "healBase", "what": "每次回复的基础量", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复的基础数值和回复的资源种类" },
+        { "key": "healRatio", "what": "每次回复的属性加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "回复量按哪项属性加成及其系数" },
+        { "key": "maxTargetsCounted", "what": "一次爆弹最多计入回复的目标数", "unit": "count", "claimed": null, "packHint": "单次爆弹触发回复的目标数上限（如果有）" },
+        { "key": "internalCooldown", "what": "回复的内置冷却", "unit": "seconds", "claimed": null, "packHint": "回复触发的冷却时间（如果有）" }
+      ],
+      "ambiguities": [
+        "回复的是生命值还是其他资源未写",
+        "回复量和加成属性未写",
+        "一次爆弹最多计几个目标、有无冷却未写",
+        "对小兵、野怪是否同样生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "极速步枪",
+      "text": "释放技能后获得攻速提升",
+      "reading": "释放技能后获得攻速提升。原文没写“技能”是只指一技能还是任意技能，没写攻速提升多少、持续多久、能否叠加。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "释放技能后（原文未写是哪个技能）",
+      "slots": [
+        { "key": "attackSpeedBonus", "what": "攻速提升数值", "unit": "percent", "claimed": null, "packHint": "该天赋 buff 的攻速加成数值" },
+        { "key": "duration", "what": "攻速提升持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的持续时间" },
+        { "key": "maxStacks", "what": "攻速提升的层数上限", "unit": "count", "claimed": null, "packHint": "该天赋 buff 是否可叠加及最大层数" }
+      ],
+      "ambiguities": [
+        "触发技能是只指一技能还是任意技能未写",
+        "攻速提升数值未写",
+        "持续时间未写",
+        "能否叠加、重复触发是否刷新未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "速效弹药",
+      "text": "爆弹每命中一个目标，减少一技能冷却",
+      "reading": "爆弹每命中一个目标，减少一技能的冷却。原文没写每个目标减少多少（固定秒数还是百分比），没写一次爆弹最多计几个目标，也没写有没有总上限。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "爆弹每命中一个目标",
+      "slots": [
+        { "key": "cdReductionPerTarget", "what": "每命中一个目标减少的一技能冷却（原文未写是固定秒数还是百分比；如果资源包是百分比，改为 percent）", "unit": "seconds", "claimed": null, "packHint": "该天赋每个目标减少的冷却数值及其形式" },
+        { "key": "maxTargetsCounted", "what": "一次爆弹最多计入减冷却的目标数", "unit": "count", "claimed": null, "packHint": "单次爆弹减冷却的目标数上限（如果有）" }
+      ],
+      "ambiguities": [
+        "每个目标减少多少冷却未写，是固定秒数还是百分比未写",
+        "一次爆弹最多计几个目标、有无总上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "穿甲弹药",
+      "text": "爆弹附带真伤",
+      "reading": "爆弹附带真实伤害。原文没写真伤数值和加成属性，没写是额外附加一段真伤还是把爆弹的部分伤害转为真伤，也没写溅射部分是否同样附带。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "爆弹命中时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "附带真伤的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋真伤的基础数值" },
+        { "key": "trueDamageRatio", "what": "附带真伤的属性加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋真伤的加成系数和加成属性" },
+        { "key": "trueDamageShare", "what": "如果是把爆弹部分伤害转为真伤，转换的比例", "unit": "percent", "claimed": null, "packHint": "确认真伤是额外附加还是由原伤害转换；如为转换，转换比例" },
+        { "key": "canCrit", "what": "附带真伤能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "该天赋真伤的可暴击标记" }
+      ],
+      "ambiguities": [
+        "真伤数值和加成属性未写",
+        "是额外附加一段真伤还是转换部分伤害未写",
+        "溅射部分是否也附带真伤未写",
+        "真伤能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "穿上草鞋",
+      "text": "移速加成提升",
+      "reading": "已有的移速加成提高。原文没写是哪个移速加成（按所属一技能理解为一技能带来的移速加成），也没写提升多少、持续多久。移速不进入伤害计算。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "获得移速加成时（原文未写加成来源）",
+      "slots": [
+        { "key": "moveSpeedBonusIncrease", "what": "移速加成的提升幅度", "unit": "percent", "claimed": null, "packHint": "该天赋对移速加成的提升数值" },
+        { "key": "moveSpeedDuration", "what": "移速加成持续时间", "unit": "seconds", "claimed": null, "packHint": "所提升的移速加成的持续时间" }
+      ],
+      "ambiguities": [
+        "提升的是哪个移速加成未写",
+        "提升幅度未写",
+        "移速加成持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "当头一枪",
+      "text": "位移结束后自动普攻一次",
+      "reading": "二技能位移结束后自动普攻一次。原文没写这次普攻打谁、索敌范围多大，没写它是否享受普攻的全部效果（暴击、弹丸数量、攻击特效），也没写是否重置普攻间隔。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "二技能位移结束后",
+      "slots": [
+        { "key": "autoAttackCount", "what": "位移结束后自动普攻的次数（原文写汉字“一次”，校验只认阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "位移后自动普攻次数，需资源包核对原文所写的一次" },
+        { "key": "autoAttackDamageRatio", "what": "这次自动普攻相对普通普攻的伤害比例", "unit": "ratio", "claimed": null, "packHint": "自动普攻是否等同普通普攻，或其独立伤害系数" },
+        { "key": "targetSearchRange", "what": "自动普攻的索敌范围", "unit": "meters", "claimed": null, "packHint": "自动普攻选取目标的距离" }
+      ],
+      "ambiguities": [
+        "选取哪个目标、索敌范围未写",
+        "是否享受普攻的全部效果（暴击、弹丸数量、攻击特效）未写",
+        "是否重置普攻间隔未写",
+        "“一次”是汉字数字，claimed 留空，次数写在 autoAttackCount 的 what 里"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "一视同仁",
+      "text": "被动提供2%物理穿透",
+      "reading": "被动提供2%物理穿透。原文没写这是固定的2%，还是每层被动提供2%（同属二技能的“宽宏大量”提到被动有层数），也没写被动需要满足什么条件才生效。",
+      "mechanisms": ["stat"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（通过被动生效）",
+      "slots": [
+        { "key": "physPenPct", "what": "物理穿透百分比（原文未写是固定值还是每层被动提供）", "unit": "percent", "claimed": { "value": 2, "quote": "2%物理穿透" }, "packHint": "被动提供的物理穿透百分比，需资源包核对描述的2%，并确认是否按被动层数计算" }
+      ],
+      "ambiguities": [
+        "是固定2%还是每层被动2%未写",
+        "被动生效条件未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "满腔热血",
+      "text": "提供吸血，持续3秒",
+      "reading": "提供吸血效果，持续3秒。原文没写触发时机（按所属二技能理解为释放二技能后），没写吸血比例，也没写吸血对普攻和技能伤害是否都生效。",
+      "mechanisms": ["lifesteal", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能释放后（原文未写触发时机）",
+      "slots": [
+        { "key": "lifestealPct", "what": "吸血比例", "unit": "percent", "claimed": null, "packHint": "该天赋 buff 的吸血比例" },
+        { "key": "duration", "what": "吸血持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "持续3秒" }, "packHint": "吸血 buff 持续时间，需资源包核对描述的3秒" }
+      ],
+      "ambiguities": [
+        "触发时机未写",
+        "吸血比例未写",
+        "吸血对普攻和技能伤害是否都生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "肝胆相照",
+      "text": "被动提供双抗",
+      "reading": "被动提供双抗（物理防御和法术防御）。原文没写数值，也没写是固定值还是按被动层数计算。",
+      "mechanisms": ["stat", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（通过被动生效）",
+      "slots": [
+        { "key": "armorBonus", "what": "物理防御加成", "unit": "flat", "claimed": null, "packHint": "被动提供的物理防御数值，以及是否按层数计算" },
+        { "key": "magicResistBonus", "what": "法术防御加成", "unit": "flat", "claimed": null, "packHint": "被动提供的法术防御数值，以及是否按层数计算" }
+      ],
+      "ambiguities": [
+        "物理防御和法术防御的数值未写",
+        "是固定值还是按被动层数计算未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "夫妻同心",
+      "text": "位移后附近有敌方英雄，获得80%衰减移速，2秒内随时间衰减",
+      "reading": "二技能位移后，如果附近有敌方英雄，获得80%的移速加成，这个加成在2秒内随时间衰减。原文没写“附近”的范围，没写衰减到0还是某个值、衰减是否线性，没写有没有冷却，也没写守御模式中哪些单位算“敌方英雄”。移速不进入伤害计算。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "二技能位移后附近有敌方英雄时",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "初始移速加成", "unit": "percent", "claimed": { "value": 80, "quote": "获得80%衰减移速" }, "packHint": "该天赋初始移速加成，需资源包核对描述的80%" },
+        { "key": "decayDuration", "what": "移速衰减的总时长", "unit": "seconds", "claimed": { "value": 2, "quote": "2秒内随时间衰减" }, "packHint": "移速 buff 的衰减时长，需资源包核对描述的2秒" },
+        { "key": "detectRadius", "what": "判定“附近有敌方英雄”的范围", "unit": "meters", "claimed": null, "packHint": "检测敌方英雄的半径" },
+        { "key": "internalCooldown", "what": "触发的内置冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋触发的冷却时间（如果有）" }
+      ],
+      "ambiguities": [
+        "“附近”的范围未写",
+        "衰减到0还是某个值、衰减曲线未写",
+        "是否有冷却未写",
+        "守御模式中哪些单位算“敌方英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "紧急避险",
+      "text": "未命中敌人时返回30%当前冷却",
+      "reading": "二技能未命中敌人时，返还30%的当前冷却。原文没写“当前冷却”是指释放后的剩余冷却还是该技能的完整冷却时间，也没写“未命中”的判定方式（例如整个技能没有打到任何敌人）。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能未命中敌人时",
+      "slots": [
+        { "key": "cdRefundPct", "what": "返还冷却的比例", "unit": "percent", "claimed": { "value": 30, "quote": "返回30%当前冷却" }, "packHint": "未命中时返还冷却的比例和计算基准，需资源包核对描述的30%" }
+      ],
+      "ambiguities": [
+        "“当前冷却”指剩余冷却还是完整冷却时间未写",
+        "“未命中”的判定方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "快速装填",
+      "text": "每一颗弹丸命中敌人，额外减少二技能",
+      "reading": "每一颗弹丸命中敌人，额外减少二技能。原文在“减少二技能”后就结束了，从上下文看应是减少二技能冷却，但没写“冷却”二字；也没写每颗减少多少、一次攻击最多计几颗、有没有上限。“额外”字面上暗示原本就有一部分减少，原文同样没写。弹丸来自普攻还是哪个技能也没写。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "每一颗弹丸命中敌人时",
+      "slots": [
+        { "key": "cdReductionPerPellet", "what": "每颗弹丸命中额外减少的二技能冷却（原文未写是固定秒数还是百分比；如果资源包是百分比，改为 percent）", "unit": "seconds", "claimed": null, "packHint": "该天赋每颗弹丸减少的二技能冷却数值" },
+        { "key": "baseCdReductionPerPellet", "what": "不选该天赋时每颗弹丸原本减少的二技能冷却（原文“额外”暗示存在，未写数值）", "unit": "seconds", "claimed": null, "packHint": "确认是否存在弹丸命中减二技能冷却的基础机制及其数值" },
+        { "key": "maxPelletsCounted", "what": "一次攻击最多计入的弹丸数", "unit": "count", "claimed": null, "packHint": "单次攻击减冷却的弹丸数上限（如果有）" }
+      ],
+      "ambiguities": [
+        "原文没写“冷却”二字，减少的是不是二技能冷却需确认",
+        "每颗减少多少未写",
+        "“额外”是否意味着原本就有减少、原本减少多少未写",
+        "一次攻击最多计几颗、有无上限未写",
+        "弹丸来源未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "宽宏大量",
+      "text": "被动层数提高至16层",
+      "reading": "被动的层数（理解为层数上限）提高到16层。原文没写原本上限是多少，没写每层效果，也没写层数如何获得和失去。",
+      "mechanisms": ["stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（改变被动）",
+      "slots": [
+        { "key": "maxStacks", "what": "选择该天赋后的被动层数上限", "unit": "count", "claimed": { "value": 16, "quote": "被动层数提高至16层" }, "packHint": "被动层数上限，需资源包核对描述的16层" },
+        { "key": "baseMaxStacks", "what": "不选该天赋时的被动层数上限", "unit": "count", "claimed": null, "packHint": "被动默认层数上限" },
+        { "key": "perStackEffect", "what": "每层被动的效果数值（效果种类原文未写）", "unit": "flat", "claimed": null, "packHint": "被动每层提供的属性种类和数值" },
+        { "key": "stackDuration", "what": "被动层数的持续时间", "unit": "seconds", "claimed": null, "packHint": "被动层数的获得条件、持续时间和衰减方式" }
+      ],
+      "ambiguities": [
+        "“层数提高至16层”理解为层数上限，原文没明说",
+        "原本层数上限未写",
+        "每层效果未写；如果每层提供攻击或穿透，damageRelevance 应改为 direct",
+        "层数的获得条件、持续时间和失去方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "德高望重",
+      "text": "霸体持续时间增加",
+      "reading": "霸体的持续时间增加。原文没写是哪个霸体（按所属三技能理解为大招带来的霸体），没写原本霸体持续多久、增加多少。",
+      "mechanisms": ["control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "大招释放时（原文未写，按所属三技能理解）",
+      "slots": [
+        { "key": "baseSuperArmorDuration", "what": "原本霸体持续时间", "unit": "seconds", "claimed": null, "packHint": "大招霸体的默认持续时间" },
+        { "key": "superArmorIncrease", "what": "霸体持续时间增加量", "unit": "seconds", "claimed": null, "packHint": "该天赋增加的霸体时长" }
+      ],
+      "ambiguities": [
+        "是哪个霸体未写",
+        "原本霸体时长和增加量未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "众望所归",
+      "text": "伤害转盾效率提升100%",
+      "reading": "伤害转为护盾的效率提升100%。原文没写是造成的伤害还是受到的伤害转为护盾（按所属三技能理解为大招相关效果），没写原本转化比例；“提升100%”可以理解为转化比例翻倍，也可能是加100个百分点，原文没细分。护盾上限和持续时间也没写。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间伤害转护盾时（原文未写触发条件）",
+      "slots": [
+        { "key": "efficiencyIncrease", "what": "伤害转盾效率的提升幅度（原文未写是乘算翻倍还是加算）", "unit": "percent", "claimed": { "value": 100, "quote": "效率提升100%" }, "packHint": "该天赋对伤害转盾比例的提升，需资源包核对描述的100%，并确认是乘算还是加算" },
+        { "key": "baseConversionPct", "what": "原本伤害转盾的比例", "unit": "percent", "claimed": null, "packHint": "大招伤害转护盾的默认比例" },
+        { "key": "shieldCap", "what": "伤害转盾的护盾上限", "unit": "flat", "claimed": null, "packHint": "伤害转盾护盾的上限（如果有）" },
+        { "key": "shieldDuration", "what": "转化护盾的持续时间", "unit": "seconds", "claimed": null, "packHint": "伤害转盾护盾的持续时间" }
+      ],
+      "ambiguities": [
+        "是造成的伤害还是受到的伤害转为护盾未写",
+        "原本转化比例未写",
+        "“提升100%”是乘算翻倍还是加100个百分点未写",
+        "护盾上限和持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "声誉日隆",
+      "text": "该技能期间每颗弹丸命中，永久增加大招释放获得的护盾值",
+      "reading": "大招期间每颗弹丸命中，都会永久增加之后释放大招时获得的护盾值。原文没写每颗增加多少、有无上限、对哪些目标计数，没写“永久”是否跨关卡保留，也没写大招原本的护盾值。",
+      "mechanisms": ["shield", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间每颗弹丸命中时",
+      "slots": [
+        { "key": "shieldGainPerPellet", "what": "每颗弹丸命中永久增加的护盾值", "unit": "flat", "claimed": null, "packHint": "该天赋每颗弹丸增加的护盾数值" },
+        { "key": "shieldGainCap", "what": "永久增加护盾值的上限", "unit": "flat", "claimed": null, "packHint": "该天赋累计护盾增加的上限（如果有）" },
+        { "key": "baseUltShield", "what": "大招原本获得的护盾值", "unit": "flat", "claimed": null, "packHint": "大招释放获得护盾的基础数值和加成" }
+      ],
+      "ambiguities": [
+        "每颗增加多少未写",
+        "是否有上限未写",
+        "对小兵、野怪、Boss 是否都计数未写",
+        "“永久”是否跨关卡保留未写",
+        "大招原本护盾值未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "众志成城",
+      "text": "该技能提供的攻击力翻倍",
+      "reading": "大招提供的攻击力翻倍（原文写“翻倍”，字面是变为2倍）。原文没写大招原本提供多少攻击力、是固定值还是百分比，也没写翻倍是否作用于核心“仁德济世”的攻速转攻击。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "direct",
+      "trigger": "大招期间",
+      "slots": [
+        { "key": "ultAttackBonus", "what": "大招原本提供的攻击力（原文未写是固定值还是百分比）", "unit": "flat", "claimed": null, "packHint": "大招提供的攻击力加成数值和形式" },
+        { "key": "attackBonusMultiplier", "what": "攻击力加成倍数（原文写汉字“翻倍”，校验只认阿拉伯数字，所以 claimed 留空）", "unit": "ratio", "claimed": null, "packHint": "该天赋对大招攻击力加成的倍数，需资源包核对原文所写的翻倍" }
+      ],
+      "ambiguities": [
+        "大招原本提供多少攻击力、是固定值还是百分比未写",
+        "翻倍是否作用于核心“仁德济世”的攻速转攻击未写",
+        "“翻倍”没有用阿拉伯数字，claimed 留空，倍数写在 attackBonusMultiplier 的 what 里"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "鞠躬尽瘁",
+      "text": "平时每一颗弹丸命中，减少大招冷却",
+      "reading": "不在大招期间（“平时”）每一颗弹丸命中，都减少大招冷却。原文没写每颗减少多少、有无上限、对小兵和野怪是否同样有效，也没写其他技能打出的弹丸是否计入。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间以外，每一颗弹丸命中时",
+      "slots": [
+        { "key": "cdReductionPerPellet", "what": "每颗弹丸命中减少的大招冷却（原文未写是固定秒数还是百分比；如果资源包是百分比，改为 percent）", "unit": "seconds", "claimed": null, "packHint": "该天赋每颗弹丸减少的大招冷却数值" },
+        { "key": "maxPelletsCounted", "what": "一次攻击最多计入的弹丸数", "unit": "count", "claimed": null, "packHint": "单次攻击减大招冷却的弹丸数上限（如果有）" }
+      ],
+      "ambiguities": [
+        "每颗减少多少未写，是固定秒数还是百分比未写",
+        "一次攻击最多计几颗、有无总上限未写",
+        "对小兵、野怪是否同样有效未写",
+        "“平时”是否包括其他技能打出的弹丸未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "孝悌忠信",
+      "text": "该技能持续时间增加2.5秒",
+      "reading": "大招的持续时间增加2.5秒。原文没写大招原本持续多久。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "大招释放时",
+      "slots": [
+        { "key": "durationIncrease", "what": "大招持续时间增加量", "unit": "seconds", "claimed": { "value": 2.5, "quote": "持续时间增加2.5秒" }, "packHint": "该天赋增加的大招持续时间，需资源包核对描述的2.5秒" },
+        { "key": "baseDuration", "what": "大招原本的持续时间", "unit": "seconds", "claimed": null, "packHint": "大招默认持续时间" }
+      ],
+      "ambiguities": [
+        "大招原本持续时间未写",
+        "延长部分是否同样享受大招期间的全部效果（攻击力、自动普攻等）未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "蜀将何在",
+      "text": "该技能释放期间获得蜀将的支援",
+      "reading": "大招释放期间获得“蜀将”的支援。原文没写蜀将是谁，没写以什么形式支援（召唤单位、额外攻击还是增益），也没写数量、伤害、攻击频率和持续时间。",
+      "mechanisms": ["summon"],
+      "damageRelevance": "direct",
+      "trigger": "大招释放期间",
+      "slots": [
+        { "key": "supportCount", "what": "支援的蜀将数量", "unit": "count", "claimed": null, "packHint": "该天赋召唤或出现的蜀将数量" },
+        { "key": "supportBaseDamage", "what": "蜀将每次攻击的基础伤害", "unit": "flat", "claimed": null, "packHint": "蜀将的攻击方式和基础伤害" },
+        { "key": "supportDamageRatio", "what": "蜀将伤害的属性加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "蜀将伤害的加成系数、加成属性（是否继承刘备属性）和伤害类型" },
+        { "key": "supportAttackInterval", "what": "蜀将攻击间隔", "unit": "seconds", "claimed": null, "packHint": "蜀将的攻击频率" },
+        { "key": "supportDuration", "what": "蜀将支援持续时间", "unit": "seconds", "claimed": null, "packHint": "蜀将存在的时长，是否与大招持续时间一致" }
+      ],
+      "ambiguities": [
+        "蜀将是谁、以什么形式支援未写",
+        "数量、伤害、加成属性、攻击频率未写",
+        "持续时间未写，是否随大招延长而延长未写",
+        "如果支援只是增益而不造成伤害，damageRelevance 应改为 indirect"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "杀身成仁",
+      "text": "该技能期间额外提供4颗弹丸",
+      "reading": "大招期间额外提供4颗弹丸。原文没写是每次普攻额外4颗还是整个大招期间一共4颗，没写额外弹丸的伤害和夹角，也没写与核心“仁德济世”的额外散射弹丸是否叠加。",
+      "mechanisms": ["area"],
+      "damageRelevance": "direct",
+      "trigger": "大招期间",
+      "slots": [
+        { "key": "extraPellets", "what": "额外提供的弹丸数", "unit": "count", "claimed": { "value": 4, "quote": "额外提供4颗弹丸" }, "packHint": "该天赋额外弹丸数，需资源包核对描述的4颗，并确认是每次攻击还是总计" },
+        { "key": "extraPelletDamageRatio", "what": "额外弹丸伤害相对普通弹丸的比例", "unit": "ratio", "claimed": null, "packHint": "额外弹丸的伤害系数，是否与普通弹丸相同" },
+        { "key": "extraPelletSpreadAngle", "what": "额外弹丸的散布夹角（角度，单位为度）", "unit": "flat", "claimed": null, "packHint": "额外弹丸的散布角度" }
+      ],
+      "ambiguities": [
+        "4颗是每次普攻额外还是整个大招期间总计未写",
+        "额外弹丸的伤害和夹角未写",
+        "与核心“仁德济世”的额外散射弹丸是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

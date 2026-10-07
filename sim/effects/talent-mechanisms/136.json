@@ -1,0 +1,764 @@
+{
+  "heroId": "136",
+  "heroName": "武则天",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "普惠",
+      "text": "强化后的能量球，也将算入被动计数；该技能命中英雄叠加增伤",
+      "reading": "一技能位置的核心。分两部分：一是强化后的能量球也会算入被动计数（“也将”说明不选本核心时强化能量球不计入被动计数）；二是该技能（一技能）命中英雄时叠加增伤。原文没有写：被动计数的规则（计几次触发什么、按施放计还是按命中计）；强化能量球计入时算几次；增伤每层多少、层数上限、持续时间；增伤是武则天自身的增伤还是目标受到伤害增加，作用于一技能还是全部伤害；同一次施放多个能量球命中同一英雄是否各叠一层。原文只写了“英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则增伤部分可能不触发。",
+      "mechanisms": ["stacking", "damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "强化能量球释出或命中时（计入被动计数的时机未写）；一技能命中英雄后（叠加增伤）",
+      "slots": [
+        { "key": "passiveCountThreshold", "what": "被动触发所需的计数（英雄基础被动参数，原文未写）", "unit": "count", "claimed": null, "packHint": "武则天被动的计数规则与触发所需次数" },
+        { "key": "enhancedBallCountValue", "what": "强化能量球每次计入被动的计数量", "unit": "count", "claimed": null, "packHint": "该核心下强化能量球计入被动计数的方式与数量（按施放或按命中）" },
+        { "key": "ampPerStack", "what": "每层增伤比例", "unit": "percent", "claimed": null, "packHint": "该核心增伤 buff 每层的增伤数值，以及作用范围（一技能或全部伤害、自身增伤或目标易伤）" },
+        { "key": "maxStacks", "what": "增伤层数上限", "unit": "count", "claimed": null, "packHint": "该核心增伤 buff 的最大层数" },
+        { "key": "stackDuration", "what": "增伤持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心增伤 buff 的持续时间，以及重复命中时是刷新还是每层独立计时" },
+        { "key": "stacksPerHit", "what": "每次命中英雄叠加的层数", "unit": "count", "claimed": null, "packHint": "命中英雄时增加的层数，多个能量球同次命中是否分别叠层" }
+      ],
+      "ambiguities": [
+        "被动计数规则未写",
+        "强化能量球计入被动的计数量未写",
+        "增伤每层数值、层数上限、持续时间未写",
+        "增伤是自身增伤还是目标易伤、作用于一技能还是全部伤害未写",
+        "多个能量球同次命中同一英雄是否各叠一层未写",
+        "本模式中哪些敌人算“英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "散华",
+      "text": "释出左中右3个能量球",
+      "reading": "一技能位置的核心。一技能改为向左、中、右三个方向释出共3个能量球（字面理解为总数3个，中间一个对应原本的能量球）。原文没有写：左右能量球与中间方向的夹角；左右能量球的伤害是否与中间相同；多个能量球命中同一目标时是否都造成完整伤害；强化能量球是否也变为3个；与连珠（原路径额外1个）同选时，是每条路径都额外释出还是只有中间路径。",
+      "mechanisms": ["area", "proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "ballCount", "what": "一次释出的能量球总数", "unit": "count", "claimed": { "value": 3, "quote": "左中右3个能量球" }, "packHint": "该核心一次释出的能量球数量，核对描述的3个（描述值不可靠，需资源包核对）" },
+        { "key": "sideBallAngle", "what": "左右能量球与中间方向的夹角（单位：度）", "unit": "flat", "claimed": null, "packHint": "该核心左右能量球的发射角度" },
+        { "key": "sideBallDamageRatio", "what": "左右能量球伤害相对中间能量球的比例", "unit": "ratio", "claimed": null, "packHint": "左右能量球的伤害系数是否与中间相同" },
+        { "key": "sameTargetRepeatRatio", "what": "多个能量球命中同一目标时，后续命中的伤害比例（若有衰减）", "unit": "ratio", "claimed": null, "packHint": "同一目标被同次施放的多个能量球命中时的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "“3个”是总数还是额外数量，按字面理解为总数",
+        "左右能量球的发射角度未写",
+        "左右能量球伤害是否与中间相同未写",
+        "多球命中同一目标是否衰减未写",
+        "强化能量球是否也分为3个未写",
+        "与连珠同选时额外能量球分配到哪条路径未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "倍压",
+      "text": "每次施法在短暂延迟后，将再次施法",
+      "reading": "二技能位置的核心。每次释放二技能后，经过短暂延迟会自动再施放一次（“再次”按字面理解为再一次）。按字面理解，再次施法会再产生一次二技能的效果（击退、命中后加速等，以及二技能本身的伤害，若有）；二技能本身的伤害数值原文没有写。原文没有写：“短暂延迟”具体多久；再次施法的方向和位置是否与第一次相同；再次施法的伤害是否与第一次相同；再次施法是否会触发返灵、纳贡、净气等命中或施法类天赋；是否消耗冷却或法力。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "每次释放二技能后（延迟触发）",
+      "slots": [
+        { "key": "recastDelay", "what": "再次施法的延迟时间", "unit": "seconds", "claimed": null, "packHint": "该核心第二次施法相对第一次的延迟（原文只写“短暂延迟”）" },
+        { "key": "recastCount", "what": "每次施法后额外施法的次数（原文“再次”，按字面为1次）", "unit": "count", "claimed": null, "packHint": "该核心额外施法的次数" },
+        { "key": "recastDamageRatio", "what": "再次施法的伤害相对正常施法的比例", "unit": "ratio", "claimed": null, "packHint": "第二次施法的伤害系数是否与第一次相同" },
+        { "key": "recastKnockbackRatio", "what": "再次施法的击退距离相对正常施法的比例", "unit": "ratio", "claimed": null, "packHint": "第二次施法是否同样击退以及击退距离" }
+      ],
+      "ambiguities": [
+        "“短暂延迟”的时长未写",
+        "再次施法的方向、位置是否与第一次相同未写",
+        "再次施法的伤害、击退、加速效果是否与第一次相同未写",
+        "再次施法是否触发命中类、施法类小天赋未写",
+        "二技能本身的伤害数值未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "广势",
+      "text": "技能范围+30%",
+      "reading": "二技能位置的核心。原文写“技能范围+30%”，没有写是哪个技能，按资料归属理解为二技能的范围增加30%。原文没有写：“范围”指半径、长度还是面积；是否同时影响击退距离；二技能原本范围多大。范围变大可多命中目标，不改变单次伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "rangeIncrease", "what": "技能范围提升比例", "unit": "percent", "claimed": { "value": 30, "quote": "技能范围+30%" }, "packHint": "该核心的范围加成，核对描述的30%（描述值不可靠，需资源包核对），并确认是半径、长度还是面积" },
+        { "key": "baseRange", "what": "二技能原本的作用范围", "unit": "meters", "claimed": null, "packHint": "二技能的基础判定范围尺寸" }
+      ],
+      "ambiguities": [
+        "原文未写是哪个技能，按资料归属理解为二技能",
+        "“范围”指半径、长度还是面积未写",
+        "是否影响击退距离未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "并罪",
+      "text": "释放方式变更：锁定附近范围内单体敌人降下法阵（拖动释放）；冷却大幅缩减",
+      "reading": "大招位置的核心。大招释放方式改为：锁定附近范围内的单个敌人，在其身上降下法阵（通过拖动释放选择目标）；同时大招冷却大幅缩减。原文没有写：“附近范围”多大；“大幅缩减”具体是多少（比例或缩减后的冷却秒数）；法阵是否仍有范围伤害（还是只对锁定目标生效）；法阵的伤害、眩晕时长、落下延迟是否与原大招相同。",
+      "mechanisms": ["skill-change", "cooldown", "area", "control"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "lockRange", "what": "锁定敌人的搜索范围", "unit": "meters", "claimed": null, "packHint": "该核心下大招锁定目标的范围" },
+        { "key": "cooldownReduction", "what": "大招冷却缩减比例（原文“大幅缩减”）", "unit": "percent", "claimed": null, "packHint": "该核心下大招冷却缩减的比例" },
+        { "key": "cooldownAfter", "what": "缩减后的大招冷却时间", "unit": "seconds", "claimed": null, "packHint": "该核心下大招的实际冷却秒数" },
+        { "key": "fieldRadius", "what": "锁定后降下的法阵半径", "unit": "meters", "claimed": null, "packHint": "该核心下法阵的判定半径，是否仍为范围伤害" },
+        { "key": "fieldBaseDamage", "what": "法阵伤害基础值（可能与原大招不同）", "unit": "flat", "claimed": null, "packHint": "该核心下法阵伤害的基础值" },
+        { "key": "fieldDamageRatio", "what": "法阵伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该核心下法阵伤害的系数、加成属性、能否暴击" },
+        { "key": "fieldDelay", "what": "法阵降下的延迟", "unit": "seconds", "claimed": null, "packHint": "该核心下法阵从释放到生效的时间" },
+        { "key": "stunDuration", "what": "法阵眩晕时长（若保留）", "unit": "seconds", "claimed": null, "packHint": "该核心下法阵是否保留眩晕及其时长" }
+      ],
+      "ambiguities": [
+        "锁定范围未写",
+        "“大幅缩减”的具体数值未写",
+        "法阵是否仍为范围伤害未写",
+        "法阵伤害、眩晕、落下延迟是否与原大招相同未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "加罪",
+      "text": "施法后，将再次降下法阵",
+      "reading": "大招位置的核心。释放大招后，会再降下一次法阵（“再次”按字面理解为再一次）。原文没有写：第二次法阵与第一次间隔多久；落在同一位置还是重新选择位置或追踪目标；第二次法阵的伤害、范围、眩晕是否与第一次相同；是否会触发株连、附罪、夺魂、返灵等命中类小天赋。",
+      "mechanisms": ["proc", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招后",
+      "slots": [
+        { "key": "secondFieldDelay", "what": "第二次法阵相对第一次的延迟", "unit": "seconds", "claimed": null, "packHint": "该核心第二次法阵的降下时间" },
+        { "key": "secondFieldCount", "what": "额外降下的法阵数量（原文“再次”，按字面为1个）", "unit": "count", "claimed": null, "packHint": "该核心额外法阵的数量" },
+        { "key": "secondFieldDamageRatio", "what": "第二次法阵伤害相对第一次的比例", "unit": "ratio", "claimed": null, "packHint": "第二次法阵的伤害系数是否与第一次相同" },
+        { "key": "secondFieldRadius", "what": "第二次法阵的半径", "unit": "meters", "claimed": null, "packHint": "第二次法阵的判定半径" },
+        { "key": "secondFieldStun", "what": "第二次法阵的眩晕时长（若有）", "unit": "seconds", "claimed": null, "packHint": "第二次法阵是否眩晕及其时长" }
+      ],
+      "ambiguities": [
+        "两次法阵的间隔未写",
+        "第二次法阵的位置规则未写",
+        "第二次法阵的伤害、范围、眩晕是否与第一次相同未写",
+        "第二次法阵是否触发命中类小天赋未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "连珠",
+      "text": "在原路径上，额外释出1个能量球",
+      "reading": "一技能小天赋。释放一技能时，在原本能量球的路径上额外释出1个能量球，同一路径上会有两个能量球。原文没有写：额外能量球与原能量球的间隔时间；额外能量球伤害是否与原能量球相同；同一目标被两个能量球命中时是否都造成完整伤害；额外能量球是否计入被动计数、是否在强化时也被强化；与散华同选时是每条路径都额外释出还是只有中间路径。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "extraBallCount", "what": "额外释出的能量球数量", "unit": "count", "claimed": { "value": 1, "quote": "额外释出1个能量球" }, "packHint": "该天赋额外能量球数量，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "extraBallDelay", "what": "额外能量球相对原能量球的释出间隔", "unit": "seconds", "claimed": null, "packHint": "额外能量球的发射延迟" },
+        { "key": "extraBallDamageRatio", "what": "额外能量球伤害相对原能量球的比例", "unit": "ratio", "claimed": null, "packHint": "额外能量球的伤害系数是否与原能量球相同" },
+        { "key": "sameTargetRepeatRatio", "what": "同一目标被两个能量球命中时第二次命中的伤害比例（若有衰减）", "unit": "ratio", "claimed": null, "packHint": "同一目标被多个能量球命中时的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "额外能量球的释出间隔未写",
+        "额外能量球伤害是否与原能量球相同未写",
+        "同一目标重复命中是否衰减未写",
+        "额外能量球是否计入被动计数、是否随强化变为强化球未写",
+        "与散华同选时额外能量球的路径未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "法身",
+      "text": "释放技能将召唤分身施法",
+      "reading": "一技能小天赋。释放技能时召唤一个分身，分身也施法。原文只写了“释放技能”，按资料归属理解为一技能，原文没有排除其他技能。原文没有写：召唤几个分身；分身在什么位置、存在多久；分身施法与本体施法的时间差；分身施放的能量球伤害是否与本体相同；分身施法是否继承散华、连珠、耀光等一技能天赋，是否计入被动计数。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时（原文未限定技能）",
+      "slots": [
+        { "key": "cloneCount", "what": "每次召唤的分身数量", "unit": "count", "claimed": null, "packHint": "该天赋召唤分身的数量" },
+        { "key": "cloneOffset", "what": "分身相对本体的位置偏移", "unit": "meters", "claimed": null, "packHint": "分身出现的位置" },
+        { "key": "cloneCastDelay", "what": "分身施法相对本体的延迟", "unit": "seconds", "claimed": null, "packHint": "分身施法的时间点" },
+        { "key": "cloneDamageRatio", "what": "分身施法伤害相对本体的比例", "unit": "ratio", "claimed": null, "packHint": "分身技能的伤害系数，是否继承本体属性和一技能天赋" },
+        { "key": "cloneDuration", "what": "分身存在时间", "unit": "seconds", "claimed": null, "packHint": "分身持续时间" }
+      ],
+      "ambiguities": [
+        "原文“释放技能”未限定哪个技能，按资料归属理解为一技能",
+        "分身数量、位置、存在时间未写",
+        "分身施法的延迟和伤害比例未写",
+        "分身施法是否继承一技能天赋、是否计入被动未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "回旋",
+      "text": "能量球达到最大距离时，将折返",
+      "reading": "一技能小天赋。能量球飞到最大距离后会折返往回飞。原文没有写：折返途中是否造成伤害、伤害是否与去程相同；去程已命中的目标在返程能否再次被命中；折返飞到哪里（回到武则天身边还是飞回起点）、返程速度；强化能量球及其他天赋产生的能量球是否也折返；返程命中是否计入被动计数或追缠的连续命中。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "能量球达到最大距离时",
+      "slots": [
+        { "key": "returnDamageRatio", "what": "返程伤害相对去程的比例（若返程造成伤害）", "unit": "ratio", "claimed": null, "packHint": "该天赋折返能量球的伤害系数，是否造成伤害" },
+        { "key": "returnDistance", "what": "返程飞行距离", "unit": "meters", "claimed": null, "packHint": "折返能量球的终点（回到自身或起点）与飞行距离" },
+        { "key": "returnTravelTime", "what": "返程飞行时间", "unit": "seconds", "claimed": null, "packHint": "折返能量球的飞行速度或时长" }
+      ],
+      "ambiguities": [
+        "返程是否造成伤害、伤害多少未写",
+        "去程已命中的目标返程能否再次命中未写",
+        "返程终点和速度未写",
+        "其他天赋产生的能量球是否也折返未写",
+        "返程命中是否计入被动计数未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "耀光",
+      "text": "一技能伤害+60%法术攻击加成",
+      "reading": "一技能小天赋。一技能伤害额外增加60%法术攻击的加成，即伤害多加 60%×法术攻击（按字面理解为加到一技能原有的法术加成系数上，不是伤害乘以1.6）。原文没有写：一技能原本的法术加成系数；是每个能量球都加还是每次施放加一次；强化能量球、散华和连珠的额外能量球、分身、挽歌、附罪、夺魂产生的能量球是否也享受加成。",
+      "mechanisms": ["damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（一技能造成伤害时）",
+      "slots": [
+        { "key": "magicAtkRatioBonus", "what": "一技能伤害额外增加的法术攻击加成系数", "unit": "percent", "claimed": { "value": 60, "quote": "+60%法术攻击加成" }, "packHint": "该天赋增加的一技能法术加成系数，核对描述的60%（描述值不可靠，需资源包核对），并确认是加到原系数上还是其他算法" },
+        { "key": "baseMagicAtkRatio", "what": "一技能原本的法术攻击加成系数", "unit": "percent", "claimed": null, "packHint": "一技能基础伤害的法术加成系数" }
+      ],
+      "ambiguities": [
+        "加成是加到原系数上还是其他算法未写，按字面理解为加到原系数上",
+        "一技能原本的法术加成系数未写",
+        "加成按每个能量球计还是按每次施放计未写",
+        "其他天赋产生的能量球是否享受加成未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一技能", "reason": "中文数字，表示技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "追缠",
+      "text": "能量球0.5秒内连续命中时，额外产生锁定敌人的能量球",
+      "reading": "一技能小天赋。能量球在0.5秒内连续命中时，额外产生一个会锁定敌人的能量球。原文没有写：“连续命中”需要命中几次；是同一个能量球连续命中多个目标、多个能量球命中同一目标，还是任意命中都算；每次触发产生几个锁定能量球；锁定能量球的伤害、锁定范围；锁定能量球本身的命中能否再次触发本天赋；有无内置冷却或每次施放的触发上限。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "能量球在0.5秒内连续命中时",
+      "slots": [
+        { "key": "comboWindow", "what": "判定连续命中的时间窗口", "unit": "seconds", "claimed": { "value": 0.5, "quote": "0.5秒内连续命中" }, "packHint": "该天赋连续命中的判定时间，核对描述的0.5秒（描述值不可靠，需资源包核对）" },
+        { "key": "hitsRequired", "what": "触发所需的连续命中次数", "unit": "count", "claimed": null, "packHint": "该天赋触发所需的命中次数及计数方式（同目标或不同目标）" },
+        { "key": "lockBallsPerTrigger", "what": "每次触发产生的锁定能量球数量", "unit": "count", "claimed": null, "packHint": "每次触发产生的锁定能量球数量" },
+        { "key": "lockBallBaseDamage", "what": "锁定能量球伤害基础值", "unit": "flat", "claimed": null, "packHint": "锁定能量球伤害的基础值" },
+        { "key": "lockBallDamageRatio", "what": "锁定能量球伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "锁定能量球伤害的系数、加成属性、能否暴击" },
+        { "key": "lockRange", "what": "锁定敌人的搜索范围", "unit": "meters", "claimed": null, "packHint": "锁定能量球选择目标的范围" },
+        { "key": "maxTriggersPerCast", "what": "每次施放的触发上限（若有）", "unit": "count", "claimed": null, "packHint": "每次施放最多触发次数，锁定能量球能否再次触发本天赋" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的内置冷却" }
+      ],
+      "ambiguities": [
+        "“连续命中”需要的次数和计数方式未写",
+        "每次触发产生几个锁定能量球未写",
+        "锁定能量球的伤害、锁定范围未写",
+        "锁定能量球能否再次触发本天赋未写",
+        "内置冷却、触发上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "远射",
+      "text": "能量球飞行距离+25%",
+      "reading": "一技能小天赋。能量球飞行距离增加25%。原文没有写一技能原本的飞行距离，也没有写是否同样适用于强化能量球和其他天赋产生的能量球。飞行距离变长可命中更远的目标，与回旋同选时返程路径也更长，不改变单次伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "rangeIncrease", "what": "能量球飞行距离提升比例", "unit": "percent", "claimed": { "value": 25, "quote": "飞行距离+25%" }, "packHint": "该天赋的飞行距离加成，核对描述的25%（描述值不可靠，需资源包核对）" },
+        { "key": "baseRange", "what": "能量球原本的飞行距离", "unit": "meters", "claimed": null, "packHint": "一技能能量球的基础飞行距离" }
+      ],
+      "ambiguities": [
+        "一技能原本的飞行距离未写",
+        "是否适用于强化能量球和其他天赋产生的能量球未写",
+        "飞行速度是否随之改变未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "源泉",
+      "text": "一技能命中将回复血量和蓝量",
+      "reading": "一技能小天赋。一技能命中时回复武则天的生命值和法力值。原文没有写：回复多少（固定值还是按某属性的比例）；按每个命中目标回复还是每次施放回复一次；多个能量球命中是否分别回复；有无内置冷却。本效果影响生存，不直接改变伤害。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能命中时",
+      "slots": [
+        { "key": "hpHealBase", "what": "每次触发回复的生命值基础值", "unit": "flat", "claimed": null, "packHint": "该天赋回复生命的基础值" },
+        { "key": "hpHealRatio", "what": "生命回复的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋回复生命的系数与加成属性" },
+        { "key": "manaRestore", "what": "每次触发回复的法力值", "unit": "flat", "claimed": null, "packHint": "该天赋回复法力的数值或比例" },
+        { "key": "maxTriggersPerCast", "what": "每次施放的回复次数上限（若有）", "unit": "count", "claimed": null, "packHint": "回复按命中目标数还是按施放计算" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的内置冷却" }
+      ],
+      "ambiguities": [
+        "生命和法力的回复量未写",
+        "按每个目标还是每次施放回复未写",
+        "多个能量球命中是否分别回复未写",
+        "内置冷却未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一技能", "reason": "中文数字，表示技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "聚灵",
+      "text": "能量球半径+50%，强化球半径+20%",
+      "reading": "一技能小天赋。普通能量球的半径增加50%，强化球的半径增加20%。原文没有写：两种能量球原本的半径；强化球是只加20%，还是在50%基础上再加20%；其他天赋产生的能量球是否也加大。半径变大更容易命中、可命中更多目标，不改变单次伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "ballRadiusIncrease", "what": "能量球半径提升比例", "unit": "percent", "claimed": { "value": 50, "quote": "能量球半径+50%" }, "packHint": "该天赋普通能量球半径加成，核对描述的50%（描述值不可靠，需资源包核对）" },
+        { "key": "enhancedBallRadiusIncrease", "what": "强化球半径提升比例", "unit": "percent", "claimed": { "value": 20, "quote": "强化球半径+20%" }, "packHint": "该天赋强化球半径加成，核对描述的20%（描述值不可靠，需资源包核对），并确认是否与50%叠加" },
+        { "key": "baseBallRadius", "what": "普通能量球原本半径", "unit": "meters", "claimed": null, "packHint": "一技能普通能量球的基础判定半径" },
+        { "key": "baseEnhancedBallRadius", "what": "强化球原本半径", "unit": "meters", "claimed": null, "packHint": "一技能强化球的基础判定半径" }
+      ],
+      "ambiguities": [
+        "两种能量球原本的半径未写",
+        "强化球是只加20%还是与50%叠加未写",
+        "其他天赋产生的能量球是否加大未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "自威",
+      "text": "空放技能也将获得加速效果",
+      "reading": "二技能小天赋。原文“也将”说明二技能原本需要命中才获得加速；选本天赋后，二技能没有命中目标（空放）也能获得加速效果。原文没有写空放时的加速数值和持续时间是否与命中时相同。只影响移动，不影响伤害。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "释放二技能未命中时",
+      "slots": [
+        { "key": "missedSpeedBonus", "what": "空放时获得的移速加成", "unit": "percent", "claimed": null, "packHint": "空放时加速 buff 的数值，是否与命中时相同" },
+        { "key": "missedSpeedDuration", "what": "空放时加速的持续时间", "unit": "seconds", "claimed": null, "packHint": "空放时加速 buff 的持续时间" }
+      ],
+      "ambiguities": [
+        "空放时加速数值和持续时间是否与命中时相同未写",
+        "二技能原本的加速数值和持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "久舒",
+      "text": "移速提升效果+0.8秒",
+      "reading": "二技能小天赋。二技能带来的移速提升效果持续时间增加0.8秒。原文没有写原本的持续时间，也没有写移速是否随时间衰减。只影响移动，不影响伤害。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "二技能获得移速提升时",
+      "slots": [
+        { "key": "extraDuration", "what": "移速提升增加的持续时间", "unit": "seconds", "claimed": { "value": 0.8, "quote": "移速提升效果+0.8秒" }, "packHint": "该天赋增加的加速持续时间，核对描述的0.8秒（描述值不可靠，需资源包核对）" },
+        { "key": "baseDuration", "what": "二技能移速提升原本的持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能加速 buff 的基础持续时间" }
+      ],
+      "ambiguities": [
+        "移速提升原本的持续时间未写",
+        "移速是否随时间衰减未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "返灵",
+      "text": "命中后返还25%冷却",
+      "reading": "二技能小天赋。二技能命中后返还25%的冷却。原文没有写：25%按总冷却还是剩余冷却计算；命中多个目标时是返还一次还是每个目标各返还；是否需要命中英雄；倍压的再次施法命中是否也返还。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中后",
+      "slots": [
+        { "key": "cdRefundPct", "what": "命中后返还的冷却比例", "unit": "percent", "claimed": { "value": 25, "quote": "返还25%冷却" }, "packHint": "该天赋的冷却返还比例，核对描述的25%（描述值不可靠，需资源包核对），并确认基数是总冷却还是剩余冷却" },
+        { "key": "skill2Cooldown", "what": "二技能原本冷却", "unit": "seconds", "claimed": null, "packHint": "二技能基础冷却时间" },
+        { "key": "maxRefundsPerCast", "what": "每次施放最多返还的次数", "unit": "count", "claimed": null, "packHint": "命中多个目标时返还一次还是多次" }
+      ],
+      "ambiguities": [
+        "返还基数是总冷却还是剩余冷却未写",
+        "命中多个目标是否多次返还未写",
+        "是否需要命中英雄未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "护驾",
+      "text": "生命低于30%时，将自动施法1次（20秒冷却）",
+      "reading": "二技能小天赋。武则天生命值低于30%时，自动施放1次二技能（按资料归属理解为二技能），这个自动施法有20秒冷却。原文没有写：自动施法的方向和目标如何选择；是否要求二技能当时不在冷却中、是否让二技能进入冷却；自动施法的伤害、击退、加速是否与手动施放相同。主要用于保命，触发条件依赖低血量。",
+      "mechanisms": ["proc", "control", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "生命值低于30%时",
+      "slots": [
+        { "key": "hpThreshold", "what": "触发的生命值比例阈值", "unit": "percent", "claimed": { "value": 30, "quote": "生命低于30%" }, "packHint": "该天赋触发的生命阈值，核对描述的30%（描述值不可靠，需资源包核对）" },
+        { "key": "autoCastCount", "what": "每次触发自动施法的次数", "unit": "count", "claimed": { "value": 1, "quote": "自动施法1次" }, "packHint": "该天赋每次触发的施法次数，核对描述的1次（描述值不可靠，需资源包核对）" },
+        { "key": "internalCooldown", "what": "自动施法的冷却", "unit": "seconds", "claimed": { "value": 20, "quote": "20秒冷却" }, "packHint": "该天赋的内置冷却，核对描述的20秒（描述值不可靠，需资源包核对），并确认是否与二技能冷却共用" },
+        { "key": "autoCastDamageRatio", "what": "自动施法伤害相对手动施放的比例", "unit": "ratio", "claimed": null, "packHint": "自动施法的伤害、击退、加速是否与手动施放相同" }
+      ],
+      "ambiguities": [
+        "自动施法的方向和目标选择未写",
+        "是否要求二技能不在冷却、是否让二技能进入冷却未写",
+        "自动施法效果是否与手动施放相同未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "劲风",
+      "text": "击退距离+60%",
+      "reading": "二技能小天赋。二技能的击退距离增加60%。原文没有写原本的击退距离，也没有写击退时间是否随之变长。击退把敌人推远，影响敌人位置与后续技能命中，不直接改变伤害。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能击退敌人时",
+      "slots": [
+        { "key": "knockbackIncrease", "what": "击退距离提升比例", "unit": "percent", "claimed": { "value": 60, "quote": "击退距离+60%" }, "packHint": "该天赋击退距离加成，核对描述的60%（描述值不可靠，需资源包核对）" },
+        { "key": "baseKnockbackDistance", "what": "二技能原本的击退距离", "unit": "meters", "claimed": null, "packHint": "二技能基础击退距离" },
+        { "key": "knockbackDuration", "what": "击退位移的时长", "unit": "seconds", "claimed": null, "packHint": "击退过程时长是否随距离变化" }
+      ],
+      "ambiguities": [
+        "原本击退距离未写",
+        "击退时长是否变化未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "灵风",
+      "text": "增加移速效果+40%",
+      "reading": "二技能小天赋。二技能的加速效果提升40%。原文没有写是在原移速加成上直接加40个百分点，还是把原移速加成提高40%（乘1.4）；也没有写原本的移速加成数值。只影响移动，不影响伤害。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "二技能获得移速提升时",
+      "slots": [
+        { "key": "speedBonusIncrease", "what": "移速效果提升量（加法或乘法未写）", "unit": "percent", "claimed": { "value": 40, "quote": "增加移速效果+40%" }, "packHint": "该天赋加速提升数值，核对描述的40%（描述值不可靠，需资源包核对），并确认是加百分点还是乘法" },
+        { "key": "baseSpeedBonus", "what": "二技能原本的移速加成", "unit": "percent", "claimed": null, "packHint": "二技能加速 buff 的基础数值" }
+      ],
+      "ambiguities": [
+        "+40%是加百分点还是乘法未写",
+        "原本移速加成数值未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "纳贡",
+      "text": "命中敌方英雄后，获取目标20金币并获得法术强度",
+      "reading": "二技能小天赋。二技能命中敌方英雄后，从目标处获得20金币，并获得法术强度（按字面理解为法术攻击）。原文没有写：目标是否会失去这20金币；获得的法术强度是多少、是永久还是限时、能否叠加及上限；命中多个英雄时是否分别触发；有无内置冷却。原文只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能不触发。",
+      "mechanisms": ["economy", "buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中敌方英雄后",
+      "slots": [
+        { "key": "goldPerHit", "what": "每次触发获得的金币", "unit": "flat", "claimed": { "value": 20, "quote": "获取目标20金币" }, "packHint": "该天赋每次获得的金币，核对描述的20（描述值不可靠，需资源包核对）" },
+        { "key": "magicAtkGain", "what": "每次触发获得的法术强度", "unit": "flat", "claimed": null, "packHint": "该天赋获得的法术攻击数值" },
+        { "key": "magicAtkDuration", "what": "法术强度加成的持续时间（若非永久）", "unit": "seconds", "claimed": null, "packHint": "法术攻击加成是永久还是限时" },
+        { "key": "maxStacks", "what": "法术强度可叠加的层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "法术攻击加成的叠加规则与上限" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的内置冷却，以及命中多个英雄是否分别触发" }
+      ],
+      "ambiguities": [
+        "目标是否失去金币未写",
+        "获得的法术强度数值、持续时间、叠加规则未写",
+        "命中多个英雄是否分别触发未写",
+        "内置冷却未写",
+        "本模式中哪些敌人算“敌方英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "净气",
+      "text": "施法时净化负面效果，并在技能命中加速期间可穿越地形",
+      "reading": "二技能小天赋。释放二技能时净化自身的负面效果；二技能命中获得加速的期间可以穿越地形。原文没有写净化哪些负面效果（是否包括眩晕等硬控、能否在被控时施放）。穿越地形纯功能性，不影响伤害；净化可解除控制，让输出不被打断，属于间接影响。",
+      "mechanisms": ["control-immunity", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时（净化）；二技能命中加速期间（穿越地形）",
+      "slots": [
+        { "key": "terrainPassDuration", "what": "可穿越地形的持续时间（原文写为加速期间）", "unit": "seconds", "claimed": null, "packHint": "穿越地形状态的持续时间，是否与加速 buff 相同" }
+      ],
+      "ambiguities": [
+        "净化的负面效果范围未写",
+        "被控时能否施放二技能未写",
+        "空放（配合自威）获得的加速期间能否穿越地形未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "追缉",
+      "text": "施法时，对技能范围内最近的敌人额外降下跟踪法阵",
+      "reading": "大招小天赋。释放大招时，对技能范围内离（施法位置，原文未写参照点）最近的敌人额外降下一个跟踪法阵，法阵会跟踪该敌人。原文没有写：跟踪法阵的数量；伤害、范围、眩晕是否与普通法阵相同；“技能范围”多大、以武则天还是大招落点为参照；跟踪持续多久后落下。",
+      "mechanisms": ["proc", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "trackingFieldCount", "what": "额外降下的跟踪法阵数量", "unit": "count", "claimed": null, "packHint": "该天赋跟踪法阵数量" },
+        { "key": "searchRange", "what": "寻找最近敌人的范围（技能范围）", "unit": "meters", "claimed": null, "packHint": "跟踪法阵选取目标的范围与参照点" },
+        { "key": "trackingDelay", "what": "跟踪法阵从出现到落下的时间", "unit": "seconds", "claimed": null, "packHint": "跟踪法阵的跟踪时长与生效时间" },
+        { "key": "trackingFieldRadius", "what": "跟踪法阵半径", "unit": "meters", "claimed": null, "packHint": "跟踪法阵的判定半径" },
+        { "key": "trackingFieldBaseDamage", "what": "跟踪法阵伤害基础值", "unit": "flat", "claimed": null, "packHint": "跟踪法阵伤害的基础值" },
+        { "key": "trackingFieldDamageRatio", "what": "跟踪法阵伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "跟踪法阵伤害的系数、加成属性、能否暴击" },
+        { "key": "trackingFieldStun", "what": "跟踪法阵眩晕时长（若有）", "unit": "seconds", "claimed": null, "packHint": "跟踪法阵是否眩晕及其时长" }
+      ],
+      "ambiguities": [
+        "跟踪法阵数量未写",
+        "“技能范围”大小和参照点未写",
+        "跟踪法阵的伤害、范围、眩晕是否与普通法阵相同未写",
+        "跟踪时长未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "株连",
+      "text": "命中敌人后的1.5秒，对目标额外降下法阵",
+      "reading": "大招小天赋。大招命中敌人后，在1.5秒时对该目标额外降下一个法阵（按字面理解为命中后第1.5秒落下，也可能理解为命中后1.5秒内）。原文没有写：额外法阵的伤害、范围、眩晕是否与原法阵相同；命中多个敌人时是否每个目标各降一个；额外法阵命中能否再次触发本天赋。",
+      "mechanisms": ["proc", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中敌人后",
+      "slots": [
+        { "key": "extraFieldDelay", "what": "命中后到额外法阵落下的时间", "unit": "seconds", "claimed": { "value": 1.5, "quote": "命中敌人后的1.5秒" }, "packHint": "该天赋额外法阵的延迟，核对描述的1.5秒（描述值不可靠，需资源包核对）" },
+        { "key": "extraFieldBaseDamage", "what": "额外法阵伤害基础值", "unit": "flat", "claimed": null, "packHint": "额外法阵伤害的基础值" },
+        { "key": "extraFieldDamageRatio", "what": "额外法阵伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外法阵伤害的系数、加成属性、能否暴击" },
+        { "key": "extraFieldRadius", "what": "额外法阵半径", "unit": "meters", "claimed": null, "packHint": "额外法阵的判定半径" },
+        { "key": "maxFieldsPerCast", "what": "每次施放最多产生的额外法阵数量", "unit": "count", "claimed": null, "packHint": "命中多个敌人时是否每个目标各降一个，额外法阵能否连锁触发" },
+        { "key": "extraFieldStun", "what": "额外法阵眩晕时长（若有）", "unit": "seconds", "claimed": null, "packHint": "额外法阵是否眩晕及其时长" }
+      ],
+      "ambiguities": [
+        "“命中敌人后的1.5秒”是第1.5秒落下还是1.5秒内，按字面理解为第1.5秒",
+        "额外法阵的伤害、范围、眩晕未写",
+        "命中多个敌人是否各降一个未写",
+        "额外法阵能否连锁触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "返灵",
+      "text": "每命中一名敌方英雄，返还8%冷却",
+      "reading": "大招小天赋。大招每命中一名敌方英雄，返还大招8%的冷却。原文没有写：8%按总冷却还是剩余冷却计算；每次施放的返还上限；额外法阵（加罪、追缉、株连）的命中是否也算。原文只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能不触发。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "大招每命中一名敌方英雄",
+      "slots": [
+        { "key": "cdRefundPerHero", "what": "每命中一名敌方英雄返还的冷却比例", "unit": "percent", "claimed": { "value": 8, "quote": "返还8%冷却" }, "packHint": "该天赋每名英雄的冷却返还比例，核对描述的8%（描述值不可靠，需资源包核对），并确认基数是总冷却还是剩余冷却" },
+        { "key": "maxRefundPerCast", "what": "每次施放的返还上限（若有）", "unit": "percent", "claimed": null, "packHint": "每次施放最多返还多少冷却" },
+        { "key": "ultCooldown", "what": "大招原本冷却", "unit": "seconds", "claimed": null, "packHint": "大招基础冷却时间" }
+      ],
+      "ambiguities": [
+        "返还基数是总冷却还是剩余冷却未写",
+        "每次施放的返还上限未写",
+        "额外法阵的命中是否计入未写",
+        "本模式中哪些敌人算“敌方英雄”未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一名", "reason": "中文数字，表示按命中英雄逐个计算，不是独立参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "囚徒",
+      "text": "眩晕时长+0.5秒，并将其击飞",
+      "reading": "大招小天赋。大招的眩晕时长增加0.5秒，并且会把目标击飞。原文没有写：原本的眩晕时长；击飞的高度和时长，击飞时间是否计入眩晕时间；额外法阵（加罪、追缉、株连）是否同样加长眩晕和击飞。控制效果，不直接改变伤害。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中敌人时",
+      "slots": [
+        { "key": "stunIncrease", "what": "眩晕时长增加量", "unit": "seconds", "claimed": { "value": 0.5, "quote": "眩晕时长+0.5秒" }, "packHint": "该天赋增加的眩晕时长，核对描述的0.5秒（描述值不可靠，需资源包核对）" },
+        { "key": "baseStunDuration", "what": "大招原本的眩晕时长", "unit": "seconds", "claimed": null, "packHint": "大招基础眩晕时长" },
+        { "key": "knockupDuration", "what": "击飞时长", "unit": "seconds", "claimed": null, "packHint": "该天赋击飞的持续时间，是否与眩晕重叠" }
+      ],
+      "ambiguities": [
+        "原本眩晕时长未写",
+        "击飞时长、与眩晕的关系未写",
+        "额外法阵是否同样生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "挽歌",
+      "text": "施法时向周围释出1技能能量球",
+      "reading": "大招小天赋。释放大招时，向周围释出一技能的能量球。原文没有写：释出几个能量球、以武则天还是大招落点为中心；能量球伤害是否与一技能相同；是否享受耀光、聚灵、远射、回旋等一技能天赋，是否计入被动计数。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "ballCount", "what": "每次释出的能量球数量", "unit": "count", "claimed": null, "packHint": "该天赋释出的能量球数量与方向分布" },
+        { "key": "ballDamageRatio", "what": "能量球伤害相对一技能能量球的比例", "unit": "ratio", "claimed": null, "packHint": "该天赋能量球的伤害系数，是否享受一技能天赋" },
+        { "key": "ballRange", "what": "能量球飞行距离", "unit": "meters", "claimed": null, "packHint": "该天赋能量球的飞行距离与释出中心" }
+      ],
+      "ambiguities": [
+        "能量球数量未写",
+        "释出中心是武则天还是大招落点未写",
+        "伤害是否与一技能相同未写",
+        "是否享受一技能天赋、是否计入被动计数未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "1技能", "reason": "技能编号，指一技能，不是数值" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "附罪",
+      "text": "命中敌方英雄后，会向敌人飞出能量球造成伤害",
+      "reading": "大招小天赋。大招命中敌方英雄后，向该敌人飞出能量球造成伤害。原文没有写：飞出几个能量球、从哪里飞出；能量球的伤害；是否为一技能能量球、能否享受一技能天赋；命中多个英雄时是否各飞一个；有无内置冷却。原文只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能不触发。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中敌方英雄后",
+      "slots": [
+        { "key": "ballsPerHeroHit", "what": "每命中一名英雄飞出的能量球数量", "unit": "count", "claimed": null, "packHint": "该天赋每次触发的能量球数量" },
+        { "key": "ballBaseDamage", "what": "能量球伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋能量球伤害的基础值" },
+        { "key": "ballDamageRatio", "what": "能量球伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋能量球伤害的系数、加成属性、能否暴击，是否为一技能能量球" },
+        { "key": "ballTravelTime", "what": "能量球飞到目标的时间", "unit": "seconds", "claimed": null, "packHint": "能量球的起点与飞行速度" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的内置冷却" }
+      ],
+      "ambiguities": [
+        "能量球数量和起点未写",
+        "能量球伤害未写",
+        "是否为一技能能量球、是否享受一技能天赋未写",
+        "命中多个英雄是否各飞一个未写",
+        "本模式中哪些敌人算“敌方英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "夺魂",
+      "text": "命中敌方英雄后，飞出折返能量球，并回复生命",
+      "reading": "大招小天赋。大招命中敌方英雄后，飞出会折返的能量球，并为武则天回复生命。原文没有写：能量球数量、从哪里飞出、飞向哪里；去程和返程是否都造成伤害、伤害多少；回复生命在什么时机（命中英雄时还是能量球命中或折返时）、回复多少；命中多个英雄是否分别触发。原文只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能不触发。",
+      "mechanisms": ["proc", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中敌方英雄后",
+      "slots": [
+        { "key": "ballsPerHeroHit", "what": "每命中一名英雄飞出的折返能量球数量", "unit": "count", "claimed": null, "packHint": "该天赋每次触发的能量球数量" },
+        { "key": "ballBaseDamage", "what": "折返能量球伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋能量球伤害的基础值" },
+        { "key": "ballDamageRatio", "what": "折返能量球伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋能量球伤害的系数、加成属性、能否暴击" },
+        { "key": "returnDamageRatio", "what": "返程伤害相对去程的比例（若返程造成伤害）", "unit": "ratio", "claimed": null, "packHint": "返程是否造成伤害及伤害比例" },
+        { "key": "ballRange", "what": "能量球飞行距离", "unit": "meters", "claimed": null, "packHint": "能量球的起点、方向与折返距离" },
+        { "key": "healBase", "what": "回复生命的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋回复生命的基础值与触发时机" },
+        { "key": "healRatio", "what": "回复生命的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋回复生命的系数与加成属性" }
+      ],
+      "ambiguities": [
+        "能量球数量、起点和方向未写",
+        "去程、返程的伤害未写",
+        "回复生命的时机和数值未写",
+        "命中多个英雄是否分别触发未写",
+        "本模式中哪些敌人算“敌方英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "严政",
+      "text": "每次命中敌方英雄永久减少大招2%冷却（上限40%，等同于装备冷却）",
+      "reading": "大招位置的小天赋。每次命中敌方英雄，永久减少大招2%的冷却，累计上限40%。“等同于装备冷却”按字面理解为这部分缩减按装备提供的冷却缩减计算。原文没有写：“命中”是只算大招命中还是任何技能命中都算；同一次施放命中多个英雄是否分别累计；是否与装备冷却缩减共用总上限、与其他冷却缩减如何叠加；“永久”是否在死亡后保留。原文只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能无法累计。",
+      "mechanisms": ["cooldown", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "每次命中敌方英雄时（哪个技能的命中未写）",
+      "slots": [
+        { "key": "cdrPerHit", "what": "每次命中减少的大招冷却比例", "unit": "percent", "claimed": { "value": 2, "quote": "永久减少大招2%冷却" }, "packHint": "该天赋每次命中的冷却缩减，核对描述的2%（描述值不可靠，需资源包核对）" },
+        { "key": "cdrCap", "what": "累计冷却缩减上限", "unit": "percent", "claimed": { "value": 40, "quote": "上限40%" }, "packHint": "该天赋累计上限，核对描述的40%（描述值不可靠，需资源包核对）" },
+        { "key": "equipCdrCap", "what": "装备冷却缩减总上限（若与本天赋共用）", "unit": "percent", "claimed": null, "packHint": "“等同于装备冷却”的具体含义：是否计入装备冷却缩减并受其总上限限制" },
+        { "key": "ultCooldown", "what": "大招原本冷却", "unit": "seconds", "claimed": null, "packHint": "大招基础冷却时间" }
+      ],
+      "ambiguities": [
+        "“命中”只算大招还是任何技能未写",
+        "同次施放命中多个英雄是否分别累计未写",
+        "“等同于装备冷却”是否意味着与装备冷却缩减共用上限未写",
+        "“永久”在死亡后是否保留未写",
+        "本模式中哪些敌人算“敌方英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

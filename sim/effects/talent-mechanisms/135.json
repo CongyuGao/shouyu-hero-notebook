@@ -1,0 +1,736 @@
+{
+  "heroId": "135",
+  "heroName": "项羽",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "力拔山兮",
+      "text": "攻击缓慢而有力，获得超额韧性，但无法获取攻速",
+      "reading": "选择该核心后，项羽的攻击变慢，但每次攻击更有力（伤害更高）；同时获得“超额”韧性；代价是无法再获取攻速。原文没有写攻击间隔变为多少、每次攻击的伤害提高多少、韧性数值，也没有解释“超额”是指超出常规韧性上限还是只是数值较高；“无法获取攻速”是攻速被固定、还是来自铭文/雕文/装备的攻速全部失效，原文也没写。",
+      "mechanisms": ["skill-change", "damage-amp", "stat", "control-immunity"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选择该核心后）",
+      "slots": [
+        { "key": "attackInterval", "what": "选择该核心后的普攻间隔（或攻速被锁定后的固定值）", "unit": "frames", "claimed": null, "packHint": "该核心对普攻间隔/攻速的改写，找固定攻击间隔帧数或攻速倍率" },
+        { "key": "perHitDamageMultiplier", "what": "每次攻击伤害提高的倍率", "unit": "ratio", "claimed": null, "packHint": "该核心“有力”对应的单次攻击伤害加成，确认作用于普攻还是也作用于技能" },
+        { "key": "tenacity", "what": "获得的韧性数值", "unit": "percent", "claimed": null, "packHint": "该核心提供的韧性数值" },
+        { "key": "tenacityCap", "what": "“超额”韧性允许达到的上限（若该核心改写了韧性上限）", "unit": "percent", "claimed": null, "packHint": "该核心是否修改韧性上限，以及修改后的上限值" }
+      ],
+      "ambiguities": [
+        "攻击间隔变为多少未写",
+        "每次攻击伤害提高多少未写，也未写只对普攻生效还是对技能也生效",
+        "韧性数值未写，“超额”的含义（是否突破韧性上限）未写",
+        "“无法获取攻速”是否让铭文、雕文、其他天赋提供的攻速全部失效，失效的攻速是否转化为其他属性，均未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "玩命项前冲",
+      "text": "按压施法：消耗生命持续释放，过程霸体命中回复，且逐渐叠加穿透",
+      "reading": "选择该核心后，一技能变为按压施法：按住时持续释放，释放期间持续消耗自身生命；释放过程中处于霸体；命中敌人时回复生命；释放过程中逐渐叠加穿透。原文没有写生命消耗量及其计算基础、最长可按压多久、命中回复量、命中判定频率、每层穿透数值、叠层速度、层数上限，也没写松开后穿透是否保留、保留多久。",
+      "mechanisms": ["skill-change", "stacking", "buff", "heal", "control-immunity", "other"],
+      "damageRelevance": "direct",
+      "trigger": "一技能按压施法期间",
+      "slots": [
+        { "key": "hpCostRate", "what": "持续释放时的生命消耗（原文未写按最大生命、当前生命还是固定值，暂按每秒消耗的百分比建槽，资源包若为固定值需改单位）", "unit": "percent", "claimed": null, "packHint": "该核心按压期间的生命消耗数值、计算基础和扣除间隔" },
+        { "key": "hpCostInterval", "what": "生命消耗的扣除间隔", "unit": "frames", "claimed": null, "packHint": "按压期间扣生命的间隔帧数" },
+        { "key": "maxHoldDuration", "what": "最长按压（持续释放）时间", "unit": "seconds", "claimed": null, "packHint": "按压施法的最长持续时间" },
+        { "key": "hitTickInterval", "what": "持续释放期间对同一目标的命中判定间隔", "unit": "frames", "claimed": null, "packHint": "按压冲锋的伤害/命中判定间隔帧数" },
+        { "key": "tickDamageCoefficient", "what": "持续释放期间每次命中的伤害系数（是否沿用原技能系数未写）", "unit": "ratio", "claimed": null, "packHint": "按压冲锋每次命中的伤害系数及其加成属性" },
+        { "key": "hitHeal", "what": "每次命中的回复量（计算基础未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该核心命中回复的数值与计算基础（最大生命、已损生命或造成伤害）" },
+        { "key": "penetrationPerStack", "what": "每层穿透数值（原文未写是固定穿透还是百分比穿透）", "unit": "flat", "claimed": null, "packHint": "该核心每层穿透的数值和类型（物理/法术、固定/百分比）" },
+        { "key": "penetrationStackInterval", "what": "穿透叠一层所需的时间", "unit": "seconds", "claimed": null, "packHint": "按压期间穿透叠层的间隔" },
+        { "key": "penetrationMaxStacks", "what": "穿透层数上限", "unit": "count", "claimed": null, "packHint": "该核心穿透的最大层数" },
+        { "key": "penetrationDurationAfterRelease", "what": "松开后穿透保留的时间", "unit": "seconds", "claimed": null, "packHint": "穿透 buff 在释放结束后的持续时间（若会保留）" }
+      ],
+      "ambiguities": [
+        "生命消耗量、计算基础和扣除间隔未写，也未写生命不足时能否继续释放、是否可能自杀",
+        "最长按压时间未写",
+        "命中回复量和计算基础未写，命中多个目标是否分别回复未写",
+        "持续释放期间的伤害判定频率和伤害系数未写",
+        "每层穿透数值、类型、叠层速度、层数上限未写",
+        "穿透是按释放时间叠层还是按命中叠层未写（原文只说“逐渐叠加”）",
+        "松开后穿透是否保留、保留多久，是否只对本次冲锋生效，未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "乌江自刎",
+      "text": "连续释放该技能消耗递增的生命，以换取更高的攻击力",
+      "reading": "选择该核心后，连续释放二技能时，每次释放消耗的生命逐次递增，作为交换获得更高的攻击力。原文没有写“连续”的判定时间窗口、首次消耗多少生命、每次递增多少、攻击力加成多少、加成是否随连续次数一起递增、持续时间和层数上限，也没写生命不足时是否还能释放。",
+      "mechanisms": ["buff", "stacking", "other"],
+      "damageRelevance": "direct",
+      "trigger": "二技能连续释放时",
+      "slots": [
+        { "key": "consecutiveWindow", "what": "判定为“连续释放”的时间窗口", "unit": "seconds", "claimed": null, "packHint": "连续释放计数的重置时间" },
+        { "key": "baseHpCost", "what": "首次释放消耗的生命（计算基础未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该核心首次释放的生命消耗数值与计算基础" },
+        { "key": "hpCostIncrement", "what": "每次连续释放生命消耗的递增量", "unit": "percent", "claimed": null, "packHint": "生命消耗每次递增的数值，以及递增是否有上限" },
+        { "key": "attackBonusPerCast", "what": "每次释放获得的攻击力加成（原文未写是固定值还是百分比，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该核心 buff 每层或每次释放的攻击力加成数值及类型" },
+        { "key": "maxStacks", "what": "攻击力加成的层数上限", "unit": "count", "claimed": null, "packHint": "攻击力 buff 的最大层数" },
+        { "key": "attackBuffDuration", "what": "攻击力加成持续时间", "unit": "seconds", "claimed": null, "packHint": "攻击力 buff 的持续时间及刷新规则" }
+      ],
+      "ambiguities": [
+        "“连续”的判定时间窗口未写",
+        "首次生命消耗、每次递增量、计算基础未写",
+        "攻击力加成数值未写，是否随连续次数递增未写（原文“更高的攻击力”可读作随次数提高，也可读作单纯获得攻击力）",
+        "加成持续时间、层数上限未写",
+        "生命不足时能否释放、是否会因消耗生命死亡未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "气盖世",
+      "text": "释放该技能后获得减伤和最大生命",
+      "reading": "选择该核心后，释放二技能后获得减伤和最大生命加成。原文没有写减伤数值、最大生命加成数值及类型、持续时间，也没写是否可叠加。",
+      "mechanisms": ["buff", "damage-reduction", "stat"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能释放后",
+      "slots": [
+        { "key": "damageReduction", "what": "获得的减伤比例", "unit": "percent", "claimed": null, "packHint": "该核心 buff 的减伤数值" },
+        { "key": "maxHpBonus", "what": "获得的最大生命加成（原文未写固定值还是百分比，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该核心 buff 的最大生命加成数值与类型" },
+        { "key": "duration", "what": "减伤和最大生命加成的持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心 buff 的持续时间（或是否永久累积）" },
+        { "key": "maxStacks", "what": "可叠加层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "该核心 buff 是否可叠加及最大层数" }
+      ],
+      "ambiguities": [
+        "减伤数值未写",
+        "最大生命加成数值、固定值还是百分比未写",
+        "持续时间未写，是限时 buff 还是永久累积未写",
+        "多次释放能否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "死亦为鬼雄",
+      "text": "死亡后进入5秒鬼雄状态，大幅度提升属性，期间造成伤害减少复活时间",
+      "reading": "选择该核心后，项羽死亡后进入持续5秒的鬼雄状态，期间属性大幅度提升；鬼雄状态期间造成伤害会减少复活时间。原文没有写提升哪些属性、提升多少，造成伤害如何折算为复活时间减少（按伤害量还是按次数）及减少上限，也没写每次死亡是否都能触发、鬼雄状态下能否继续受伤或再次死亡。",
+      "mechanisms": ["buff", "stat", "revive", "other"],
+      "damageRelevance": "direct",
+      "trigger": "死亡时",
+      "slots": [
+        { "key": "ghostDuration", "what": "鬼雄状态持续时间", "unit": "seconds", "claimed": { "value": 5, "quote": "死亡后进入5秒鬼雄状态" }, "packHint": "鬼雄状态持续时间，需资源包核对描述的5秒" },
+        { "key": "statBoost", "what": "鬼雄状态的属性提升幅度（原文只写“大幅度提升属性”，没写哪些属性；资源包若按属性分别给值，需拆成多个槽）", "unit": "percent", "claimed": null, "packHint": "鬼雄状态 buff 提升的属性种类和每项数值（攻击力、攻速、移速、双抗等）" },
+        { "key": "respawnReductionPerTrigger", "what": "鬼雄期间每次造成伤害（或每单位伤害）减少的复活时间", "unit": "seconds", "claimed": null, "packHint": "造成伤害折算复活时间减少的规则：按次数、按伤害量还是按目标数" },
+        { "key": "respawnReductionInterval", "what": "复活时间减少的触发间隔（若有内置冷却）", "unit": "frames", "claimed": null, "packHint": "减少复活时间效果的内置冷却" },
+        { "key": "respawnReductionCap", "what": "单次鬼雄状态内复活时间减少的上限", "unit": "seconds", "claimed": null, "packHint": "复活时间减少的上限" },
+        { "key": "triggerCooldown", "what": "鬼雄状态的触发冷却（是否每次死亡都触发）", "unit": "seconds", "claimed": null, "packHint": "该核心的触发冷却或每关触发次数限制" }
+      ],
+      "ambiguities": [
+        "提升哪些属性、各提升多少未写（只说“大幅度”）",
+        "造成伤害如何减少复活时间、每次减少多少、上限多少未写",
+        "每次死亡是否都会进入鬼雄状态（有无冷却或次数限制）未写",
+        "鬼雄状态下能否受伤、是否无敌、能否使用技能未写",
+        "鬼雄状态结束后是否一定阵亡并进入复活倒计时未写",
+        "与「泣鬼神」（死亡时触发）的先后关系未写：进入鬼雄状态时还是鬼雄结束真正阵亡时触发"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "西楚霸王",
+      "text": "霸王领域：持续对周围敌人造成递增的伤害，每持续战斗5秒爆发伤害和回复",
+      "reading": "选择该核心后获得霸王领域：持续对周围的敌人造成伤害，伤害随时间递增；每持续战斗满5秒，爆发一次伤害并回复生命。原文没有写领域范围、伤害判定间隔、基础伤害系数及加成属性、递增方式与上限、爆发伤害系数、回复量，也没写领域是常驻还是三技能释放后出现、怎样算“持续战斗”、脱战后递增是否重置。",
+      "mechanisms": ["area", "proc", "stacking", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "霸王领域存在期间持续结算；每持续战斗5秒爆发一次",
+      "slots": [
+        { "key": "radius", "what": "霸王领域作用半径", "unit": "meters", "claimed": null, "packHint": "霸王领域的作用范围" },
+        { "key": "fieldDuration", "what": "霸王领域持续时间（若不是常驻）", "unit": "seconds", "claimed": null, "packHint": "领域是常驻还是三技能释放后存在一段时间，持续多久" },
+        { "key": "tickInterval", "what": "领域持续伤害的判定间隔", "unit": "frames", "claimed": null, "packHint": "领域伤害的结算间隔帧数" },
+        { "key": "baseTickCoefficient", "what": "领域每次伤害的初始伤害系数", "unit": "ratio", "claimed": null, "packHint": "领域伤害的基础值、加成属性（攻击力/最大生命等）和伤害类型" },
+        { "key": "rampPerTick", "what": "领域伤害每次（或每秒）的递增量", "unit": "percent", "claimed": null, "packHint": "领域伤害递增的步长和计时方式" },
+        { "key": "rampMax", "what": "领域伤害递增的上限倍率", "unit": "ratio", "claimed": null, "packHint": "递增伤害的最大值或最大层数" },
+        { "key": "burstInterval", "what": "爆发伤害和回复所需的持续战斗时间", "unit": "seconds", "claimed": { "value": 5, "quote": "每持续战斗5秒" }, "packHint": "爆发触发所需的持续战斗时间，需资源包核对描述的5秒" },
+        { "key": "burstCoefficient", "what": "爆发伤害系数", "unit": "ratio", "claimed": null, "packHint": "爆发伤害的基础值、加成属性和伤害类型" },
+        { "key": "burstRadius", "what": "爆发伤害的作用范围（是否与领域相同未写）", "unit": "meters", "claimed": null, "packHint": "爆发伤害的范围" },
+        { "key": "burstHeal", "what": "爆发时的回复量（计算基础未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "爆发回复的数值与计算基础" },
+        { "key": "combatTimeout", "what": "判定脱离战斗所需的时间", "unit": "seconds", "claimed": null, "packHint": "“持续战斗”计时与脱战重置规则" }
+      ],
+      "ambiguities": [
+        "领域范围、是否常驻未写",
+        "持续伤害的判定间隔、基础系数、加成属性、伤害类型未写",
+        "“递增”的步长、计时方式、上限未写，脱战后是否重置未写",
+        "爆发伤害系数、范围、回复量未写",
+        "“持续战斗”如何判定（需要造成伤害、受到伤害还是处于战斗状态）未写",
+        "领域伤害和爆发伤害能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "澎湃",
+      "text": "冲锋过程持续获得护盾",
+      "reading": "一技能冲锋的过程中持续获得护盾。原文没有写护盾量及计算基础、获得频率、护盾上限和护盾持续时间。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能冲锋过程中",
+      "slots": [
+        { "key": "shieldPerTick", "what": "每次获得的护盾量（计算基础未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋每次给予的护盾数值与计算基础（最大生命、攻击力等）" },
+        { "key": "shieldTickInterval", "what": "冲锋过程中获得护盾的间隔", "unit": "frames", "claimed": null, "packHint": "护盾发放间隔帧数" },
+        { "key": "shieldCap", "what": "护盾累积上限", "unit": "percent", "claimed": null, "packHint": "护盾可叠加的上限" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾在冲锋结束后的持续时间" }
+      ],
+      "ambiguities": [
+        "护盾量和计算基础未写",
+        "“持续获得”的间隔未写",
+        "护盾上限和持续时间未写",
+        "与「玩命项前冲」按压施法同时选时是否在整个按压期间都生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "昂扬",
+      "text": "冲锋命中英雄后造成越来越高的伤害",
+      "reading": "一技能冲锋命中英雄后，造成的伤害越来越高（随命中逐步递增）。原文没有写递增的是冲锋本身的伤害还是之后所有伤害、每次增加多少、上限、持续时间和重置条件；原文限定“英雄”，无尽守御中的敌方单位是否算英雄也需核对。",
+      "mechanisms": ["damage-amp", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "一技能冲锋命中英雄后",
+      "slots": [
+        { "key": "ampPerStack", "what": "每次命中后伤害提升量", "unit": "percent", "claimed": null, "packHint": "该天赋每层伤害加成数值" },
+        { "key": "maxStacks", "what": "伤害提升的层数上限", "unit": "count", "claimed": null, "packHint": "该天赋最大层数或最大加成" },
+        { "key": "stackDuration", "what": "伤害提升的持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的持续时间与刷新规则" },
+        { "key": "stackGainInterval", "what": "叠层判定间隔（同一目标连续命中时）", "unit": "frames", "claimed": null, "packHint": "叠层是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "递增作用于冲锋伤害本身还是项羽之后造成的所有伤害未写",
+        "每次增加多少、上限多少未写",
+        "持续时间、何时重置未写",
+        "原文写“命中英雄”，无尽守御中的敌方单位（如神使）是否满足条件未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "高涨",
+      "text": "冲锋命中后叠加攻击力",
+      "reading": "一技能冲锋命中后叠加一层攻击力加成。原文没有写每层攻击力、层数上限、持续时间，也没写命中多个目标是否叠多层。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "一技能冲锋命中后",
+      "slots": [
+        { "key": "attackPerStack", "what": "每层攻击力加成（原文未写固定值还是百分比，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋 buff 每层攻击力加成数值及类型" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": null, "packHint": "该天赋 buff 最大层数" },
+        { "key": "stackDuration", "what": "攻击力加成持续时间", "unit": "seconds", "claimed": null, "packHint": "buff 持续时间，以及重复命中是刷新还是每层独立计时" },
+        { "key": "stackGainInterval", "what": "叠层判定间隔（按压持续释放时尤其需要）", "unit": "frames", "claimed": null, "packHint": "叠层是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "每层攻击力、固定值还是百分比未写",
+        "层数上限、持续时间、刷新规则未写",
+        "命中多个目标是否叠多层未写",
+        "与「玩命项前冲」按压施法同时选时，持续命中的叠层频率未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "刚毅",
+      "text": "冲锋过程格挡",
+      "reading": "一技能冲锋的过程中进行格挡。原文没有解释格挡的对象（抵挡伤害、抵挡飞行物还是抵挡控制）、格挡多少或几次。",
+      "mechanisms": ["damage-reduction", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能冲锋过程中",
+      "slots": [
+        { "key": "blockRatio", "what": "格挡的伤害比例（若为按比例格挡伤害）", "unit": "percent", "claimed": null, "packHint": "该天赋格挡效果的类型和数值" },
+        { "key": "blockCount", "what": "格挡次数上限（若按次数格挡）", "unit": "count", "claimed": null, "packHint": "格挡是否有次数限制" }
+      ],
+      "ambiguities": [
+        "“格挡”格挡的是伤害、飞行物还是控制未写",
+        "格挡数值或次数未写",
+        "与「玩命项前冲」按压施法同时选时是否在整个按压期间生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "蓄势",
+      "text": "间隔越久，下次攻击的伤害越高",
+      "reading": "两次攻击之间间隔越久，下一次攻击的伤害越高。原文没有写“攻击”是只指普攻还是也包括技能、伤害随间隔增长的方式（连续增长还是按时间叠层）、增长速度、上限，以及加成是乘在该次攻击上还是额外造成一段伤害。",
+      "mechanisms": ["damage-amp", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "距上次攻击的间隔增长期间累积，下次攻击时结算",
+      "slots": [
+        { "key": "stackInterval", "what": "累积一层（或一级）所需的间隔时间", "unit": "seconds", "claimed": null, "packHint": "蓄势叠层的计时间隔" },
+        { "key": "ampPerStack", "what": "每层伤害加成", "unit": "percent", "claimed": null, "packHint": "蓄势每层伤害加成数值" },
+        { "key": "ampPerBonusAttack", "what": "每 100 点额外攻击力带来的伤害加成（来自之前实测线索，原文未写，待资源包确认是否存在）", "unit": "percent", "claimed": null, "packHint": "蓄势伤害是否随额外攻击力缩放，以及每 100 点额外攻击力的加成数值" },
+        { "key": "maxMultiplier", "what": "伤害加成上限倍率", "unit": "ratio", "claimed": null, "packHint": "蓄势最大伤害倍率或最大层数" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": null, "packHint": "蓄势最大层数" }
+      ],
+      "ambiguities": [
+        "“攻击”只指普攻还是也包括技能未写",
+        "伤害随间隔增长的方式、速度、上限未写",
+        "加成是乘在该次攻击上还是额外造成一段伤害未写",
+        "加成在下次攻击后是否清零重计未写",
+        "伤害是否随攻击力等属性缩放未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "「蓄势」实际算法：每 100 点额外攻击力伤害多 0.5%，按间隔叠层，最多 2.5 倍；带 280 穿透打神使（剩余护甲 20）时，蓄势单次上限约 21.4 万（9月资源包分析结论，原始条目号未记录，待复核）"
+      ]
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "渴血",
+      "text": "获得吸血",
+      "reading": "获得吸血属性。原文没有写吸血数值，也没写对哪些伤害（普攻、技能、领域等）生效。",
+      "mechanisms": ["stat", "lifesteal"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "lifesteal", "what": "吸血比例", "unit": "percent", "claimed": null, "packHint": "该天赋提供的吸血数值及吸血类型（物理吸血/全能吸血）" }
+      ],
+      "ambiguities": [
+        "吸血数值未写",
+        "是物理吸血还是对所有伤害生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "孤傲",
+      "text": "获得爆伤",
+      "reading": "获得暴击伤害（爆伤）加成。原文没有写加成数值。",
+      "mechanisms": ["stat", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "critDamageBonus", "what": "暴击伤害加成", "unit": "percent", "claimed": null, "packHint": "该天赋提供的暴击伤害数值" }
+      ],
+      "ambiguities": [
+        "暴击伤害加成数值未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "粉碎",
+      "text": "获得暴击率",
+      "reading": "获得暴击率加成。原文没有写加成数值。",
+      "mechanisms": ["stat", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "critRate", "what": "暴击率加成", "unit": "percent", "claimed": null, "packHint": "该天赋提供的暴击率数值" }
+      ],
+      "ambiguities": [
+        "暴击率加成数值未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "龙鳞甲",
+      "text": "护甲提升生命",
+      "reading": "护甲提升生命：按项羽的护甲提供额外生命。原文没有写转化比例、按总护甲还是额外护甲计算、提升的是最大生命还是回复生命，也没写上限。",
+      "mechanisms": ["conversion", "stat"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "hpPerArmor", "what": "每点护甲提供的生命", "unit": "ratio", "claimed": null, "packHint": "该天赋护甲转生命的比例及护甲计算口径（总护甲/额外护甲）" },
+        { "key": "hpCap", "what": "该天赋提供生命的上限（若有）", "unit": "flat", "claimed": null, "packHint": "护甲转生命是否有上限" }
+      ],
+      "ambiguities": [
+        "转化比例未写",
+        "按总护甲还是额外护甲计算未写",
+        "“生命”是最大生命还是生命回复未写",
+        "是否有上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "鸿门宴",
+      "text": "项羽受到更多伤害，但是也造成更高的伤害",
+      "reading": "项羽受到的伤害增加，同时造成的伤害提高。原文没有写两项的数值，也没写是常驻效果还是与二技能释放挂钩、是否有持续时间。",
+      "mechanisms": ["damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（原文未写触发条件）",
+      "slots": [
+        { "key": "damageDealtAmp", "what": "造成伤害提高比例", "unit": "percent", "claimed": null, "packHint": "该天赋增伤数值，以及是否限定伤害来源" },
+        { "key": "damageTakenIncrease", "what": "受到伤害增加比例", "unit": "percent", "claimed": null, "packHint": "该天赋增加承伤的数值" },
+        { "key": "duration", "what": "效果持续时间（若与二技能释放挂钩）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否为常驻，若为 buff 则找持续时间" }
+      ],
+      "ambiguities": [
+        "增伤和承伤数值未写",
+        "是常驻还是二技能释放后限时生效未写",
+        "增伤是对所有伤害还是只对某个技能未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "四面楚歌",
+      "text": "造成伤害时依据方位产生不同效果",
+      "reading": "项羽造成伤害时，根据方位产生不同的效果。原文没有写方位怎么划分（项羽相对目标的朝向、目标相对项羽的位置）、分几个方位、各方位分别是什么效果，因此无法从原文判断是否直接改变伤害，暂按可能直接影响伤害处理。",
+      "mechanisms": ["other"],
+      "damageRelevance": "direct",
+      "trigger": "造成伤害时",
+      "slots": [
+        { "key": "directionCount", "what": "方位划分数量", "unit": "count", "claimed": null, "packHint": "该天赋方位判定的划分方式和数量" },
+        { "key": "effectValuePerDirection", "what": "各方位效果的数值（需按方位拆成多个槽，单位视效果而定）", "unit": "percent", "claimed": null, "packHint": "每个方位对应的效果类型和数值" },
+        { "key": "effectDuration", "what": "方位效果持续时间（若为 buff/debuff）", "unit": "seconds", "claimed": null, "packHint": "方位效果的持续时间" },
+        { "key": "internalCooldown", "what": "方位效果的触发内置冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋触发间隔或内置冷却" }
+      ],
+      "ambiguities": [
+        "方位如何判定、分几个方位未写",
+        "各方位产生什么效果、数值多少未写",
+        "是否有持续时间、内置冷却未写",
+        "是否直接影响伤害无法从原文判断"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "哀兵",
+      "text": "强普回复提高",
+      "reading": "二技能强化普攻的回复效果提高（原文暗示强化普攻本身带有回复）。原文没有写提高多少、按什么方式提高。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "强化普攻命中时",
+      "slots": [
+        { "key": "healIncrease", "what": "强化普攻回复量的提升比例", "unit": "percent", "claimed": null, "packHint": "该天赋对强化普攻回复的加成数值与计算方式" }
+      ],
+      "ambiguities": [
+        "回复提高多少未写",
+        "是按比例提高还是额外加固定值未写",
+        "强化普攻原本的回复数值需要二技能本身的数据"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "鏖战",
+      "text": "横扫强普命中后减少该技能冷却",
+      "reading": "横扫强化普攻命中后，减少该技能（二技能）的冷却。原文没有写减少多少、按秒还是按比例，也没写命中多个目标是否多次减少。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "横扫强普命中后",
+      "slots": [
+        { "key": "cooldownReduction", "what": "每次命中减少的冷却（原文未写按秒还是按比例，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋每次减少冷却的数值和方式" },
+        { "key": "maxTriggersPerCast", "what": "每次强普最多触发减冷却的次数（命中多个目标时）", "unit": "count", "claimed": null, "packHint": "命中多个目标是否分别减少冷却，单次上限" }
+      ],
+      "ambiguities": [
+        "减少多少冷却、按秒还是按比例未写",
+        "命中多个目标是否多次减少未写",
+        "“该技能”默认指二技能，原文未明确"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "威慑",
+      "text": "减输出效果提升",
+      "reading": "项羽对敌人施加的减输出效果提升。原文暗示项羽本身已有减输出效果（应来自二技能），但没写提升多少、是加算还是乘算。",
+      "mechanisms": ["damage-reduction", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "施加减输出效果时",
+      "slots": [
+        { "key": "reductionIncrease", "what": "减输出效果的提升量", "unit": "percent", "claimed": null, "packHint": "该天赋对减输出效果的加成数值，以及原减输出效果的来源和数值" },
+        { "key": "durationIncrease", "what": "减输出效果持续时间的变化（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否也延长减输出持续时间" }
+      ],
+      "ambiguities": [
+        "提升多少未写",
+        "加算还是乘算未写",
+        "原有减输出效果的来源（哪个技能）原文未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "今朝醉",
+      "text": "释放时回复",
+      "reading": "释放二技能时回复生命。原文没有写回复量和计算基础。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能释放时",
+      "slots": [
+        { "key": "heal", "what": "释放时的回复量（计算基础未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋回复数值与计算基础（最大生命、已损生命等）" }
+      ],
+      "ambiguities": [
+        "回复量和计算基础未写",
+        "是一次性回复还是持续回复未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "先发制人",
+      "text": "加速大幅度提升",
+      "reading": "加速效果大幅度提升。原文暗示二技能本身带有加速效果；按通常写法理解为移动速度加成，原文没写提升多少，也没写持续时间是否变化。若只是移速，不改变伤害公式，只影响接近目标所需时间。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能加速生效时",
+      "slots": [
+        { "key": "speedIncrease", "what": "加速效果的提升量", "unit": "percent", "claimed": null, "packHint": "该天赋对加速效果的加成数值，以及原加速效果数值" },
+        { "key": "duration", "what": "加速持续时间（若有变化）", "unit": "seconds", "claimed": null, "packHint": "加速 buff 持续时间" }
+      ],
+      "ambiguities": [
+        "“大幅度”的具体数值未写",
+        "“加速”指移速还是其他速度原文未明确",
+        "原加速效果的来源和持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "惊天地",
+      "text": "霸王斩造成百分比真伤",
+      "reading": "霸王斩（三技能）造成按百分比计算的真实伤害。原文没有写百分比数值，也没写是按目标最大生命、当前生命、已损生命计算，还是把原伤害的一部分转为真实伤害；是否有对非英雄单位的伤害上限也未写。",
+      "mechanisms": ["true-damage"],
+      "damageRelevance": "direct",
+      "trigger": "三技能霸王斩命中时",
+      "slots": [
+        { "key": "truePercent", "what": "真实伤害百分比", "unit": "percent", "claimed": null, "packHint": "该天赋真实伤害百分比数值及计算基础（目标最大/当前/已损生命或原伤害）" },
+        { "key": "damageCap", "what": "百分比真伤的单次上限（若对怪物/首领有上限）", "unit": "flat", "claimed": null, "packHint": "该天赋对非英雄单位是否有伤害上限及数值" }
+      ],
+      "ambiguities": [
+        "百分比数值未写",
+        "百分比的计算基础未写",
+        "是额外附加一段真伤还是把原伤害转为真伤未写",
+        "是否有伤害上限未写，能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "泣鬼神",
+      "text": "死亡时惊动鬼神，造成大范围伤害和巨额减速",
+      "reading": "项羽死亡时触发，对大范围内的敌人造成伤害并施加巨额减速。原文没有写伤害系数及加成属性、范围、减速比例和持续时间；与「死亦为鬼雄」同选时是在进入鬼雄状态时触发还是鬼雄结束后触发，也未写。",
+      "mechanisms": ["proc", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "死亡时",
+      "slots": [
+        { "key": "damageCoefficient", "what": "死亡时伤害的系数", "unit": "ratio", "claimed": null, "packHint": "该天赋伤害的基础值、加成属性和伤害类型" },
+        { "key": "radius", "what": "伤害和减速的范围（原文“大范围”）", "unit": "meters", "claimed": null, "packHint": "该天赋作用半径" },
+        { "key": "slowPercent", "what": "减速比例（原文“巨额减速”）", "unit": "percent", "claimed": null, "packHint": "该天赋减速数值" },
+        { "key": "slowDuration", "what": "减速持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋减速持续时间" }
+      ],
+      "ambiguities": [
+        "伤害系数、加成属性、伤害类型未写",
+        "“大范围”的具体半径未写",
+        "“巨额减速”的比例和持续时间未写",
+        "与「死亦为鬼雄」同选时的触发时机未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "殊死一搏",
+      "text": "低血量或鬼雄时获得伤害增幅",
+      "reading": "项羽处于低血量时，或处于鬼雄状态（来自核心「死亦为鬼雄」）时，获得伤害增幅。原文没有写低血量的阈值、增幅数值，也没写两个条件同时满足时是否叠加。",
+      "mechanisms": ["damage-amp", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "生命低于阈值或处于鬼雄状态时",
+      "slots": [
+        { "key": "hpThreshold", "what": "低血量判定阈值（生命百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋低血量判定的生命百分比" },
+        { "key": "damageAmp", "what": "伤害增幅比例", "unit": "percent", "claimed": null, "packHint": "该天赋伤害增幅数值，低血量和鬼雄状态是否不同" },
+        { "key": "ghostDamageAmp", "what": "鬼雄状态下的伤害增幅（若与低血量不同）", "unit": "percent", "claimed": null, "packHint": "鬼雄状态下该天赋的增幅数值" }
+      ],
+      "ambiguities": [
+        "低血量阈值未写",
+        "增幅数值未写",
+        "低血量与鬼雄状态的增幅是否相同、能否叠加未写",
+        "增幅是固定值还是随生命降低而提高未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "回光返照",
+      "text": "低血量时获得双抗",
+      "reading": "项羽处于低血量时获得双抗（护甲和法术抗性）加成。原文没有写低血量阈值、双抗数值、持续时间或冷却。",
+      "mechanisms": ["buff", "stat"],
+      "damageRelevance": "indirect",
+      "trigger": "生命低于阈值时",
+      "slots": [
+        { "key": "hpThreshold", "what": "低血量判定阈值（生命百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋低血量判定的生命百分比" },
+        { "key": "armorBonus", "what": "护甲加成", "unit": "flat", "claimed": null, "packHint": "该天赋护甲加成数值及类型（固定/百分比）" },
+        { "key": "magicResistBonus", "what": "法术抗性加成", "unit": "flat", "claimed": null, "packHint": "该天赋法抗加成数值及类型（固定/百分比）" },
+        { "key": "cooldown", "what": "触发冷却（若为一次性触发的 buff）", "unit": "seconds", "claimed": null, "packHint": "该天赋是持续条件生效还是触发后有冷却" }
+      ],
+      "ambiguities": [
+        "低血量阈值未写",
+        "双抗数值、固定值还是百分比未写",
+        "是低血量期间持续生效还是触发一次有持续时间和冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "别姬",
+      "text": "周围没有队友时获得移速和减伤",
+      "reading": "项羽周围没有队友时获得移速和减伤加成。原文没有写“周围”的范围、移速和减伤数值，也没写召唤物等是否算队友。",
+      "mechanisms": ["buff", "mobility", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "周围没有队友时",
+      "slots": [
+        { "key": "allyCheckRadius", "what": "判定“周围没有队友”的范围", "unit": "meters", "claimed": null, "packHint": "该天赋队友检测半径" },
+        { "key": "moveSpeedBonus", "what": "移速加成", "unit": "percent", "claimed": null, "packHint": "该天赋移速加成数值" },
+        { "key": "damageReduction", "what": "减伤比例", "unit": "percent", "claimed": null, "packHint": "该天赋减伤数值" }
+      ],
+      "ambiguities": [
+        "“周围”的范围未写",
+        "移速、减伤数值未写",
+        "召唤物或友方单位是否算队友未写",
+        "队友进入范围后效果是立即消失还是有残留时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "十八年又好汉",
+      "text": "减少25%复活时间",
+      "reading": "项羽的复活时间减少25%。原文没写与「死亦为鬼雄」鬼雄期间减少复活时间的效果如何叠加（先按比例减少还是先扣秒数）。复活更快只在模拟死亡和在场时间时才影响总输出。",
+      "mechanisms": ["revive"],
+      "damageRelevance": "indirect",
+      "trigger": "死亡后计算复活时间时",
+      "slots": [
+        { "key": "respawnReduction", "what": "复活时间减少比例", "unit": "percent", "claimed": { "value": 25, "quote": "减少25%复活时间" }, "packHint": "该天赋复活时间减少比例，需资源包核对描述的25%" }
+      ],
+      "ambiguities": [
+        "与「死亦为鬼雄」减少复活时间的效果的叠加顺序未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "不过江东",
+      "text": "在敌方半场时获得攻击力，且每秒回复",
+      "reading": "项羽位于敌方半场时获得攻击力加成，并每秒回复生命。原文没有写攻击力加成数值、每秒回复量及计算基础；无尽守御地图上“敌方半场”如何划分也需核对。",
+      "mechanisms": ["buff", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "位于敌方半场时",
+      "slots": [
+        { "key": "attackBonus", "what": "攻击力加成（原文未写固定值还是百分比，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋攻击力加成数值及类型" },
+        { "key": "healPerSecond", "what": "每秒回复量（计算基础未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋每秒回复数值与计算基础" },
+        { "key": "healTickInterval", "what": "回复间隔（原文写“每秒”，未写数字）", "unit": "seconds", "claimed": null, "packHint": "回复结算间隔，核对是否为每秒一次" }
+      ],
+      "ambiguities": [
+        "攻击力加成数值未写",
+        "每秒回复量和计算基础未写",
+        "无尽守御地图上“敌方半场”的划分方式未写，模拟场景中是否始终满足条件需核对"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "人的名树的影",
+      "text": "对敌人造成伤害减少其输出率，10层后恐惧目标",
+      "reading": "项羽对敌人造成伤害时降低该敌人的输出率（可叠层），叠满10层后使目标恐惧。原文没有写每层降低多少输出率、每层持续时间、叠层间隔、恐惧持续时间，也没写恐惧后层数是否清空、10层之后是否继续叠加，以及首领类目标是否免疫恐惧。",
+      "mechanisms": ["stacking", "damage-reduction", "control"],
+      "damageRelevance": "indirect",
+      "trigger": "对敌人造成伤害时",
+      "slots": [
+        { "key": "outputReductionPerStack", "what": "每层降低目标输出率的比例", "unit": "percent", "claimed": null, "packHint": "该天赋 debuff 每层降低输出率的数值" },
+        { "key": "fearStackThreshold", "what": "触发恐惧所需层数", "unit": "count", "claimed": { "value": 10, "quote": "10层后恐惧目标" }, "packHint": "触发恐惧的层数，需资源包核对描述的10层" },
+        { "key": "maxStacks", "what": "减输出率层数上限（是否就是10层未写）", "unit": "count", "claimed": null, "packHint": "该 debuff 的最大层数" },
+        { "key": "stackDuration", "what": "每层减输出率持续时间", "unit": "seconds", "claimed": null, "packHint": "debuff 持续时间与刷新规则" },
+        { "key": "stackGainInterval", "what": "叠层判定间隔（多段伤害时）", "unit": "frames", "claimed": null, "packHint": "叠层是否有内置冷却" },
+        { "key": "fearDuration", "what": "恐惧持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋恐惧持续时间" },
+        { "key": "fearCooldown", "what": "对同一目标再次恐惧的冷却", "unit": "seconds", "claimed": null, "packHint": "恐惧触发后层数是否清空、对同一目标的冷却" }
+      ],
+      "ambiguities": [
+        "每层降低输出率数值未写",
+        "层数持续时间、叠层间隔未写",
+        "恐惧持续时间未写",
+        "恐惧后层数是否清空、10层后是否继续叠加未写",
+        "首领类目标（如神使）是否免疫恐惧未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

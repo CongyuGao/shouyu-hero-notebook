@@ -1,0 +1,771 @@
+{
+  "heroId": "171",
+  "heroName": "张飞",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "隔山打牛",
+      "text": "人形：向前释放旋转的虚影兽形：向前释放三块砸点",
+      "reading": "一技能核心，按形态区分效果。原文“虚影”和“兽形”之间没有分隔，按语义拆成两段：人形态下一技能向前释放一个旋转的虚影；兽形态下一技能向前释放三块砸点（“三块”是汉字数字）。原文没有写虚影和砸点的伤害、射程、判定范围，没有写虚影是否多段命中、三块砸点是同时落下还是依次落下，也没有写这个核心是否改变一技能冷却、是否保留一技能原有效果。",
+      "mechanisms": ["skill-change", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时（人形态与兽形态效果不同）",
+      "slots": [
+        { "key": "phantomBaseDamage", "what": "人形态旋转虚影的基础伤害", "unit": "flat", "claimed": null, "packHint": "核心 c1 人形态虚影伤害的基础值" },
+        { "key": "phantomDamageRatio", "what": "人形态旋转虚影的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "人形态虚影伤害系数，以及它按哪项属性（物理攻击、最大生命等）加成" },
+        { "key": "phantomHitsPerTarget", "what": "旋转虚影对同一目标的最多命中段数", "unit": "count", "claimed": null, "packHint": "虚影旋转期间的判定次数，以及同一目标能被判定几次" },
+        { "key": "phantomTickInterval", "what": "虚影多段判定之间的间隔", "unit": "seconds", "claimed": null, "packHint": "虚影每段判定的间隔（秒或帧）" },
+        { "key": "phantomTravelDistance", "what": "虚影向前移动的距离", "unit": "meters", "claimed": null, "packHint": "虚影飞行距离或射程" },
+        { "key": "phantomRadius", "what": "虚影判定半径或宽度", "unit": "meters", "claimed": null, "packHint": "虚影碰撞判定的半径或宽度" },
+        { "key": "smashCount", "what": "兽形态砸点数量（原文写汉字“三块”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "兽形态一技能砸点数量，核对原文写的三块，需以资源包为准" },
+        { "key": "smashBaseDamage", "what": "兽形态每块砸点的基础伤害", "unit": "flat", "claimed": null, "packHint": "兽形态砸点伤害的基础值" },
+        { "key": "smashDamageRatio", "what": "兽形态每块砸点的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "兽形态砸点伤害系数及其加成属性" },
+        { "key": "smashRadius", "what": "每块砸点的作用半径", "unit": "meters", "claimed": null, "packHint": "砸点伤害判定半径" },
+        { "key": "smashReach", "what": "砸点向前覆盖的总距离", "unit": "meters", "claimed": null, "packHint": "最远一块砸点距离自身的距离及各砸点间距" },
+        { "key": "smashInterval", "what": "相邻砸点落下的时间间隔（如果是依次落下）", "unit": "seconds", "claimed": null, "packHint": "各块砸点生效时间点（秒或帧）" },
+        { "key": "cooldown", "what": "选此核心后一技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c1 下一技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "原文人形与兽形两段描述之间没有分隔符，拆成两段是按语义推断",
+        "虚影和砸点的伤害数值、系数、伤害类型（物理、法术或真实）都没有写",
+        "虚影是否多段命中、同一目标最多被命中几次没有写",
+        "三块砸点是同时落下还是依次落下、同一目标能否被多块砸点重复命中没有写",
+        "射程和判定范围没有写",
+        "是否保留一技能原有的控制或其他效果、是否改变冷却没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "一夫当关",
+      "text": "连续释放，控制衰减",
+      "reading": "一技能核心。一技能可以连续释放，连续释放时控制效果会衰减。原文没有写最多能连续释放几次、两次释放之间的时间窗口、控制怎样衰减（时长缩短还是效果变弱、每次衰减多少），也没有写伤害是否随之衰减、全部释放完后冷却多久。连续释放意味着单位时间内伤害次数增加，所以直接影响伤害。",
+      "mechanisms": ["charges", "control", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能后，在可连续释放的窗口内再次释放",
+      "slots": [
+        { "key": "maxConsecutiveCasts", "what": "最多可连续释放的次数", "unit": "count", "claimed": null, "packHint": "核心 c2 一技能连续释放的次数上限" },
+        { "key": "recastWindow", "what": "两次释放之间允许的最长间隔", "unit": "seconds", "claimed": null, "packHint": "再次释放的时间窗口，超时后进入冷却" },
+        { "key": "minRecastInterval", "what": "两次释放之间的最短间隔或单次动作时长", "unit": "seconds", "claimed": null, "packHint": "每次释放的动作时长或再次释放的最短间隔（秒或帧）" },
+        { "key": "damageRatioPerCast", "what": "每次释放的伤害系数", "unit": "ratio", "claimed": null, "packHint": "连续释放时每次的伤害系数及加成属性" },
+        { "key": "damageDecayPerCast", "what": "连续释放时伤害每次衰减的比例（原文只写控制衰减，伤害是否衰减未写）", "unit": "percent", "claimed": null, "packHint": "确认连续释放的伤害是否衰减及衰减比例" },
+        { "key": "baseControlDuration", "what": "首次释放的控制时长", "unit": "seconds", "claimed": null, "packHint": "一技能控制效果的时长和控制类型" },
+        { "key": "controlDecayPerCast", "what": "每次连续释放控制效果衰减的比例", "unit": "percent", "claimed": null, "packHint": "控制衰减规则：每次衰减比例或固定缩短的时长" },
+        { "key": "cooldownAfterSequence", "what": "连续释放结束后的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c2 下一技能冷却，确认从首次释放还是最后一次释放开始计算" }
+      ],
+      "ambiguities": [
+        "可连续释放的次数没有写",
+        "再次释放的时间窗口没有写",
+        "控制衰减的方式和幅度没有写",
+        "伤害是否随连续释放衰减没有写",
+        "冷却从哪一次释放开始计算没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "宛若蛇龙",
+      "text": "释放完二技能后，获得强普三连击并可恢复生命值",
+      "reading": "二技能核心。二技能释放结束后获得强化普攻，强化普攻是三连击（“三连击”是汉字数字），并且可以恢复生命值。原文没有写三连击是下一次普攻打出三段还是接下来三次普攻都被强化、每段伤害多少、强化状态能保留多久，也没有写回血的触发条件（每段命中、每次强化普攻还是释放后一次性）和回血量。",
+      "mechanisms": ["skill-change", "proc", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "二技能释放完成后进行普攻",
+      "slots": [
+        { "key": "enhancedHitCount", "what": "强化普攻段数（原文写汉字“三连击”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "强化普攻的段数，核对原文的三连击，需以资源包为准" },
+        { "key": "enhancedHitBaseDamage", "what": "强化普攻每段的基础伤害", "unit": "flat", "claimed": null, "packHint": "强化普攻每段伤害的基础值" },
+        { "key": "enhancedHitDamageRatio", "what": "强化普攻每段的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "强化普攻每段伤害系数及加成属性，确认三段是否相同" },
+        { "key": "enhancedHitInterval", "what": "三连击各段之间的间隔", "unit": "seconds", "claimed": null, "packHint": "三连击各段的出手时间点（秒或帧）" },
+        { "key": "enhancedWindow", "what": "二技能释放后强化普攻可保留的时间", "unit": "seconds", "claimed": null, "packHint": "强化普攻状态的持续时间" },
+        { "key": "enhancedAttackRange", "what": "强化普攻的攻击距离或范围", "unit": "meters", "claimed": null, "packHint": "强化普攻的攻击距离、是否范围伤害" },
+        { "key": "healFlat", "what": "每次回血的固定值", "unit": "flat", "claimed": null, "packHint": "核心 c3 回血的固定值部分" },
+        { "key": "healPercent", "what": "每次回血的百分比部分（基于最大生命、已损生命还是造成的伤害未写）", "unit": "percent", "claimed": null, "packHint": "核心 c3 回血的百分比部分及其基准属性" },
+        { "key": "healTriggersPerSequence", "what": "一轮强化普攻中回血触发的次数", "unit": "count", "claimed": null, "packHint": "回血是每段命中触发、每轮触发一次还是释放后一次性" }
+      ],
+      "ambiguities": [
+        "三连击是一次普攻打三段还是三次普攻都被强化没有写",
+        "每段伤害和伤害类型没有写",
+        "强化状态持续时间没有写",
+        "回血的触发条件、回血量和计算基准没有写",
+        "强化普攻能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "石破天惊",
+      "text": "蓄力实现超远一跳",
+      "reading": "二技能核心。二技能改为可以蓄力，蓄力后能跳出很远的距离（“超远”没有量化，“一跳”指一次跳跃）。原文没有写最远距离、蓄力时长与距离的关系、蓄力期间能否移动或被打断，也没有写落地伤害是否随蓄力变化。原文主要描述位移，所以按间接影响输出处理。",
+      "mechanisms": ["skill-change", "mobility", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时蓄力",
+      "slots": [
+        { "key": "minJumpDistance", "what": "不蓄力或最短蓄力时的跳跃距离", "unit": "meters", "claimed": null, "packHint": "核心 c4 二技能最短跳跃距离" },
+        { "key": "maxJumpDistance", "what": "满蓄力时的跳跃距离（原文“超远”）", "unit": "meters", "claimed": null, "packHint": "核心 c4 二技能最远跳跃距离" },
+        { "key": "maxChargeTime", "what": "蓄满所需时间", "unit": "seconds", "claimed": null, "packHint": "蓄力时长上限，以及距离随蓄力时长的变化方式" },
+        { "key": "chargeDamageScale", "what": "满蓄力时落地伤害相对不蓄力的倍率（原文没写是否存在）", "unit": "ratio", "claimed": null, "packHint": "确认蓄力是否影响落地伤害，如有则找倍率" },
+        { "key": "landingRadius", "what": "落地伤害范围", "unit": "meters", "claimed": null, "packHint": "二技能落地判定半径，确认此核心是否改变" },
+        { "key": "cooldown", "what": "选此核心后二技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c4 下二技能冷却时间" }
+      ],
+      "ambiguities": [
+        "“超远”的具体距离没有写",
+        "蓄力时长和距离的关系没有写",
+        "蓄力期间能否移动、能否被打断没有写",
+        "落地伤害是否随蓄力变化没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "狂暴巨兽",
+      "text": "兽形态普攻变为中距离二连击，并获得攻击速度和吸血",
+      "reading": "大招核心。兽形态下普攻变为中距离的二连击（“二连击”是汉字数字，按字面理解为每次普攻打两段），同时获得攻击速度加成和吸血。原文没有写“中距离”具体多远、每段伤害系数、攻速和吸血的数值；攻速和吸血按句意理解为兽形态期间生效。",
+      "mechanisms": ["skill-change", "buff", "lifesteal", "area"],
+      "damageRelevance": "direct",
+      "trigger": "处于兽形态时",
+      "slots": [
+        { "key": "hitsPerAttack", "what": "兽形态每次普攻的段数（原文写汉字“二连击”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "兽形态普攻段数，核对原文的二连击，需以资源包为准" },
+        { "key": "hitBaseDamage", "what": "兽形态普攻每段的基础伤害", "unit": "flat", "claimed": null, "packHint": "兽形态普攻每段伤害的基础值" },
+        { "key": "hitDamageRatio", "what": "兽形态普攻每段的伤害系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "兽形态普攻每段伤害系数，确认两段是否相同" },
+        { "key": "hitInterval", "what": "二连击两段之间的间隔", "unit": "seconds", "claimed": null, "packHint": "二连击两段的出手时间点（秒或帧）" },
+        { "key": "attackRange", "what": "兽形态普攻攻击距离（原文“中距离”）", "unit": "meters", "claimed": null, "packHint": "兽形态普攻射程、是否范围判定" },
+        { "key": "attackSpeedBonus", "what": "兽形态获得的攻击速度加成", "unit": "percent", "claimed": null, "packHint": "核心 c5 攻速加成数值" },
+        { "key": "lifestealPercent", "what": "兽形态获得的吸血比例", "unit": "percent", "claimed": null, "packHint": "核心 c5 吸血比例，确认对技能伤害是否生效" }
+      ],
+      "ambiguities": [
+        "“中距离”具体距离没有写",
+        "每段伤害数值和伤害类型没有写",
+        "攻速和吸血的数值没有写",
+        "吸血是否只对普攻生效没有写",
+        "二连击每段能否独立暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "气吞山河",
+      "text": "大招移动中连续怒喝，后续无眩晕",
+      "reading": "大招核心。大招期间在移动过程中会连续发出怒喝。“后续无眩晕”按字面理解为第一次之后的怒喝不再附带眩晕，也可能指大招之后的阶段不再有眩晕，原文没有说清楚。原文没有写怒喝次数、间隔、每次怒喝的伤害和范围、首次眩晕时长、连续怒喝阶段持续多久。",
+      "mechanisms": ["skill-change", "proc", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招后的移动过程中",
+      "slots": [
+        { "key": "roarCount", "what": "连续怒喝的次数", "unit": "count", "claimed": null, "packHint": "核心 c6 大招怒喝的总次数" },
+        { "key": "roarInterval", "what": "相邻两次怒喝的间隔", "unit": "seconds", "claimed": null, "packHint": "怒喝的触发间隔（秒或帧）" },
+        { "key": "roarPhaseDuration", "what": "连续怒喝阶段的持续时间", "unit": "seconds", "claimed": null, "packHint": "大招移动阶段的持续时间" },
+        { "key": "roarBaseDamage", "what": "每次怒喝的基础伤害", "unit": "flat", "claimed": null, "packHint": "怒喝伤害的基础值" },
+        { "key": "roarDamageRatio", "what": "每次怒喝的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "怒喝伤害系数及加成属性，确认每次是否相同" },
+        { "key": "roarRadius", "what": "怒喝作用半径", "unit": "meters", "claimed": null, "packHint": "怒喝伤害判定半径" },
+        { "key": "firstStunDuration", "what": "首次怒喝的眩晕时长（如果首次仍有眩晕）", "unit": "seconds", "claimed": null, "packHint": "确认哪一次怒喝带眩晕及眩晕时长" }
+      ],
+      "ambiguities": [
+        "“后续无眩晕”指第一次之后的怒喝没有眩晕还是别的含义没有写清",
+        "怒喝次数、间隔、持续时间没有写",
+        "怒喝伤害、范围、伤害类型没有写",
+        "原大招的其他效果是否保留没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "百炼成钢",
+      "text": "每命中一个敌人会增加双抗持续6秒，可叠加16层",
+      "reading": "一技能小天赋（原文没写是哪个技能命中，按天赋所属技能理解为一技能）。每命中一个敌人，自身获得一层双抗（物理防御和法术防御）加成，持续6秒，最多叠加16层。按“每命中一个敌人”理解，一次释放命中多个敌人会各加一层。原文没有写每层加多少、是固定值还是百分比、重复命中时是刷新全部层数还是每层单独计时。",
+      "mechanisms": ["buff", "stacking", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能每命中一个敌人",
+      "slots": [
+        { "key": "physDefPerStack", "what": "每层物理防御加成（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "flat", "claimed": null, "packHint": "该天赋 buff 每层的物理防御加成" },
+        { "key": "magicDefPerStack", "what": "每层法术防御加成（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "flat", "claimed": null, "packHint": "该天赋 buff 每层的法术防御加成" },
+        { "key": "duration", "what": "每层持续时间", "unit": "seconds", "claimed": { "value": 6, "quote": "持续6秒" }, "packHint": "buff 持续时间，原文写6秒，描述值需以资源包核对" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": { "value": 16, "quote": "可叠加16层" }, "packHint": "buff 最大层数，原文写16层，描述值需以资源包核对" },
+        { "key": "stacksPerCastCap", "what": "单次释放最多可获得的层数", "unit": "count", "claimed": null, "packHint": "确认一次释放命中多个敌人时是否各加一层、有无单次上限" }
+      ],
+      "ambiguities": [
+        "每层双抗加多少没有写，固定值还是百分比没有写",
+        "重复命中时刷新全部层数还是每层单独计时没有写",
+        "原文没写由哪个技能命中，按所属一技能理解",
+        "双抗是否会影响张飞自身伤害（例如有按防御加成的伤害）没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "横茅怒击",
+      "text": "控制强化",
+      "reading": "一技能小天赋。一技能的控制效果被强化。原文只有四个字，没有写强化的是控制时长、控制范围还是控制类型，也没有任何数值。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能造成控制时",
+      "slots": [
+        { "key": "controlDurationBonus", "what": "控制时长增加量", "unit": "seconds", "claimed": null, "packHint": "该天赋对一技能控制时长的加成，确认是固定秒数还是百分比" },
+        { "key": "controlAreaBonus", "what": "控制范围增加量", "unit": "meters", "claimed": null, "packHint": "确认该天赋是否扩大一技能控制范围" }
+      ],
+      "ambiguities": [
+        "“控制强化”具体强化什么（时长、范围、类型）没有写",
+        "没有任何数值",
+        "与核心 c2 的控制衰减如何叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "二哥助我",
+      "text": "释放时召唤关羽协助攻击",
+      "reading": "一技能小天赋。释放一技能时召唤关羽协助攻击。原文没有写关羽存在多久、攻击几次、攻击方式和范围、伤害多少以及按谁的属性计算，也没有写每次释放都会召唤还是有内置冷却（与核心 c2 连续释放的配合）。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "summonDuration", "what": "关羽存在时间", "unit": "seconds", "claimed": null, "packHint": "召唤关羽的持续时间" },
+        { "key": "attackCount", "what": "关羽攻击次数", "unit": "count", "claimed": null, "packHint": "关羽每次出场的攻击次数或段数" },
+        { "key": "attackInterval", "what": "关羽攻击间隔", "unit": "seconds", "claimed": null, "packHint": "关羽各次攻击的时间点（秒或帧）" },
+        { "key": "baseDamage", "what": "关羽每次攻击的基础伤害", "unit": "flat", "claimed": null, "packHint": "关羽攻击伤害的基础值" },
+        { "key": "damageRatio", "what": "关羽每次攻击的伤害系数（按张飞哪项属性计算未写）", "unit": "ratio", "claimed": null, "packHint": "关羽攻击伤害系数，以及继承张飞的哪项属性" },
+        { "key": "attackRadius", "what": "关羽攻击范围", "unit": "meters", "claimed": null, "packHint": "关羽攻击的判定范围" },
+        { "key": "summonCooldown", "what": "召唤的内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "确认每次释放一技能都召唤还是有内置冷却" }
+      ],
+      "ambiguities": [
+        "关羽持续时间、攻击次数、攻击方式没有写",
+        "伤害数值、伤害类型、属性继承没有写",
+        "每次释放都召唤还是有内置冷却没有写",
+        "关羽伤害能否暴击、能否触发张飞其他效果没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "拒水断桥",
+      "text": "每命中一个敌人会增加攻击力持续 6秒，可叠加 20层",
+      "reading": "一技能小天赋（原文没写是哪个技能命中，按天赋所属技能理解为一技能）。每命中一个敌人，自身获得一层攻击力加成，持续6秒，最多叠加20层。按“每命中一个敌人”理解，一次释放命中多个敌人会各加一层。原文没有写每层加多少攻击力、是固定值还是百分比、重复命中时是刷新全部层数还是每层单独计时。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "一技能每命中一个敌人",
+      "slots": [
+        { "key": "atkPerStack", "what": "每层攻击力加成（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "flat", "claimed": null, "packHint": "该天赋 buff 每层的攻击力加成" },
+        { "key": "duration", "what": "每层持续时间", "unit": "seconds", "claimed": { "value": 6, "quote": "持续 6秒" }, "packHint": "buff 持续时间，原文写6秒，描述值需以资源包核对" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": { "value": 20, "quote": "可叠加 20层" }, "packHint": "buff 最大层数，原文写20层，描述值需以资源包核对" },
+        { "key": "stacksPerCastCap", "what": "单次释放最多可获得的层数", "unit": "count", "claimed": null, "packHint": "确认一次释放命中多个敌人时是否各加一层、有无单次上限" }
+      ],
+      "ambiguities": [
+        "每层攻击力加多少没有写，固定值还是百分比没有写",
+        "重复命中时刷新全部层数还是每层单独计时没有写",
+        "原文没写由哪个技能命中，按所属一技能理解",
+        "“攻击力”指物理攻击还是同时包括法术攻击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "虎步龙行",
+      "text": "命中敌人获得爆发加速",
+      "reading": "一技能小天赋。一技能命中敌人后获得“爆发加速”，按字面理解为短时间内移动速度大幅提升，是否随时间衰减原文没有写。只影响移动，不改变伤害计算。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "一技能命中敌人后",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "移动速度加成", "unit": "percent", "claimed": null, "packHint": "该天赋加速 buff 的移速加成，确认是否随时间衰减" },
+        { "key": "duration", "what": "加速持续时间", "unit": "seconds", "claimed": null, "packHint": "加速 buff 持续时间" },
+        { "key": "internalCooldown", "what": "触发内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "确认是否每次命中都触发" }
+      ],
+      "ambiguities": [
+        "加速数值和持续时间没有写",
+        "是否随时间衰减没有写",
+        "命中多个敌人是否叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "穷凶极恶",
+      "text": "附带真实伤害",
+      "reading": "一技能小天赋。一技能附带真实伤害。原文没有写是在原伤害之外额外附加一段真实伤害，还是把原伤害的一部分或全部转为真实伤害，也没有写数值和计算属性。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能造成伤害时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "附加真实伤害的基础值（如果是额外附加）", "unit": "flat", "claimed": null, "packHint": "该天赋真实伤害的基础值" },
+        { "key": "trueDamageRatio", "what": "附加真实伤害的系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋真实伤害系数及其加成属性" },
+        { "key": "convertedPercent", "what": "原伤害转为真实伤害的比例（如果是转化）", "unit": "percent", "claimed": null, "packHint": "确认是额外附加还是转化，如是转化找转化比例" },
+        { "key": "triggersPerTarget", "what": "每次释放对同一目标附带真伤的次数", "unit": "count", "claimed": null, "packHint": "确认多段命中（如核心 c1 虚影、砸点）时是否每段都附带" }
+      ],
+      "ambiguities": [
+        "额外附加还是伤害转化没有写",
+        "真伤数值和计算属性没有写",
+        "多段命中时是否每段都附带没有写",
+        "真伤能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "铜墙铁壁",
+      "text": "命中敌方会为自身叠加护盾",
+      "reading": "一技能小天赋。一技能命中敌方后为自身叠加护盾。原文没有写每次加多少护盾、按什么属性计算、护盾上限、持续时间，也没有写命中多个敌人是否各加一次。",
+      "mechanisms": ["shield", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能命中敌方后",
+      "slots": [
+        { "key": "shieldPerHit", "what": "每次叠加的护盾固定值", "unit": "flat", "claimed": null, "packHint": "该天赋每次护盾量的固定部分" },
+        { "key": "shieldRatioPerHit", "what": "每次叠加护盾的属性系数（按最大生命或其他属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋护盾量的属性加成系数及基准属性" },
+        { "key": "maxShield", "what": "护盾总量上限", "unit": "flat", "claimed": null, "packHint": "叠加护盾的上限值" },
+        { "key": "maxStacks", "what": "护盾最多叠加次数", "unit": "count", "claimed": null, "packHint": "护盾叠加次数上限" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间及刷新规则" }
+      ],
+      "ambiguities": [
+        "每次护盾量和计算属性没有写",
+        "护盾上限和持续时间没有写",
+        "命中多个敌人是否各叠一次没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "越战越勇",
+      "text": "命中英雄会减少该技能冷却",
+      "reading": "一技能小天赋。一技能命中“英雄”后减少一技能（“该技能”）的冷却。原文没有写每次减少多少（秒数还是比例）、命中多个英雄是否叠加。无尽守御是打怪模式，原文写的“英雄”具体对应哪些敌方单位没有说明；按字面，命中不算英雄的普通敌人不触发。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能命中英雄后",
+      "slots": [
+        { "key": "cdReductionSeconds", "what": "每次触发减少的冷却秒数", "unit": "seconds", "claimed": null, "packHint": "该天赋每次减少一技能冷却的数值，确认是秒数还是比例" },
+        { "key": "cdReductionPercent", "what": "每次触发减少的冷却比例（如果按比例）", "unit": "percent", "claimed": null, "packHint": "如为比例缩减，找缩减比例及基准（总冷却或剩余冷却）" },
+        { "key": "maxTriggersPerCast", "what": "单次释放最多触发次数", "unit": "count", "claimed": null, "packHint": "命中多个英雄时是否每个都减冷却、有无上限" }
+      ],
+      "ambiguities": [
+        "守御模式里“英雄”对应哪些敌方单位没有说明",
+        "减少多少冷却、按秒还是按比例没有写",
+        "命中多个英雄是否叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "山峦叠嶂",
+      "text": "技能效果会额外重复1次",
+      "reading": "二技能小天赋。二技能的效果会额外再重复1次，即总共生效两次。原文没有写“技能效果”包括哪些部分（伤害、控制、护盾、位移），重复的那次伤害是否与原次相同、间隔多久、是否在同一位置生效。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能后",
+      "slots": [
+        { "key": "extraRepeats", "what": "额外重复次数", "unit": "count", "claimed": { "value": 1, "quote": "额外重复1次" }, "packHint": "二技能效果额外重复的次数，原文写1次，描述值需以资源包核对" },
+        { "key": "repeatDelay", "what": "重复那次与原次之间的间隔", "unit": "seconds", "claimed": null, "packHint": "重复效果生效的时间点（秒或帧）" },
+        { "key": "repeatDamageRatio", "what": "重复那次相对原次的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "确认重复效果是否完整伤害，如有折减找倍率" },
+        { "key": "repeatShieldRatio", "what": "重复那次相对原次的护盾倍率（如二技能带护盾）", "unit": "ratio", "claimed": null, "packHint": "确认重复效果是否也重复护盾及其倍率" }
+      ],
+      "ambiguities": [
+        "“技能效果”包括哪些部分没有写",
+        "重复那次的伤害是否完整没有写",
+        "重复间隔和生效位置没有写",
+        "与核心 c3、c4 搭配时重复哪些部分没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "不动如山",
+      "text": "护盾增加且改真伤护盾",
+      "reading": "二技能小天赋。从原文看二技能本身带护盾；这个天赋让护盾量增加，并把护盾改成“真伤护盾”。“真伤护盾”原文没有解释，可能是能抵挡真实伤害的护盾，也可能和造成真实伤害有关，不能确定。按护盾理解暂列为间接影响；如果资源包显示它会造成真实伤害，应改为直接影响。",
+      "mechanisms": ["shield", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能获得护盾时",
+      "slots": [
+        { "key": "shieldIncreasePercent", "what": "护盾量增加比例", "unit": "percent", "claimed": null, "packHint": "该天赋对二技能护盾的加成，确认是比例还是固定值" },
+        { "key": "shieldIncreaseFlat", "what": "护盾量增加固定值（如果按固定值）", "unit": "flat", "claimed": null, "packHint": "如为固定值加成，找加成数值" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能护盾持续时间，确认此天赋是否改变" },
+        { "key": "trueDamageRatio", "what": "如果真伤护盾会造成真实伤害，该伤害的系数（是否存在未写）", "unit": "ratio", "claimed": null, "packHint": "查明“真伤护盾”的实际机制；如造成真实伤害，找系数和触发条件" }
+      ],
+      "ambiguities": [
+        "“真伤护盾”是什么意思原文没有解释",
+        "护盾增加多少没有写",
+        "原二技能护盾量和持续时间没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "心有猛虎",
+      "text": "同时释放另一形态的技能效果",
+      "reading": "二技能小天赋。释放二技能时同时打出另一形态的二技能效果：人形态释放时附带兽形态效果，兽形态释放时附带人形态效果。原文没有写另一形态效果是否完整生效（伤害、控制、护盾）、伤害按哪一形态的属性计算。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "otherFormDamageRatio", "what": "另一形态效果相对其完整效果的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "确认另一形态效果是否完整伤害，如有折减找倍率" },
+        { "key": "otherFormDelay", "what": "另一形态效果相对本形态效果的生效延迟", "unit": "seconds", "claimed": null, "packHint": "另一形态效果的生效时间点（秒或帧）" }
+      ],
+      "ambiguities": [
+        "另一形态效果是否完整生效没有写",
+        "伤害按哪一形态的属性计算没有写",
+        "与二技能核心 c3、c4 如何组合没有写",
+        "两种形态二技能各自的效果原文没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "大哥助我",
+      "text": "二技能释放过程中召唤刘备协助攻击",
+      "reading": "二技能小天赋。二技能释放过程中召唤刘备协助攻击。原文没有写刘备存在多久、攻击几次、攻击方式和范围、伤害多少以及按谁的属性计算，也没有写召唤时机在释放过程中的哪个时间点。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能释放过程中",
+      "slots": [
+        { "key": "summonDelay", "what": "从释放二技能到刘备出现的时间", "unit": "seconds", "claimed": null, "packHint": "刘备召唤的时间点（秒或帧）" },
+        { "key": "summonDuration", "what": "刘备存在时间", "unit": "seconds", "claimed": null, "packHint": "召唤刘备的持续时间" },
+        { "key": "attackCount", "what": "刘备攻击次数", "unit": "count", "claimed": null, "packHint": "刘备每次出场的攻击次数或段数" },
+        { "key": "attackInterval", "what": "刘备攻击间隔", "unit": "seconds", "claimed": null, "packHint": "刘备各次攻击的时间点（秒或帧）" },
+        { "key": "baseDamage", "what": "刘备每次攻击的基础伤害", "unit": "flat", "claimed": null, "packHint": "刘备攻击伤害的基础值" },
+        { "key": "damageRatio", "what": "刘备每次攻击的伤害系数（按张飞哪项属性计算未写）", "unit": "ratio", "claimed": null, "packHint": "刘备攻击伤害系数，以及继承张飞的哪项属性" },
+        { "key": "attackRadius", "what": "刘备攻击范围", "unit": "meters", "claimed": null, "packHint": "刘备攻击的判定范围或射程" }
+      ],
+      "ambiguities": [
+        "刘备出现时机、持续时间、攻击次数没有写",
+        "伤害数值、伤害类型、属性继承没有写",
+        "刘备伤害能否暴击、能否触发张飞其他效果没有写",
+        "与小天赋 t09 重复效果是否会召唤两次没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "返璞归真",
+      "text": "任意普攻命中减少该技能冷却",
+      "reading": "二技能小天赋。任意普攻命中后减少二技能（“该技能”）的冷却。原文没有写每次减少多少，也没有写“任意普攻”是否包括强化普攻（如核心 c3 的三连击、c5 兽形态二连击）、多段普攻是否每段都触发、命中多个目标是否叠加。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "普攻命中后",
+      "slots": [
+        { "key": "cdReductionSeconds", "what": "每次触发减少的冷却秒数", "unit": "seconds", "claimed": null, "packHint": "该天赋每次减少二技能冷却的数值，确认是秒数还是比例" },
+        { "key": "cdReductionPercent", "what": "每次触发减少的冷却比例（如果按比例）", "unit": "percent", "claimed": null, "packHint": "如为比例缩减，找缩减比例及基准" },
+        { "key": "triggersPerAttack", "what": "每次普攻最多触发次数（多段、多目标时）", "unit": "count", "claimed": null, "packHint": "确认多段普攻、多目标命中时的触发规则" },
+        { "key": "internalCooldown", "what": "触发内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "确认是否有触发间隔限制" }
+      ],
+      "ambiguities": [
+        "每次减少多少冷却没有写",
+        "强化普攻是否算“任意普攻”没有写",
+        "多段、多目标时的触发规则没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "猛虎下山",
+      "text": "跳跃速度增快75%",
+      "reading": "二技能小天赋。二技能的跳跃速度提高75%（从天赋所属技能和“跳跃”二字推断二技能是跳跃类技能）。跳得更快意味着更早落地，可能缩短技能动作时间、让落地伤害更早生效。原文没有写是否同时改变跳跃距离、是否缩短整个技能动作时间。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能跳跃时",
+      "slots": [
+        { "key": "jumpSpeedBonus", "what": "跳跃速度提高比例", "unit": "percent", "claimed": { "value": 75, "quote": "跳跃速度增快75%" }, "packHint": "二技能跳跃速度加成，原文写75%，描述值需以资源包核对" },
+        { "key": "baseJumpFrames", "what": "二技能跳跃原始耗时（用于换算加速后的落地时间）", "unit": "frames", "claimed": null, "packHint": "二技能跳跃动作帧数，确认加速后动作时长如何变化" }
+      ],
+      "ambiguities": [
+        "“速度增快”是缩短跳跃时间还是同时增加距离没有写",
+        "是否缩短整个技能动作（包括后摇）没有写",
+        "与核心 c4 蓄力跳跃是否同样生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "力拔山兮",
+      "text": "起跳位置也会产生一次伤害",
+      "reading": "二技能小天赋。二技能起跳的位置也会造成一次伤害（“一次”是汉字数字）。按“也会”理解，原有的落地伤害保留，起跳处额外多一次伤害。原文没有写起跳伤害的数值、范围、是否与落地伤害相同、是否附带控制。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能起跳时",
+      "slots": [
+        { "key": "takeoffHits", "what": "起跳处伤害次数（原文写汉字“一次”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "起跳处伤害判定次数，核对原文的一次，需以资源包为准" },
+        { "key": "takeoffBaseDamage", "what": "起跳伤害的基础值", "unit": "flat", "claimed": null, "packHint": "起跳伤害基础值" },
+        { "key": "takeoffDamageRatio", "what": "起跳伤害的系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "起跳伤害系数及加成属性" },
+        { "key": "takeoffRelativeToLanding", "what": "起跳伤害相对落地伤害的倍率（如果按落地伤害折算）", "unit": "ratio", "claimed": null, "packHint": "确认起跳伤害是否复用落地伤害数据及倍率" },
+        { "key": "takeoffRadius", "what": "起跳伤害范围", "unit": "meters", "claimed": null, "packHint": "起跳伤害判定半径" }
+      ],
+      "ambiguities": [
+        "起跳伤害数值和伤害类型没有写",
+        "起跳伤害是否与落地伤害相同没有写",
+        "起跳伤害范围、是否附带控制没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "细嗅蔷薇",
+      "text": "二技能每命中一个敌人或友方单位可以减少冷却",
+      "reading": "二技能小天赋。二技能每命中一个敌人或友方单位就减少冷却（按上下文理解为二技能自身的冷却）。原文说明二技能能作用到友方单位。原文没有写每个单位减少多少、计入的单位数上限、敌方和友方的减少量是否相同。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能每命中一个敌人或友方单位",
+      "slots": [
+        { "key": "cdReductionPerUnit", "what": "每命中一个单位减少的冷却秒数", "unit": "seconds", "claimed": null, "packHint": "该天赋每个单位减少的冷却，确认是秒数还是比例、敌我是否相同" },
+        { "key": "cdReductionPercentPerUnit", "what": "每命中一个单位减少的冷却比例（如果按比例）", "unit": "percent", "claimed": null, "packHint": "如为比例缩减，找缩减比例及基准" },
+        { "key": "maxUnitsCounted", "what": "单次释放最多计入的单位数", "unit": "count", "claimed": null, "packHint": "单次二技能冷却缩减计入的单位上限" },
+        { "key": "minCooldown", "what": "冷却缩减后的下限（如有）", "unit": "seconds", "claimed": null, "packHint": "确认冷却能否被减到零或有下限" }
+      ],
+      "ambiguities": [
+        "每个单位减少多少冷却没有写",
+        "敌方和友方单位的减少量是否相同没有写",
+        "计入单位数是否有上限没有写",
+        "减少的是二技能还是其他技能冷却原文没有直接写，按上下文理解为二技能"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "走火入魔",
+      "text": "大招释放不再依赖怒气，怒气会在释放大招时转化为攻击力和生命值",
+      "reading": "大招小天赋。大招释放不再需要怒气（从“不再依赖”可知原本释放大招依赖怒气）；释放大招时，怒气会转化为攻击力和生命值。原文没有写转化比例、转化来的攻击力和生命值持续多久（本次大招期间还是永久）、怒气是否被清空，也没有写不依赖怒气后大招靠什么限制释放（冷却多久）、生命值是增加最大生命还是直接回复。",
+      "mechanisms": ["conversion", "skill-change", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "atkPerRage", "what": "每点怒气转化的攻击力", "unit": "ratio", "claimed": null, "packHint": "怒气转攻击力的转化比例" },
+        { "key": "hpPerRage", "what": "每点怒气转化的生命值", "unit": "ratio", "claimed": null, "packHint": "怒气转生命值的转化比例，确认是最大生命还是回复" },
+        { "key": "maxRage", "what": "怒气上限（决定转化上限）", "unit": "flat", "claimed": null, "packHint": "张飞怒气上限及怒气获取方式" },
+        { "key": "conversionDuration", "what": "转化所得属性的持续时间", "unit": "seconds", "claimed": null, "packHint": "转化属性持续时间，确认是本次大招期间还是永久" },
+        { "key": "ultCooldown", "what": "不依赖怒气后大招的冷却", "unit": "seconds", "claimed": null, "packHint": "选该天赋后大招的冷却时间" }
+      ],
+      "ambiguities": [
+        "转化比例没有写",
+        "转化属性持续时间没有写",
+        "怒气是否被清空没有写",
+        "不依赖怒气后的大招冷却没有写",
+        "生命值是提高上限还是直接回复没有写",
+        "“攻击力”指物理攻击还是同时包括法术攻击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "呼吸作用",
+      "text": "每次怒吼回血",
+      "reading": "大招小天赋。每次怒吼都会回复生命值。“怒吼”应指大招的吼叫动作；核心 c6 写作“怒喝”，用字不同，是否是同一个动作原文没有说明。原文没有写每次回多少、按什么属性计算。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "每次怒吼时",
+      "slots": [
+        { "key": "healFlat", "what": "每次怒吼回血的固定值", "unit": "flat", "claimed": null, "packHint": "该天赋每次回血的固定部分" },
+        { "key": "healPercent", "what": "每次怒吼回血的百分比部分（基于最大生命或已损生命未写）", "unit": "percent", "claimed": null, "packHint": "该天赋每次回血的百分比部分及基准" },
+        { "key": "roarsPerUlt", "what": "每次大招的怒吼次数", "unit": "count", "claimed": null, "packHint": "原大招与核心 c6 下的怒吼次数" }
+      ],
+      "ambiguities": [
+        "“怒吼”与核心 c6 的“怒喝”是否同一动作没有说明",
+        "回血量和计算基准没有写",
+        "每次大招有几次怒吼没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "永堕魔渊",
+      "text": "兽形态可持续至死亡",
+      "reading": "大招小天赋。兽形态不再有时间限制，一直持续到死亡（这一组天赋都列在大招下，按此理解兽形态由大招进入）。它本身不加数值，而是让兽形态下的各项加成（如核心 c5、小天赋 t20 到 t24）一直生效，所以列为间接影响。原文没有写死亡复活后是否需要重新释放大招、兽形态期间大招能否再次释放。",
+      "mechanisms": ["skill-change", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "进入兽形态后",
+      "slots": [
+        { "key": "baseBeastDuration", "what": "不选此天赋时兽形态的持续时间（用于对比）", "unit": "seconds", "claimed": null, "packHint": "大招兽形态的原始持续时间" }
+      ],
+      "ambiguities": [
+        "复活后是否需要重新释放大招没有写",
+        "兽形态期间大招能否再次释放、再次释放的效果没有写",
+        "原兽形态持续时间没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "炼狱灵风",
+      "text": "兽形态下造成伤害获得伤害输出率",
+      "reading": "大招小天赋。兽形态下造成伤害时获得“伤害输出率”加成，按字面理解为造成的伤害提高。原文没有写每次加多少、能否叠加及上限、持续时间、触发间隔。",
+      "mechanisms": ["damage-amp", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "兽形态下造成伤害时",
+      "slots": [
+        { "key": "damageBonusPerTrigger", "what": "每次触发获得的伤害输出率加成", "unit": "percent", "claimed": null, "packHint": "该天赋每次（每层）的伤害加成" },
+        { "key": "maxStacks", "what": "层数上限（如可叠加）", "unit": "count", "claimed": null, "packHint": "确认是否叠层及最大层数" },
+        { "key": "maxDamageBonus", "what": "伤害输出率加成总上限", "unit": "percent", "claimed": null, "packHint": "加成总上限（如有）" },
+        { "key": "duration", "what": "加成持续时间", "unit": "seconds", "claimed": null, "packHint": "buff 持续时间及刷新规则" },
+        { "key": "internalCooldown", "what": "触发内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "确认是否每次造成伤害都触发" }
+      ],
+      "ambiguities": [
+        "“伤害输出率”的含义原文没有解释，按造成伤害提高理解",
+        "每次加多少、能否叠加、上限没有写",
+        "持续时间和触发间隔没有写",
+        "加成与其他增伤是加算还是乘算没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "钢筋铁骨",
+      "text": "兽形态下获得免伤",
+      "reading": "大招小天赋。兽形态下获得免伤，即受到的伤害降低。原文没有写免伤比例、对哪些伤害类型生效。",
+      "mechanisms": ["damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "处于兽形态时",
+      "slots": [
+        { "key": "damageReductionPercent", "what": "免伤比例", "unit": "percent", "claimed": null, "packHint": "该天赋兽形态免伤比例，确认对哪些伤害类型生效" }
+      ],
+      "ambiguities": [
+        "免伤比例没有写",
+        "对哪些伤害类型生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "摧枯拉朽",
+      "text": "兽形态下攻击减少敌人双抗",
+      "reading": "大招小天赋。兽形态下攻击敌人会降低其双抗（物理防御和法术防御），让张飞后续伤害更高。机制类型里没有专门的“减抗”，按效果列为增伤并加 other。原文没有写“攻击”指普攻还是包括技能，也没有写降低多少、固定值还是百分比、持续多久、能否叠加。",
+      "mechanisms": ["damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "兽形态下攻击命中敌人",
+      "slots": [
+        { "key": "physDefReduction", "what": "降低敌人物理防御的数值（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "flat", "claimed": null, "packHint": "该天赋减物理防御的数值" },
+        { "key": "magicDefReduction", "what": "降低敌人法术防御的数值（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "flat", "claimed": null, "packHint": "该天赋减法术防御的数值" },
+        { "key": "duration", "what": "减抗持续时间", "unit": "seconds", "claimed": null, "packHint": "减抗 debuff 的持续时间及刷新规则" },
+        { "key": "maxStacks", "what": "减抗层数上限（如可叠加）", "unit": "count", "claimed": null, "packHint": "确认减抗能否叠加及最大层数" }
+      ],
+      "ambiguities": [
+        "“攻击”指普攻还是包括技能没有写",
+        "降低多少、固定值还是百分比没有写",
+        "持续时间、能否叠加没有写",
+        "是否对首领等特殊敌人生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "严阵以待",
+      "text": "兽形态每次普攻获得护盾",
+      "reading": "大招小天赋。兽形态下每次普攻获得护盾。原文没有写每次护盾多少、按什么属性计算、护盾能否叠加及上限、持续时间，也没有写是普攻出手就触发还是命中才触发。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "兽形态下每次普攻",
+      "slots": [
+        { "key": "shieldPerAttack", "what": "每次普攻获得的护盾固定值", "unit": "flat", "claimed": null, "packHint": "该天赋每次护盾量的固定部分" },
+        { "key": "shieldRatio", "what": "每次护盾的属性系数（基准属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋护盾量的属性加成系数及基准属性" },
+        { "key": "maxShield", "what": "护盾总量上限", "unit": "flat", "claimed": null, "packHint": "护盾能否叠加及上限" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间及刷新规则" },
+        { "key": "internalCooldown", "what": "触发内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "确认二连击等多段普攻是否每段都触发" }
+      ],
+      "ambiguities": [
+        "每次护盾量和计算基准没有写",
+        "护盾能否叠加、上限、持续时间没有写",
+        "普攻出手触发还是命中触发没有写",
+        "多段普攻（核心 c5 二连击）是否每段都触发没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "铁骨铮铮",
+      "text": "兽形态下获得大量韧性",
+      "reading": "大招小天赋。兽形态下获得“大量”韧性，用来减少自身受到的控制时长。原文没有写“大量”具体多少。",
+      "mechanisms": ["control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "处于兽形态时",
+      "slots": [
+        { "key": "tenacityPercent", "what": "韧性数值（原文“大量”）", "unit": "percent", "claimed": null, "packHint": "该天赋兽形态韧性加成数值" }
+      ],
+      "ambiguities": [
+        "“大量”韧性的具体数值没有写",
+        "守御模式中韧性对哪些控制生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

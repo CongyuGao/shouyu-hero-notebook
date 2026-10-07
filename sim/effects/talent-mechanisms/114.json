@@ -1,0 +1,804 @@
+{
+  "heroId": "114",
+  "heroName": "刘禅",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "乐不思蜀",
+      "text": "收集地图上的零件可回复生命并永久增加移速，3秒内使用技能可打出元气弹",
+      "reading": "地图上会有零件，刘禅收集零件后回复生命，并永久增加移速；收集后3秒内使用技能，可以打出元气弹。原文没写零件怎样产生（刷新位置、间隔、数量），每个零件回复多少生命、增加多少移速，永久移速是否有上限；“3秒内”按语序理解为收集零件后3秒内，原文没明说起算点；也没写“技能”只指一技能还是任意技能、每收集一个零件能打出几发元气弹，以及元气弹的伤害、加成属性、射程和范围。",
+      "mechanisms": ["heal", "stat", "mobility", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "收集地图上的零件时；收集后3秒内使用技能时打出元气弹",
+      "slots": [
+        { "key": "partSpawnInterval", "what": "地图上零件的刷新间隔", "unit": "seconds", "claimed": null, "packHint": "该核心下地图零件的刷新间隔或刷新规则" },
+        { "key": "partSpawnCount", "what": "每次刷新（或同时存在）的零件数量", "unit": "count", "claimed": null, "packHint": "地图零件每次刷新数量与同时存在上限" },
+        { "key": "pickupRadius", "what": "收集零件的判定范围", "unit": "meters", "claimed": null, "packHint": "零件的拾取判定半径" },
+        { "key": "healPerPart", "what": "每个零件回复的生命值（原文未写是固定值还是按最大生命比例，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "收集零件时的回复量及其计算方式（固定值或按生命比例）" },
+        { "key": "moveSpeedPerPart", "what": "每个零件永久增加的移速（原文未写是固定点数还是百分比，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "收集零件时永久移速增加量及其单位" },
+        { "key": "moveSpeedCap", "what": "零件累计永久移速的上限（若有）", "unit": "flat", "claimed": null, "packHint": "永久移速增加是否有累计上限" },
+        { "key": "orbWindow", "what": "收集零件后可打出元气弹的时间窗口", "unit": "seconds", "claimed": { "value": 3, "quote": "3秒内" }, "packHint": "元气弹可用状态的持续时间，需资源包核对描述的3秒及其起算点" },
+        { "key": "orbsPerPart", "what": "每次收集零件后可打出的元气弹数量", "unit": "count", "claimed": null, "packHint": "元气弹可用状态下可发射次数" },
+        { "key": "orbBaseDamage", "what": "元气弹基础伤害", "unit": "flat", "claimed": null, "packHint": "该核心元气弹的基础伤害数值" },
+        { "key": "orbDamageRatio", "what": "元气弹伤害加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "元气弹伤害的加成系数、加成属性和伤害类型" },
+        { "key": "orbRange", "what": "元气弹飞行距离", "unit": "meters", "claimed": null, "packHint": "元气弹弹道的飞行距离与速度" },
+        { "key": "orbRadius", "what": "元气弹命中范围（单体或爆炸半径）", "unit": "meters", "claimed": null, "packHint": "元气弹的命中判定宽度或爆炸半径" }
+      ],
+      "ambiguities": [
+        "零件的产生方式（刷新位置、间隔、数量）未写",
+        "每个零件回复多少生命、计算方式未写",
+        "每个零件增加多少移速、单位和累计上限未写",
+        "“3秒内”的起算点未写（按语序理解为收集零件后）",
+        "“使用技能”只指一技能还是任意技能未写",
+        "每收集一个零件能打出几发元气弹未写",
+        "元气弹的伤害、加成属性、伤害类型、射程、范围、能否暴击未写",
+        "小天赋“大智若愚”爆出的零件、核心“匡扶汉室”产出的零件是否与本核心的零件相同未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "匡扶汉室",
+      "text": "攻击可产出零件，收集至30个后可在任意区域建造机关塔",
+      "reading": "刘禅攻击时会产出零件，零件收集到30个后可以在任意区域建造机关塔。原文没写“攻击”是只指普攻还是包含技能、每次攻击产出几个零件（是否必定产出）、零件是自动收集还是需要拾取；没写建造时是否消耗这30个零件、能否反复建造、同时可存在几座；也没写机关塔是否攻击，以及它的伤害、攻击间隔、射程、生命值和存在时间。按“塔”的字面理解为会攻击的建筑，所以标为 direct；如果资源包显示机关塔不造成伤害，应改为 indirect。",
+      "mechanisms": ["summon", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "攻击时产出零件；零件收集至30个后建造机关塔",
+      "slots": [
+        { "key": "partsPerAttack", "what": "每次攻击产出的零件数", "unit": "count", "claimed": null, "packHint": "该核心下每次攻击产出零件数量，以及普攻和技能是否都算攻击" },
+        { "key": "partDropChance", "what": "攻击产出零件的概率（若不是必定产出）", "unit": "percent", "claimed": null, "packHint": "攻击产出零件的概率或条件" },
+        { "key": "partInternalCooldown", "what": "产出零件的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "零件产出的内置冷却或频率限制" },
+        { "key": "partsRequired", "what": "建造机关塔所需零件数", "unit": "count", "claimed": { "value": 30, "quote": "收集至30个" }, "packHint": "建造机关塔所需零件数量，需资源包核对描述的30个，并确认建造时是否消耗" },
+        { "key": "maxTowers", "what": "同时存在的机关塔数量上限", "unit": "count", "claimed": null, "packHint": "机关塔同时存在数量上限" },
+        { "key": "towerLifetime", "what": "机关塔存在时间（若有限）", "unit": "seconds", "claimed": null, "packHint": "机关塔的存在时间" },
+        { "key": "towerHp", "what": "机关塔生命值", "unit": "flat", "claimed": null, "packHint": "机关塔的生命值及是否随刘禅属性成长" },
+        { "key": "towerAttackBaseDamage", "what": "机关塔每次攻击的基础伤害", "unit": "flat", "claimed": null, "packHint": "机关塔攻击的基础伤害数值" },
+        { "key": "towerAttackRatio", "what": "机关塔攻击的加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "机关塔攻击伤害的加成系数、加成属性和伤害类型" },
+        { "key": "towerAttackInterval", "what": "机关塔攻击间隔", "unit": "seconds", "claimed": null, "packHint": "机关塔的攻击间隔或攻速" },
+        { "key": "towerRange", "what": "机关塔射程", "unit": "meters", "claimed": null, "packHint": "机关塔的攻击射程" }
+      ],
+      "ambiguities": [
+        "“攻击”是否包含技能未写",
+        "每次攻击产出几个零件、是否必定产出、有无内置冷却未写",
+        "零件是自动收集还是需要拾取未写",
+        "建造时是否消耗30个零件、能否反复建造、同时存在几座未写",
+        "机关塔是否攻击未写；伤害、加成属性、攻击间隔、射程、生命值、存在时间都未写",
+        "机关塔的伤害能否暴击、是否计入刘禅的伤害加成未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "游山玩水",
+      "text": "触碰地图上的信物获得短时属性增益和回复效果",
+      "reading": "地图上有信物，刘禅触碰后获得短时间的属性增益，并获得回复效果。原文没写信物怎样刷新、有几种，增益的是哪些属性和各自数值，“短时”具体多久，回复是一次性还是持续、回复多少，也没写多次触碰能否叠加或刷新。如果增益包含攻击力等输出属性就直接影响伤害，所以暂标 direct；如果资源包显示只增加防御或移速，应改为 indirect。",
+      "mechanisms": ["buff", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "触碰地图上的信物时",
+      "slots": [
+        { "key": "tokenSpawnInterval", "what": "信物刷新间隔", "unit": "seconds", "claimed": null, "packHint": "该核心下地图信物的刷新间隔或刷新规则" },
+        { "key": "tokenCount", "what": "每次刷新（或同时存在）的信物数量", "unit": "count", "claimed": null, "packHint": "信物刷新数量与同时存在上限，以及信物种类" },
+        { "key": "pickupRadius", "what": "触碰信物的判定范围", "unit": "meters", "claimed": null, "packHint": "信物的触碰判定半径" },
+        { "key": "buffAttackBonus", "what": "增益中的攻击力加成（原文未写增益包含哪些属性，若不含攻击力则此槽作废，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "信物增益包含的属性种类及每项数值" },
+        { "key": "buffDuration", "what": "属性增益持续时间（原文只写“短时”）", "unit": "seconds", "claimed": null, "packHint": "信物属性增益的持续时间" },
+        { "key": "buffMaxStacks", "what": "多次触碰时增益的叠加层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "信物增益重复获得时是叠加还是刷新，以及层数上限" },
+        { "key": "healAmount", "what": "回复量（原文未写是固定值还是按生命比例，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "信物回复效果的数值和计算方式" },
+        { "key": "healDuration", "what": "回复效果持续时间（若为持续回复）", "unit": "seconds", "claimed": null, "packHint": "信物回复是一次性还是持续，以及持续时间" }
+      ],
+      "ambiguities": [
+        "信物的刷新方式、数量和种类未写",
+        "属性增益是哪些属性、数值多少未写",
+        "“短时”的具体时长未写",
+        "回复量、回复方式（一次性或持续）未写",
+        "多次触碰的叠加或刷新规则未写",
+        "damageRelevance 暂按增益可能包含输出属性标为 direct，需资源包确认"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "御驾亲征",
+      "text": "濒死时，弹出机甲，亲自出战",
+      "reading": "刘禅濒死时从机甲中弹出，以本人形态继续作战。原文没写“濒死”怎么判定（受到致命伤害时还是生命低于某个比例），弹出后本人有多少生命、能否普攻和放技能、伤害多少、能坚持多久，机甲是否还在、能否重新进入，也没写每局或每关能触发几次、有无冷却。按字面理解主要作用是延长存活，所以标 indirect；如果资源包显示本人形态有单独的攻击，伤害部分需另行建模。",
+      "mechanisms": ["revive", "skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "濒死时",
+      "slots": [
+        { "key": "triggerHpThreshold", "what": "触发“濒死”的生命比例阈值（若不是受到致命伤害时触发）", "unit": "percent", "claimed": null, "packHint": "该核心的濒死判定条件" },
+        { "key": "pilotHp", "what": "弹出后本人形态的生命值", "unit": "flat", "claimed": null, "packHint": "弹出后刘禅本人的生命值及计算方式" },
+        { "key": "pilotDuration", "what": "本人形态的持续时间（若有限）", "unit": "seconds", "claimed": null, "packHint": "本人出战状态的持续时间，以及结束后是否回到机甲" },
+        { "key": "pilotAttackBaseDamage", "what": "本人形态攻击的基础伤害（若能攻击）", "unit": "flat", "claimed": null, "packHint": "本人形态普攻或技能的基础伤害" },
+        { "key": "pilotAttackRatio", "what": "本人形态攻击的加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "本人形态攻击的加成系数、加成属性和伤害类型" },
+        { "key": "triggerCooldown", "what": "触发冷却", "unit": "seconds", "claimed": null, "packHint": "该核心的触发冷却" },
+        { "key": "maxTriggers", "what": "每局或每关最多触发次数", "unit": "count", "claimed": null, "packHint": "该核心的触发次数限制" }
+      ],
+      "ambiguities": [
+        "“濒死”的判定条件未写",
+        "弹出后本人生命值、持续时间未写",
+        "本人形态能否普攻和放技能、伤害多少未写",
+        "机甲是否保留、能否重新进入未写",
+        "触发冷却和次数限制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "扶不起的阿斗",
+      "text": "获得老爹投资的3888块并且每秒额外获得5块，每1250块增加1%输出，上限20%",
+      "reading": "选择该核心后获得3888块（原文称“老爹投资”），之后每秒额外获得5块；每有1250块，输出增加1%，最多增加20%。按原文字面，达到20%上限对应20个1250块。原文没写“块”是不是局内金币，没写3888块何时发放（选核心时一次性还是每关开始），每秒获得是否只在存活或战斗中；没写输出加成按当前持有量还是累计获得量计算（花掉后是否下降），是按整1250块分档还是连续计算；也没写“输出”指造成的全部伤害还是某项攻击属性。",
+      "mechanisms": ["economy", "damage-amp", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选择该核心后）",
+      "slots": [
+        { "key": "initialGrant", "what": "一次性获得的块数（原文单位为“块”，是否为局内金币未写）", "unit": "flat", "claimed": { "value": 3888, "quote": "获得老爹投资的3888块" }, "packHint": "该核心发放的初始资源数量、资源种类和发放时机，需资源包核对描述的3888块" },
+        { "key": "incomePerTick", "what": "每秒额外获得的块数", "unit": "flat", "claimed": { "value": 5, "quote": "每秒额外获得5块" }, "packHint": "该核心持续获得资源的每次数量，需资源包核对描述的5块" },
+        { "key": "incomeInterval", "what": "额外获得块数的间隔（原文写“每秒”，字面为1秒，未写阿拉伯数字，所以 claimed 留空）", "unit": "seconds", "claimed": null, "packHint": "持续获得资源的时间间隔，以及是否只在存活或战斗中计时" },
+        { "key": "blockSize", "what": "每档输出加成所需的块数", "unit": "flat", "claimed": { "value": 1250, "quote": "每1250块增加1%输出" }, "packHint": "输出加成每档对应的资源数量，需资源包核对描述的1250块，并确认按持有量还是累计量计算" },
+        { "key": "ampPerBlock", "what": "每档增加的输出", "unit": "percent", "claimed": { "value": 1, "quote": "增加1%输出" }, "packHint": "每档输出加成数值和作用对象（全部伤害或某项属性），需资源包核对描述的1%" },
+        { "key": "ampCap", "what": "输出加成上限", "unit": "percent", "claimed": { "value": 20, "quote": "上限20%" }, "packHint": "输出加成上限，需资源包核对描述的20%" }
+      ],
+      "ambiguities": [
+        "“块”是否为局内金币未写",
+        "3888块的发放时机（选核心时一次性还是每关开始）未写",
+        "每秒获得是否只在存活或战斗中计时未写",
+        "输出加成按当前持有量还是累计获得量计算未写，花费后是否下降未写",
+        "按整1250块分档还是连续计算未写",
+        "“输出”指造成的全部伤害还是某项攻击属性未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "阿斗一扶就飞",
+      "text": "开大后旋转起飞，不可选中且无视阻挡，砸下时造成伤害和击飞，中心双倍",
+      "reading": "释放大招（三技能）后刘禅旋转起飞，期间不可被选中、无视地形阻挡；落下时对落点造成伤害并击飞敌人，落点中心的伤害为双倍。原文没写起飞持续多久、能否控制落点和最远位移距离、砸下伤害的数值和加成、作用半径、“中心”的半径、击飞时长；“中心双倍”按语序理解为中心伤害翻倍，没写击飞时长是否也加倍；也没写原三技能的旋风效果是否保留。",
+      "mechanisms": ["skill-change", "invulnerable", "mobility", "control", "area", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "三技能释放后",
+      "slots": [
+        { "key": "flightDuration", "what": "旋转起飞到砸下的持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心下起飞阶段的时长或帧数" },
+        { "key": "flightDistance", "what": "起飞期间最远位移距离", "unit": "meters", "claimed": null, "packHint": "起飞期间的移动距离或落点选择范围" },
+        { "key": "slamBaseDamage", "what": "砸下伤害基础值", "unit": "flat", "claimed": null, "packHint": "砸下伤害的基础数值" },
+        { "key": "slamDamageRatio", "what": "砸下伤害加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "砸下伤害的加成系数、加成属性和伤害类型" },
+        { "key": "slamRadius", "what": "砸下伤害作用半径", "unit": "meters", "claimed": null, "packHint": "砸下伤害和击飞的作用半径" },
+        { "key": "centerRadius", "what": "中心区域半径", "unit": "meters", "claimed": null, "packHint": "中心双倍伤害区域的半径" },
+        { "key": "centerMultiplier", "what": "中心区域伤害倍率（原文写汉字“双倍”，校验只认阿拉伯数字，所以 claimed 留空）", "unit": "ratio", "claimed": null, "packHint": "中心区域伤害倍率，需资源包核对原文所写的双倍" },
+        { "key": "knockupDuration", "what": "击飞时长", "unit": "seconds", "claimed": null, "packHint": "砸下击飞的控制时长" },
+        { "key": "cooldown", "what": "选择该核心后三技能冷却", "unit": "seconds", "claimed": null, "packHint": "选择该核心后三技能的冷却时间" }
+      ],
+      "ambiguities": [
+        "起飞持续时间、能否控制落点和最远距离未写",
+        "砸下伤害数值、加成属性、伤害类型、作用半径未写",
+        "中心区域半径未写；“双倍”是汉字，claimed 留空",
+        "击飞时长未写，中心是否击飞也加倍未写",
+        "原三技能旋风效果是否保留未写",
+        "砸下伤害能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "为所欲为",
+      "text": "使用任意技能时都能获得护盾",
+      "reading": "刘禅使用任何一个技能时都会获得护盾。该天赋归在一技能下，但原文写“任意技能”，按字面理解一、二、三技能都能触发。原文没写护盾数值和加成属性、持续时间，多次获得是叠加还是刷新，也没写有没有内置冷却。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "使用任意技能时",
+      "slots": [
+        { "key": "shieldBase", "what": "每次获得的护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾的基础数值" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋护盾按哪项属性加成及其系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋护盾的持续时间" },
+        { "key": "shieldCap", "what": "多次获得护盾时的叠加上限（若可叠加）", "unit": "flat", "claimed": null, "packHint": "护盾重复获得时叠加还是刷新，以及护盾值上限" },
+        { "key": "internalCooldown", "what": "获得护盾的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋护盾的触发内置冷却" }
+      ],
+      "ambiguities": [
+        "护盾数值、加成属性、持续时间未写",
+        "多次获得是叠加还是刷新未写",
+        "内置冷却未写",
+        "“任意技能”是否包括普攻或强普未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "双手插兜",
+      "text": "使用时将回血，并自动干扰一次附近的防御塔",
+      "reading": "使用一技能时回复生命，并自动对附近的防御塔进行一次干扰。原文没写回血量和计算方式，没写“干扰”的具体效果（例如让防御塔停止攻击或降低其攻击）和持续时间，没写“附近”的范围，也没写干扰的是敌方还是友方防御塔（按“干扰”字面理解为敌方）、附近有多座时干扰几座。",
+      "mechanisms": ["heal", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "使用一技能时",
+      "slots": [
+        { "key": "healBase", "what": "回血基础值", "unit": "flat", "claimed": null, "packHint": "该天赋回血的基础数值" },
+        { "key": "healRatio", "what": "回血加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋回血按哪项属性加成及其系数（例如最大生命）" },
+        { "key": "disruptRadius", "what": "干扰防御塔的搜索范围（原文只写“附近”）", "unit": "meters", "claimed": null, "packHint": "自动干扰防御塔的判定范围" },
+        { "key": "disruptDuration", "what": "干扰持续时间", "unit": "seconds", "claimed": null, "packHint": "防御塔被干扰的持续时间" },
+        { "key": "disruptEffect", "what": "干扰效果数值（原文未写干扰内容，例如降低攻击或攻速的比例，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "防御塔干扰状态的具体效果和数值" },
+        { "key": "disruptCount", "what": "每次使用干扰的次数或防御塔数量（原文写汉字“一次”，未写阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "每次使用一技能干扰防御塔的次数和数量，需资源包核对原文所写的一次" }
+      ],
+      "ambiguities": [
+        "回血量和计算方式未写",
+        "“干扰”的具体效果和持续时间未写",
+        "“附近”的范围未写",
+        "干扰的是敌方还是友方防御塔未写",
+        "附近有多座防御塔时干扰几座未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "大赦天下",
+      "text": "使用时为周围所有英雄（包括敌方）添加护盾，自身获得3秒25%输出提升",
+      "reading": "使用一技能时，为周围所有英雄（包括敌方英雄）添加护盾；同时刘禅自身获得持续3秒、25%的输出提升。原文没写护盾数值、加成属性、持续时间，“周围”的范围，刘禅自己是否也获得护盾；“输出提升”按字面理解为造成的伤害提高25%，原文没写是全部伤害还是攻击力；也没写重复使用时3秒是刷新还是叠加。",
+      "mechanisms": ["shield", "team", "buff", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "使用一技能时",
+      "slots": [
+        { "key": "shieldBase", "what": "给周围英雄的护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾的基础数值，以及敌我英雄是否相同" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋护盾按哪项属性加成及其系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋护盾的持续时间" },
+        { "key": "shieldRadius", "what": "添加护盾的范围（原文只写“周围”）", "unit": "meters", "claimed": null, "packHint": "添加护盾的作用半径" },
+        { "key": "ampDuration", "what": "自身输出提升持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "自身获得3秒" }, "packHint": "输出提升 buff 的持续时间，需资源包核对描述的3秒" },
+        { "key": "damageAmp", "what": "自身输出提升幅度", "unit": "percent", "claimed": { "value": 25, "quote": "25%输出提升" }, "packHint": "输出提升 buff 的数值和作用对象（伤害加成或攻击力），需资源包核对描述的25%" }
+      ],
+      "ambiguities": [
+        "护盾数值、加成属性、持续时间未写",
+        "“周围”范围未写",
+        "刘禅自身是否也获得护盾未写",
+        "“输出提升”是伤害加成还是攻击力提升未写",
+        "重复使用时输出提升是刷新还是叠加未写",
+        "敌方获得护盾后，三技能小天赋“金刚钻”（攻击有护盾单位额外伤害）是否会因此生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "速战速决",
+      "text": "加速效果不再衰减并且持续时间提升1秒",
+      "reading": "一技能的加速效果（原文默认一技能带有会衰减的加速）不再随时间衰减，并且持续时间延长1秒。原文没写加速原本的数值、原本的持续时间和衰减方式；“持续时间提升1秒”按语序理解为加速效果的持续时间。单看只影响移动，但三技能小天赋“油门踩到底”写了“速度越快三技能伤害越高”，两者同时选时移速会间接影响伤害，所以标 indirect。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能加速生效时",
+      "slots": [
+        { "key": "baseSpeedBonus", "what": "一技能加速的初始数值（原文未写是百分比还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "一技能加速效果的数值" },
+        { "key": "baseDuration", "what": "一技能加速原本的持续时间", "unit": "seconds", "claimed": null, "packHint": "一技能加速效果原本的持续时间" },
+        { "key": "extraDuration", "what": "持续时间延长量", "unit": "seconds", "claimed": { "value": 1, "quote": "持续时间提升1秒" }, "packHint": "该天赋下加速持续时间的延长量，需资源包核对描述的1秒" }
+      ],
+      "ambiguities": [
+        "加速原本的数值、持续时间和衰减方式未写",
+        "“持续时间提升1秒”指加速的持续时间还是一技能整体效果的持续时间未写明，按语序理解为加速"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "黑云压城",
+      "text": "强普下砸时的震荡波将向前方扩散",
+      "reading": "一技能强化普攻（强普）下砸时会产生震荡波（原文默认下砸带有震荡波），选此天赋后震荡波会向前方扩散。原文没写扩散的距离和宽度、扩散部分伤害是否与原震荡波相同、是否带原有控制效果，也没写同一目标能否被原震荡波和扩散部分重复命中。",
+      "mechanisms": ["area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "一技能强普下砸时",
+      "slots": [
+        { "key": "spreadDistance", "what": "震荡波向前扩散的距离", "unit": "meters", "claimed": null, "packHint": "该天赋下震荡波向前扩散的长度" },
+        { "key": "spreadWidth", "what": "震荡波扩散的宽度", "unit": "meters", "claimed": null, "packHint": "扩散震荡波的判定宽度或角度" },
+        { "key": "waveBaseDamage", "what": "扩散震荡波伤害基础值", "unit": "flat", "claimed": null, "packHint": "扩散部分的基础伤害，确认是否与原下砸震荡波相同" },
+        { "key": "waveDamageRatio", "what": "扩散震荡波伤害加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "扩散部分伤害的加成系数、加成属性和伤害类型" },
+        { "key": "maxHitsPerTarget", "what": "一次下砸中同一目标最多被命中次数", "unit": "count", "claimed": null, "packHint": "原震荡波与扩散部分对同一目标的命中判定规则" }
+      ],
+      "ambiguities": [
+        "扩散距离、宽度未写",
+        "扩散部分伤害数值、是否与原震荡波相同未写",
+        "扩散部分是否带控制效果未写",
+        "同一目标能否被重复命中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "我爹刘玄德",
+      "text": "开启时可解除控制，一技能期间造成伤害可转换为护盾",
+      "reading": "开启一技能时解除身上的控制效果；一技能生效期间造成的伤害可以转换为护盾。原文没写转换比例、护盾上限和持续时间、“一技能期间”有多长，也没写解除控制后是否附带一段免控时间。",
+      "mechanisms": ["control-immunity", "shield", "conversion"],
+      "damageRelevance": "indirect",
+      "trigger": "开启一技能时解除控制；一技能期间造成伤害时转换护盾",
+      "slots": [
+        { "key": "conversionRate", "what": "造成伤害转换为护盾的比例", "unit": "percent", "claimed": null, "packHint": "伤害转护盾的转换比例" },
+        { "key": "shieldCap", "what": "转换护盾的上限", "unit": "flat", "claimed": null, "packHint": "转换护盾的上限及计算方式" },
+        { "key": "shieldDuration", "what": "转换护盾的持续时间", "unit": "seconds", "claimed": null, "packHint": "转换护盾的持续时间" },
+        { "key": "skillWindow", "what": "“一技能期间”的时长", "unit": "seconds", "claimed": null, "packHint": "一技能生效状态的持续时间" },
+        { "key": "postCleanseImmunity", "what": "解除控制后的免控时长（若有）", "unit": "seconds", "claimed": null, "packHint": "解除控制后是否附带免控状态及其时长" }
+      ],
+      "ambiguities": [
+        "转换比例、护盾上限和持续时间未写",
+        "“一技能期间”的时长未写",
+        "解除控制后是否附带免控未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "乘胜追击",
+      "text": "强普索敌范围扩大并具有追击效果",
+      "reading": "一技能强化普攻（强普）寻找目标的范围扩大，并且强普带有追击效果（按字面理解为会追向目标）。原文没写原本的索敌范围、扩大多少，也没写追击的距离、速度和方式。",
+      "mechanisms": ["area", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能强普时",
+      "slots": [
+        { "key": "baseAcquireRange", "what": "强普原本的索敌范围", "unit": "meters", "claimed": null, "packHint": "强普原本的索敌范围" },
+        { "key": "acquireRangeIncrease", "what": "索敌范围扩大量（原文未写是百分比还是固定距离，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋下强普索敌范围的扩大量" },
+        { "key": "chaseDistance", "what": "追击的最大距离", "unit": "meters", "claimed": null, "packHint": "强普追击的位移距离" },
+        { "key": "chaseSpeed", "what": "追击速度", "unit": "flat", "claimed": null, "packHint": "强普追击的移动速度或耗时" }
+      ],
+      "ambiguities": [
+        "原本索敌范围和扩大量未写",
+        "追击的方式、距离和速度未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "大智若愚",
+      "text": "受到大于自身生命10%的伤害时会爆出零件",
+      "reading": "刘禅受到大于自身生命10%的伤害时会爆出零件。原文没写“自身生命”是最大生命还是当前生命、“大于10%”是单次伤害还是一段时间内累计，每次爆出几个零件、零件怎样收集、有什么作用，也没写有没有触发冷却。零件在核心“乐不思蜀”中可回血、加移速并打出元气弹，在核心“匡扶汉室”中用于建造机关塔，本天赋原文没写是否与这两个核心联动；按联动后影响回血或建塔理解，暂标 indirect。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "受到大于自身生命10%的伤害时",
+      "slots": [
+        { "key": "damageThreshold", "what": "触发所需的伤害占自身生命比例", "unit": "percent", "claimed": { "value": 10, "quote": "大于自身生命10%" }, "packHint": "爆出零件的伤害阈值和比较对象（最大或当前生命），需资源包核对描述的10%" },
+        { "key": "partsPerTrigger", "what": "每次爆出的零件数", "unit": "count", "claimed": null, "packHint": "每次触发爆出零件数量" },
+        { "key": "partLifetime", "what": "爆出零件在地面的存在时间", "unit": "seconds", "claimed": null, "packHint": "爆出零件的存在时间和拾取规则" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "爆出零件的触发冷却" }
+      ],
+      "ambiguities": [
+        "“自身生命”是最大生命还是当前生命未写",
+        "“大于10%”是单次伤害还是累计伤害未写",
+        "每次爆出零件数量、零件作用和收集方式未写",
+        "是否与核心“乐不思蜀”“匡扶汉室”的零件联动未写",
+        "触发冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "全境封锁",
+      "text": "技能将覆盖360度的敌人，对面前的敌人造成双倍伤害",
+      "reading": "二技能的作用范围变为覆盖周围360度的敌人，其中位于刘禅面前的敌人受到双倍伤害。原文没写二技能原本覆盖的角度，“面前”的角度范围，双倍是相对原二技能伤害还是相对其他方向的伤害，作用半径是否变化，也没写其他效果是否也覆盖360度。",
+      "mechanisms": ["area", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "使用二技能时",
+      "slots": [
+        { "key": "coverageAngle", "what": "二技能覆盖角度（单位为度，用 flat 表示角度值）", "unit": "flat", "claimed": { "value": 360, "quote": "覆盖360度" }, "packHint": "该天赋下二技能判定区域的角度，需资源包核对描述的360度" },
+        { "key": "radius", "what": "二技能作用半径", "unit": "meters", "claimed": null, "packHint": "该天赋下二技能判定区域的半径，确认是否与原技能相同" },
+        { "key": "frontAngle", "what": "“面前”区域的角度（单位为度）", "unit": "flat", "claimed": null, "packHint": "面前双倍伤害区域的角度范围" },
+        { "key": "frontMultiplier", "what": "面前敌人受到的伤害倍率（原文写汉字“双倍”，校验只认阿拉伯数字，所以 claimed 留空）", "unit": "ratio", "claimed": null, "packHint": "面前区域伤害倍率，需资源包核对原文所写的双倍及其基准" },
+        { "key": "otherDirectionMultiplier", "what": "非面前方向敌人受到的伤害相对原二技能伤害的倍率", "unit": "ratio", "claimed": null, "packHint": "其余方向的伤害是否与原二技能相同" }
+      ],
+      "ambiguities": [
+        "二技能原本覆盖角度未写",
+        "“面前”的角度范围未写",
+        "“双倍”的基准未写；“双倍”是汉字，claimed 留空",
+        "作用半径是否变化未写",
+        "二技能其他效果是否也覆盖360度未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "弹射出击",
+      "text": "使用时可向目标方向位移一段距离",
+      "reading": "使用二技能时可以向目标方向位移一段距离。原文没写位移距离、位移耗时，位移期间能否被选中或打断，也没写位移是在二技能效果之前还是之后。只改变位置，不直接影响伤害。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "使用二技能时",
+      "slots": [
+        { "key": "dashDistance", "what": "位移距离（原文只写“一段距离”）", "unit": "meters", "claimed": null, "packHint": "该天赋下二技能的位移距离" },
+        { "key": "dashDuration", "what": "位移耗时", "unit": "seconds", "claimed": null, "packHint": "位移从开始到结束的时长或帧数" }
+      ],
+      "ambiguities": [
+        "位移距离和耗时未写",
+        "位移期间能否被选中或打断未写",
+        "位移与二技能效果的先后顺序未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "超级夹子",
+      "text": "命中会将敌人夹扁3秒，期间其将受到额外25%的伤害",
+      "reading": "二技能命中敌人后将其“夹扁”3秒，这3秒内该敌人受到的伤害额外增加25%。原文没写“夹扁”是否带控制效果，额外25%是只对刘禅造成的伤害还是对所有来源（包括队友）的伤害，重复命中是刷新还是叠加，也没写对首领是否同样生效。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中敌人后",
+      "slots": [
+        { "key": "duration", "what": "夹扁状态持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "夹扁3秒" }, "packHint": "夹扁状态的持续时间，需资源包核对描述的3秒" },
+        { "key": "vulnerability", "what": "夹扁期间受到的额外伤害比例", "unit": "percent", "claimed": { "value": 25, "quote": "额外25%的伤害" }, "packHint": "夹扁状态的易伤数值和作用来源（仅刘禅或所有来源），需资源包核对描述的25%" },
+        { "key": "maxStacks", "what": "重复命中时易伤的叠加层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "夹扁状态重复命中时刷新还是叠加" }
+      ],
+      "ambiguities": [
+        "“夹扁”是否带控制效果未写",
+        "额外伤害是只对刘禅的伤害还是所有来源未写",
+        "重复命中时刷新还是叠加未写",
+        "对首领是否同样生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "维修还是爆破",
+      "text": "可治疗友方防御塔或直接摧毁血量低于1500的敌方防御塔",
+      "reading": "二技能可以治疗友方防御塔；作用于敌方防御塔时，如果其血量低于1500，直接将其摧毁。原文没写治疗量和方式（一次性或持续），“血量低于1500”按字面理解为当前生命值低于1500点，原文没写单位；也没写对血量高于1500的敌方防御塔有什么效果、触发是否有冷却。",
+      "mechanisms": ["execute", "heal", "team"],
+      "damageRelevance": "direct",
+      "trigger": "二技能作用于防御塔时",
+      "slots": [
+        { "key": "towerHealBase", "what": "治疗友方防御塔的基础量", "unit": "flat", "claimed": null, "packHint": "治疗友方防御塔的数值" },
+        { "key": "towerHealPct", "what": "治疗友方防御塔的生命比例（若按防御塔最大生命计算）", "unit": "percent", "claimed": null, "packHint": "治疗友方防御塔的计算方式（固定值或按生命比例）" },
+        { "key": "executeHpThreshold", "what": "敌方防御塔被直接摧毁的血量阈值（原文无单位，按生命值固定数值理解）", "unit": "flat", "claimed": { "value": 1500, "quote": "血量低于1500" }, "packHint": "直接摧毁敌方防御塔的血量阈值，需资源包核对描述的1500" },
+        { "key": "cooldown", "what": "治疗或摧毁效果的冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋对防御塔效果的触发冷却" }
+      ],
+      "ambiguities": [
+        "治疗量和方式未写",
+        "1500的单位未写（按生命值理解）",
+        "对血量高于1500的敌方防御塔的效果未写",
+        "触发冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "我师诸葛亮",
+      "text": "向施法方向发射诸葛亮的元气弹",
+      "reading": "使用二技能时向施法方向发射诸葛亮的元气弹。原文没写元气弹的数量、伤害、加成属性、飞行距离、范围（单体还是爆炸）、能否穿透，也没写是否与核心“乐不思蜀”的元气弹相同。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "使用二技能时",
+      "slots": [
+        { "key": "orbCount", "what": "每次发射的元气弹数量", "unit": "count", "claimed": null, "packHint": "该天赋下元气弹的发射数量" },
+        { "key": "orbBaseDamage", "what": "元气弹基础伤害", "unit": "flat", "claimed": null, "packHint": "该天赋元气弹的基础伤害数值" },
+        { "key": "orbDamageRatio", "what": "元气弹伤害加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "元气弹伤害的加成系数、加成属性和伤害类型" },
+        { "key": "orbRange", "what": "元气弹飞行距离", "unit": "meters", "claimed": null, "packHint": "元气弹弹道的飞行距离与速度" },
+        { "key": "orbRadius", "what": "元气弹命中范围（单体判定宽度或爆炸半径）", "unit": "meters", "claimed": null, "packHint": "元气弹的命中判定宽度或爆炸半径" },
+        { "key": "maxTargets", "what": "元气弹最多命中目标数（若可穿透）", "unit": "count", "claimed": null, "packHint": "元气弹是否穿透及最多命中目标数" }
+      ],
+      "ambiguities": [
+        "元气弹数量、伤害、加成属性、伤害类型未写",
+        "飞行距离、命中范围、能否穿透未写",
+        "是否与核心“乐不思蜀”的元气弹相同未写",
+        "元气弹能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "举一反二",
+      "text": "命中后减少一三技能冷却时间",
+      "reading": "二技能命中后，减少一技能和三技能的冷却时间。原文没写减少多少（秒数还是比例），命中多个目标是否多次触发，也没写是否只有命中英雄才触发。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中后",
+      "slots": [
+        { "key": "skill1Reduction", "what": "一技能冷却减少量（原文未写是秒数还是比例，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋减少一技能冷却的数值和形式" },
+        { "key": "skill3Reduction", "what": "三技能冷却减少量（原文未写是秒数还是比例，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋减少三技能冷却的数值和形式" },
+        { "key": "maxTriggersPerCast", "what": "每次二技能最多触发次数", "unit": "count", "claimed": null, "packHint": "命中多个目标时是否多次触发" }
+      ],
+      "ambiguities": [
+        "冷却减少量和形式未写",
+        "命中多个目标是否多次触发未写",
+        "命中目标类型限制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "重振旗鼓",
+      "text": "受到治疗效果时，自身可获得5%的攻击力和物理穿透，最多5层",
+      "reading": "刘禅每次受到治疗效果时，获得一层增益，每层提供5%的攻击力和物理穿透，最多叠加5层。原文“5%的攻击力和物理穿透”按语序理解为5%同时修饰攻击力和物理穿透；没写攻击力5%基于总攻击还是基础攻击，物理穿透是5%的百分比穿透还是穿透数值提高5%；没写每层持续时间、重复触发是刷新还是独立计时，持续治疗每跳是否都叠层，也没写治疗来源有没有限制。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "受到治疗效果时",
+      "slots": [
+        { "key": "attackPerStack", "what": "每层攻击力加成", "unit": "percent", "claimed": { "value": 5, "quote": "5%的攻击力" }, "packHint": "该天赋每层攻击力加成数值和基准（总攻击或基础攻击），需资源包核对描述的5%" },
+        { "key": "penPerStack", "what": "每层物理穿透加成（原文“5%的攻击力和物理穿透”，按语序理解5%同时修饰物理穿透；是百分比穿透还是穿透数值提高5%未写）", "unit": "percent", "claimed": { "value": 5, "quote": "5%的攻击力和物理穿透" }, "packHint": "该天赋每层物理穿透加成数值和形式，需资源包核对描述的5%是否适用于物理穿透" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": { "value": 5, "quote": "最多5层" }, "packHint": "该天赋 buff 最大层数，需资源包核对描述的5层" },
+        { "key": "stackDuration", "what": "每层持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的持续时间及刷新规则" },
+        { "key": "internalCooldown", "what": "叠层的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "受到治疗时叠层的频率限制，持续治疗每跳是否都叠层" }
+      ],
+      "ambiguities": [
+        "5%是否同时适用于物理穿透有歧义（按语序理解为适用）",
+        "攻击力5%的基准未写",
+        "物理穿透是百分比穿透还是数值提高5%未写",
+        "每层持续时间、刷新规则未写",
+        "持续治疗每跳是否都叠层、有无内置冷却未写",
+        "治疗来源有没有限制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "能屈能伸",
+      "text": "血量越低，回复效果越强，至多可提升50%",
+      "reading": "刘禅血量越低，回复效果越强，最多提升50%。原文没写“回复效果”是指二技能自带的回复、刘禅受到的所有治疗还是自身所有回复，没写血量按当前生命比例还是数值计算，提升随血量的变化方式（线性还是分段），也没写血量低到多少时达到50%上限。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "回复生效时（按当前血量计算）",
+      "slots": [
+        { "key": "maxHealIncrease", "what": "回复效果最大提升", "unit": "percent", "claimed": { "value": 50, "quote": "至多可提升50%" }, "packHint": "该天赋回复效果提升的上限，需资源包核对描述的50%" },
+        { "key": "hpAtMax", "what": "达到提升上限时的生命比例", "unit": "percent", "claimed": null, "packHint": "回复提升达到上限对应的血量" },
+        { "key": "hpAtStart", "what": "开始提升回复效果的生命比例", "unit": "percent", "claimed": null, "packHint": "回复提升开始生效的血量及随血量变化的曲线（线性或分段）" }
+      ],
+      "ambiguities": [
+        "“回复效果”指哪些回复未写",
+        "血量按比例还是数值计算未写",
+        "提升随血量变化的方式未写",
+        "达到50%上限的血量未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "左膀右臂",
+      "text": "旋风将加在距离刘禅最近的两个队友身上",
+      "reading": "三技能的旋风（原文默认三技能产生旋风）会加在离刘禅最近的两个队友身上。原文没写旋风是从刘禅身上转移给队友还是刘禅自己也保留，队友身上旋风的伤害是否与原来相同、按刘禅还是队友的属性计算、持续时间，搜索队友有没有距离限制，也没写附近队友不足两个时怎么处理。",
+      "mechanisms": ["team", "area"],
+      "damageRelevance": "direct",
+      "trigger": "使用三技能时",
+      "slots": [
+        { "key": "allyCount", "what": "附加旋风的队友数量（原文写汉字“两个”，未写阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "附加旋风的队友数量，需资源包核对原文所写的两个" },
+        { "key": "allySearchRange", "what": "搜索最近队友的距离上限（若有）", "unit": "meters", "claimed": null, "packHint": "选取队友的距离限制" },
+        { "key": "allyWhirlBaseDamage", "what": "队友身上旋风每次伤害的基础值", "unit": "flat", "claimed": null, "packHint": "队友身上旋风的基础伤害，确认是否与原三技能相同" },
+        { "key": "allyWhirlRatio", "what": "队友身上旋风的加成系数（按刘禅还是队友的属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "队友身上旋风伤害的加成系数、加成属性和属性来源" },
+        { "key": "allyWhirlDuration", "what": "队友身上旋风的持续时间", "unit": "seconds", "claimed": null, "packHint": "队友身上旋风的持续时间" },
+        { "key": "allyWhirlRadius", "what": "队友身上旋风的作用半径", "unit": "meters", "claimed": null, "packHint": "队友身上旋风的作用半径" }
+      ],
+      "ambiguities": [
+        "旋风是转移给队友还是刘禅自己也保留未写",
+        "队友身上旋风的伤害、属性来源、持续时间、范围未写",
+        "搜索队友的距离限制未写",
+        "队友不足两个时如何处理未写",
+        "“两个”是汉字，claimed 留空"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "旋风小陀螺",
+      "text": "伤害频率提高25%",
+      "reading": "三技能造成伤害的频率提高25%。原文没写原本的伤害间隔，“频率提高25%”是每秒伤害次数乘以1.25还是间隔缩短25%，也没写三技能持续时间是否不变（即总伤害次数是否随之增加）。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "三技能生效期间",
+      "slots": [
+        { "key": "frequencyIncrease", "what": "伤害频率提升幅度", "unit": "percent", "claimed": { "value": 25, "quote": "伤害频率提高25%" }, "packHint": "该天赋下三技能伤害间隔或频率，需资源包核对描述的25%及其计算方式" },
+        { "key": "baseTickInterval", "what": "三技能原本的伤害间隔", "unit": "seconds", "claimed": null, "packHint": "三技能原本的伤害间隔" },
+        { "key": "skillDuration", "what": "三技能伤害持续时间", "unit": "seconds", "claimed": null, "packHint": "三技能伤害持续时间，确认该天赋下是否不变" },
+        { "key": "maxTicks", "what": "一次三技能的伤害次数上限（若有）", "unit": "count", "claimed": null, "packHint": "三技能伤害次数是否有上限，频率提高后是否增加" }
+      ],
+      "ambiguities": [
+        "原本伤害间隔未写",
+        "“频率提高25%”的计算方式未写",
+        "持续时间是否不变、总伤害次数是否增加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "大风车",
+      "text": "旋转范围提升25%",
+      "reading": "三技能旋转的作用范围提升25%。原文没写原本范围，也没写25%是半径提升还是面积提升。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能生效期间",
+      "slots": [
+        { "key": "rangeIncrease", "what": "旋转范围提升幅度", "unit": "percent", "claimed": { "value": 25, "quote": "旋转范围提升25%" }, "packHint": "该天赋下三技能旋转范围，需资源包核对描述的25%，并确认是半径还是面积" },
+        { "key": "baseRadius", "what": "三技能原本旋转半径", "unit": "meters", "claimed": null, "packHint": "三技能原本的旋转作用半径" }
+      ],
+      "ambiguities": [
+        "原本范围未写",
+        "25%是半径提升还是面积提升未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "以退为进",
+      "text": "旋风命中敌人也可回血，命中防御塔额外恢复25%",
+      "reading": "三技能旋风命中敌人时也能回复生命；命中防御塔时额外恢复25%。原文“也可回血”暗示原本只在某种情况下回血（可能是命中防御塔），但没写明；没写命中敌人时回多少血、有无频率限制；“额外恢复25%”没写是回血量提高25%还是额外恢复25%生命，也没写防御塔指敌方还是友方。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能旋风命中敌人或防御塔时",
+      "slots": [
+        { "key": "healPerHitBase", "what": "旋风每次命中敌人的回血基础值", "unit": "flat", "claimed": null, "packHint": "旋风命中敌人时的回血数值" },
+        { "key": "healPerHitRatio", "what": "旋风命中回血的加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "旋风命中回血按哪项属性加成及其系数" },
+        { "key": "towerExtraHeal", "what": "命中防御塔时的额外恢复（原文未写是回血量提高25%还是恢复25%生命）", "unit": "percent", "claimed": { "value": 25, "quote": "命中防御塔额外恢复25%" }, "packHint": "命中防御塔时额外恢复的数值和基准，需资源包核对描述的25%" },
+        { "key": "internalCooldown", "what": "命中回血的频率限制（若有）", "unit": "seconds", "claimed": null, "packHint": "旋风命中回血的内置冷却或每秒触发上限" }
+      ],
+      "ambiguities": [
+        "命中敌人时的回血量未写",
+        "“额外恢复25%”的基准未写",
+        "防御塔指敌方还是友方未写",
+        "命中多个敌人时是否多次回血、有无频率限制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "又唱又跳",
+      "text": "敌人在旋转区域内会被持续扣除双抗，最高10层",
+      "reading": "敌人处在三技能旋转区域内时，会被持续扣除双抗（物理防御和法术防御），按层数叠加，最高10层。原文没写每层扣除多少（固定值还是比例），多久叠一层，离开区域后层数保留多久，也没写对首领是否生效。",
+      "mechanisms": ["stacking", "buff", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "敌人处在三技能旋转区域内时",
+      "slots": [
+        { "key": "shredPerStack", "what": "每层扣除的双抗（原文未写是固定值还是比例，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋每层降低物理防御和法术防御的数值和形式" },
+        { "key": "stackInterval", "what": "叠一层的间隔", "unit": "seconds", "claimed": null, "packHint": "区域内叠层的频率" },
+        { "key": "stackDuration", "what": "离开区域后层数的保留时间", "unit": "seconds", "claimed": null, "packHint": "减双抗层数的持续时间和刷新规则" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": { "value": 10, "quote": "最高10层" }, "packHint": "减双抗 debuff 最大层数，需资源包核对描述的10层" }
+      ],
+      "ambiguities": [
+        "每层扣除双抗的数值和形式未写",
+        "叠层频率未写",
+        "离开区域后层数保留时间未写",
+        "对首领是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "我叔赵子龙",
+      "text": "丝血时赵云从天而降攻击周围敌人",
+      "reading": "刘禅“丝血”（生命极低）时，赵云从天而降攻击周围的敌人。原文没写“丝血”的生命阈值，赵云攻击的伤害、加成属性、次数、范围，赵云是否停留一段时间持续攻击、是否带控制，“周围”是刘禅周围还是赵云落点周围，也没写触发冷却或每局次数。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "丝血时",
+      "slots": [
+        { "key": "hpThreshold", "what": "触发的生命比例阈值（原文只写“丝血”）", "unit": "percent", "claimed": null, "packHint": "赵云出场的血量触发条件" },
+        { "key": "strikeBaseDamage", "what": "赵云每次攻击的基础伤害", "unit": "flat", "claimed": null, "packHint": "赵云攻击的基础伤害数值" },
+        { "key": "strikeRatio", "what": "赵云攻击的加成系数（加成属性原文未写）", "unit": "ratio", "claimed": null, "packHint": "赵云攻击伤害的加成系数、加成属性和伤害类型" },
+        { "key": "strikeCount", "what": "赵云攻击次数", "unit": "count", "claimed": null, "packHint": "每次出场的攻击次数" },
+        { "key": "strikeRadius", "what": "攻击范围", "unit": "meters", "claimed": null, "packHint": "赵云攻击的作用半径和中心点" },
+        { "key": "summonDuration", "what": "赵云停留时间（若持续存在）", "unit": "seconds", "claimed": null, "packHint": "赵云出场的持续时间" },
+        { "key": "cooldown", "what": "触发冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却或每局次数限制" }
+      ],
+      "ambiguities": [
+        "“丝血”的生命阈值未写",
+        "赵云攻击的伤害、加成属性、次数、范围未写",
+        "赵云是否停留、是否带控制未写",
+        "“周围”的中心点未写",
+        "触发冷却或次数限制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "金刚钻",
+      "text": "大招攻击具有护盾的单位可以额外造成两倍伤害",
+      "reading": "三技能（大招）攻击带有护盾的单位时，额外造成两倍伤害。“额外造成两倍伤害”可以读成在原伤害之外再追加两倍（合计三倍），也可以读成伤害变为两倍，原文没有区分；也没写加成只对护盾部分生效还是护盾破后仍然生效、对哪类单位生效。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "三技能攻击具有护盾的单位时",
+      "slots": [
+        { "key": "shieldedMultiplier", "what": "对有护盾单位的伤害倍率（原文写汉字“两倍”，校验只认阿拉伯数字，所以 claimed 留空；“额外”是另加两倍还是总计两倍未写）", "unit": "ratio", "claimed": null, "packHint": "大招对有护盾单位的伤害倍率，需资源包核对原文所写的两倍及其是否为额外追加" }
+      ],
+      "ambiguities": [
+        "“额外造成两倍伤害”是合计三倍还是变为两倍未写",
+        "加成只对护盾部分还是护盾破后仍生效未写",
+        "生效单位类型未写",
+        "“两倍”是汉字，claimed 留空"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "油门踩到底",
+      "text": "获得移速加成效果，速度越快三技能伤害越高",
+      "reading": "刘禅获得移速加成；移动速度越快，三技能造成的伤害越高。原文没写移速加成的数值、是常驻还是三技能期间，伤害随速度提高的换算方式（每多少移速提高多少伤害）、从多少移速开始计算、伤害提升上限，也没写按当前移速还是面板移速计算。",
+      "mechanisms": ["mobility", "buff", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "常驻或三技能期间（原文未写）",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "移速加成（原文未写是百分比还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋提供的移速加成数值" },
+        { "key": "moveSpeedDuration", "what": "移速加成持续时间（若非常驻）", "unit": "seconds", "claimed": null, "packHint": "移速加成是常驻还是限时，以及持续时间" },
+        { "key": "speedBaseline", "what": "开始计算伤害加成的移速基准", "unit": "flat", "claimed": null, "packHint": "伤害加成从多少移速开始计算" },
+        { "key": "speedPerStep", "what": "每档伤害加成对应的移速", "unit": "flat", "claimed": null, "packHint": "移速换算伤害加成的步长" },
+        { "key": "ampPerStep", "what": "每档移速对应的三技能伤害加成", "unit": "percent", "claimed": null, "packHint": "移速换算三技能伤害加成的比例" },
+        { "key": "ampCap", "what": "三技能伤害加成上限", "unit": "percent", "claimed": null, "packHint": "移速换算伤害加成的上限" }
+      ],
+      "ambiguities": [
+        "移速加成数值和持续方式未写",
+        "移速换算伤害的方式、基准和上限未写",
+        "按当前移速还是面板移速计算未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

@@ -1,0 +1,806 @@
+{
+  "heroId": "505",
+  "heroName": "瑶",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "小鹿乱撞",
+      "text": "引魄弹射5次（单目标最多受击2次）",
+      "reading": "一技能核心。选此核心后，一技能的“引魄”会在目标之间弹射5次，同一个目标最多被命中2次。仓库里没有本模式瑶的基础技能原文（data/official.json 只有名称），从其他一技能天赋的原文只能推断引魄是会飞行、能击飞敌人、带眩晕和搜寻效果的魄（见 t03「小鹿软糖」“引魄回身”、t06「旋转木马」“引魄到达终点”、t14「幸运盲盒」“不触发眩晕和搜寻效果”）。原文没有写：5次弹射是否包含第一次命中；弹射找下一个目标的距离和选择规则；每次弹射的伤害是否与首次命中相同、是否衰减；每次弹射是否都击飞、击退或眩晕目标；没有可弹射目标时是否提前结束；弹射时 t01、t05 所说的“最后击飞的敌人”指哪一个；弹射后引魄是否仍会“到达终点”“回身”，从而触发 t03、t06。",
+      "mechanisms": ["skill-change", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能引魄命中敌人后",
+      "slots": [
+        { "key": "bounceCount", "what": "引魄弹射次数", "unit": "count", "claimed": { "value": 5, "quote": "引魄弹射5次" }, "packHint": "核心 c1 的弹射次数，核对描述的5次，需以资源包为准；同时确认是否包含首次命中" },
+        { "key": "maxHitsPerTarget", "what": "单个目标最多受击次数", "unit": "count", "claimed": { "value": 2, "quote": "单目标最多受击2次" }, "packHint": "核心 c1 单目标受击上限，核对描述的2次，需以资源包为准" },
+        { "key": "bounceRange", "what": "弹射寻找下一个目标的距离", "unit": "meters", "claimed": null, "packHint": "核心 c1 弹射的索敌半径与目标选择规则" },
+        { "key": "bounceDamageBase", "what": "每次弹射伤害的基础值（若与原引魄伤害不同）", "unit": "flat", "claimed": null, "packHint": "核心 c1 弹射伤害基础值，确认是否沿用一技能原伤害" },
+        { "key": "bounceDamageRatio", "what": "每次弹射伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "弹射伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "bounceDamageFalloff", "what": "每次弹射后伤害的衰减或递增幅度（原文未写是否存在）", "unit": "percent", "claimed": null, "packHint": "核心 c1 弹射伤害是否逐次变化及变化比例" },
+        { "key": "bounceControlDuration", "what": "弹射命中时附带的击飞或眩晕时长（是否每次都附带未写）", "unit": "seconds", "claimed": null, "packHint": "核心 c1 每次弹射是否附带击飞、击退、眩晕及各自时长" }
+      ],
+      "ambiguities": [
+        "5次弹射是否包含首次命中没有写",
+        "弹射距离和目标选择规则没有写",
+        "每次弹射的伤害数值、系数、伤害类型、是否衰减没有写",
+        "每次弹射是否附带击飞、击退、眩晕没有写",
+        "可弹射目标不足时是否提前结束没有写",
+        "弹射时“最后击飞的敌人”（t01、t05）指哪一个没有写",
+        "弹射后是否仍会到达终点、回身（t03、t06）没有写",
+        "仓库里没有本模式一技能的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "巨鹿锁心",
+      "text": "引魄巨化，提升击退、击飞、伤害效果，但魄移速降低",
+      "reading": "一技能核心。选此核心后引魄体积变大（“巨化”），并提升引魄的击退效果、击飞效果和伤害，代价是魄的飞行移动速度降低。原文没有写：体积放大多少、判定范围随之变大多少；击退提升的是距离还是控制时长、提升多少；击飞提升的是时长还是范围、提升多少；伤害提升多少、是百分比还是固定值；魄移速降低多少，以及移速降低后飞行时间变长是否影响命中或回身时机。",
+      "mechanisms": ["skill-change", "area", "control", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选择该核心后每次释放一技能）",
+      "slots": [
+        { "key": "sizeScale", "what": "引魄体积或判定范围的放大倍数", "unit": "ratio", "claimed": null, "packHint": "核心 c2 引魄碰撞体或判定半径的放大比例" },
+        { "key": "knockbackBonus", "what": "击退效果提升量（按距离记；若提升的是控制时长需改单位）", "unit": "meters", "claimed": null, "packHint": "核心 c2 击退提升的具体内容（距离或时长）和数值" },
+        { "key": "knockupBonus", "what": "击飞效果提升量（按时长记；若提升的是范围需改单位）", "unit": "seconds", "claimed": null, "packHint": "核心 c2 击飞提升的具体内容（时长或范围）和数值" },
+        { "key": "damageBonus", "what": "引魄伤害提升幅度", "unit": "percent", "claimed": null, "packHint": "核心 c2 伤害提升数值，确认是百分比增伤还是基础值、系数提高" },
+        { "key": "projectileSpeedReduction", "what": "魄移速降低幅度（减少量）", "unit": "percent", "claimed": null, "packHint": "核心 c2 魄飞行速度降低的比例，及原飞行速度" }
+      ],
+      "ambiguities": [
+        "体积放大多少没有写",
+        "击退、击飞各提升什么（距离、时长、范围）以及提升多少没有写",
+        "伤害提升多少、是百分比还是固定值没有写",
+        "魄移速降低多少没有写",
+        "移速降低对命中、回身时机的影响没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "元气星星弹",
+      "text": "头顶蓄魄，砸向血量最低的敌人（技能命中越多，蓄魄伤害越高）",
+      "reading": "二技能核心。选此核心后，瑶在头顶积蓄一个魄（“蓄魄”），再砸向血量最低的敌人；技能命中越多，蓄魄的伤害越高。仓库里没有本模式二技能的基础原文，从其他二技能天赋只能看出二技能会对目标进行多次“打击”（t10「星光涟漪」）并有“子弹”（t16「星河坠露」）。原文没有写：何时开始蓄魄、何时砸下（释放二技能时蓄积并在结束时砸下，还是持续蓄积）；“技能命中”只计二技能还是所有技能；每次命中提升多少伤害、提升上限；“血量最低”按当前生命值还是生命百分比、搜索范围多大；砸下是单体还是范围伤害；伤害基础值、系数、伤害类型、能否暴击；原二技能的打击是否保留。",
+      "mechanisms": ["skill-change", "stacking", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时蓄魄（砸下时机原文未写）",
+      "slots": [
+        { "key": "impactDamageBase", "what": "蓄魄砸下伤害的基础值（未叠加命中加成时）", "unit": "flat", "claimed": null, "packHint": "核心 c3 蓄魄伤害基础值" },
+        { "key": "impactDamageRatio", "what": "蓄魄砸下伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "蓄魄伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "damagePerHit", "what": "每次技能命中增加的蓄魄伤害（固定值还是百分比未写）", "unit": "flat", "claimed": null, "packHint": "核心 c3 每次命中提升的蓄魄伤害及其形式（固定值或百分比）" },
+        { "key": "maxHitStacks", "what": "计入蓄魄伤害的命中次数上限", "unit": "count", "claimed": null, "packHint": "核心 c3 命中加成的层数或伤害上限，以及哪些技能命中计入" },
+        { "key": "chargeTime", "what": "蓄魄到砸下的时间", "unit": "seconds", "claimed": null, "packHint": "核心 c3 蓄魄的蓄积时长或砸下时机" },
+        { "key": "targetSearchRange", "what": "寻找血量最低敌人的范围", "unit": "meters", "claimed": null, "packHint": "核心 c3 选取目标的搜索半径，以及按当前生命值还是百分比比较" },
+        { "key": "impactRadius", "what": "砸下伤害的作用半径（是否为范围伤害未写）", "unit": "meters", "claimed": null, "packHint": "核心 c3 砸下是单体还是范围，范围则找半径" }
+      ],
+      "ambiguities": [
+        "蓄魄开始和砸下的时机没有写",
+        "“技能命中”只计二技能还是所有技能没有写",
+        "每次命中提升多少伤害、上限没有写",
+        "“血量最低”按当前值还是百分比、搜索范围没有写",
+        "砸下是单体还是范围没有写",
+        "伤害基础值、系数、伤害类型、能否暴击没有写",
+        "原二技能打击是否保留没有写",
+        "仓库里没有本模式二技能的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "倾心爆爆咚",
+      "text": "3秒内向最近目标倾泻子弹（每颗子弹伤害降低）",
+      "reading": "二技能核心。选此核心后，二技能改为在3秒内向最近的目标连续倾泻子弹，每颗子弹的伤害降低。原文没有写：3秒内发射多少颗子弹或发射间隔；“伤害降低”是相对原二技能每次打击的伤害降低，还是逐颗递减，降低多少；“最近目标”是每颗子弹重新选取还是锁定开始时的目标；索敌范围；每颗子弹是否算一次“打击”，从而触发 t09「绵雨纷纷」、t10「星光涟漪」、t13「葛蔓蔓兮」、t14「幸运盲盒」、t15「怦然三动」；子弹伤害类型、能否暴击；倾泻期间瑶能否移动。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能后3秒内",
+      "slots": [
+        { "key": "duration", "what": "倾泻子弹的持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "3秒内" }, "packHint": "核心 c4 倾泻持续时间，核对描述的3秒，需以资源包为准" },
+        { "key": "bulletCount", "what": "持续时间内发射的子弹总数", "unit": "count", "claimed": null, "packHint": "核心 c4 子弹总数，确认按次数还是按间隔发射" },
+        { "key": "fireInterval", "what": "子弹发射间隔", "unit": "seconds", "claimed": null, "packHint": "核心 c4 子弹发射间隔，以及 t09 打击频率加快是否作用于它" },
+        { "key": "bulletDamageReduction", "what": "每颗子弹伤害降低幅度（减少量；相对什么降低未写）", "unit": "percent", "claimed": null, "packHint": "核心 c4 子弹伤害相对原打击的降低比例，或逐颗递减规则" },
+        { "key": "bulletDamageBase", "what": "每颗子弹伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c4 子弹伤害基础值" },
+        { "key": "bulletDamageRatio", "what": "每颗子弹伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "子弹伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "targetRange", "what": "选取最近目标的索敌范围", "unit": "meters", "claimed": null, "packHint": "核心 c4 索敌半径与每颗子弹是否重新选目标" }
+      ],
+      "ambiguities": [
+        "子弹总数或发射间隔没有写",
+        "伤害降低相对什么、降低多少没有写",
+        "每颗子弹是否重新选取最近目标没有写",
+        "索敌范围没有写",
+        "子弹是否算作“打击”并触发二技能小天赋没有写",
+        "子弹伤害类型、能否暴击没有写",
+        "倾泻期间能否移动没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "与子偕老",
+      "text": "护盾破碎不再被击落，脱战后刷新附身",
+      "reading": "大招核心。从三技能天赋原文（t02、t03、t22 的“附身目标”，t23 的“附身结束时”）可知大招与瑶附身到队友身上有关；本条原文“护盾破碎不再被击落”说明原本附身时带有护盾，护盾破碎时瑶会被“击落”。选此核心后：护盾破碎时瑶不再被击落；脱离战斗后“刷新附身”。仓库里没有本模式大招的基础原文。原文没有写：“刷新附身”是重新获得护盾、重置附身持续时间，还是重置技能冷却；多久不受伤或不造成伤害算脱战；附身本身有没有持续时间；附身护盾数值。该核心主要影响附身能否持续，进而影响依赖附身的天赋（t02、t03、t20、t22 等），按间接影响处理。",
+      "mechanisms": ["skill-change", "shield", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "附身期间护盾破碎时；脱战后",
+      "slots": [
+        { "key": "outOfCombatDelay", "what": "判定脱战所需的时间", "unit": "seconds", "claimed": null, "packHint": "脱战判定时长，以及以受伤还是造成伤害为准" },
+        { "key": "refreshedShieldBase", "what": "刷新附身时护盾的基础值（是否重新获得护盾未写）", "unit": "flat", "claimed": null, "packHint": "核心 c5 刷新附身的具体内容；若重新获得护盾则找基础值" },
+        { "key": "refreshedShieldRatio", "what": "刷新附身时护盾的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "附身护盾系数与加成属性" },
+        { "key": "attachDuration", "what": "附身持续时间（若有）", "unit": "seconds", "claimed": null, "packHint": "附身是否有时间限制及时长，刷新是否重置它" }
+      ],
+      "ambiguities": [
+        "“刷新附身”具体刷新什么没有写",
+        "脱战判定时长和条件没有写",
+        "附身本身是否有持续时间没有写",
+        "附身护盾数值没有写",
+        "仓库里没有本模式大招的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "蹦蹦鹿游",
+      "text": "变身为鹿：获得真伤护盾和自动攻击能力（濒死或再次施法可附身）",
+      "reading": "大招核心。选此核心后，大招改为瑶变身为鹿（t17、t19、t24 提到的“鹿形态”），变身后获得“真伤护盾”和自动攻击能力；濒死时或再次释放大招时可以附身。原文没有写：鹿形态持续时间，或是否一直持续到附身为止；“真伤护盾”的含义（能抵挡真实伤害的护盾，还是与造成真实伤害有关）、护盾量、持续时间；自动攻击的间隔、射程、伤害基础值与系数、伤害类型、能否暴击、是否算普攻；“濒死”的生命阈值；濒死时是自动附身还是可以手动附身、附身对象如何选择；变身后多久可以再次施法。",
+      "mechanisms": ["skill-change", "shield", "proc", "team"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时变身；濒死或再次施法时附身",
+      "slots": [
+        { "key": "deerDuration", "what": "鹿形态持续时间（若有上限）", "unit": "seconds", "claimed": null, "packHint": "核心 c6 鹿形态的持续时间或结束条件" },
+        { "key": "shieldBase", "what": "变身获得的真伤护盾基础值", "unit": "flat", "claimed": null, "packHint": "核心 c6 护盾基础值，并查明“真伤护盾”的实际机制" },
+        { "key": "shieldRatio", "what": "真伤护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾系数与加成属性" },
+        { "key": "shieldDuration", "what": "真伤护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间，是否与鹿形态同时结束" },
+        { "key": "autoAttackInterval", "what": "自动攻击间隔", "unit": "seconds", "claimed": null, "packHint": "鹿形态自动攻击的间隔，是否受攻速影响" },
+        { "key": "autoAttackRange", "what": "自动攻击索敌范围", "unit": "meters", "claimed": null, "packHint": "鹿形态自动攻击的射程或索敌半径" },
+        { "key": "autoAttackDamageBase", "what": "自动攻击伤害基础值", "unit": "flat", "claimed": null, "packHint": "鹿形态自动攻击伤害基础值" },
+        { "key": "autoAttackDamageRatio", "what": "自动攻击伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "自动攻击系数、加成属性、伤害类型，能否暴击、是否算普攻" },
+        { "key": "nearDeathThreshold", "what": "“濒死”的生命百分比阈值", "unit": "percent", "claimed": null, "packHint": "濒死附身的生命阈值，以及是否自动附身" },
+        { "key": "recastDelay", "what": "变身后到可以再次施法附身的最短间隔", "unit": "seconds", "claimed": null, "packHint": "鹿形态下再次施法的冷却或锁定时间" }
+      ],
+      "ambiguities": [
+        "鹿形态持续时间没有写",
+        "“真伤护盾”的含义、护盾量、持续时间没有写",
+        "自动攻击的间隔、射程、伤害数值、系数、伤害类型、能否暴击、是否算普攻没有写",
+        "“濒死”阈值、是否自动附身、附身对象选择没有写",
+        "再次施法的间隔没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "怨公子",
+      "text": "对最后击飞的敌人，额外打击1次",
+      "reading": "一技能小天赋。一技能击飞敌人后，对最后一个被击飞的敌人额外打击1次。原文没有写：额外打击的伤害基础值、系数、伤害类型、能否暴击；这里的“打击”是否等同于二技能的“打击”（是否计入 t15「怦然三动」的打击次数、能否触发 t14「幸运盲盒」）；额外打击是否附带击飞或眩晕；只击飞一个敌人时是否也触发；选 c1 弹射时“最后击飞的敌人”指哪一个；击飞到额外打击之间的延迟。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能击飞敌人后，对最后被击飞的敌人",
+      "slots": [
+        { "key": "extraStrikeCount", "what": "额外打击次数", "unit": "count", "claimed": { "value": 1, "quote": "额外打击1次" }, "packHint": "该天赋额外打击次数，核对描述的1次，需以资源包为准" },
+        { "key": "strikeDamageBase", "what": "额外打击伤害基础值", "unit": "flat", "claimed": null, "packHint": "额外打击伤害基础值，确认是否沿用二技能打击或一技能伤害" },
+        { "key": "strikeDamageRatio", "what": "额外打击伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "额外打击系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "strikeDelay", "what": "击飞到额外打击生效的延迟", "unit": "seconds", "claimed": null, "packHint": "额外打击的出手时机" }
+      ],
+      "ambiguities": [
+        "额外打击的伤害数值、系数、伤害类型、能否暴击没有写",
+        "“打击”是否与二技能打击相同、能否触发二技能天赋没有写",
+        "额外打击是否附带控制没有写",
+        "只击飞一个敌人时是否触发没有写",
+        "与 c1 弹射组合时“最后击飞”的判定没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "手有余香",
+      "text": "每次伤害时，为自身和附身目标加持1层护盾",
+      "reading": "一技能小天赋。每次造成伤害时，为瑶自己和附身目标加持1层护盾。原文没有写：“每次伤害”只计一技能伤害还是瑶的所有伤害；每层护盾量和加成属性；层数上限；护盾持续时间、各层是否独立计时；是否有内置冷却；没有附身时是否只给自己。",
+      "mechanisms": ["shield", "stacking", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "每次造成伤害时（伤害来源范围原文未写）",
+      "slots": [
+        { "key": "layersPerHit", "what": "每次伤害加持的护盾层数", "unit": "count", "claimed": { "value": 1, "quote": "加持1层护盾" }, "packHint": "每次伤害加持的层数，核对描述的1层，需以资源包为准" },
+        { "key": "shieldPerLayerBase", "what": "每层护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋每层护盾量" },
+        { "key": "shieldPerLayerRatio", "what": "每层护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "每层护盾的加成属性和系数" },
+        { "key": "maxLayers", "what": "护盾层数上限", "unit": "count", "claimed": null, "packHint": "该天赋护盾最大层数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间及各层是否独立计时" },
+        { "key": "internalCooldown", "what": "加持护盾的内置冷却（是否存在未写）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发间隔限制" }
+      ],
+      "ambiguities": [
+        "“每次伤害”的来源范围没有写",
+        "每层护盾量、层数上限、持续时间没有写",
+        "是否有内置冷却没有写",
+        "没有附身时是否只给自己没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "小鹿软糖",
+      "text": "引魄回身，基于击飞英雄数量，为自身和附身目标永久提升主攻属性",
+      "reading": "一技能小天赋。引魄返回（“回身”）时，按这次击飞的英雄数量，为瑶自己和附身目标永久提升“主攻属性”。原文没有解释“主攻属性”，按字面是各自的主要攻击属性（物理攻击或法术攻击）。原文没有写：每击飞一个英雄提升多少、是固定值还是百分比；累计上限；“英雄”是否包括本模式里的敌方英雄型单位或首领，普通怪是否计入；同一英雄被多次击飞（如 c1 弹射）是否重复计数；“永久”是否跨关卡保留；附身目标得到的提升是否与瑶相同；没有附身时是否只给自己；引魄是否每次都会回身。",
+      "mechanisms": ["stat", "stacking", "team"],
+      "damageRelevance": "direct",
+      "trigger": "一技能引魄回身时",
+      "slots": [
+        { "key": "statPerHero", "what": "每击飞1个英雄提升的主攻属性（固定值还是百分比未写）", "unit": "flat", "claimed": null, "packHint": "该天赋每个英雄提供的主攻属性提升数值及形式" },
+        { "key": "maxTotalBonus", "what": "永久提升的累计上限", "unit": "flat", "claimed": null, "packHint": "该天赋累计提升是否有上限及数值" },
+        { "key": "maxHeroesPerCast", "what": "每次回身最多计入的英雄数", "unit": "count", "claimed": null, "packHint": "单次回身计数上限，以及同一英雄多次击飞是否重复计数" },
+        { "key": "allyShareRatio", "what": "附身目标获得的提升相对瑶的比例（原文未写是否相同）", "unit": "ratio", "claimed": null, "packHint": "附身目标的提升数值是否与瑶相同" }
+      ],
+      "ambiguities": [
+        "“主攻属性”的定义没有写",
+        "每个英雄提升多少、形式、上限没有写",
+        "哪些单位算“英雄”没有写",
+        "同一英雄多次击飞是否重复计数没有写",
+        "“永久”是否跨关卡没有写",
+        "附身目标得到的提升是否与瑶相同没有写",
+        "没有附身时是否只给自己没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "寻人启事",
+      "text": "技能检测范围+30%",
+      "reading": "一技能小天赋。技能的检测范围增加30%。按所属技能理解为一技能的目标检测范围（t08「待君归」也提到一技能“检测”目标，t14 提到引魄有“搜寻效果”）。原文没有写：基础检测范围多大；+30%是加在半径上还是面积上；是否同时影响引魄飞行距离、击飞范围或弹射范围。检测范围只影响能否找到目标，不直接改伤害数值，按间接影响处理。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "detectRangeBonus", "what": "检测范围提升比例", "unit": "percent", "claimed": { "value": 30, "quote": "检测范围+30%" }, "packHint": "该天赋检测范围加成，核对描述的30%，需以资源包为准；确认加在半径还是面积" },
+        { "key": "baseDetectRange", "what": "一技能基础检测范围", "unit": "meters", "claimed": null, "packHint": "一技能原始检测半径" }
+      ],
+      "ambiguities": [
+        "“技能”具体指哪个技能没有写，按所属技能理解为一技能",
+        "基础检测范围没有写",
+        "加成作用于半径还是面积没有写",
+        "是否影响飞行距离、击飞或弹射范围没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "青衣萦绕",
+      "text": "对最后击飞的敌人，长草环绕，青草上的敌人受到伤害并减速20%",
+      "reading": "一技能小天赋。一技能击飞敌人后，在最后被击飞的敌人周围长出青草；站在青草上的敌人受到伤害并被减速20%。原文没有写：青草范围和存在时间；伤害是按间隔持续造成还是一次性、间隔多久；伤害基础值、系数、伤害类型；离开青草后减速是否保留；与 t13、t17 的同类青草是否叠加伤害或减速；只击飞一个敌人时是否也触发。",
+      "mechanisms": ["summon", "area", "proc", "control"],
+      "damageRelevance": "direct",
+      "trigger": "一技能击飞敌人后，在最后被击飞的敌人处",
+      "slots": [
+        { "key": "slowPct", "what": "青草减速比例", "unit": "percent", "claimed": { "value": 20, "quote": "减速20%" }, "packHint": "青草减速数值，核对描述的20%，需以资源包为准" },
+        { "key": "grassRadius", "what": "青草范围半径", "unit": "meters", "claimed": null, "packHint": "该天赋青草区域大小" },
+        { "key": "grassDuration", "what": "青草存在时间", "unit": "seconds", "claimed": null, "packHint": "该天赋青草持续时间" },
+        { "key": "tickInterval", "what": "青草伤害间隔（若为持续伤害）", "unit": "seconds", "claimed": null, "packHint": "青草伤害的结算间隔，确认是持续伤害还是一次性" },
+        { "key": "tickDamageBase", "what": "每次青草伤害基础值", "unit": "flat", "claimed": null, "packHint": "青草伤害基础值" },
+        { "key": "tickDamageRatio", "what": "每次青草伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "青草伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "slowLinger", "what": "离开青草后减速的残留时间", "unit": "seconds", "claimed": null, "packHint": "减速是只在青草上生效还是有持续时间" }
+      ],
+      "ambiguities": [
+        "青草范围、存在时间没有写",
+        "伤害方式、间隔、数值、系数、伤害类型没有写",
+        "离开青草后减速是否保留没有写",
+        "与 t13、t17 青草是否叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "旋转木马",
+      "text": "引魄到达终点后，分裂2个子弹攻击敌人",
+      "reading": "一技能小天赋。引魄飞到终点后分裂出2个子弹攻击敌人。原文没有写：子弹索敌范围和目标选择方式；子弹伤害基础值、系数、伤害类型、能否暴击；子弹是否附带击飞或眩晕；两个子弹能否打同一目标；“终点”是射程尽头，还是也包括命中目标的位置；选 c1 弹射时终点指什么；这些子弹与二技能 t16「星河坠露」所说的“子弹”是否同一类。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能引魄到达终点后",
+      "slots": [
+        { "key": "bulletCount", "what": "分裂出的子弹数量", "unit": "count", "claimed": { "value": 2, "quote": "分裂2个子弹" }, "packHint": "该天赋分裂子弹数，核对描述的2个，需以资源包为准" },
+        { "key": "bulletDamageBase", "what": "每个子弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "分裂子弹伤害基础值" },
+        { "key": "bulletDamageRatio", "what": "每个子弹伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "分裂子弹系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "bulletSearchRange", "what": "子弹索敌范围", "unit": "meters", "claimed": null, "packHint": "分裂子弹的索敌半径和目标选择规则" }
+      ],
+      "ambiguities": [
+        "子弹索敌范围和目标选择没有写",
+        "子弹伤害数值、系数、伤害类型、能否暴击没有写",
+        "子弹是否附带控制没有写",
+        "两个子弹能否命中同一目标没有写",
+        "“终点”的定义及与 c1 弹射的配合没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "晚起鸟有虫吃",
+      "text": "首段攻击每命中1个目标，都将额外生成1个子弹",
+      "reading": "一技能小天赋。一技能的“首段攻击”每命中1个目标，就额外生成1个子弹。原文暗示一技能分为多段，但没有写各段分别是什么。原文没有写：生成子弹的数量上限；子弹生成后做什么（是否攻击敌人、攻击哪个目标）、何时发射；子弹伤害基础值、系数、伤害类型、能否暴击；与 t06 的分裂子弹是否同一类；命中非英雄目标是否计入。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能首段攻击命中目标时",
+      "slots": [
+        { "key": "bulletsPerTarget", "what": "每命中一个目标生成的子弹数", "unit": "count", "claimed": { "value": 1, "quote": "额外生成1个子弹" }, "packHint": "每个目标生成的子弹数，核对描述的1个，需以资源包为准" },
+        { "key": "maxBullets", "what": "一次最多生成的子弹数", "unit": "count", "claimed": null, "packHint": "该天赋生成子弹的上限" },
+        { "key": "bulletDamageBase", "what": "每个子弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "生成子弹伤害基础值" },
+        { "key": "bulletDamageRatio", "what": "每个子弹伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "生成子弹系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "bulletSearchRange", "what": "子弹索敌范围", "unit": "meters", "claimed": null, "packHint": "生成子弹的行为、索敌半径和发射时机" }
+      ],
+      "ambiguities": [
+        "“首段攻击”指什么、一技能有几段没有写",
+        "子弹数量上限没有写",
+        "子弹的行为、发射时机没有写",
+        "子弹伤害数值、系数、伤害类型、能否暴击没有写",
+        "命中非英雄目标是否计入没有写"
+      ],
+      "unusedNumbers": [
+        { "quote": "每命中1个目标", "reason": "这里的1是计数基准（每命中一个目标），与 bulletsPerTarget 一起表示每个目标生成1个子弹，不是独立参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "待君归",
+      "text": "若未检测到目标，将额外检测30秒（该状态下可检测非英雄目标）",
+      "reading": "一技能小天赋。一技能如果没有检测到目标，会额外持续检测30秒；在这段额外检测状态下可以检测非英雄目标。由括号内的说明推断一技能原本只检测英雄目标，但原文没有直接说。原文没有写：检测到目标后会发生什么（例如引魄是否自动飞向目标）；额外检测期间技能是否已进入冷却；检测频率；检测到非英雄目标后的效果是否与英雄目标相同。此天赋可能决定一技能能否对非英雄敌人生效，但原文不足以确定，按间接影响处理。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能未检测到目标时",
+      "slots": [
+        { "key": "extraDetectDuration", "what": "额外检测持续时间", "unit": "seconds", "claimed": { "value": 30, "quote": "额外检测30秒" }, "packHint": "额外检测状态持续时间，核对描述的30秒，需以资源包为准" },
+        { "key": "detectInterval", "what": "额外检测期间的检测间隔", "unit": "seconds", "claimed": null, "packHint": "检测判定的频率，以及检测成功后的行为" }
+      ],
+      "ambiguities": [
+        "检测到目标后发生什么没有写",
+        "原本是否只检测英雄目标没有直接写",
+        "额外检测期间技能冷却如何计算没有写",
+        "检测频率没有写",
+        "对非英雄目标的效果是否与英雄相同没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "绵雨纷纷",
+      "text": "打击频率加快",
+      "reading": "二技能小天赋。二技能的打击频率加快。原文没有写：原打击间隔多久、加快多少；打击总数是否不变（t10「星光涟漪」写打击数量3→4，说明打击有固定数量），若数量固定则只是更快打完；对 c3、c4 的打击或子弹频率是否同样生效。按类似攻速的效果列为间接影响。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放二技能时）",
+      "slots": [
+        { "key": "baseStrikeInterval", "what": "二技能原打击间隔", "unit": "seconds", "claimed": null, "packHint": "二技能打击的原始间隔" },
+        { "key": "frequencyBonus", "what": "打击频率提升幅度", "unit": "percent", "claimed": null, "packHint": "该天赋打击频率提升数值，确认是间隔缩短还是频率提高" }
+      ],
+      "ambiguities": [
+        "原打击间隔和加快幅度没有写",
+        "打击总数是否不变没有写",
+        "对 c3、c4 是否生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "星光涟漪",
+      "text": "打击数量提升（3→4）",
+      "reading": "二技能小天赋。二技能的打击数量从3提升到4。原文没有写“打击数量”是每次释放的打击次数还是能同时打击的目标数；每次打击的伤害是否不变；选 c3、c4 后是否仍然生效。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（释放二技能时）",
+      "slots": [
+        { "key": "baseStrikeCount", "what": "原打击数量", "unit": "count", "claimed": { "value": 3, "quote": "3→4" }, "packHint": "二技能原打击数量，核对描述的3，需以资源包为准" },
+        { "key": "boostedStrikeCount", "what": "选此天赋后的打击数量", "unit": "count", "claimed": { "value": 4, "quote": "3→4" }, "packHint": "该天赋生效后的打击数量，核对描述的4，需以资源包为准；确认是次数还是目标数" }
+      ],
+      "ambiguities": [
+        "“打击数量”是次数还是目标数没有写",
+        "每次打击伤害是否不变没有写",
+        "选 c3、c4 后是否生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "灵鹊翩翩",
+      "text": "召唤绕身灵鹊，持续攻击附近目标",
+      "reading": "二技能小天赋。召唤环绕瑶身体的灵鹊，持续攻击附近目标。原文没有写：召唤时机（释放二技能时还是常驻）、灵鹊数量、存在时间；攻击间隔、范围、每次攻击的目标数；伤害基础值、系数、伤害类型、能否暴击；灵鹊攻击是否算二技能打击（是否触发 t13、t14、t15）；瑶附身或处于鹿形态时灵鹊是否仍存在。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "召唤时机原文未写（按所属技能理解为释放二技能时）",
+      "slots": [
+        { "key": "magpieCount", "what": "灵鹊数量", "unit": "count", "claimed": null, "packHint": "该天赋召唤的灵鹊数量" },
+        { "key": "duration", "what": "灵鹊存在时间（若为常驻则无此项）", "unit": "seconds", "claimed": null, "packHint": "灵鹊是常驻还是限时召唤，限时则找持续时间" },
+        { "key": "attackInterval", "what": "灵鹊攻击间隔", "unit": "seconds", "claimed": null, "packHint": "灵鹊攻击频率" },
+        { "key": "attackRange", "what": "灵鹊攻击范围", "unit": "meters", "claimed": null, "packHint": "灵鹊索敌半径" },
+        { "key": "targetsPerAttack", "what": "每次攻击的目标数", "unit": "count", "claimed": null, "packHint": "灵鹊每次攻击命中几个目标" },
+        { "key": "damageBase", "what": "灵鹊每次攻击伤害基础值", "unit": "flat", "claimed": null, "packHint": "灵鹊攻击伤害基础值" },
+        { "key": "damageRatio", "what": "灵鹊每次攻击伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "灵鹊攻击系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "召唤时机、数量、存在时间没有写",
+        "攻击间隔、范围、目标数没有写",
+        "伤害数值、系数、伤害类型、能否暴击没有写",
+        "灵鹊攻击是否算二技能打击没有写",
+        "附身或鹿形态时灵鹊是否存在没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "噗噗冲刺",
+      "text": "释放时为范围内友军提供爆发移速",
+      "reading": "二技能小天赋。释放二技能时，为范围内的友军提供“爆发移速”。原文没有解释“爆发移速”的具体形式，也没有写：范围多大；移速数值、持续时间、是否衰减；是否包括瑶自己和附身目标。移速不影响伤害，damageRelevance 为 none。",
+      "mechanisms": ["buff", "mobility", "team"],
+      "damageRelevance": "none",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "radius", "what": "提供移速的范围", "unit": "meters", "claimed": null, "packHint": "该天赋友军判定半径" },
+        { "key": "moveSpeedPct", "what": "爆发移速加成", "unit": "percent", "claimed": null, "packHint": "爆发移速数值及衰减方式" },
+        { "key": "duration", "what": "移速持续时间", "unit": "seconds", "claimed": null, "packHint": "爆发移速持续时间" }
+      ],
+      "ambiguities": [
+        "范围没有写",
+        "移速数值、持续时间、是否衰减没有写",
+        "是否包括瑶自己没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "葛蔓蔓兮",
+      "text": "敌人受伤后脚下长草，青草上的敌人受到伤害并减速20%",
+      "reading": "二技能小天赋。敌人受到伤害后脚下长出青草；站在青草上的敌人受到伤害并被减速20%。原文没写“受伤”只限二技能伤害还是瑶的任何伤害，按所属技能理解为二技能。原文也没有写：每次受伤都长草还是有冷却；青草范围、存在时间、多处青草是否叠加；伤害间隔、基础值、系数、伤害类型；青草伤害本身是否会再次触发长草；离开青草后减速是否保留。",
+      "mechanisms": ["summon", "area", "proc", "control"],
+      "damageRelevance": "direct",
+      "trigger": "敌人受到伤害后（伤害来源范围原文未写，按所属技能理解为二技能）",
+      "slots": [
+        { "key": "slowPct", "what": "青草减速比例", "unit": "percent", "claimed": { "value": 20, "quote": "减速20%" }, "packHint": "青草减速数值，核对描述的20%，需以资源包为准" },
+        { "key": "grassRadius", "what": "青草范围半径", "unit": "meters", "claimed": null, "packHint": "该天赋青草区域大小" },
+        { "key": "grassDuration", "what": "青草存在时间", "unit": "seconds", "claimed": null, "packHint": "该天赋青草持续时间" },
+        { "key": "spawnCooldown", "what": "同一敌人再次长草的内置冷却（是否存在未写）", "unit": "seconds", "claimed": null, "packHint": "长草触发间隔，以及青草伤害能否再次触发长草" },
+        { "key": "tickInterval", "what": "青草伤害间隔（若为持续伤害）", "unit": "seconds", "claimed": null, "packHint": "青草伤害的结算间隔" },
+        { "key": "tickDamageBase", "what": "每次青草伤害基础值", "unit": "flat", "claimed": null, "packHint": "青草伤害基础值" },
+        { "key": "tickDamageRatio", "what": "每次青草伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "青草伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "slowLinger", "what": "离开青草后减速的残留时间", "unit": "seconds", "claimed": null, "packHint": "减速是只在青草上生效还是有持续时间" }
+      ],
+      "ambiguities": [
+        "“受伤”的来源范围没有写",
+        "长草是否有冷却没有写",
+        "青草范围、存在时间、叠加规则没有写",
+        "伤害方式、间隔、数值、系数、伤害类型没有写",
+        "青草伤害能否再次触发长草没有写",
+        "离开青草后减速是否保留没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "幸运盲盒",
+      "text": "每次打击有10%概率变为引魄攻击（不触发眩晕和搜寻效果）",
+      "reading": "二技能小天赋。二技能每次打击有10%概率变为一次“引魄攻击”（一技能的引魄），这种引魄攻击不触发眩晕和搜寻效果。由此可知原引魄带有眩晕和搜寻效果。原文没有写：引魄攻击的伤害是否与一技能相同、是否享受一技能核心和小天赋（c1、c2、t01、t05、t06 等）；是否仍会击飞；“变为”按字面是替换原打击而不是额外附加，但原文没说明是否两者都结算；概率是否受其他效果影响。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "二技能每次打击时",
+      "slots": [
+        { "key": "chance", "what": "每次打击变为引魄攻击的概率", "unit": "percent", "claimed": { "value": 10, "quote": "10%概率" }, "packHint": "该天赋触发概率，核对描述的10%，需以资源包为准" },
+        { "key": "soulAttackDamageBase", "what": "引魄攻击伤害基础值（是否与一技能相同未写）", "unit": "flat", "claimed": null, "packHint": "转化后的引魄攻击伤害基础值，确认是否沿用一技能数值" },
+        { "key": "soulAttackDamageRatio", "what": "引魄攻击伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "引魄攻击系数、加成属性、伤害类型，以及一技能天赋是否作用于它" }
+      ],
+      "ambiguities": [
+        "引魄攻击伤害是否与一技能相同没有写",
+        "一技能核心和小天赋是否作用于转化的引魄攻击没有写",
+        "是否仍会击飞没有写",
+        "是替换原打击还是额外附加没有明确写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "怦然三动",
+      "text": "打击相同目标5次后，触发连续打击",
+      "reading": "二技能小天赋。二技能打击同一个目标累计5次后，触发“连续打击”。原文没有写：连续打击的次数、间隔、每次伤害基础值与系数；计数是否跨多次释放二技能保留、多久清零；触发后计数是否清零、能否反复触发；连续打击是否计入打击次数、是否触发 t13、t14。天赋名中的“三”不是描述原文，不据此推断连续打击次数。",
+      "mechanisms": ["proc", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "二技能打击同一目标累计5次后",
+      "slots": [
+        { "key": "hitsRequired", "what": "触发所需的同目标打击次数", "unit": "count", "claimed": { "value": 5, "quote": "相同目标5次" }, "packHint": "该天赋触发所需次数，核对描述的5次，需以资源包为准" },
+        { "key": "burstStrikeCount", "what": "连续打击的次数", "unit": "count", "claimed": null, "packHint": "连续打击包含几次打击" },
+        { "key": "burstInterval", "what": "连续打击之间的间隔", "unit": "seconds", "claimed": null, "packHint": "连续打击的出手间隔" },
+        { "key": "burstDamageBase", "what": "连续打击每次伤害基础值", "unit": "flat", "claimed": null, "packHint": "连续打击伤害基础值，确认是否与普通打击相同" },
+        { "key": "burstDamageRatio", "what": "连续打击每次伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "连续打击系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "counterResetTime", "what": "计数清零时间", "unit": "seconds", "claimed": null, "packHint": "同目标计数的保持时间，是否跨释放保留" },
+        { "key": "internalCooldown", "what": "再次触发的冷却（是否存在未写）", "unit": "seconds", "claimed": null, "packHint": "触发后计数是否清零、是否有冷却" }
+      ],
+      "ambiguities": [
+        "连续打击次数、间隔、伤害没有写",
+        "计数保持时间和清零规则没有写",
+        "能否反复触发、是否有冷却没有写",
+        "连续打击是否计入打击次数、是否触发其他二技能天赋没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "星河坠露",
+      "text": "子弹对友军生效，为其加持真伤护盾",
+      "reading": "二技能小天赋。二技能的子弹也能作用于友军，作用时为友军加持“真伤护盾”。原文没有写：二技能的“子弹”和“打击”是什么关系；“真伤护盾”的含义（能抵挡真实伤害的护盾，还是与造成真实伤害有关）；护盾量、加成属性、持续时间、是否叠加及上限；子弹打向友军时是否会减少打向敌人的子弹（如果会，可能降低输出）；是否包括瑶自己或附身目标；子弹如何在敌人与友军之间选取目标。按护盾理解列为间接影响。",
+      "mechanisms": ["shield", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能子弹作用于友军时",
+      "slots": [
+        { "key": "shieldBase", "what": "每次加持的护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾基础值，并查明“真伤护盾”的实际机制" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾加成属性和系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间" },
+        { "key": "shieldCap", "what": "护盾叠加上限", "unit": "flat", "claimed": null, "packHint": "多次加持是否叠加及上限" }
+      ],
+      "ambiguities": [
+        "“子弹”与“打击”的关系没有写",
+        "“真伤护盾”的含义没有写",
+        "护盾量、持续时间、叠加规则没有写",
+        "子弹打向友军是否减少对敌伤害没有写",
+        "目标选取规则、是否包括瑶自己没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "萌新芽",
+      "text": "鹿形态脚下长草，青草上的敌人受到伤害并减速20%",
+      "reading": "三技能小天赋。瑶处于鹿形态时脚下长草；站在青草上的敌人受到伤害并被减速20%。鹿形态见 c6「蹦蹦鹿游」；原文没写不选 c6 时是否会进入鹿形态。原文也没有写：草是沿移动路径留下还是跟随瑶的一片区域；青草范围、存在时间、生成间隔；伤害间隔、基础值、系数、伤害类型；离开青草后减速是否保留；与 t05、t13 青草是否叠加。",
+      "mechanisms": ["summon", "area", "proc", "control"],
+      "damageRelevance": "direct",
+      "trigger": "鹿形态期间",
+      "slots": [
+        { "key": "slowPct", "what": "青草减速比例", "unit": "percent", "claimed": { "value": 20, "quote": "减速20%" }, "packHint": "青草减速数值，核对描述的20%，需以资源包为准" },
+        { "key": "grassRadius", "what": "青草范围半径", "unit": "meters", "claimed": null, "packHint": "该天赋青草区域大小" },
+        { "key": "grassDuration", "what": "每片青草存在时间", "unit": "seconds", "claimed": null, "packHint": "该天赋青草持续时间" },
+        { "key": "spawnInterval", "what": "鹿形态下生成青草的间隔", "unit": "seconds", "claimed": null, "packHint": "青草是持续跟随还是按间隔留下" },
+        { "key": "tickInterval", "what": "青草伤害间隔（若为持续伤害）", "unit": "seconds", "claimed": null, "packHint": "青草伤害的结算间隔" },
+        { "key": "tickDamageBase", "what": "每次青草伤害基础值", "unit": "flat", "claimed": null, "packHint": "青草伤害基础值" },
+        { "key": "tickDamageRatio", "what": "每次青草伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "青草伤害系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "不选 c6 时是否有鹿形态没有写",
+        "青草生成方式、范围、存在时间没有写",
+        "伤害方式、间隔、数值、系数、伤害类型没有写",
+        "离开青草后减速是否保留没有写",
+        "与 t05、t13 青草是否叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "思公子",
+      "text": "未附身，且朝队友移动时，移速+60%，技能冷却速度+50%",
+      "reading": "三技能小天赋。瑶没有附身、并且正朝队友移动时，移速+60%，技能冷却速度+50%。“冷却速度+50%”按字面是冷却计时加快50%，与“冷却缩减50%”不是同一种算法，原文没细说。原文没有写：“朝队友移动”如何判定（方向容差、距离、队友是否包括召唤物）；冷却加速是否作用于所有技能（包括大招）；条件不满足后效果是否立即消失；没有队友时无法触发。",
+      "mechanisms": ["buff", "mobility", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "未附身且朝队友移动时",
+      "slots": [
+        { "key": "moveSpeedPct", "what": "移速加成", "unit": "percent", "claimed": { "value": 60, "quote": "移速+60%" }, "packHint": "该天赋移速加成，核对描述的60%，需以资源包为准" },
+        { "key": "cooldownSpeedPct", "what": "技能冷却速度加成（冷却计时加快）", "unit": "percent", "claimed": { "value": 50, "quote": "技能冷却速度+50%" }, "packHint": "该天赋冷却速度加成，核对描述的50%，需以资源包为准；确认是冷却计时加快还是冷却缩减，作用于哪些技能" },
+        { "key": "facingTolerance", "what": "判定“朝队友移动”的方向容差（角度，原文未写单位，暂记 flat）", "unit": "flat", "claimed": null, "packHint": "朝队友移动的判定规则（方向夹角或距离变化）" },
+        { "key": "allyDetectRange", "what": "判定队友的距离范围", "unit": "meters", "claimed": null, "packHint": "该条件中队友的判定距离，及队友是否包括召唤物" }
+      ],
+      "ambiguities": [
+        "“朝队友移动”的判定规则没有写",
+        "冷却速度加成的算法和作用技能没有写",
+        "条件中断后效果是否立即消失没有写",
+        "队友是否包括召唤物没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "赠人玫瑰",
+      "text": "造成伤害时，为队友或鹿形态叠加真实护盾",
+      "reading": "三技能小天赋。瑶造成伤害时，为队友或鹿形态（瑶变身后的鹿）叠加“真实护盾”。原文没有写：“队友”是附身目标还是所有队友，什么情况下给队友、什么情况下给鹿形态；每层护盾量、加成属性、层数或总量上限、持续时间；是否有内置冷却；“真实护盾”的含义，以及与其他天赋的“真伤护盾”是否同一种。",
+      "mechanisms": ["shield", "stacking", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "瑶造成伤害时",
+      "slots": [
+        { "key": "shieldPerStackBase", "what": "每次叠加的护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋每次叠加护盾量，并查明“真实护盾”的实际机制" },
+        { "key": "shieldPerStackRatio", "what": "每次叠加护盾的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾加成属性和系数" },
+        { "key": "maxStacks", "what": "护盾叠加层数上限", "unit": "count", "claimed": null, "packHint": "护盾最大层数或总量上限" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间及各层是否独立计时" },
+        { "key": "internalCooldown", "what": "叠加护盾的内置冷却（是否存在未写）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发间隔限制" }
+      ],
+      "ambiguities": [
+        "“队友”的范围、给队友还是给鹿形态的条件没有写",
+        "护盾量、层数上限、持续时间没有写",
+        "是否有内置冷却没有写",
+        "“真实护盾”的含义没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "执子之手",
+      "text": "队友造成伤害时，瑶将协同攻击",
+      "reading": "三技能小天赋。队友造成伤害时，瑶会协同攻击。原文没有写：“队友”是否只限附身目标；协同攻击的形式（某个技能、普攻还是独立的攻击）；伤害基础值、系数、伤害类型、能否暴击；触发频率或内置冷却；攻击目标是否为队友攻击的同一目标；协同攻击是否触发瑶的其他天赋（如 t02、t19）。",
+      "mechanisms": ["proc", "team"],
+      "damageRelevance": "direct",
+      "trigger": "队友造成伤害时",
+      "slots": [
+        { "key": "damageBase", "what": "协同攻击伤害基础值", "unit": "flat", "claimed": null, "packHint": "协同攻击伤害基础值及攻击形式" },
+        { "key": "damageRatio", "what": "协同攻击伤害加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "协同攻击系数、加成属性（瑶的还是队友的）、伤害类型以及能否暴击" },
+        { "key": "triggerChance", "what": "每次队友伤害触发协同的概率（是否必定触发未写）", "unit": "percent", "claimed": null, "packHint": "协同攻击的触发概率" },
+        { "key": "internalCooldown", "what": "协同攻击的内置冷却", "unit": "seconds", "claimed": null, "packHint": "协同攻击的触发间隔限制" },
+        { "key": "range", "what": "协同攻击的作用距离", "unit": "meters", "claimed": null, "packHint": "协同攻击的射程，及“队友”是否只限附身目标" }
+      ],
+      "ambiguities": [
+        "“队友”是否只限附身目标没有写",
+        "协同攻击形式、伤害数值、系数、伤害类型、能否暴击没有写",
+        "触发频率、内置冷却没有写",
+        "攻击目标选择没有写",
+        "是否触发瑶的其他天赋没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "情比金坚",
+      "text": "为队友抵挡1次硬控，触发后队友获得真伤护盾",
+      "reading": "三技能小天赋。为队友抵挡1次硬控制效果，抵挡触发后队友获得“真伤护盾”。原文没有写：“队友”是否只限附身目标；抵挡次数是每次附身1次，还是有冷却后刷新；“硬控”包括哪些控制；护盾量、加成属性、持续时间；“真伤护盾”的含义。",
+      "mechanisms": ["control-immunity", "shield", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "队友受到硬控时",
+      "slots": [
+        { "key": "blockCount", "what": "可抵挡的硬控次数", "unit": "count", "claimed": { "value": 1, "quote": "抵挡1次硬控" }, "packHint": "该天赋抵挡次数，核对描述的1次，需以资源包为准" },
+        { "key": "refreshCooldown", "what": "抵挡效果刷新的冷却", "unit": "seconds", "claimed": null, "packHint": "抵挡次数如何恢复（冷却或每次附身刷新）" },
+        { "key": "shieldBase", "what": "触发后护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾基础值，并查明“真伤护盾”的实际机制" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾加成属性和系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间" }
+      ],
+      "ambiguities": [
+        "“队友”是否只限附身目标没有写",
+        "抵挡次数如何恢复没有写",
+        "“硬控”的范围没有写",
+        "护盾量、持续时间没有写",
+        "“真伤护盾”的含义没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "同心结",
+      "text": "附身目标获得15%物理吸血和法术吸血，瑶自己获得25%",
+      "reading": "三技能小天赋。附身目标获得15%物理吸血和法术吸血（按字面两者都是15%）；瑶自己获得25%（按字面同样是物理吸血和法术吸血各25%，原文没写清）。原文没有写：效果只在附身期间生效还是常驻；瑶附身期间自身造成的伤害吸血回复给谁；与其他吸血来源如何叠加。吸血属于生存效果，按间接影响处理。",
+      "mechanisms": ["lifesteal", "stat", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "附身期间（是否仅限附身期间原文未写）",
+      "slots": [
+        { "key": "allyPhysLifesteal", "what": "附身目标获得的物理吸血", "unit": "percent", "claimed": { "value": 15, "quote": "15%物理吸血" }, "packHint": "附身目标物理吸血数值，核对描述的15%，需以资源包为准" },
+        { "key": "allyMagicLifesteal", "what": "附身目标获得的法术吸血", "unit": "percent", "claimed": { "value": 15, "quote": "15%物理吸血和法术吸血" }, "packHint": "附身目标法术吸血数值，核对描述的15%，需以资源包为准" },
+        { "key": "selfPhysLifesteal", "what": "瑶自己获得的物理吸血（原文只写“25%”，按字面理解为物理和法术吸血各25%）", "unit": "percent", "claimed": { "value": 25, "quote": "瑶自己获得25%" }, "packHint": "瑶自身物理吸血数值，核对描述的25%，需以资源包为准" },
+        { "key": "selfMagicLifesteal", "what": "瑶自己获得的法术吸血（同上）", "unit": "percent", "claimed": { "value": 25, "quote": "瑶自己获得25%" }, "packHint": "瑶自身法术吸血数值，核对描述的25%，需以资源包为准" }
+      ],
+      "ambiguities": [
+        "是否仅在附身期间生效没有写",
+        "瑶的25%是否同时指物理吸血和法术吸血没有写清",
+        "附身期间瑶的吸血回复给谁没有写",
+        "与其他吸血来源的叠加方式没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "离别信",
+      "text": "附身结束时，为队友加持真伤护盾，持续5秒",
+      "reading": "三技能小天赋。附身结束时，为队友加持“真伤护盾”，持续5秒。原文没有写：“队友”是否就是刚结束附身的目标；护盾量、加成属性；主动结束附身、被击落、c5 刷新附身时是否都会触发；“真伤护盾”的含义。",
+      "mechanisms": ["shield", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "附身结束时",
+      "slots": [
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": { "value": 5, "quote": "持续5秒" }, "packHint": "该天赋护盾持续时间，核对描述的5秒，需以资源包为准" },
+        { "key": "shieldBase", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾基础值，并查明“真伤护盾”的实际机制" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾加成属性和系数" }
+      ],
+      "ambiguities": [
+        "“队友”是否就是原附身目标没有写",
+        "护盾量没有写",
+        "哪些附身结束方式会触发没有写",
+        "“真伤护盾”的含义没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "跳呀跳",
+      "text": "鹿形态下移速+70%",
+      "reading": "三技能小天赋。瑶在鹿形态下移速+70%。鹿形态见 c6「蹦蹦鹿游」，原文没写不选 c6 时是否会进入鹿形态。原文也没有写这70%与其他移速加成如何叠加、是否衰减。移速不影响伤害，damageRelevance 为 none。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "鹿形态期间",
+      "slots": [
+        { "key": "moveSpeedPct", "what": "鹿形态移速加成", "unit": "percent", "claimed": { "value": 70, "quote": "移速+70%" }, "packHint": "该天赋移速加成，核对描述的70%，需以资源包为准" }
+      ],
+      "ambiguities": [
+        "不选 c6 时是否有鹿形态没有写",
+        "与其他移速加成的叠加方式、是否衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

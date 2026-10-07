@@ -1,0 +1,764 @@
+{
+  "heroId": "148",
+  "heroName": "姜子牙",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "封神榜",
+      "text": "命中敌方会使其掉落经验球，友方单位可以靠近收集",
+      "reading": "一技能核心。原文写“命中敌方会使其掉落经验球”：命中敌方单位时，该敌人会掉落经验球，友方单位（原文写“友方单位”，按字面包括姜子牙自己和队友）靠近即可收集。原文没写“命中”是指一技能命中还是任何伤害命中（按该核心属于一技能理解为一技能命中），没写每次命中掉几颗、是否每次命中都掉（一技能会多次造成伤害时是否每次都掉）、有没有掉落冷却或概率，也没写每颗经验球给多少经验、拾取范围、经验球存在多久、对不同敌人（小怪、精英、首领）是否不同。经验球本身不造成伤害，但经验影响等级，且 c3、c6、t02、t04、t15 都依赖经验球或等级，所以对输出是间接影响。",
+      "mechanisms": ["economy", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "命中敌方时（按该核心属于一技能理解为一技能命中，原文未写明）",
+      "slots": [
+        { "key": "orbsPerHit", "what": "每次命中掉落的经验球数量", "unit": "count", "claimed": null, "packHint": "该核心每次命中掉落经验球的数量" },
+        { "key": "dropChance", "what": "命中时掉落经验球的概率（原文未写是否必定掉落）", "unit": "percent", "claimed": null, "packHint": "经验球掉落概率或掉落条件配置" },
+        { "key": "dropCooldown", "what": "掉落的内置冷却或同一目标掉落间隔（如有）", "unit": "seconds", "claimed": null, "packHint": "经验球掉落的内置冷却、同一目标的掉落次数限制" },
+        { "key": "maxDropsPerTarget", "what": "同一敌人最多掉落经验球次数（如有上限）", "unit": "count", "claimed": null, "packHint": "单个敌人可掉落经验球的次数上限" },
+        { "key": "expPerOrb", "what": "每颗经验球提供的经验值", "unit": "flat", "claimed": null, "packHint": "经验球的经验值，是否随等级、关卡或敌人类型变化" },
+        { "key": "pickupRadius", "what": "靠近收集的拾取范围", "unit": "meters", "claimed": null, "packHint": "经验球的拾取半径" },
+        { "key": "orbLifetime", "what": "经验球掉落后存在时间", "unit": "seconds", "claimed": null, "packHint": "经验球在地上的存在时长" }
+      ],
+      "ambiguities": [
+        "“命中”是一技能命中还是任意伤害命中未写",
+        "每次命中掉落几颗、是否必定掉落、有无冷却或次数上限未写",
+        "每颗经验球的经验值未写",
+        "拾取范围、经验球存在时间未写",
+        "不同类型敌人掉落是否不同未写",
+        "“友方单位”是否包括召唤物等非英雄单位未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "请神·天",
+      "text": "释放一技能时，施展一次随机的请神术强化自身和一技能",
+      "reading": "一技能核心。每次释放一技能时，随机施展一次“请神术”（原文“一次”是汉字），强化姜子牙自身和这次一技能。原文没写请神术有哪几种、每种具体强化什么（属性、伤害、范围还是其他）、强化数值、各自出现的概率、强化持续多久、多次请神的效果是否叠加或覆盖，也没写和 c4、c5 的请神术是不是同一套。因为它直接强化一技能本身，模拟一技能伤害时必须先知道请神术的内容，所以按直接影响伤害处理；具体是不是伤害类强化原文未写。",
+      "mechanisms": ["buff", "skill-change", "other"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "invocationKinds", "what": "请神术的种类数量", "unit": "count", "claimed": null, "packHint": "请神·天可随机出的请神术列表" },
+        { "key": "invocationWeight", "what": "每种请神术出现的概率（每种一个值）", "unit": "percent", "claimed": null, "packHint": "请神术随机权重或概率表" },
+        { "key": "selfBuffValue", "what": "请神术对自身的强化数值（每种一个值，形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "每种请神术对姜子牙自身的属性或效果加成数值" },
+        { "key": "skillBuffValue", "what": "请神术对一技能的强化数值（每种一个值，形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "每种请神术对一技能伤害、范围、频率等的加成数值" },
+        { "key": "buffDuration", "what": "对自身强化的持续时间", "unit": "seconds", "claimed": null, "packHint": "请神术自身 buff 的持续时间" },
+        { "key": "invocationsPerCast", "what": "每次释放一技能施展的请神术次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "每次释放触发的请神次数，核对原文的“一次”" },
+        { "key": "maxStacks", "what": "同种或多种请神术强化的叠加上限（如可叠加）", "unit": "count", "claimed": null, "packHint": "请神术 buff 的叠加与覆盖规则、层数上限" }
+      ],
+      "ambiguities": [
+        "请神术有哪几种、每种强化什么未写",
+        "强化数值、持续时间、随机概率未写",
+        "多次请神是叠加、刷新还是覆盖未写",
+        "与请神·地、请神·人的请神术是否同一套未写",
+        "对一技能的强化只作用于本次释放还是持续一段时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "一气化三清",
+      "text": "释放获得一颗经验球，达到10/15/20级时，二技能施法距离/伤害/范围/依次强化",
+      "reading": "二技能核心。原文写“释放获得一颗经验球”：按该核心属于二技能理解为每次释放二技能获得一颗经验球（“一颗”是汉字）。另外，姜子牙等级达到10级、15级、20级时，二技能依次强化施法距离、伤害、范围，按“依次”的顺序对应理解为10级强化施法距离、15级强化伤害、20级强化范围，且后面的强化应在前面基础上累加（原文没明确写）。原文“范围/依次强化”里多了一个斜杠，疑似排版。原文没写每项强化多少，没写“获得一颗经验球”是直接给经验还是掉在地上需要拾取、经验值多少。",
+      "mechanisms": ["economy", "skill-change", "area", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时获得经验球；等级达到10/15/20级时强化",
+      "slots": [
+        { "key": "orbsPerCast", "what": "每次释放获得的经验球数量（原文写“一颗”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该核心每次释放给予的经验球数量，核对原文的“一颗”" },
+        { "key": "expPerOrb", "what": "该核心获得的经验球经验值", "unit": "flat", "claimed": null, "packHint": "该核心经验球的经验值，是否与封神榜掉落的经验球相同" },
+        { "key": "rangeUpgradeLevel", "what": "强化施法距离的等级门槛（单位为级，按仓库惯例用 flat）", "unit": "flat", "claimed": { "value": 10, "quote": "达到10/15/20级" }, "packHint": "二技能施法距离强化的等级条件，需资源包核对描述的10级" },
+        { "key": "damageUpgradeLevel", "what": "强化伤害的等级门槛（单位为级，按仓库惯例用 flat）", "unit": "flat", "claimed": { "value": 15, "quote": "达到10/15/20级" }, "packHint": "二技能伤害强化的等级条件，需资源包核对描述的15级" },
+        { "key": "areaUpgradeLevel", "what": "强化范围的等级门槛（单位为级，按仓库惯例用 flat）", "unit": "flat", "claimed": { "value": 20, "quote": "达到10/15/20级" }, "packHint": "二技能范围强化的等级条件，需资源包核对描述的20级" },
+        { "key": "castRangeIncrease", "what": "施法距离强化幅度（形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该核心二技能施法距离加成的数值与形式（百分比或固定距离）" },
+        { "key": "baseCastRange", "what": "二技能原施法距离", "unit": "meters", "claimed": null, "packHint": "二技能默认施法距离" },
+        { "key": "damageIncrease", "what": "伤害强化幅度", "unit": "percent", "claimed": null, "packHint": "该核心二技能伤害加成数值，是加成系数提升还是最终伤害提升" },
+        { "key": "areaIncrease", "what": "范围强化幅度（形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该核心二技能作用范围加成的数值与形式" },
+        { "key": "baseArea", "what": "二技能原作用范围半径", "unit": "meters", "claimed": null, "packHint": "二技能默认作用范围" }
+      ],
+      "ambiguities": [
+        "“释放”按该核心属于二技能理解为释放二技能，原文未写明",
+        "获得的经验球是直接给经验还是需拾取、经验值多少未写",
+        "10/15/20级与施法距离/伤害/范围的对应按“依次”顺序理解，原文没有逐项写明",
+        "各项强化幅度与形式（百分比或固定值）未写",
+        "三项强化是否累加保留未写",
+        "“范围/依次强化”多出的斜杠疑似排版问题"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "请神·地",
+      "text": "释放二技能时，施展一次随机的请神术强化自身和二技能",
+      "reading": "二技能核心。每次释放二技能时，随机施展一次“请神术”（原文“一次”是汉字），强化姜子牙自身和这次二技能。原文没写请神术有哪几种、每种强化什么、强化数值、出现概率、持续时间、叠加或覆盖规则，也没写和请神·天、请神·人是不是同一套请神术。因为直接强化二技能本身，按直接影响伤害处理；具体强化内容原文未写。",
+      "mechanisms": ["buff", "skill-change", "other"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "invocationKinds", "what": "请神术的种类数量", "unit": "count", "claimed": null, "packHint": "请神·地可随机出的请神术列表" },
+        { "key": "invocationWeight", "what": "每种请神术出现的概率（每种一个值）", "unit": "percent", "claimed": null, "packHint": "请神术随机权重或概率表" },
+        { "key": "selfBuffValue", "what": "请神术对自身的强化数值（每种一个值，形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "每种请神术对姜子牙自身的属性或效果加成数值" },
+        { "key": "skillBuffValue", "what": "请神术对二技能的强化数值（每种一个值，形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "每种请神术对二技能伤害、范围、击飞等的加成数值" },
+        { "key": "buffDuration", "what": "对自身强化的持续时间", "unit": "seconds", "claimed": null, "packHint": "请神术自身 buff 的持续时间" },
+        { "key": "invocationsPerCast", "what": "每次释放二技能施展的请神术次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "每次释放触发的请神次数，核对原文的“一次”" },
+        { "key": "maxStacks", "what": "请神术强化的叠加上限（如可叠加）", "unit": "count", "claimed": null, "packHint": "请神术 buff 的叠加与覆盖规则、层数上限" }
+      ],
+      "ambiguities": [
+        "请神术有哪几种、每种强化什么未写",
+        "强化数值、持续时间、随机概率未写",
+        "多次请神是叠加、刷新还是覆盖未写",
+        "与请神·天、请神·人的请神术是否同一套未写",
+        "对二技能的强化只作用于本次释放还是持续一段时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "请神·人",
+      "text": "释放三技能时，施展一次随机的请神术强化自身和三技能",
+      "reading": "三技能（大招）核心。每次释放三技能时，随机施展一次“请神术”（原文“一次”是汉字），强化姜子牙自身和这次三技能。原文没写请神术有哪几种、每种强化什么、强化数值、出现概率、持续时间、叠加或覆盖规则，也没写和请神·天、请神·地是不是同一套请神术，以及请神发生在开始蓄力时还是光波发出时。因为直接强化三技能本身，按直接影响伤害处理；具体强化内容原文未写。",
+      "mechanisms": ["buff", "skill-change", "other"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能时",
+      "slots": [
+        { "key": "invocationKinds", "what": "请神术的种类数量", "unit": "count", "claimed": null, "packHint": "请神·人可随机出的请神术列表" },
+        { "key": "invocationWeight", "what": "每种请神术出现的概率（每种一个值）", "unit": "percent", "claimed": null, "packHint": "请神术随机权重或概率表" },
+        { "key": "selfBuffValue", "what": "请神术对自身的强化数值（每种一个值，形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "每种请神术对姜子牙自身的属性或效果加成数值" },
+        { "key": "skillBuffValue", "what": "请神术对三技能的强化数值（每种一个值，形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "每种请神术对三技能伤害、蓄力、光波等的加成数值" },
+        { "key": "buffDuration", "what": "对自身强化的持续时间", "unit": "seconds", "claimed": null, "packHint": "请神术自身 buff 的持续时间" },
+        { "key": "invocationsPerCast", "what": "每次释放三技能施展的请神术次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "每次释放触发的请神次数，核对原文的“一次”" },
+        { "key": "maxStacks", "what": "请神术强化的叠加上限（如可叠加）", "unit": "count", "claimed": null, "packHint": "请神术 buff 的叠加与覆盖规则、层数上限" }
+      ],
+      "ambiguities": [
+        "请神术有哪几种、每种强化什么未写",
+        "强化数值、持续时间、随机概率未写",
+        "多次请神是叠加、刷新还是覆盖未写",
+        "与请神·天、请神·地的请神术是否同一套未写",
+        "请神发生在开始蓄力时还是光波发出时未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "天人合一",
+      "text": "永久进入天人形态，15级后每级加快10%大招蓄力速度和5%伤害，上限10层",
+      "reading": "三技能（大招）核心。选择后永久处于“天人形态”；原文没有解释天人形态本身包含什么效果。15级之后每升一级获得一层：每层使大招蓄力速度加快10%、伤害提高5%，最多10层。原文没写15级当级是否算第一层（即第一层在15级还是16级获得），没写“5%伤害”是只加大招伤害还是所有伤害，也没写多层之间是加算还是乘算、“蓄力速度加快”是蓄力时长缩短还是速度乘以系数。",
+      "mechanisms": ["stacking", "damage-amp", "skill-change", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻；15级后每升一级叠加一层",
+      "slots": [
+        { "key": "startLevel", "what": "开始叠层的等级（单位为级，按仓库惯例用 flat）", "unit": "flat", "claimed": { "value": 15, "quote": "15级后" }, "packHint": "天人合一开始叠层的等级条件，需资源包核对描述的15级及当级是否计层" },
+        { "key": "chargeSpeedPerStack", "what": "每层大招蓄力速度加快幅度", "unit": "percent", "claimed": { "value": 10, "quote": "10%大招蓄力速度" }, "packHint": "每层蓄力速度加成，需资源包核对描述的10%及计算方式（缩短时长或提速）" },
+        { "key": "damagePerStack", "what": "每层伤害提升幅度", "unit": "percent", "claimed": { "value": 5, "quote": "5%伤害" }, "packHint": "每层伤害加成，需资源包核对描述的5%以及作用于大招还是全部伤害" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": { "value": 10, "quote": "上限10层" }, "packHint": "天人合一最大层数，需资源包核对描述的10层" },
+        { "key": "baseChargeTime", "what": "大招原蓄力时长（计算蓄力加速所需）", "unit": "seconds", "claimed": null, "packHint": "三技能默认蓄力时长或蓄力阶段配置" },
+        { "key": "formEffectValue", "what": "天人形态本身的效果数值（原文未解释天人形态内容，形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "天人形态状态本身附带的效果与数值" }
+      ],
+      "ambiguities": [
+        "天人形态本身包含什么效果未写",
+        "15级当级是否计为第一层未写",
+        "“5%伤害”只加大招还是所有伤害未写",
+        "多层之间加算还是乘算未写",
+        "“蓄力速度加快”是缩短蓄力时长还是提速系数未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "乘龙",
+      "text": "释放一技能时可移动施法",
+      "reading": "一技能小天赋。释放一技能时可以边移动边施法，不会因施法而停下。纯功能性效果，不改变伤害数值；模拟伤害时一般不需要，除非模拟走位。原文没写移动施法时移速是否降低。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "castMoveSpeedRatio", "what": "移动施法期间的移速比例（如有降低）", "unit": "percent", "claimed": null, "packHint": "一技能施法期间的移速修正" }
+      ],
+      "ambiguities": ["移动施法时移速是否降低未写"],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "长生不老",
+      "text": "每颗经验球会帮助拾取者恢复5%的最大生命值和法力值",
+      "reading": "一技能小天赋。每颗经验球被拾取时，拾取者（可以是姜子牙或队友）恢复5%最大生命值和5%最大法力值。原文没写是瞬间恢复还是持续恢复，没写哪些经验球算（封神榜掉落的、一气化三清获得的是否都算），也没写多颗同时拾取是否各自生效。只影响生存和续航，不改变伤害计算。",
+      "mechanisms": ["heal", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "拾取经验球时",
+      "slots": [
+        { "key": "hpRestorePct", "what": "每颗经验球恢复的最大生命值比例", "unit": "percent", "claimed": { "value": 5, "quote": "恢复5%的最大生命值和法力值" }, "packHint": "经验球回复生命的比例，需资源包核对描述的5%" },
+        { "key": "mpRestorePct", "what": "每颗经验球恢复的最大法力值比例", "unit": "percent", "claimed": { "value": 5, "quote": "恢复5%的最大生命值和法力值" }, "packHint": "经验球回复法力的比例，需资源包核对描述的5%" },
+        { "key": "restoreDuration", "what": "恢复持续时间（如为持续恢复）", "unit": "seconds", "claimed": null, "packHint": "回复效果是瞬间还是分段，持续多久" }
+      ],
+      "ambiguities": [
+        "瞬间恢复还是持续恢复未写",
+        "哪些来源的经验球算在内未写",
+        "生命和法力是否同一比例按原文“5%的最大生命值和法力值”理解为同一比例"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "杳如黄鹤",
+      "text": "获得的爆发移速的时长和效果翻倍",
+      "reading": "一技能小天赋。姜子牙获得的“爆发移速”持续时间和移速加成都翻倍（原文“翻倍”是汉字，按字面理解为乘以2）。原文没写爆发移速从哪里来（哪个技能或效果给的），也没写“翻倍”是只对一技能相关的爆发移速还是所有来源。只影响移动，不改变伤害计算。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "获得爆发移速时",
+      "slots": [
+        { "key": "durationMultiplier", "what": "爆发移速时长倍率（原文写“翻倍”，是汉字，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该天赋对爆发移速时长的倍率，核对原文的“翻倍”" },
+        { "key": "effectMultiplier", "what": "爆发移速效果倍率（原文写“翻倍”，是汉字，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该天赋对爆发移速加成的倍率，核对原文的“翻倍”" },
+        { "key": "baseMoveSpeedBonus", "what": "原爆发移速加成", "unit": "percent", "claimed": null, "packHint": "爆发移速的来源与默认移速加成" },
+        { "key": "baseDuration", "what": "原爆发移速持续时间", "unit": "seconds", "claimed": null, "packHint": "爆发移速默认持续时间" }
+      ],
+      "ambiguities": [
+        "爆发移速的来源未写",
+        "是否对所有来源的爆发移速生效未写",
+        "原爆发移速数值和时长未写",
+        "移速是否随时间衰减未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "黄金之路",
+      "text": "每收集满66颗经验球，额外奖励高额经验，并可立刻获得一次赐封神力的技能",
+      "reading": "一技能小天赋。每收集满66颗经验球，额外获得“高额”经验，并立刻获得一次“赐封神力”的技能（原文“一次”是汉字）。原文没写额外经验的具体数值，没写“赐封神力的技能”具体做什么、对谁使用、效果持续多久、获得后是否要手动释放、能否储存多次，也没写66颗按谁收集计数（只算姜子牙自己还是全队）、计数满后是否清零重新计。结合 t15 的“被封神的队友”，赐封神力可能是给队友“封神”，但原文没有明确说。",
+      "mechanisms": ["economy", "charges", "team", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "每收集满66颗经验球时",
+      "slots": [
+        { "key": "orbsRequired", "what": "触发所需收集的经验球数量", "unit": "count", "claimed": { "value": 66, "quote": "每收集满66颗经验球" }, "packHint": "黄金之路触发所需经验球数，需资源包核对描述的66颗" },
+        { "key": "bonusExp", "what": "额外奖励的经验值（原文只写“高额”）", "unit": "flat", "claimed": null, "packHint": "黄金之路额外经验奖励数值" },
+        { "key": "grantedCharges", "what": "每次获得的赐封神力技能次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "赐封神力技能获得次数，核对原文的“一次”" },
+        { "key": "maxStoredCharges", "what": "赐封神力技能可储存的次数上限", "unit": "count", "claimed": null, "packHint": "赐封神力技能是否可储存、上限多少" },
+        { "key": "deifyEffectDuration", "what": "赐封神力效果持续时间", "unit": "seconds", "claimed": null, "packHint": "赐封神力技能的效果内容与持续时间" },
+        { "key": "deifyEffectValue", "what": "赐封神力效果数值（效果内容未写，形式未写，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "赐封神力技能给目标的属性或效果加成" }
+      ],
+      "ambiguities": [
+        "额外经验数值（“高额”）未写",
+        "赐封神力技能的效果、目标、持续时间未写",
+        "66颗按个人还是全队计数、满后是否清零未写",
+        "赐封神力技能能否储存未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "湮灭",
+      "text": "一技能命中将击退敌人",
+      "reading": "一技能小天赋。一技能命中敌人时将其击退。原文没写击退距离、击退方向（远离姜子牙还是远离技能中心）、击退期间敌人是否无法行动，也没写一技能多次造成伤害时是否每次都击退。击退可能把敌人推出一技能范围、影响后续伤害次数，所以对输出是间接影响。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能命中敌人时",
+      "slots": [
+        { "key": "knockbackDistance", "what": "击退距离", "unit": "meters", "claimed": null, "packHint": "该天赋击退位移距离" },
+        { "key": "knockbackDuration", "what": "击退位移持续时间", "unit": "seconds", "claimed": null, "packHint": "击退位移时长、期间是否打断敌人行动" },
+        { "key": "perTargetCooldown", "what": "同一目标被再次击退的间隔（如有）", "unit": "seconds", "claimed": null, "packHint": "一技能多次伤害时是否每次都击退、是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "击退距离、方向未写",
+        "一技能多次伤害是否每次都击退未写",
+        "对首领等单位是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "奇门阵",
+      "text": "一技能范围增加25%",
+      "reading": "一技能小天赋。一技能作用范围增加25%。原文没写25%是半径增加还是面积增加，也没写是否与其他范围加成（如请神术）加算。范围变大会让一技能命中更多目标，按间接影响处理。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能）",
+      "slots": [
+        { "key": "areaIncrease", "what": "一技能范围增加幅度", "unit": "percent", "claimed": { "value": 25, "quote": "范围增加25%" }, "packHint": "该天赋一技能范围加成，需资源包核对描述的25%以及作用于半径还是面积" },
+        { "key": "baseArea", "what": "一技能原作用范围半径", "unit": "meters", "claimed": null, "packHint": "一技能默认作用范围" }
+      ],
+      "ambiguities": [
+        "25%指半径还是面积未写",
+        "与其他范围加成的叠加方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "忏悔",
+      "text": "造成伤害的频率提升50%",
+      "reading": "一技能小天赋。原文只写“造成伤害的频率提升50%”，按该天赋属于一技能理解为一技能造成伤害的频率提升50%。原文没写是伤害间隔缩短为原来的1/1.5还是间隔减少50%，没写一技能持续时间是否不变（即总伤害次数是否随之增加），也没写每次伤害数值是否改变、是否有伤害次数上限。",
+      "mechanisms": ["damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（一技能）",
+      "slots": [
+        { "key": "frequencyIncrease", "what": "一技能伤害频率提升幅度", "unit": "percent", "claimed": { "value": 50, "quote": "频率提升50%" }, "packHint": "该天赋对一技能伤害间隔的修正，需资源包核对描述的50%及计算方式" },
+        { "key": "baseTickInterval", "what": "一技能原伤害间隔", "unit": "seconds", "claimed": null, "packHint": "一技能默认伤害判定间隔" },
+        { "key": "skillDuration", "what": "一技能持续时间", "unit": "seconds", "claimed": null, "packHint": "一技能区域或效果持续时间" },
+        { "key": "tickBaseDamage", "what": "一技能每次伤害的基础值", "unit": "flat", "claimed": null, "packHint": "一技能每跳伤害基础值" },
+        { "key": "tickDamageRatio", "what": "一技能每次伤害的属性加成系数", "unit": "ratio", "claimed": null, "packHint": "一技能每跳伤害的加成系数、加成属性和伤害类型" },
+        { "key": "maxTicks", "what": "一技能伤害次数上限（如有）", "unit": "count", "claimed": null, "packHint": "一技能单次释放的伤害次数上限" }
+      ],
+      "ambiguities": [
+        "频率提升的计算方式未写",
+        "一技能持续时间是否不变、总伤害次数是否增加未写",
+        "每次伤害数值是否改变未写",
+        "“造成伤害”只指一技能还是所有伤害，按该天赋属于一技能理解"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "再起",
+      "text": "若敌人被一技能的伤害所击败，则会立刻刷新冷却",
+      "reading": "一技能小天赋。敌人被一技能的伤害击败时，立刻刷新冷却。原文没写刷新的是一技能冷却还是所有技能冷却（按该天赋属于一技能理解为一技能），没写是否有内置冷却或次数限制，也没写一技能还在持续时刷新冷却后能否叠放多个。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "敌人被一技能伤害击败时",
+      "slots": [
+        { "key": "internalCooldown", "what": "刷新效果的内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "再起是否有内置冷却" },
+        { "key": "maxRefreshesPerCast", "what": "每次释放最多刷新次数（如有）", "unit": "count", "claimed": null, "packHint": "单次一技能可触发刷新的次数上限" },
+        { "key": "baseCooldown", "what": "一技能原冷却", "unit": "seconds", "claimed": null, "packHint": "一技能默认冷却时间" }
+      ],
+      "ambiguities": [
+        "刷新的是哪个技能的冷却未写",
+        "内置冷却或次数限制未写",
+        "刷新后能否同时存在多个一技能效果未写",
+        "其他天赋额外触发的一技能（如闪电连鞭）击败敌人是否也算未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "驭鹤",
+      "text": "释放二技能时可移动施法",
+      "reading": "二技能小天赋。释放二技能时可以边移动边施法。纯功能性效果，不改变伤害数值；模拟伤害时一般不需要，除非模拟走位。原文没写移动施法时移速是否降低、技能落点是否随移动变化。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "castMoveSpeedRatio", "what": "移动施法期间的移速比例（如有降低）", "unit": "percent", "claimed": null, "packHint": "二技能施法期间的移速修正" }
+      ],
+      "ambiguities": [
+        "移动施法时移速是否降低未写",
+        "技能落点是否随移动变化未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "地斗符",
+      "text": "击飞效果更强，落地额外造成伤害",
+      "reading": "二技能小天赋。二技能的击飞效果更强，被击飞的敌人落地时额外受到一次伤害。原文没写“更强”是击飞时间更长、高度更高还是其他，没写落地伤害的数值、加成属性、伤害类型、是单体还是范围、能否暴击，也没写对免疫击飞的敌人是否仍有落地伤害。",
+      "mechanisms": ["control", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能击飞的敌人落地时",
+      "slots": [
+        { "key": "airborneDurationIncrease", "what": "击飞时间增加量（“更强”的具体形式未写，暂按时间建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋对二技能击飞时长或强度的加成" },
+        { "key": "baseAirborneDuration", "what": "二技能原击飞时间", "unit": "seconds", "claimed": null, "packHint": "二技能默认击飞时长" },
+        { "key": "landingBaseDamage", "what": "落地伤害基础值", "unit": "flat", "claimed": null, "packHint": "落地额外伤害的基础数值" },
+        { "key": "landingDamageRatio", "what": "落地伤害属性加成系数", "unit": "ratio", "claimed": null, "packHint": "落地额外伤害的加成系数、加成属性和伤害类型" },
+        { "key": "landingRadius", "what": "落地伤害作用范围（如为范围伤害）", "unit": "meters", "claimed": null, "packHint": "落地伤害是单体还是范围、范围多大" }
+      ],
+      "ambiguities": [
+        "“更强”具体指什么未写",
+        "落地伤害数值、加成属性、伤害类型未写",
+        "落地伤害单体还是范围未写",
+        "落地伤害能否暴击未写",
+        "对免疫击飞的敌人是否仍有落地伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "急急如律令",
+      "text": "加快30%释放速度",
+      "reading": "二技能小天赋。二技能释放速度加快30%。原文没写是施法前摇缩短30%还是动作速度乘以1.3，也没写是否同时缩短生效延迟（例如击飞判定时间）。节省施法时间会间接影响输出节奏。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "castSpeedIncrease", "what": "二技能释放速度加快幅度", "unit": "percent", "claimed": { "value": 30, "quote": "加快30%释放速度" }, "packHint": "该天赋对二技能施法动作的提速，需资源包核对描述的30%及计算方式" },
+        { "key": "baseCastFrames", "what": "二技能原施法动作帧数", "unit": "frames", "claimed": null, "packHint": "二技能默认施法前摇与总动作帧数" }
+      ],
+      "ambiguities": [
+        "“加快30%”是时间缩短30%还是速度乘以1.3未写",
+        "是否同时缩短技能生效延迟未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "捆仙绳",
+      "text": "释放二技能0.5秒后将周围敌人拉到技能中心",
+      "reading": "二技能小天赋。释放二技能0.5秒后，把技能周围的敌人拉到技能中心。原文没写0.5秒从开始施法还是技能落地算起，没写“周围”范围多大、最多拉几个敌人，也没写拉拽是否带伤害、对首领是否生效。把敌人聚到中心会让二技能及后续技能命中更多目标，按间接影响处理。",
+      "mechanisms": ["control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能0.5秒后",
+      "slots": [
+        { "key": "pullDelay", "what": "拉拽延迟", "unit": "seconds", "claimed": { "value": 0.5, "quote": "0.5秒后" }, "packHint": "捆仙绳拉拽的延迟时间，需资源包核对描述的0.5秒及起算时点" },
+        { "key": "pullRadius", "what": "拉拽范围（“周围”的半径）", "unit": "meters", "claimed": null, "packHint": "捆仙绳拉拽的作用半径" },
+        { "key": "maxTargets", "what": "最多拉拽目标数（如有上限）", "unit": "count", "claimed": null, "packHint": "捆仙绳拉拽目标数上限" },
+        { "key": "pullDuration", "what": "拉拽位移持续时间", "unit": "seconds", "claimed": null, "packHint": "拉拽位移时长" }
+      ],
+      "ambiguities": [
+        "0.5秒起算时点未写",
+        "“周围”范围未写",
+        "拉拽目标数上限未写",
+        "拉拽是否带伤害、对首领是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "闪电连鞭",
+      "text": "若目标在受到一技能伤害期间被二技能命中，则会以其为中心再触发一技能",
+      "reading": "二技能小天赋。如果目标正处于受一技能伤害的期间，又被二技能命中，就以该目标为中心额外触发一次一技能。原文没写额外触发的一技能伤害是否和正常一技能相同、是否继承一技能天赋和请神术强化、是否会再次触发连锁，没写一次二技能命中多个符合条件的目标时是否每个都触发，也没写是否有内置冷却。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中正在受一技能伤害的目标时",
+      "slots": [
+        { "key": "triggeredDamageRatio", "what": "额外一技能相对正常一技能的伤害比例", "unit": "ratio", "claimed": null, "packHint": "闪电连鞭触发的一技能伤害系数或倍率" },
+        { "key": "triggeredDuration", "what": "额外一技能的持续时间", "unit": "seconds", "claimed": null, "packHint": "触发的一技能持续时间是否与正常一技能相同" },
+        { "key": "maxTriggersPerCast", "what": "每次二技能最多触发次数", "unit": "count", "claimed": null, "packHint": "一次二技能命中多个目标时的触发上限" },
+        { "key": "internalCooldown", "what": "触发内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "闪电连鞭内置冷却" }
+      ],
+      "ambiguities": [
+        "额外一技能的伤害是否与正常一技能相同未写",
+        "是否继承一技能小天赋（范围、频率等）和请神术强化未写",
+        "额外一技能能否再触发连锁未写",
+        "多目标时是否各自触发、是否有冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "风云诀",
+      "text": "濒死时触发，化为风云逃脱，期间不可释放技能",
+      "reading": "二技能小天赋。姜子牙濒死时触发，化为风云逃脱，这段时间内不能释放技能。原文没写“濒死”的判定（生命低于多少或受到致命伤害时）、风云状态持续多久、移速多少、期间是否无敌或不可选中、结束后是否恢复生命，也没写冷却时间或每局次数。保命效果属于间接影响，期间不能放技能会让输出中断。",
+      "mechanisms": ["mobility", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "濒死时",
+      "slots": [
+        { "key": "hpThreshold", "what": "濒死判定的生命值比例（如按比例判定）", "unit": "percent", "claimed": null, "packHint": "风云诀触发条件：生命阈值或致命伤害判定" },
+        { "key": "duration", "what": "风云状态持续时间", "unit": "seconds", "claimed": null, "packHint": "风云状态时长" },
+        { "key": "moveSpeedBonus", "what": "风云状态移速加成", "unit": "percent", "claimed": null, "packHint": "风云状态移速" },
+        { "key": "cooldown", "what": "触发冷却", "unit": "seconds", "claimed": null, "packHint": "风云诀冷却时间" },
+        { "key": "maxTriggers", "what": "每局或每关最多触发次数（如有）", "unit": "count", "claimed": null, "packHint": "风云诀触发次数限制" }
+      ],
+      "ambiguities": [
+        "濒死判定条件未写",
+        "风云状态时长、移速未写",
+        "期间是否无敌或不可选中未写",
+        "结束后是否恢复生命未写",
+        "冷却或次数限制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "登神长阶",
+      "text": "自身和被封神的队友将等级上限突破到99，封神时自己也可以获得大量经验",
+      "reading": "二技能小天赋。姜子牙自己和被“封神”的队友等级上限提高到99级；姜子牙给队友封神时自己也获得“大量”经验。原文没写原等级上限是多少、超过原上限后每级加多少属性，没写“封神”是怎样触发的（结合 t04 可能与赐封神力技能有关，但原文没明确说），也没写额外经验的数值。等级提高会提升属性并延续 c6 等按等级叠层的效果，按间接影响处理。",
+      "mechanisms": ["economy", "team", "stat"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（等级上限）；封神时（经验）",
+      "slots": [
+        { "key": "levelCap", "what": "突破后的等级上限（单位为级，按仓库惯例用 flat）", "unit": "flat", "claimed": { "value": 99, "quote": "等级上限突破到99" }, "packHint": "登神长阶等级上限，需资源包核对描述的99级" },
+        { "key": "baseLevelCap", "what": "原等级上限", "unit": "flat", "claimed": null, "packHint": "本模式默认等级上限" },
+        { "key": "bonusExpOnDeify", "what": "封神时自己获得的经验（原文只写“大量”）", "unit": "flat", "claimed": null, "packHint": "封神时姜子牙获得的经验数值" },
+        { "key": "statsPerLevelAboveCap", "what": "超过原上限后每级的属性成长", "unit": "flat", "claimed": null, "packHint": "高等级（超原上限）每级属性成长表" }
+      ],
+      "ambiguities": [
+        "原等级上限未写",
+        "超过原上限后每级属性成长未写",
+        "“封神”的触发方式未写",
+        "封神时获得的经验数值未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "打神鞭",
+      "text": "造成伤害的频率和上限翻三倍",
+      "reading": "二技能小天赋。按该天赋属于二技能理解为二技能造成伤害的频率和上限都“翻三倍”（“三倍”是汉字）。原文没写“翻三倍”是变为原来的3倍还是增加3倍，没写“上限”是伤害次数上限还是伤害总量上限，也没写每次伤害数值是否改变。",
+      "mechanisms": ["damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（二技能）",
+      "slots": [
+        { "key": "frequencyMultiplier", "what": "伤害频率倍率（原文写“翻三倍”，是汉字，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该天赋对二技能伤害间隔的倍率，核对原文的“翻三倍”含义" },
+        { "key": "capMultiplier", "what": "伤害上限倍率（原文写“翻三倍”，是汉字，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该天赋对二技能伤害上限的倍率，核对原文的“翻三倍”含义" },
+        { "key": "baseTickInterval", "what": "二技能原伤害间隔", "unit": "seconds", "claimed": null, "packHint": "二技能默认伤害判定间隔" },
+        { "key": "baseHitCap", "what": "二技能原伤害上限（次数或总量，形式未写，暂按次数建槽）", "unit": "count", "claimed": null, "packHint": "二技能原伤害上限的类型和数值" },
+        { "key": "tickBaseDamage", "what": "二技能每次伤害基础值", "unit": "flat", "claimed": null, "packHint": "二技能每次伤害基础值" },
+        { "key": "tickDamageRatio", "what": "二技能每次伤害属性加成系数", "unit": "ratio", "claimed": null, "packHint": "二技能每次伤害的加成系数、加成属性和伤害类型" }
+      ],
+      "ambiguities": [
+        "“翻三倍”是变为3倍还是增加3倍未写",
+        "“上限”是次数上限还是伤害总量上限未写",
+        "每次伤害数值是否改变未写",
+        "“造成伤害”只指二技能还是所有伤害，按该天赋属于二技能理解"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "姜太公钓鱼",
+      "text": "每隔30s可以去河道使用额外的钓鱼技能，获得随机奖励",
+      "reading": "三技能小天赋。每隔30秒可以去河道使用一个额外的钓鱼技能，获得随机奖励。原文没写奖励有哪些、各自概率，没写钓鱼要多久、期间能否行动，也没写本模式地图中的“河道”对应哪里、30秒是从上次钓鱼开始还是结束算。奖励内容未知，可能影响资源或属性，按间接影响处理。",
+      "mechanisms": ["economy", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "每隔30秒可在河道使用",
+      "slots": [
+        { "key": "interval", "what": "钓鱼技能可用间隔", "unit": "seconds", "claimed": { "value": 30, "quote": "每隔30s" }, "packHint": "钓鱼技能冷却，需资源包核对描述的30秒及起算时点" },
+        { "key": "fishingDuration", "what": "钓鱼动作耗时", "unit": "seconds", "claimed": null, "packHint": "钓鱼技能施法或引导时长" },
+        { "key": "rewardKinds", "what": "随机奖励种类数", "unit": "count", "claimed": null, "packHint": "钓鱼奖励池内容" },
+        { "key": "rewardWeight", "what": "每种奖励的出现概率（每种一个值）", "unit": "percent", "claimed": null, "packHint": "钓鱼奖励随机权重" },
+        { "key": "rewardValue", "what": "每种奖励的数值（每种一个值，形式未写）", "unit": "flat", "claimed": null, "packHint": "每种钓鱼奖励的具体数值" }
+      ],
+      "ambiguities": [
+        "奖励内容与概率未写",
+        "钓鱼耗时、期间能否行动未写",
+        "本模式“河道”位置未写",
+        "30秒起算时点未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "仙人指路",
+      "text": "释放大招时可以移动，大招也会跟随平移（但是不能改变朝向）",
+      "reading": "三技能小天赋。释放大招时姜子牙可以移动，大招会跟着他平移，但方向固定、不能转向。纯功能性效果，不改变伤害数值；模拟伤害时一般不需要，除非模拟走位和命中。原文没写移动时移速是否降低。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "castMoveSpeedRatio", "what": "释放大招期间的移速比例（如有降低）", "unit": "percent", "claimed": null, "packHint": "三技能施法期间的移速修正" }
+      ],
+      "ambiguities": ["移动时移速是否降低未写"],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "返本还源",
+      "text": "大招最后一段命中敌人可减少15%召唤师技能冷却时间",
+      "reading": "三技能小天赋。大招最后一段命中敌人时，召唤师技能冷却减少15%。原文没写15%是按总冷却还是剩余冷却计算，没写命中多个敌人是否各自减少，也没写每次大招最多触发几次。召唤师技能冷却变化对输出是间接影响。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "大招最后一段命中敌人时",
+      "slots": [
+        { "key": "cdReductionPct", "what": "召唤师技能冷却减少比例（原文为减少）", "unit": "percent", "claimed": { "value": 15, "quote": "减少15%召唤师技能冷却时间" }, "packHint": "返本还源召唤师技能冷却减少比例，需资源包核对描述的15%及按总冷却还是剩余冷却" },
+        { "key": "maxTriggersPerCast", "what": "每次大招最多触发次数", "unit": "count", "claimed": null, "packHint": "命中多个敌人时是否多次减少冷却" }
+      ],
+      "ambiguities": [
+        "15%按总冷却还是剩余冷却未写",
+        "命中多个敌人是否各自触发未写",
+        "“最后一段”如何定义（与“最后一道光波”是否相同）未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "断罪",
+      "text": "一二技能造成伤害时会快速向面朝方向发射一道光波造成伤害和减速",
+      "reading": "三技能小天赋。一技能或二技能造成伤害时，快速向姜子牙面朝方向发射一道光波（“一道”是汉字），造成伤害和减速。原文没写光波伤害数值、加成属性和伤害类型、射程和宽度、能否穿透多个目标、减速幅度和持续时间，也没写一二技能多次造成伤害时是否每次都发射、是否有内置冷却，以及光波能否暴击。",
+      "mechanisms": ["proc", "control"],
+      "damageRelevance": "direct",
+      "trigger": "一技能或二技能造成伤害时",
+      "slots": [
+        { "key": "waveBaseDamage", "what": "光波伤害基础值", "unit": "flat", "claimed": null, "packHint": "断罪光波基础伤害" },
+        { "key": "waveDamageRatio", "what": "光波伤害属性加成系数", "unit": "ratio", "claimed": null, "packHint": "断罪光波加成系数、加成属性和伤害类型" },
+        { "key": "wavesPerTrigger", "what": "每次触发发射的光波数（原文写“一道”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "断罪每次触发的光波数，核对原文的“一道”" },
+        { "key": "internalCooldown", "what": "触发内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "断罪触发间隔或内置冷却，是否每次伤害都触发" },
+        { "key": "waveRange", "what": "光波射程", "unit": "meters", "claimed": null, "packHint": "断罪光波射程" },
+        { "key": "waveWidth", "what": "光波宽度", "unit": "meters", "claimed": null, "packHint": "断罪光波宽度" },
+        { "key": "maxTargetsPerWave", "what": "每道光波最多命中目标数（是否穿透）", "unit": "count", "claimed": null, "packHint": "断罪光波穿透规则" },
+        { "key": "slowPct", "what": "减速幅度", "unit": "percent", "claimed": null, "packHint": "断罪减速数值" },
+        { "key": "slowDuration", "what": "减速持续时间", "unit": "seconds", "claimed": null, "packHint": "断罪减速时长" }
+      ],
+      "ambiguities": [
+        "光波伤害数值、加成属性、伤害类型未写",
+        "一二技能每次伤害是否都触发、有无内置冷却未写",
+        "光波射程、宽度、穿透未写",
+        "减速幅度和持续时间未写",
+        "光波能否暴击未写",
+        "闪电连鞭额外触发的一技能是否也能触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "斩仙飞刀",
+      "text": "蓄力期间可发射大量小型月牙波",
+      "reading": "三技能小天赋。大招蓄力期间可以发射“大量”小型月牙波。原文没写月牙波是自动发射还是手动发射、发射间隔或总数、每道伤害、射程、方向，也没写月牙波是否算作大器晚成（t22）里的“前序光波”。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招蓄力期间",
+      "slots": [
+        { "key": "waveCount", "what": "蓄力期间发射的月牙波总数（原文只写“大量”）", "unit": "count", "claimed": null, "packHint": "斩仙飞刀月牙波数量或数量上限" },
+        { "key": "fireInterval", "what": "月牙波发射间隔", "unit": "seconds", "claimed": null, "packHint": "月牙波发射间隔，是否受蓄力速度影响" },
+        { "key": "waveBaseDamage", "what": "每道月牙波伤害基础值", "unit": "flat", "claimed": null, "packHint": "月牙波基础伤害" },
+        { "key": "waveDamageRatio", "what": "每道月牙波属性加成系数", "unit": "ratio", "claimed": null, "packHint": "月牙波加成系数、加成属性和伤害类型" },
+        { "key": "waveRange", "what": "月牙波射程", "unit": "meters", "claimed": null, "packHint": "月牙波射程" },
+        { "key": "maxTargetsPerWave", "what": "每道月牙波最多命中目标数（是否穿透）", "unit": "count", "claimed": null, "packHint": "月牙波穿透规则" }
+      ],
+      "ambiguities": [
+        "自动还是手动发射未写",
+        "月牙波数量、间隔、伤害、射程未写",
+        "是否算作大器晚成的“前序光波”未写",
+        "月牙波能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "大器晚成",
+      "text": "前序光波每命中一个人都让最后一道光波伤害提高5%，最多50%",
+      "reading": "三技能小天赋。大招的前序光波每命中一个目标，最后一道光波的伤害提高5%，最多提高50%。原文没写“一个人”是只算英雄还是所有敌方单位，没写同一目标被多道前序光波命中是否重复计数，没写哪些算“前序光波”（是否包括斩仙飞刀的月牙波、断罪的光波），也没写这项提升和其他增伤是加算还是乘算。",
+      "mechanisms": ["stacking", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "大招前序光波命中目标时",
+      "slots": [
+        { "key": "increasePerHit", "what": "每次命中让最后一道光波提高的伤害", "unit": "percent", "claimed": { "value": 5, "quote": "伤害提高5%" }, "packHint": "大器晚成每次命中的增伤，需资源包核对描述的5%" },
+        { "key": "maxIncrease", "what": "最后一道光波增伤上限", "unit": "percent", "claimed": { "value": 50, "quote": "最多50%" }, "packHint": "大器晚成增伤上限，需资源包核对描述的50%" },
+        { "key": "precedingWaveCount", "what": "大招前序光波数量", "unit": "count", "claimed": null, "packHint": "三技能前序光波段数" },
+        { "key": "finalWaveBaseDamage", "what": "最后一道光波伤害基础值", "unit": "flat", "claimed": null, "packHint": "三技能最后一道光波基础伤害" },
+        { "key": "finalWaveDamageRatio", "what": "最后一道光波属性加成系数", "unit": "ratio", "claimed": null, "packHint": "最后一道光波加成系数、加成属性和伤害类型" }
+      ],
+      "ambiguities": [
+        "“一个人”只算英雄还是所有敌方单位未写",
+        "同一目标被多道前序光波命中是否重复计数未写",
+        "哪些光波算前序光波未写",
+        "与其他增伤的叠加方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "妖魔鬼怪快离开",
+      "text": "最后一道光波可以击退敌人一段距离",
+      "reading": "三技能小天赋。大招最后一道光波命中时把敌人击退“一段距离”。原文没写击退距离、方向，也没写对首领是否生效。击退属于控制，按间接影响处理。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招最后一道光波命中时",
+      "slots": [
+        { "key": "knockbackDistance", "what": "击退距离（原文只写“一段距离”）", "unit": "meters", "claimed": null, "packHint": "该天赋击退位移距离" },
+        { "key": "knockbackDuration", "what": "击退位移持续时间", "unit": "seconds", "claimed": null, "packHint": "击退位移时长" }
+      ],
+      "ambiguities": [
+        "击退距离、方向未写",
+        "对首领等单位是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "天蓬尺",
+      "text": "蓄力期间逐渐获得护盾",
+      "reading": "三技能小天赋。大招蓄力期间逐渐获得护盾。原文没写护盾增长速度、上限、加成属性，也没写蓄力结束后护盾保留多久。只影响生存，按间接影响处理。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "大招蓄力期间",
+      "slots": [
+        { "key": "shieldPerTick", "what": "每次增长的护盾值", "unit": "flat", "claimed": null, "packHint": "天蓬尺护盾每次增长数值" },
+        { "key": "growthInterval", "what": "护盾增长间隔", "unit": "seconds", "claimed": null, "packHint": "天蓬尺护盾增长间隔" },
+        { "key": "shieldRatio", "what": "护盾属性加成系数", "unit": "ratio", "claimed": null, "packHint": "护盾按哪项属性加成及系数" },
+        { "key": "maxShield", "what": "护盾上限", "unit": "flat", "claimed": null, "packHint": "天蓬尺护盾上限" },
+        { "key": "shieldDuration", "what": "蓄力结束后护盾保留时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间" }
+      ],
+      "ambiguities": [
+        "护盾增长速度、上限、加成属性未写",
+        "蓄力结束后护盾保留时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

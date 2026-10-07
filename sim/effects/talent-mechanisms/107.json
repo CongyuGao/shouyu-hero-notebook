@@ -1,0 +1,821 @@
+{
+  "heroId": "107",
+  "heroName": "赵云",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "飞龙在天",
+      "text": "强普变为瞬移到目标头顶的浮空三连击，过程获得免伤率",
+      "reading": "选择该核心后，一技能提供的强化普攻（强普）改为：瞬移到目标头顶，进行一次浮空三连击；在这个过程中赵云获得免伤率。“三连击”是汉字数字，字面为3段攻击，但没有阿拉伯数字，段数仍需核对。“浮空”可能是赵云处于空中出手，也可能是把目标击飞到空中，原文不能确定。原文没有写：瞬移的最大距离；每段伤害基础值、系数和加成属性，各段伤害是否相同；是单体还是范围伤害；免伤率是多少、持续到何时结束；瞬移和三连击期间是否不可选中；能否暴击；强普原本的次数和可用时间窗口。",
+      "mechanisms": ["skill-change", "mobility", "damage-reduction", "control"],
+      "damageRelevance": "direct",
+      "trigger": "使用一技能强普时",
+      "slots": [
+        { "key": "teleportRange", "what": "瞬移到目标头顶的最大距离", "unit": "meters", "claimed": null, "packHint": "该核心强普的锁定/瞬移距离，描述值缺失，需要资源包核对" },
+        { "key": "hitCount", "what": "三连击的伤害段数（原文写“三连击”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "浮空连击的伤害段数，核对“三连击”是否确为3段" },
+        { "key": "perHitBaseDamage", "what": "每段伤害基础值（各段可能不同）", "unit": "flat", "claimed": null, "packHint": "浮空连击每一段的伤害基础值，确认各段是否相同" },
+        { "key": "perHitRatio", "what": "每段伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "浮空连击每段的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "hitRadius", "what": "每段攻击的判定范围（若不是单体）", "unit": "meters", "claimed": null, "packHint": "连击伤害是单体还是范围、范围半径及最大目标数" },
+        { "key": "hitFrames", "what": "瞬移加三连击的整个过程时长", "unit": "seconds", "claimed": null, "packHint": "该强普动作总时长与各段出手帧，用于时间轴和免伤持续时间" },
+        { "key": "damageReductionPct", "what": "过程中获得的免伤率", "unit": "percent", "claimed": null, "packHint": "该核心强普过程中的免伤率数值" },
+        { "key": "damageReductionDuration", "what": "免伤率持续时间（原文写“过程”，是否等于动作时长未写）", "unit": "seconds", "claimed": null, "packHint": "免伤 buff 的持续时间，确认是否与动作时长一致" },
+        { "key": "airborneDuration", "what": "若“浮空”指目标被击飞，击飞时长", "unit": "seconds", "claimed": null, "packHint": "确认“浮空”是否对目标造成击飞控制，若是找控制时长" }
+      ],
+      "ambiguities": [
+        "“三连击”没有阿拉伯数字，段数需核对",
+        "“浮空”是赵云在空中出手还是把目标击飞未写",
+        "瞬移距离未写",
+        "每段伤害、系数、加成属性、伤害类型未写",
+        "单体还是范围未写",
+        "免伤率数值及持续时间未写",
+        "瞬移和连击过程是否不可选中未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "亢龙有悔",
+      "text": "技能可储存3次；累计位移一定距离后，下次一技能附带雷暴，回复且获得一次额外技能",
+      "reading": "选择该核心后，一技能可以储存3次（充能式释放）。另外，赵云累计位移达到一定距离后，下一次一技能会附带雷暴（推测为额外的雷电伤害），同时回复（原文没写回复的是生命还是其他）并获得一次额外技能（推测为额外一次一技能使用次数，原文没有明说）。原文没有写：每次充能的恢复时间、两次释放之间的最小间隔；“一定距离”是多少，累计的是哪些位移（只算一技能冲锋，还是包括普通移动、强普瞬移等）；触发后累计是否清零；雷暴的伤害、范围、段数；回复量；额外技能能否超出3次储存上限、是否有使用时限。",
+      "mechanisms": ["charges", "proc", "area", "heal", "cooldown"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（充能）；累计位移达到一定距离后的下一次一技能",
+      "slots": [
+        { "key": "maxCharges", "what": "一技能最大储存次数", "unit": "count", "claimed": { "value": 3, "quote": "技能可储存3次" }, "packHint": "该核心下一技能的充能上限，原文写3次，描述值需以资源包核对" },
+        { "key": "chargeRechargeTime", "what": "每次充能的恢复时间", "unit": "seconds", "claimed": null, "packHint": "一技能单次充能恢复时间，确认是否与原冷却相同" },
+        { "key": "chargeCastInterval", "what": "两次释放之间的最小间隔", "unit": "seconds", "claimed": null, "packHint": "充能技能连续释放的最小间隔（若有）" },
+        { "key": "distanceThreshold", "what": "触发雷暴所需的累计位移距离（原文写“一定距离”）", "unit": "meters", "claimed": null, "packHint": "累计位移阈值，并确认哪些位移计入" },
+        { "key": "thunderBaseDamage", "what": "雷暴伤害基础值", "unit": "flat", "claimed": null, "packHint": "雷暴伤害基础值" },
+        { "key": "thunderRatio", "what": "雷暴伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "雷暴伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "thunderHitCount", "what": "雷暴伤害段数", "unit": "count", "claimed": null, "packHint": "雷暴的伤害段数或落雷数量" },
+        { "key": "thunderRadius", "what": "雷暴作用范围", "unit": "meters", "claimed": null, "packHint": "雷暴伤害的范围半径或判定区域" },
+        { "key": "healBase", "what": "触发时回复量基础值（回复的是否为生命未写）", "unit": "flat", "claimed": null, "packHint": "触发时的回复量及回复类型" },
+        { "key": "healRatio", "what": "触发时回复量的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "回复量按什么属性加成及系数" },
+        { "key": "bonusCastCount", "what": "触发后获得的额外技能次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "触发后额外获得的一技能次数，核对“一次”，并确认能否超出储存上限" },
+        { "key": "bonusCastWindow", "what": "额外技能的可使用时限（若有）", "unit": "seconds", "claimed": null, "packHint": "额外技能是否有时间限制" }
+      ],
+      "ambiguities": [
+        "充能恢复时间、释放间隔未写",
+        "“一定距离”的具体数值未写",
+        "累计的是哪些位移未写",
+        "触发后累计距离是否清零未写",
+        "雷暴伤害、范围、段数、伤害类型未写",
+        "“回复”回复的是什么、回复多少未写",
+        "“额外技能”是否指额外一次一技能未明说，能否超过3次上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "云无双",
+      "text": "附带百分比真伤，额外攻击和连续攻击英雄可提高该伤害。高分获得奖励",
+      "reading": "选择该核心后，二技能（按核心所属位置理解）的伤害附带百分比真实伤害。“额外攻击”和“连续攻击英雄”可以提高这部分真伤；“额外攻击”可能指二技能小天赋里的“额外打击”（火三丈、空痕裂），原文没有明说。“高分获得奖励”没有解释是什么分数、多少算高分、奖励是什么。原文没有写：百分比的基数（目标最大生命、当前生命、已损生命，还是本次伤害）；百分比数值；每次额外攻击或连续命中提高多少、有无上限、连续攻击的判定窗口；是否只对英雄生效（无尽守御里敌人多为野怪、挑战怪，是否算英雄不明）；对首领是否有伤害上限。",
+      "mechanisms": ["true-damage", "stacking", "damage-amp", "other"],
+      "damageRelevance": "direct",
+      "trigger": "二技能造成伤害时；额外攻击或连续攻击英雄时提高",
+      "slots": [
+        { "key": "trueDamagePct", "what": "附带真伤的百分比（基数未写）", "unit": "percent", "claimed": null, "packHint": "该核心真伤的百分比数值，并确认基数是目标最大生命、当前生命、已损生命还是本次伤害" },
+        { "key": "trueDamageCap", "what": "对首领、挑战怪的真伤上限（若有）", "unit": "flat", "claimed": null, "packHint": "百分比真伤对野怪/首领的上限" },
+        { "key": "bonusPerExtraAttack", "what": "每次额外攻击提高的真伤比例", "unit": "percent", "claimed": null, "packHint": "额外攻击对真伤的加成数值，并确认哪些伤害算“额外攻击”" },
+        { "key": "bonusPerConsecutiveHit", "what": "每次连续攻击英雄提高的真伤比例", "unit": "percent", "claimed": null, "packHint": "连续攻击英雄的每层加成数值" },
+        { "key": "consecutiveWindow", "what": "连续攻击的判定时间窗口", "unit": "seconds", "claimed": null, "packHint": "连续攻击计数的有效时间或重置条件" },
+        { "key": "maxBonusStacks", "what": "提高真伤的层数上限", "unit": "count", "claimed": null, "packHint": "真伤加成的层数或总量上限" },
+        { "key": "highScoreThreshold", "what": "“高分”的判定阈值", "unit": "flat", "claimed": null, "packHint": "“高分”指什么分数、阈值多少" },
+        { "key": "highScoreReward", "what": "“高分”奖励的数值（奖励内容未写）", "unit": "flat", "claimed": null, "packHint": "高分奖励的内容与数值" }
+      ],
+      "ambiguities": [
+        "百分比真伤的基数和数值未写",
+        "“额外攻击”具体指哪些伤害未写",
+        "“连续攻击英雄”的判定方式和时间窗口未写",
+        "每次提高多少、上限未写",
+        "“高分获得奖励”的分数含义、阈值、奖励内容都未写",
+        "无尽守御中敌方单位是否算“英雄”未写",
+        "对首领是否有上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "云大怒",
+      "text": "召唤两个影子协同攻击",
+      "reading": "选择该核心后，召唤两个影子和赵云一起攻击。原文没写召唤时机，按核心所属位置理解为释放二技能时。“两个”是汉字数字，字面为2个影子，数量仍需核对。原文没有写：影子存在多久；影子是复制赵云的二技能还是普攻，还是有自己的攻击；每次攻击的伤害、系数、加成属性，是否按赵云伤害的一定比例计算；攻击范围；能否暴击；影子的伤害能否触发赵云的其他效果（例如云无双的真伤）。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时（原文未写召唤时机，按所属二技能理解）",
+      "slots": [
+        { "key": "shadowCount", "what": "影子数量（原文写“两个”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "召唤影子数量，核对“两个”" },
+        { "key": "shadowDuration", "what": "影子存在时间", "unit": "seconds", "claimed": null, "packHint": "影子召唤物的持续时间" },
+        { "key": "shadowAttackInterval", "what": "影子攻击间隔或出手时间点", "unit": "seconds", "claimed": null, "packHint": "影子每次攻击的时间点（秒或帧）" },
+        { "key": "shadowAttackCount", "what": "每个影子的攻击次数", "unit": "count", "claimed": null, "packHint": "影子每次出场的攻击次数" },
+        { "key": "shadowDamagePct", "what": "若影子按赵云伤害的比例计算，比例是多少", "unit": "percent", "claimed": null, "packHint": "影子伤害是否为赵云对应伤害的一定比例" },
+        { "key": "shadowBaseDamage", "what": "若影子有独立伤害，基础值", "unit": "flat", "claimed": null, "packHint": "影子攻击的伤害基础值" },
+        { "key": "shadowRatio", "what": "若影子有独立伤害，加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "影子伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "shadowRadius", "what": "影子攻击范围", "unit": "meters", "claimed": null, "packHint": "影子攻击的判定范围" }
+      ],
+      "ambiguities": [
+        "“两个”没有阿拉伯数字，影子数量需核对",
+        "召唤时机未写",
+        "影子持续时间、攻击方式、攻击次数未写",
+        "影子伤害数值及计算方式未写",
+        "能否暴击、能否触发其他效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "那年我和云叔",
+      "text": "命中敌方英雄后夺取刘禅，赵云大怒，持续减少冷却并获得属性；保护一会后获得刘备的赏赐",
+      "reading": "选择该核心后，三技能（按核心所属位置理解）命中敌方英雄后“夺取刘禅”，赵云进入“大怒”状态：持续减少冷却，并获得属性。保护刘禅一段时间后，获得刘备的赏赐。原文没有写：夺取刘禅的具体表现；大怒状态持续多久；减少的是哪些技能的冷却、减少速度；获得的是哪种属性、多少；“保护一会”是多久、什么情况下算保护失败（例如受伤、死亡）；赏赐是什么；该效果有无内置冷却；是否只对英雄生效（无尽守御里敌人多为野怪、挑战怪，是否算英雄不明）。",
+      "mechanisms": ["buff", "cooldown", "other"],
+      "damageRelevance": "direct",
+      "trigger": "三技能命中敌方英雄后",
+      "slots": [
+        { "key": "rageDuration", "what": "大怒状态持续时间", "unit": "seconds", "claimed": null, "packHint": "大怒 buff 的持续时间" },
+        { "key": "cdReductionPerTick", "what": "大怒期间每次减少的冷却（原文未写是秒数还是百分比，若为百分比需改单位）", "unit": "seconds", "claimed": null, "packHint": "大怒期间冷却减少量，并确认作用于哪些技能" },
+        { "key": "cdReductionInterval", "what": "持续减少冷却的结算间隔", "unit": "seconds", "claimed": null, "packHint": "冷却减少的触发间隔" },
+        { "key": "statBonus", "what": "大怒期间获得的属性数值（属性种类未写，可能需要拆成多个槽）", "unit": "flat", "claimed": null, "packHint": "大怒 buff 提供的属性种类和数值" },
+        { "key": "protectDuration", "what": "获得赏赐所需的保护时间（原文写“一会”）", "unit": "seconds", "claimed": null, "packHint": "保护刘禅的计时长度及失败条件" },
+        { "key": "rewardValue", "what": "刘备赏赐的数值（赏赐内容未写）", "unit": "flat", "claimed": null, "packHint": "赏赐的内容（属性、经济或其他）与数值" },
+        { "key": "internalCooldown", "what": "夺取刘禅的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该核心触发的内置冷却或每局次数限制" }
+      ],
+      "ambiguities": [
+        "“夺取刘禅”的具体表现未写",
+        "大怒持续时间未写",
+        "减少哪些技能冷却、减少速度未写",
+        "获得的属性种类和数值未写；若不含攻击类属性，则只间接影响输出",
+        "“保护一会”的时长和失败条件未写",
+        "赏赐内容未写",
+        "无尽守御中敌方单位是否算“英雄”未写，若不算则该核心可能无法触发",
+        "内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "翔天轰龙",
+      "text": "施法距离增加，并且砸地两次，第二次效果更强",
+      "reading": "选择该核心后，三技能的施法距离增加，并且会砸地两次，第二次砸地的效果比第一次更强。“两次”是汉字数字，字面为2次，仍需核对。原文没有写：施法距离增加多少；两次砸地的间隔；每次砸地的伤害、系数、范围；“效果更强”强在哪里（伤害、范围，还是控制）、强多少；三技能是否带控制、两次砸地的控制是否不同；能否暴击。",
+      "mechanisms": ["skill-change", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能时",
+      "slots": [
+        { "key": "castRangeBonus", "what": "施法距离增加量（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "meters", "claimed": null, "packHint": "该核心下三技能的施法距离或增加量" },
+        { "key": "slamCount", "what": "砸地次数（原文写“两次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "砸地次数，核对“两次”" },
+        { "key": "slamInterval", "what": "两次砸地之间的间隔", "unit": "seconds", "claimed": null, "packHint": "两次砸地的出手帧或间隔" },
+        { "key": "firstSlamBaseDamage", "what": "第一次砸地伤害基础值", "unit": "flat", "claimed": null, "packHint": "第一次砸地伤害基础值" },
+        { "key": "firstSlamRatio", "what": "第一次砸地伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "第一次砸地伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "firstSlamRadius", "what": "第一次砸地作用范围", "unit": "meters", "claimed": null, "packHint": "第一次砸地的伤害范围半径" },
+        { "key": "secondSlamBaseDamage", "what": "第二次砸地伤害基础值", "unit": "flat", "claimed": null, "packHint": "第二次砸地伤害基础值，确认“更强”的具体内容" },
+        { "key": "secondSlamRatio", "what": "第二次砸地伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "第二次砸地伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "secondSlamRadius", "what": "第二次砸地作用范围", "unit": "meters", "claimed": null, "packHint": "第二次砸地的伤害范围半径，确认是否比第一次大" }
+      ],
+      "ambiguities": [
+        "施法距离增加量未写",
+        "“两次”没有阿拉伯数字，次数需核对",
+        "两次砸地的间隔未写",
+        "每次砸地的伤害、系数、范围未写",
+        "“第二次效果更强”具体强在哪里、强多少未写",
+        "三技能是否带控制、两次砸地控制是否不同未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "游龙掠影",
+      "text": "短暂延迟后影子跟随冲锋",
+      "reading": "一技能小天赋。赵云一技能冲锋后，经过短暂延迟，一个影子跟随冲锋（原文写“影子”，没写数量）。原文没有写影子冲锋是否造成伤害；如果造成伤害，伤害多少、按什么属性计算、路径和判定宽度是否与赵云相同；延迟多久；影子的命中能否触发强普、护盾、减冷却等一技能效果。按通常理解暂列为直接影响；如果资源包显示影子不造成伤害，应改为不影响。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能冲锋后，短暂延迟",
+      "slots": [
+        { "key": "delay", "what": "影子跟随冲锋的延迟（原文写“短暂”）", "unit": "seconds", "claimed": null, "packHint": "影子出发相对赵云冲锋的延迟时间或帧数" },
+        { "key": "shadowCount", "what": "跟随的影子数量", "unit": "count", "claimed": null, "packHint": "跟随冲锋的影子数量" },
+        { "key": "shadowBaseDamage", "what": "影子冲锋伤害基础值（若造成伤害）", "unit": "flat", "claimed": null, "packHint": "影子冲锋是否造成伤害及其基础值" },
+        { "key": "shadowRatio", "what": "影子冲锋伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "影子冲锋伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "shadowHitWidth", "what": "影子冲锋判定宽度", "unit": "meters", "claimed": null, "packHint": "影子冲锋的判定宽度及冲锋距离是否与赵云相同" }
+      ],
+      "ambiguities": [
+        "影子冲锋是否造成伤害未写",
+        "延迟时长未写",
+        "影子数量未写",
+        "伤害数值、类型、能否暴击未写",
+        "影子命中能否触发其他一技能效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "神龙摆尾",
+      "text": "到达目的地后自动对身后造成一次伤害并回血",
+      "reading": "一技能小天赋。一技能冲锋到达目的地后，自动对身后（冲锋来路方向）造成一次伤害，并为自己回血。“一次”是汉字数字。原文没有写：伤害数值、系数和加成属性；“身后”的范围大小和形状；回血量，是固定回复、按伤害比例还是按命中目标数回复；没有命中敌人时是否也回血；能否暴击。",
+      "mechanisms": ["proc", "area", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "一技能冲锋到达目的地后",
+      "slots": [
+        { "key": "baseDamage", "what": "身后伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋身后伤害的基础值" },
+        { "key": "damageRatio", "what": "身后伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "身后伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "hitCount", "what": "伤害次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "身后伤害的段数，核对“一次”" },
+        { "key": "areaRange", "what": "身后伤害区域的范围", "unit": "meters", "claimed": null, "packHint": "身后伤害的判定区域尺寸与形状" },
+        { "key": "healBase", "what": "回血量基础值", "unit": "flat", "claimed": null, "packHint": "该天赋回血基础值" },
+        { "key": "healRatio", "what": "回血量加成系数（按什么计算未写）", "unit": "ratio", "claimed": null, "packHint": "回血按什么属性或伤害比例计算，及是否与命中目标数相关" }
+      ],
+      "ambiguities": [
+        "伤害数值、系数、伤害类型未写",
+        "“身后”的范围大小和形状未写",
+        "回血量及计算方式未写",
+        "未命中敌人时是否回血未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "淬金流鳞",
+      "text": "冲刺和强普命中后增加护盾",
+      "reading": "一技能小天赋。一技能的冲刺命中敌人后、强普命中敌人后，赵云都获得护盾（原文写“增加护盾”，可能是叠加护盾量）。原文没有写：每次获得多少护盾、按什么属性计算；护盾持续时间；是否叠加、叠加上限；按每命中一个敌人计算还是每次命中计算。",
+      "mechanisms": ["shield", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能冲刺命中后、强普命中后",
+      "slots": [
+        { "key": "shieldPerDashHit", "what": "冲刺命中后获得的护盾量", "unit": "flat", "claimed": null, "packHint": "冲刺命中后获得的护盾基础值" },
+        { "key": "shieldPerEnhancedHit", "what": "强普命中后获得的护盾量", "unit": "flat", "claimed": null, "packHint": "强普命中后获得的护盾基础值" },
+        { "key": "shieldRatio", "what": "护盾量加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾按什么属性加成及系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾 buff 的持续时间" },
+        { "key": "shieldCap", "what": "护盾叠加上限（若可叠加）", "unit": "flat", "claimed": null, "packHint": "护盾是否叠加及上限" },
+        { "key": "maxTriggersPerCast", "what": "单次释放最多触发次数（按命中目标数计算时）", "unit": "count", "claimed": null, "packHint": "确认按每命中一个敌人还是每次命中触发，有无单次上限" }
+      ],
+      "ambiguities": [
+        "护盾量及计算方式未写",
+        "护盾持续时间未写",
+        "是否叠加、上限未写",
+        "按命中目标数还是按命中次数触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "龙卷旋云",
+      "text": "强普射程&范围增加",
+      "reading": "一技能小天赋。一技能强普的射程和作用范围都增加。不改变单次伤害，但可能让强普命中更多敌人，所以列为间接影响。原文没有写增加多少，是固定值还是百分比；选择核心飞龙在天（强普改为瞬移三连击）时是否作用于瞬移距离和连击范围。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能强普）",
+      "slots": [
+        { "key": "rangeBonus", "what": "强普射程增加量（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "meters", "claimed": null, "packHint": "该天赋对强普射程的加成" },
+        { "key": "areaBonus", "what": "强普范围增加量（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "meters", "claimed": null, "packHint": "该天赋对强普伤害范围的加成" }
+      ],
+      "ambiguities": [
+        "射程、范围各增加多少未写",
+        "固定值还是百分比未写",
+        "与核心飞龙在天的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "二龙戏珠",
+      "text": "强普召唤残影协同攻击",
+      "reading": "一技能小天赋。使用一技能强普时召唤残影一起攻击。原文没有写：残影数量；残影是复制一次强普还是有自己的攻击；伤害是否按强普伤害的一定比例计算，或有独立的基础值和系数；出手延迟；范围；能否暴击；残影的攻击能否触发强普命中类效果（例如淬金流鳞的护盾）。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "使用一技能强普时",
+      "slots": [
+        { "key": "afterimageCount", "what": "每次强普召唤的残影数量", "unit": "count", "claimed": null, "packHint": "残影数量" },
+        { "key": "afterimageAttackCount", "what": "每个残影的攻击次数", "unit": "count", "claimed": null, "packHint": "残影攻击段数" },
+        { "key": "afterimageDelay", "what": "残影出手延迟", "unit": "seconds", "claimed": null, "packHint": "残影攻击相对强普的出手时间（秒或帧）" },
+        { "key": "afterimageDamagePct", "what": "若残影复制强普，伤害占强普伤害的比例", "unit": "percent", "claimed": null, "packHint": "残影伤害是否为强普伤害的一定比例" },
+        { "key": "afterimageBaseDamage", "what": "若残影有独立伤害，基础值", "unit": "flat", "claimed": null, "packHint": "残影攻击伤害基础值" },
+        { "key": "afterimageRatio", "what": "若残影有独立伤害，加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "残影伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "afterimageRadius", "what": "残影攻击范围", "unit": "meters", "claimed": null, "packHint": "残影攻击判定范围" }
+      ],
+      "ambiguities": [
+        "残影数量未写",
+        "残影攻击方式未写",
+        "伤害数值及计算方式未写",
+        "出手延迟、范围未写",
+        "能否暴击、能否触发强普命中类效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "咫尺天涯",
+      "text": "位移距离增加",
+      "reading": "一技能小天赋。一技能的位移距离增加。本身不改变伤害；但选择核心亢龙有悔时，“累计位移一定距离”触发雷暴，位移距离增加可能更快触发，所以列为间接影响。原文没有写增加多少，是固定值还是百分比；是否也作用于飞龙在天的瞬移距离。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能位移）",
+      "slots": [
+        { "key": "dashDistanceBonus", "what": "位移距离增加量（原文未写是固定值还是百分比，若为百分比需改单位）", "unit": "meters", "claimed": null, "packHint": "该天赋对一技能位移距离的加成" }
+      ],
+      "ambiguities": [
+        "增加量未写",
+        "固定值还是百分比未写",
+        "是否作用于飞龙在天的瞬移未写",
+        "是否计入亢龙有悔的累计位移未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "一石二鸟",
+      "text": "强普可以使用2次",
+      "reading": "一技能小天赋。一技能提供的强普可以使用2次。原文没有写：强普原本可用几次（是变为2次还是额外增加）；两次强普的可用时间窗口；第二次强普伤害是否与第一次相同；与核心飞龙在天、亢龙有悔同时选择时如何生效。",
+      "mechanisms": ["charges", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "一技能释放后获得强普时",
+      "slots": [
+        { "key": "enhancedUses", "what": "每次释放一技能后强普可使用次数", "unit": "count", "claimed": { "value": 2, "quote": "强普可以使用2次" }, "packHint": "强普可用次数，原文写2次，描述值需以资源包核对，并确认是总数还是额外次数" },
+        { "key": "enhancedWindow", "what": "强普可使用的时间窗口", "unit": "seconds", "claimed": null, "packHint": "强普 buff 的持续时间" },
+        { "key": "secondUseDamageRatio", "what": "第二次强普伤害相对第一次的倍率（若不同）", "unit": "ratio", "claimed": null, "packHint": "第二次强普的伤害配置是否与第一次相同" }
+      ],
+      "ambiguities": [
+        "是变为2次还是额外2次未写",
+        "强普可用时间窗口未写",
+        "第二次强普伤害是否相同未写",
+        "与核心飞龙在天、亢龙有悔的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "蛰龙初醒",
+      "text": "冲锋每命中一次，减少该技能冷却",
+      "reading": "一技能小天赋。一技能冲锋每命中一次，减少一技能冷却。原文没有写：每次减少多少（秒数还是百分比）；“命中一次”是每命中一个敌人算一次还是每次冲锋命中算一次；单次冲锋最多减少多少；选择核心亢龙有悔（充能）时减少的是哪一次充能的恢复时间。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能冲锋每命中一次",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每次命中减少的冷却（原文未写是秒数还是百分比，若为百分比需改单位）", "unit": "seconds", "claimed": null, "packHint": "该天赋每次命中减少的冷却量" },
+        { "key": "maxCountedHitsPerCast", "what": "单次冲锋最多计入的命中次数", "unit": "count", "claimed": null, "packHint": "确认按命中目标数还是按冲锋次数计算，有无单次上限" },
+        { "key": "maxReductionPerCast", "what": "单次冲锋最多减少的冷却", "unit": "seconds", "claimed": null, "packHint": "单次冷却减少上限（若有）" }
+      ],
+      "ambiguities": [
+        "每次减少多少未写",
+        "“命中一次”的计数方式未写",
+        "单次上限未写",
+        "与亢龙有悔充能的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "霆万钧",
+      "text": "斩杀15%生命的英雄",
+      "reading": "二技能小天赋。二技能（原文没写触发技能，按天赋所属技能理解）对生命处于15%的英雄进行斩杀。原文“15%生命”没写是当前生命占最大生命的比例，按通常理解是生命低于（或不高于）15%时斩杀，边界原文未写。原文没有写：斩杀是直接击杀还是造成额外伤害；是否只对英雄生效（无尽守御里敌人多为野怪、挑战怪，是否算英雄不明）；对首领是否生效；有无内置冷却。",
+      "mechanisms": ["execute"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中生命处于15%的英雄时（触发技能按所属二技能理解）",
+      "slots": [
+        { "key": "executeHpThreshold", "what": "斩杀生效的目标生命比例阈值", "unit": "percent", "claimed": { "value": 15, "quote": "斩杀15%生命的英雄" }, "packHint": "斩杀判定的生命百分比阈值，原文写15%，描述值需以资源包核对，并确认基数和边界" },
+        { "key": "executeDamageCap", "what": "斩杀伤害上限或对首领的限制（若有）", "unit": "flat", "claimed": null, "packHint": "斩杀是直接击杀还是造成伤害，对首领、挑战怪的限制或上限" },
+        { "key": "internalCooldown", "what": "斩杀的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "斩杀效果的内置冷却" }
+      ],
+      "ambiguities": [
+        "“15%生命”的基数和边界（低于还是不高于）未写",
+        "斩杀方式（直接击杀或造成伤害）未写",
+        "无尽守御中敌方单位是否算“英雄”未写，若不算则该天赋可能无法触发",
+        "对首领是否生效未写",
+        "触发技能未写，按所属二技能理解"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "火三丈",
+      "text": "持续造成额外打击",
+      "reading": "二技能小天赋。持续造成额外打击。原文没写起止时机，按所属二技能理解为二技能期间。原文没有写：打击间隔、持续时间、每次伤害、系数和加成属性、范围、能否暴击；这种“额外打击”是否算核心云无双里提高真伤的“额外攻击”。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能期间持续（原文未写起止时机）",
+      "slots": [
+        { "key": "strikeInterval", "what": "额外打击间隔", "unit": "seconds", "claimed": null, "packHint": "额外打击的触发间隔" },
+        { "key": "strikeDuration", "what": "额外打击持续时间", "unit": "seconds", "claimed": null, "packHint": "额外打击效果的持续时间，确认是否等于二技能持续时间" },
+        { "key": "strikeBaseDamage", "what": "每次额外打击伤害基础值", "unit": "flat", "claimed": null, "packHint": "额外打击伤害基础值" },
+        { "key": "strikeRatio", "what": "每次额外打击伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外打击伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "strikeRadius", "what": "额外打击作用范围", "unit": "meters", "claimed": null, "packHint": "额外打击判定范围或目标数" }
+      ],
+      "ambiguities": [
+        "起止时机未写",
+        "打击间隔、持续时间未写",
+        "伤害数值、类型、范围未写",
+        "能否暴击未写",
+        "是否算云无双的“额外攻击”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "金不坏",
+      "text": "技能期间被动免伤率翻倍",
+      "reading": "二技能小天赋。从原文看二技能有持续时间，赵云的被动带有免伤率；在二技能期间，被动提供的免伤率翻倍。“翻倍”字面为乘以2，但没有阿拉伯数字。原文没有写：被动原本的免伤率是多少、如何计算；二技能持续多久；翻倍后是否有上限。",
+      "mechanisms": ["damage-reduction", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能期间",
+      "slots": [
+        { "key": "multiplier", "what": "被动免伤率倍数（原文写“翻倍”，字面为2倍，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该天赋对被动免伤率的倍数，核对“翻倍”" },
+        { "key": "passiveDamageReductionPct", "what": "被动原本的免伤率", "unit": "percent", "claimed": null, "packHint": "赵云被动免伤率的数值及计算方式" },
+        { "key": "skillDuration", "what": "二技能持续时间（翻倍生效时长）", "unit": "seconds", "claimed": null, "packHint": "二技能的持续时间" },
+        { "key": "damageReductionCap", "what": "翻倍后免伤率上限（若有）", "unit": "percent", "claimed": null, "packHint": "免伤率是否有上限" }
+      ],
+      "ambiguities": [
+        "“翻倍”没有阿拉伯数字，倍数需核对",
+        "被动原本免伤率未写",
+        "二技能持续时间未写",
+        "翻倍后是否有上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "风迅捷",
+      "text": "技能期间持续减少该技能冷却",
+      "reading": "二技能小天赋。二技能期间，持续减少二技能自己的冷却。原文没有写：减少速度（每次多少秒或百分比、多久一次）；二技能持续多久；冷却在技能期间是否已经开始计时，如果是在技能结束后才开始计时，减少量如何结算；总减少量有无上限。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能期间",
+      "slots": [
+        { "key": "cdReductionPerTick", "what": "每次减少的冷却（原文未写是秒数还是百分比，若为百分比需改单位）", "unit": "seconds", "claimed": null, "packHint": "该天赋每次结算减少的冷却量" },
+        { "key": "tickInterval", "what": "冷却减少的结算间隔", "unit": "seconds", "claimed": null, "packHint": "持续减少冷却的触发间隔" },
+        { "key": "skillDuration", "what": "二技能持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能的持续时间" },
+        { "key": "maxReduction", "what": "单次技能期间最多减少的冷却", "unit": "seconds", "claimed": null, "packHint": "冷却减少的上限（若有），及与冷却开始计时时机的关系" }
+      ],
+      "ambiguities": [
+        "减少速度未写",
+        "二技能持续时间未写",
+        "冷却计时开始时机及结算方式未写",
+        "上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "空痕裂",
+      "text": "连续命中后触发额外打击",
+      "reading": "二技能小天赋。二技能（按所属技能理解）连续命中后触发一次额外打击。原文没有写：需要连续命中几次；是否需要命中同一目标；连续命中的时间窗口；额外打击的伤害、范围；触发后计数是否清零、有无内置冷却；这种“额外打击”是否算核心云无双里提高真伤的“额外攻击”。",
+      "mechanisms": ["proc", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "二技能连续命中后",
+      "slots": [
+        { "key": "hitsRequired", "what": "触发所需的连续命中次数", "unit": "count", "claimed": null, "packHint": "该天赋的命中计数阈值，并确认是否需同一目标" },
+        { "key": "hitWindow", "what": "连续命中的判定时间窗口", "unit": "seconds", "claimed": null, "packHint": "连续命中计数的有效时间或重置条件" },
+        { "key": "strikeBaseDamage", "what": "额外打击伤害基础值", "unit": "flat", "claimed": null, "packHint": "额外打击伤害基础值" },
+        { "key": "strikeRatio", "what": "额外打击伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外打击伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "strikeRadius", "what": "额外打击作用范围", "unit": "meters", "claimed": null, "packHint": "额外打击判定范围或目标数" },
+        { "key": "internalCooldown", "what": "额外打击的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "触发的内置冷却，及触发后计数是否清零" }
+      ],
+      "ambiguities": [
+        "所需连续命中次数未写",
+        "是否需同一目标、时间窗口未写",
+        "额外打击伤害、范围未写",
+        "计数清零规则、内置冷却未写",
+        "是否算云无双的“额外攻击”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "磐如山",
+      "text": "技能期间抵抗一次控制，成功后获得护盾",
+      "reading": "二技能小天赋。二技能期间可以抵抗一次控制；成功抵抗后获得护盾。“一次”是汉字数字。原文没有写：哪些控制可以被抵抗；护盾量及计算方式；护盾持续时间；二技能持续多久。无尽守御里敌人是否会施加控制、频率如何，影响这个天赋的价值。",
+      "mechanisms": ["control-immunity", "shield"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能期间受到控制时",
+      "slots": [
+        { "key": "resistCount", "what": "每次技能期间可抵抗的控制次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "可抵抗控制次数，核对“一次”" },
+        { "key": "shieldBase", "what": "抵抗成功后获得的护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾基础值" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾按什么属性加成及系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间" },
+        { "key": "skillDuration", "what": "二技能持续时间（可抵抗控制的时长）", "unit": "seconds", "claimed": null, "packHint": "二技能持续时间" }
+      ],
+      "ambiguities": [
+        "“一次”没有阿拉伯数字，次数需核对",
+        "可抵抗的控制类型未写",
+        "护盾量、持续时间未写",
+        "二技能持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "天地崩",
+      "text": "技能伤害可暴击",
+      "reading": "二技能小天赋。技能伤害可以暴击。按天赋所属技能理解为二技能伤害可以暴击，原文没有明说是否扩展到所有技能。原文没有写：暴击时是否按赵云的完整暴击效果计算，还是有折算；暴击率是否按赵云面板；由二技能触发的额外伤害（例如额外打击、影子、云无双真伤）是否也能暴击。",
+      "mechanisms": ["crit"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（二技能造成伤害时）",
+      "slots": [
+        { "key": "critDamageScaling", "what": "二技能暴击时暴击效果的折算倍率（若有折算）", "unit": "ratio", "claimed": null, "packHint": "技能暴击是否按完整暴击效果计算，或有单独的暴击伤害系数" },
+        { "key": "critRateScaling", "what": "二技能暴击率的折算倍率（若有折算）", "unit": "ratio", "claimed": null, "packHint": "技能暴击是否使用面板暴击率，或有单独折算" }
+      ],
+      "ambiguities": [
+        "作用于二技能还是所有技能未明说",
+        "暴击效果、暴击率是否折算未写",
+        "二技能附带的额外伤害（额外打击、影子、真伤）能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "水上善",
+      "text": "技能期间获得额外生命回复效果",
+      "reading": "二技能小天赋。二技能期间，赵云获得额外的生命回复效果。原文没有写：回复量（每秒固定值，还是按最大生命或已损生命的百分比）；回复间隔；二技能持续多久。",
+      "mechanisms": ["heal", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能期间",
+      "slots": [
+        { "key": "regenFlat", "what": "每次回复的固定值（若按固定值）", "unit": "flat", "claimed": null, "packHint": "该天赋生命回复的固定值" },
+        { "key": "regenPct", "what": "每次回复的生命百分比（若按百分比，基数未写）", "unit": "percent", "claimed": null, "packHint": "该天赋回复是否按最大生命或已损生命百分比，及比例" },
+        { "key": "tickInterval", "what": "回复间隔", "unit": "seconds", "claimed": null, "packHint": "生命回复的触发间隔" },
+        { "key": "skillDuration", "what": "二技能持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能的持续时间" }
+      ],
+      "ambiguities": [
+        "回复量及计算方式未写",
+        "回复间隔未写",
+        "二技能持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "乱舞",
+      "text": "使用该技能后进入乱舞状态，持续攻击周围敌人",
+      "reading": "三技能小天赋。使用三技能后进入“乱舞”状态，期间持续攻击周围敌人。原文没有写：乱舞持续时间；攻击间隔和次数；每次伤害、系数和加成属性；范围、最多命中几个目标；能否暴击；乱舞期间赵云能否正常移动、普攻和释放其他技能。",
+      "mechanisms": ["proc", "area", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能后",
+      "slots": [
+        { "key": "duration", "what": "乱舞状态持续时间", "unit": "seconds", "claimed": null, "packHint": "乱舞 buff 的持续时间" },
+        { "key": "attackInterval", "what": "乱舞攻击间隔", "unit": "seconds", "claimed": null, "packHint": "乱舞每次攻击的间隔（秒或帧）" },
+        { "key": "baseDamage", "what": "每次乱舞攻击伤害基础值", "unit": "flat", "claimed": null, "packHint": "乱舞攻击伤害基础值" },
+        { "key": "damageRatio", "what": "每次乱舞攻击伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "乱舞攻击伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "radius", "what": "乱舞攻击范围", "unit": "meters", "claimed": null, "packHint": "乱舞攻击的判定半径" },
+        { "key": "maxTargets", "what": "每次攻击最多命中目标数", "unit": "count", "claimed": null, "packHint": "乱舞每次攻击的目标数上限（若有）" }
+      ],
+      "ambiguities": [
+        "持续时间、攻击间隔未写",
+        "伤害数值、类型未写",
+        "范围、目标数未写",
+        "能否暴击未写",
+        "乱舞期间能否正常行动和释放技能未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "鸣枪",
+      "text": "使用该技能后一段时间内，造成伤害会引发枪影协同攻击",
+      "reading": "三技能小天赋。使用三技能后的一段时间内，赵云造成伤害会引发枪影协同攻击。原文没有写：持续多久；哪些伤害能触发（普攻、技能、天赋额外伤害、枪影自身是否会连锁触发）；每次触发几道枪影；枪影伤害、系数、范围；有无内置冷却；能否暴击。",
+      "mechanisms": ["buff", "proc", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能后一段时间内造成伤害时",
+      "slots": [
+        { "key": "windowDuration", "what": "效果持续时间（原文写“一段时间”）", "unit": "seconds", "claimed": null, "packHint": "鸣枪 buff 的持续时间" },
+        { "key": "spearsPerTrigger", "what": "每次触发的枪影数量", "unit": "count", "claimed": null, "packHint": "每次触发的枪影数量或段数" },
+        { "key": "spearBaseDamage", "what": "枪影伤害基础值", "unit": "flat", "claimed": null, "packHint": "枪影伤害基础值" },
+        { "key": "spearRatio", "what": "枪影伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "枪影伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "spearRadius", "what": "枪影攻击范围", "unit": "meters", "claimed": null, "packHint": "枪影判定范围或目标数" },
+        { "key": "internalCooldown", "what": "枪影触发的内置冷却", "unit": "seconds", "claimed": null, "packHint": "枪影触发的内置冷却，以及哪些伤害能触发" }
+      ],
+      "ambiguities": [
+        "持续时间未写",
+        "哪些伤害能触发未写，枪影是否会自我连锁触发未写",
+        "枪影数量、伤害、范围未写",
+        "内置冷却未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "覆地",
+      "text": "命中英雄后获得全能吸血",
+      "reading": "三技能小天赋。三技能命中英雄后，赵云获得全能吸血（按字面理解为对各类伤害都生效的吸血）。原文没有写：吸血比例；持续时间；是否只对英雄生效（无尽守御里敌人多为野怪、挑战怪，是否算英雄不明）；命中多个英雄是否叠加。",
+      "mechanisms": ["lifesteal", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能命中英雄后",
+      "slots": [
+        { "key": "omnivampPct", "what": "全能吸血比例", "unit": "percent", "claimed": null, "packHint": "该天赋全能吸血的数值" },
+        { "key": "duration", "what": "全能吸血持续时间", "unit": "seconds", "claimed": null, "packHint": "全能吸血 buff 的持续时间" },
+        { "key": "maxStacks", "what": "命中多个英雄时的叠加上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "全能吸血是否随命中目标数叠加及上限" }
+      ],
+      "ambiguities": [
+        "吸血比例、持续时间未写",
+        "“全能吸血”是否对真伤也生效未写",
+        "无尽守御中敌方单位是否算“英雄”未写，若不算则该天赋可能无法触发",
+        "命中多个英雄是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "沐血",
+      "text": "命中英雄后回血",
+      "reading": "三技能小天赋。三技能命中英雄后，赵云回血。原文没有写：回血量（固定值、按最大生命或已损生命百分比、按造成伤害比例）；命中多个英雄是否按人数多次回复；是否只对英雄生效（无尽守御里敌人多为野怪、挑战怪，是否算英雄不明）。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能命中英雄后",
+      "slots": [
+        { "key": "healBase", "what": "回血量基础值", "unit": "flat", "claimed": null, "packHint": "该天赋回血基础值" },
+        { "key": "healRatio", "what": "回血加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "回血按什么属性加成及系数" },
+        { "key": "healPctHp", "what": "若按生命百分比回复，比例（基数未写）", "unit": "percent", "claimed": null, "packHint": "回血是否按最大生命或已损生命百分比" },
+        { "key": "maxTargetsCounted", "what": "单次命中最多计算回复的英雄数", "unit": "count", "claimed": null, "packHint": "命中多个目标时是否多次回复及上限" }
+      ],
+      "ambiguities": [
+        "回血量及计算方式未写",
+        "命中多个英雄是否多次回复未写",
+        "无尽守御中敌方单位是否算“英雄”未写，若不算则该天赋可能无法触发"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "灭世",
+      "text": "对四周发射雷电",
+      "reading": "三技能小天赋。三技能（原文没写具体时机，按所属技能理解为释放三技能时或砸地时）对四周发射雷电。原文没有写：雷电数量和方向；每道雷电伤害、系数和加成属性；飞行距离或作用范围；一个目标能否被多道雷电命中；选择核心翔天轰龙（砸地两次）时是否每次砸地都发射；能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能时（原文未写具体时机）",
+      "slots": [
+        { "key": "boltCount", "what": "发射的雷电数量", "unit": "count", "claimed": null, "packHint": "雷电子弹数量和方向分布" },
+        { "key": "boltBaseDamage", "what": "每道雷电伤害基础值", "unit": "flat", "claimed": null, "packHint": "雷电伤害基础值" },
+        { "key": "boltRatio", "what": "每道雷电伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "雷电伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "boltRange", "what": "雷电飞行距离或作用范围", "unit": "meters", "claimed": null, "packHint": "雷电子弹飞行距离与判定宽度" },
+        { "key": "maxHitsPerTarget", "what": "单个目标最多被命中的雷电数", "unit": "count", "claimed": null, "packHint": "同一目标能否被多道雷电命中" }
+      ],
+      "ambiguities": [
+        "触发时机未写",
+        "雷电数量、方向未写",
+        "伤害数值、类型未写",
+        "距离、范围未写",
+        "同一目标能否多次命中未写",
+        "与翔天轰龙两次砸地的交互未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "翻云",
+      "text": "旋枪打击周围敌人",
+      "reading": "三技能小天赋。三技能（原文没写具体时机，按所属技能理解）时旋转长枪打击周围敌人。原文没有写：打击次数；每次伤害、系数和加成属性；范围；出手时机（起跳时、落地时或其他）；能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能时（原文未写具体时机）",
+      "slots": [
+        { "key": "hitCount", "what": "旋枪打击次数", "unit": "count", "claimed": null, "packHint": "旋枪伤害段数" },
+        { "key": "baseDamage", "what": "每次旋枪打击伤害基础值", "unit": "flat", "claimed": null, "packHint": "旋枪伤害基础值" },
+        { "key": "damageRatio", "what": "每次旋枪打击伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "旋枪伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "radius", "what": "旋枪打击范围", "unit": "meters", "claimed": null, "packHint": "旋枪判定半径" },
+        { "key": "hitTiming", "what": "旋枪出手时间点（相对三技能释放）", "unit": "seconds", "claimed": null, "packHint": "旋枪出手帧或时间点" }
+      ],
+      "ambiguities": [
+        "触发时机未写",
+        "打击次数未写",
+        "伤害数值、类型、范围未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "单骑",
+      "text": "范围内没有友军时获得真伤护盾",
+      "reading": "三技能小天赋。范围内没有友军时，赵云获得“真伤护盾”。原文没写触发时机，按所属技能理解为释放三技能时判定。“真伤护盾”原文没有解释，可能是能抵挡真实伤害的护盾，也可能和造成真实伤害有关，不能确定。按护盾理解暂列为间接影响；如果资源包显示它会造成真实伤害，应改为直接影响。原文没有写：判定友军的范围；“友军”是否包含召唤物；护盾量、持续时间。",
+      "mechanisms": ["shield", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放三技能时范围内没有友军（触发时机原文未写）",
+      "slots": [
+        { "key": "allyCheckRadius", "what": "判定有无友军的范围", "unit": "meters", "claimed": null, "packHint": "友军判定半径，及友军是否包含召唤物" },
+        { "key": "shieldBase", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾基础值" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾按什么属性加成及系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间" },
+        { "key": "trueDamageRatio", "what": "如果真伤护盾会造成真实伤害，该伤害的系数（是否存在未写）", "unit": "ratio", "claimed": null, "packHint": "查明“真伤护盾”的实际机制；如造成真实伤害，找系数和触发条件" }
+      ],
+      "ambiguities": [
+        "“真伤护盾”是什么意思原文没有解释",
+        "触发时机未写",
+        "判定范围、友军定义未写",
+        "护盾量、持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "子龙一身是胆",
+      "text": "释放后获得7个胆，每个胆减伤5%，1秒掉落一个",
+      "reading": "三技能小天赋。释放三技能后获得7个“胆”，每个胆提供5%减伤；每1秒掉落一个胆，减伤随胆的数量减少而降低。原文没有写：多个胆的减伤是直接相加还是相乘；“掉落”是单纯消失，还是掉在地上可以拾取；受到伤害是否会额外掉胆；重复释放三技能是刷新为7个还是叠加；减伤是否有总上限。",
+      "mechanisms": ["damage-reduction", "stacking", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "释放三技能后",
+      "slots": [
+        { "key": "initialStacks", "what": "释放后获得的胆数量", "unit": "count", "claimed": { "value": 7, "quote": "获得7个胆" }, "packHint": "初始胆层数，原文写7个，描述值需以资源包核对" },
+        { "key": "damageReductionPerStack", "what": "每个胆提供的减伤", "unit": "percent", "claimed": { "value": 5, "quote": "每个胆减伤5%" }, "packHint": "每层减伤数值，原文写5%，描述值需以资源包核对，并确认多层是相加还是相乘" },
+        { "key": "dropInterval", "what": "掉落一个胆的间隔", "unit": "seconds", "claimed": { "value": 1, "quote": "1秒掉落一个" }, "packHint": "胆层数衰减间隔，原文写1秒，描述值需以资源包核对" },
+        { "key": "stacksPerDrop", "what": "每次掉落的胆数量（原文写“一个”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "每次衰减掉落的层数，核对“一个”" },
+        { "key": "maxStacks", "what": "重复释放时胆的上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "重复释放三技能时是刷新还是叠加，及层数上限" }
+      ],
+      "ambiguities": [
+        "多个胆的减伤相加还是相乘未写",
+        "“掉落”是消失还是可拾取未写",
+        "受伤是否额外掉胆未写",
+        "重复释放的刷新或叠加规则未写",
+        "减伤总上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

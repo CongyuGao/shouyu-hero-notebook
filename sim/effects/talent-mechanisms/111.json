@@ -1,0 +1,794 @@
+{
+  "heroId": "111",
+  "heroName": "孙尚香",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "重炮千金",
+      "text": "孙尚香手握重炮作战，获得额外攻击力，每次普攻都是强化普攻。",
+      "reading": "选择该核心（一技能核心）后，孙尚香改为手握重炮作战：获得额外攻击力，并且每一次普攻都是强化普攻。原文没有写：额外攻击力的数值，是固定值还是百分比、是否随等级成长；“强化普攻”的具体内容——伤害基础值、加成系数和加成属性、是否带范围伤害、射程；这里的强化普攻与一技能（其他天赋原文称“翻滚”）原有效果的关系；重炮作战是否改变普攻间隔或攻速收益；强化普攻能否暴击、能否触发普攻类天赋（如快速装填、战斗补给）。",
+      "mechanisms": ["skill-change", "stat"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选择该核心后每次普攻）",
+      "slots": [
+        { "key": "bonusAttackFlat", "what": "额外攻击力（若为固定值）", "unit": "flat", "claimed": null, "packHint": "该核心提供的额外攻击力数值及形式（固定值/百分比/随等级成长），与 bonusAttackPct 只会有一个有值" },
+        { "key": "bonusAttackPct", "what": "额外攻击力（若为百分比形式）", "unit": "percent", "claimed": null, "packHint": "若额外攻击力按百分比提升，找该百分比数值" },
+        { "key": "enhancedBaseDamage", "what": "重炮强化普攻的伤害基础值", "unit": "flat", "claimed": null, "packHint": "重炮强化普攻的伤害基础值，确认是否与一技能原有强化普攻相同" },
+        { "key": "enhancedDamageRatio", "what": "重炮强化普攻的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "重炮强化普攻的伤害系数、加成属性和伤害类型" },
+        { "key": "enhancedRadius", "what": "强化普攻若带范围伤害，范围半径", "unit": "meters", "claimed": null, "packHint": "重炮强化普攻是单体还是范围伤害，范围半径及最大目标数" },
+        { "key": "attackRange", "what": "重炮普攻的射程", "unit": "meters", "claimed": null, "packHint": "重炮作战下的普攻射程，确认是否与默认普攻不同" },
+        { "key": "attackInterval", "what": "重炮普攻的基础攻击间隔（原文没写是否改变攻速）", "unit": "seconds", "claimed": null, "packHint": "重炮作战下的普攻动作时长/攻击间隔及攻速收益是否被修改" },
+        { "key": "enhancedCritScale", "what": "强化普攻暴击时的伤害倍率（能否暴击未写）", "unit": "ratio", "claimed": null, "packHint": "重炮强化普攻能否暴击，以及暴击伤害倍率" }
+      ],
+      "ambiguities": [
+        "额外攻击力数值及形式未写",
+        "强化普攻的伤害、系数、加成属性、伤害类型未写",
+        "强化普攻是单体还是范围未写",
+        "与一技能原有强化普攻效果的关系未写",
+        "是否改变普攻间隔或攻速收益未写",
+        "强化普攻能否暴击、能否触发普攻类天赋未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "枪林弹雨",
+      "text": "孙尚香手持加特林作战，普攻转变为高速射击。攻速会增加加特林伤害。",
+      "reading": "选择该核心（一技能核心）后，孙尚香改为手持加特林作战，普攻变为高速射击（推测为一次普攻连续打出多发子弹或持续射击，原文没写具体形式）。攻速除了加快射击，还会提高加特林伤害；原文没写攻速如何换算成伤害（按攻速百分比线性换算、分档还是有上限），也没写是提高每发伤害还是增加子弹数。原文没有写：每次普攻的子弹数或射击频率、每发子弹伤害和系数、射程、子弹能否暴击、能否触发普攻类效果（如快速装填按每发子弹还是每次普攻计算）。",
+      "mechanisms": ["skill-change", "conversion", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选择该核心后每次普攻）",
+      "slots": [
+        { "key": "bulletsPerAttack", "what": "每次普攻（高速射击）打出的子弹数", "unit": "count", "claimed": null, "packHint": "加特林普攻每次射击的子弹数，或持续射击的形式" },
+        { "key": "fireInterval", "what": "每发子弹之间的射击间隔", "unit": "seconds", "claimed": null, "packHint": "加特林射击的基础间隔及其与攻速的关系" },
+        { "key": "bulletBaseDamage", "what": "每发子弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "加特林每发子弹的伤害基础值" },
+        { "key": "bulletDamageRatio", "what": "每发子弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "加特林每发子弹的伤害系数、加成属性和伤害类型" },
+        { "key": "attackSpeedToDamageRatio", "what": "攻速换算为加特林伤害加成的比例（例如每1%攻速提升多少伤害）", "unit": "ratio", "claimed": null, "packHint": "攻速增加加特林伤害的换算公式" },
+        { "key": "attackSpeedDamageCap", "what": "攻速换算伤害加成的上限（若有）", "unit": "percent", "claimed": null, "packHint": "攻速转伤害加成是否有上限及上限数值" },
+        { "key": "attackRange", "what": "加特林普攻射程", "unit": "meters", "claimed": null, "packHint": "加特林作战下的普攻射程" },
+        { "key": "bulletCritScale", "what": "子弹暴击时的伤害倍率（能否暴击未写）", "unit": "ratio", "claimed": null, "packHint": "加特林子弹能否暴击及暴击倍率" },
+        { "key": "onHitEffectScale", "what": "每发子弹触发普攻附带效果（天赋、装备）的比例", "unit": "ratio", "claimed": null, "packHint": "加特林每发子弹是否完整触发普攻附带效果，或按比例/按次数触发" }
+      ],
+      "ambiguities": [
+        "“高速射击”的具体形式（多发子弹或持续射击）未写",
+        "攻速换算伤害的公式与上限未写",
+        "攻速是提高每发伤害还是增加子弹数未写",
+        "每发子弹伤害、系数、射程未写",
+        "子弹能否暴击、能否触发普攻类效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "指哪打哪",
+      "text": "炸弹改为往范围内持续空投，空投自动追踪范围内目标，攻速会提升投弹频率",
+      "reading": "选择该核心（二技能核心）后，二技能的炸弹改为往一片范围内持续空投；空投的炸弹会自动追踪范围内的目标；攻速越高，投弹频率越高。原文没有写：空投范围大小与施放距离；持续空投的总时长；基础投弹间隔，攻速换算投弹频率的方式和上限；每次投弹的炸弹数、每颗炸弹的伤害基础值、系数、爆炸半径；追踪的选敌规则（随机、最近、优先英雄）；空投炸弹是否仍带二技能原有效果（如碎甲、标记），是否算作“红莲爆弹命中”从而触发锁定瞄准等二技能天赋。",
+      "mechanisms": ["skill-change", "summon", "area", "conversion", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能后，空投持续期间",
+      "slots": [
+        { "key": "castRange", "what": "空投范围的施放距离", "unit": "meters", "claimed": null, "packHint": "该核心二技能的施放距离" },
+        { "key": "zoneRadius", "what": "空投范围半径", "unit": "meters", "claimed": null, "packHint": "持续空投区域的半径或尺寸" },
+        { "key": "airdropDuration", "what": "持续空投的总时长", "unit": "seconds", "claimed": null, "packHint": "空投区域存在/投弹持续的时间" },
+        { "key": "baseDropInterval", "what": "无攻速加成时的基础投弹间隔", "unit": "seconds", "claimed": null, "packHint": "空投的基础投弹间隔" },
+        { "key": "attackSpeedToDropRate", "what": "攻速换算为投弹频率提升的比例", "unit": "ratio", "claimed": null, "packHint": "攻速提升投弹频率的换算公式" },
+        { "key": "minDropInterval", "what": "投弹间隔下限（频率上限）", "unit": "seconds", "claimed": null, "packHint": "投弹频率是否有上限及对应的最小间隔" },
+        { "key": "bombsPerDrop", "what": "每次投弹的炸弹数", "unit": "count", "claimed": null, "packHint": "每次空投投下的炸弹数量" },
+        { "key": "bombBaseDamage", "what": "每颗空投炸弹的伤害基础值", "unit": "flat", "claimed": null, "packHint": "空投炸弹的伤害基础值" },
+        { "key": "bombDamageRatio", "what": "每颗空投炸弹的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "空投炸弹的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "bombExplosionRadius", "what": "每颗炸弹的爆炸半径", "unit": "meters", "claimed": null, "packHint": "空投炸弹爆炸的判定半径" }
+      ],
+      "ambiguities": [
+        "空投范围、施放距离、持续时长未写",
+        "基础投弹间隔、攻速换算方式和上限未写",
+        "每颗炸弹伤害、系数、爆炸半径未写",
+        "追踪的选敌规则未写",
+        "空投炸弹是否保留碎甲、标记等二技能效果未写",
+        "空投炸弹是否算“红莲爆弹命中”、能否触发二技能天赋未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "捣乱冲动",
+      "text": "炸弹命中后打上死亡标记，直接斩杀低于20%血量的敌人。死亡时留下超级炸弹。",
+      "reading": "选择该核心（二技能核心）后，二技能炸弹命中敌人会给目标打上死亡标记；血量低于20%的敌人会被直接斩杀；死亡时留下超级炸弹。原文没有明说斩杀只对带死亡标记的目标生效，还是炸弹命中时直接判定；“死亡时留下超级炸弹”没写主语，最可能是被标记的敌人死亡时留下，但也可能指孙尚香自己死亡时留下。原文没有写：20%是否按最大生命计算的当前血量比例；斩杀判定时机（命中瞬间、标记期间每次受击还是持续检测）；标记持续时间；斩杀对精英、首领类敌人是否有效；超级炸弹的伤害基础值、系数、范围、引爆延迟；超级炸弹命中是否再打标记从而连锁。",
+      "mechanisms": ["execute", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能炸弹命中后；（推测为被标记的）敌人死亡时",
+      "slots": [
+        { "key": "executeThreshold", "what": "斩杀血量阈值（低于该比例直接斩杀）", "unit": "percent", "claimed": { "value": 20, "quote": "低于20%血量" }, "packHint": "死亡标记的斩杀阈值及计算基准（当前/最大生命），核对描述的20%" },
+        { "key": "markDuration", "what": "死亡标记持续时间", "unit": "seconds", "claimed": null, "packHint": "死亡标记 buff 的持续时间" },
+        { "key": "bossExecuteThreshold", "what": "对精英或首领类敌人的斩杀阈值（若与普通敌人不同或不生效）", "unit": "percent", "claimed": null, "packHint": "斩杀是否对精英、首领生效，或是否有单独阈值" },
+        { "key": "superBombDelay", "what": "超级炸弹的引爆延迟", "unit": "seconds", "claimed": null, "packHint": "超级炸弹从留下到爆炸的延迟" },
+        { "key": "superBombBaseDamage", "what": "超级炸弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "超级炸弹的伤害基础值" },
+        { "key": "superBombDamageRatio", "what": "超级炸弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "超级炸弹的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "superBombRadius", "what": "超级炸弹爆炸半径", "unit": "meters", "claimed": null, "packHint": "超级炸弹爆炸的判定半径" }
+      ],
+      "ambiguities": [
+        "斩杀是否只对带死亡标记的目标生效未明说",
+        "“死亡时留下超级炸弹”的主语（被标记敌人还是孙尚香）未写",
+        "20%的计算基准（当前生命占最大生命比例）未写",
+        "斩杀判定时机未写",
+        "标记持续时间未写",
+        "斩杀对精英、首领是否有效未写",
+        "超级炸弹伤害、系数、范围、引爆延迟未写",
+        "超级炸弹命中是否再打标记、能否连锁未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "大小姐驾到！",
+      "text": "发射一个火箭，自己会跟着火箭一起飞行。飞行时获得霸体。飞行时会持续投弹。",
+      "reading": "选择该核心（三技能核心）后，大招变为发射一个火箭，孙尚香跟着火箭一起飞行；飞行时获得霸体（免疫控制），并在飞行过程中持续投弹。原文“一个火箭”是汉字数字，没有作为 claimed。原文没有写：飞行距离、速度、时长，飞行方向能否操控（超速驾驶原文提到“转向速度”，说明飞行时可能可以转向，但该核心原文没写）；火箭本身（发射、落地）是否造成伤害及数值；投弹间隔，每颗炸弹的伤害、系数、爆炸半径；投弹是否算二技能炸弹（能否触发碎甲、标记等二技能效果）；飞行期间能否被选中、能否普攻；霸体是否覆盖整个飞行过程。",
+      "mechanisms": ["skill-change", "mobility", "control-immunity", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能（大招）后，飞行期间",
+      "slots": [
+        { "key": "rocketCount", "what": "发射的火箭数（原文写“一个”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该核心大招发射的火箭数量，核对“一个”" },
+        { "key": "flightDistance", "what": "跟随火箭飞行的距离", "unit": "meters", "claimed": null, "packHint": "火箭飞行的最大距离" },
+        { "key": "flightSpeed", "what": "飞行速度", "unit": "flat", "claimed": null, "packHint": "火箭飞行速度（游戏内速度单位）" },
+        { "key": "flightDuration", "what": "飞行时长", "unit": "seconds", "claimed": null, "packHint": "整段飞行的持续时间，用于计算投弹次数与霸体时长" },
+        { "key": "rocketImpactBaseDamage", "what": "火箭本身（发射或落地）的伤害基础值（是否有伤害未写）", "unit": "flat", "claimed": null, "packHint": "火箭本体是否造成伤害，若有找伤害基础值" },
+        { "key": "rocketImpactDamageRatio", "what": "火箭本身伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "火箭本体伤害的系数、加成属性、伤害类型" },
+        { "key": "rocketImpactRadius", "what": "火箭本身伤害的范围半径", "unit": "meters", "claimed": null, "packHint": "火箭本体伤害的判定范围" },
+        { "key": "bombDropInterval", "what": "飞行时的投弹间隔", "unit": "seconds", "claimed": null, "packHint": "飞行投弹的间隔，确认是否受攻速影响" },
+        { "key": "bombBaseDamage", "what": "飞行投弹每颗炸弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "飞行投下炸弹的伤害基础值" },
+        { "key": "bombDamageRatio", "what": "飞行投弹每颗炸弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "飞行投弹的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "bombRadius", "what": "飞行投弹爆炸半径", "unit": "meters", "claimed": null, "packHint": "飞行投弹的爆炸判定半径" },
+        { "key": "superArmorDuration", "what": "霸体持续时间（原文写“飞行时”，是否等于飞行时长待核）", "unit": "seconds", "claimed": null, "packHint": "霸体 buff 的持续时间，确认是否与飞行时长一致" }
+      ],
+      "ambiguities": [
+        "“一个火箭”为汉字数字，数量待核",
+        "飞行距离、速度、时长未写",
+        "飞行方向能否操控未写",
+        "火箭本体是否造成伤害未写",
+        "投弹间隔、伤害、系数、爆炸半径未写",
+        "飞行投弹是否算二技能炸弹、能否触发二技能效果未写",
+        "飞行期间能否被选中、能否普攻未写",
+        "霸体是否覆盖整个飞行过程未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "火力全开",
+      "text": "连续发射5枚导弹，每次发射间可位移一次调整位置（释放随攻速加快）",
+      "reading": "选择该核心（三技能核心）后，大招变为连续发射5枚导弹，每两次发射之间孙尚香可以位移一次调整位置；括号注明释放会随攻速加快（推测为发射间隔随攻速缩短）。原文“位移一次”是汉字数字，没有作为 claimed。原文没有写：每枚导弹的伤害基础值、系数、爆炸半径、射程；基础发射间隔、攻速换算方式及下限；每次位移的距离；两次发射之间的等待窗口（不操作是否自动发射）；导弹能否暴击。",
+      "mechanisms": ["skill-change", "proc", "area", "mobility", "conversion"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能（大招）后，连续发射期间",
+      "slots": [
+        { "key": "missileCount", "what": "连续发射的导弹数", "unit": "count", "claimed": { "value": 5, "quote": "连续发射5枚导弹" }, "packHint": "该核心大招发射的导弹数量，核对描述的5枚" },
+        { "key": "missileBaseDamage", "what": "每枚导弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "导弹的伤害基础值，确认各枚是否相同" },
+        { "key": "missileDamageRatio", "what": "每枚导弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "导弹的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "missileRadius", "what": "导弹爆炸半径", "unit": "meters", "claimed": null, "packHint": "导弹爆炸的判定半径，确认是单体还是范围" },
+        { "key": "missileRange", "what": "导弹射程", "unit": "meters", "claimed": null, "packHint": "导弹的最大射程" },
+        { "key": "baseFireInterval", "what": "无攻速加成时的发射间隔", "unit": "seconds", "claimed": null, "packHint": "连续发射的基础间隔" },
+        { "key": "attackSpeedToFireRate", "what": "攻速换算为发射加快的比例", "unit": "ratio", "claimed": null, "packHint": "“释放随攻速加快”的换算公式" },
+        { "key": "minFireInterval", "what": "发射间隔下限", "unit": "seconds", "claimed": null, "packHint": "攻速加快发射是否有上限及对应最小间隔" },
+        { "key": "dashesBetweenShots", "what": "每两次发射之间可位移的次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "发射间位移次数，核对“一次”" },
+        { "key": "dashDistance", "what": "每次调整位置的位移距离", "unit": "meters", "claimed": null, "packHint": "发射间位移的距离" },
+        { "key": "recastWindow", "what": "两次发射之间等待玩家操作的时间窗口", "unit": "seconds", "claimed": null, "packHint": "发射间的输入窗口，超时是否自动发射或结束" }
+      ],
+      "ambiguities": [
+        "“位移一次”为汉字数字，次数待核",
+        "每枚导弹伤害、系数、爆炸半径、射程未写",
+        "基础发射间隔、攻速换算方式及下限未写",
+        "位移距离未写",
+        "发射间等待窗口、不操作时是否自动发射未写",
+        "导弹能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "精怪古灵",
+      "text": "技能可储存释放，至多储存2次",
+      "reading": "一技能（其他天赋原文称“翻滚”）改为可储存释放，最多储存2次。原文没写每次充能的恢复时间（是否等于原冷却）、两次连续释放之间的最小间隔。更多翻滚次数会更频繁触发翻滚类天赋（信手拈来、冰雪聪明、能量爆发），间接影响输出。",
+      "mechanisms": ["charges", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "maxCharges", "what": "一技能最大储存次数", "unit": "count", "claimed": { "value": 2, "quote": "至多储存2次" }, "packHint": "一技能储存次数上限，核对描述的2次" },
+        { "key": "chargeRechargeTime", "what": "每次充能的恢复时间", "unit": "seconds", "claimed": null, "packHint": "一技能每层充能的恢复时间，确认是否等于原冷却" },
+        { "key": "recastInterval", "what": "两次连续释放的最小间隔", "unit": "seconds", "claimed": null, "packHint": "储存释放时两次施放之间的最小间隔" }
+      ],
+      "ambiguities": [
+        "充能恢复时间未写",
+        "两次连续释放的最小间隔未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "英姿潇洒",
+      "text": "位移速度、距离+50%",
+      "reading": "一技能位移（推测为翻滚）的速度和距离各提升50%（原文两项并列共用一个“+50%”，按各自提升50%理解）。原文没写基础位移速度和距离，也没写是在基础值上乘算还是与其他加成加算。位移速度加快会缩短翻滚动作时长，可能影响翻滚后普攻衔接的时间轴；距离只影响走位。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能位移时）",
+      "slots": [
+        { "key": "dashSpeedIncrease", "what": "位移速度提升百分比", "unit": "percent", "claimed": { "value": 50, "quote": "位移速度、距离+50%" }, "packHint": "一技能位移速度加成，核对描述的50%" },
+        { "key": "dashDistanceIncrease", "what": "位移距离提升百分比", "unit": "percent", "claimed": { "value": 50, "quote": "位移速度、距离+50%" }, "packHint": "一技能位移距离加成，核对描述的50%" },
+        { "key": "baseDashSpeed", "what": "一技能基础位移速度", "unit": "flat", "claimed": null, "packHint": "一技能翻滚的基础位移速度（游戏内速度单位）" },
+        { "key": "baseDashDistance", "what": "一技能基础位移距离", "unit": "meters", "claimed": null, "packHint": "一技能翻滚的基础位移距离" }
+      ],
+      "ambiguities": [
+        "“位移”是否就是一技能翻滚未明说",
+        "+50%是否对速度和距离各自生效（按并列理解）",
+        "基础位移速度和距离未写",
+        "与其他加成加算还是乘算未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "信手拈来",
+      "text": "翻滚后获得2秒超额攻速",
+      "reading": "翻滚（一技能）后获得持续2秒的“超额攻速”。“超额攻速”原文没有解释，可能指可突破攻速上限的攻速加成，也可能只是大量攻速。原文没写攻速加成数值、能否超过攻速上限以及能超过多少、重复翻滚是刷新持续时间还是叠加。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能翻滚后",
+      "slots": [
+        { "key": "attackSpeedBonus", "what": "超额攻速的攻速加成", "unit": "percent", "claimed": null, "packHint": "该天赋 buff 提供的攻速加成数值" },
+        { "key": "duration", "what": "超额攻速持续时间", "unit": "seconds", "claimed": { "value": 2, "quote": "获得2秒超额攻速" }, "packHint": "该天赋 buff 的持续时间，核对描述的2秒" },
+        { "key": "attackSpeedCapOverride", "what": "超额攻速允许达到的攻速上限（若可突破上限）", "unit": "percent", "claimed": null, "packHint": "“超额”是否表示突破攻速上限，若是找突破后的上限值" }
+      ],
+      "ambiguities": [
+        "“超额攻速”含义未解释",
+        "攻速加成数值未写",
+        "能否突破攻速上限及上限值未写",
+        "重复翻滚时刷新还是叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "冰雪聪明",
+      "text": "翻滚以后获得一次技能抵挡",
+      "reading": "翻滚（一技能）以后获得一次技能抵挡，推测为抵挡下一次敌方技能（类似法术护盾）。原文“一次”是汉字数字，没有作为 claimed。原文没写：抵挡的是技能伤害、技能控制还是两者；未被消耗时抵挡效果持续多久；多次翻滚能否叠加多次抵挡；是否抵挡普攻或飞行物。只影响孙尚香生存，不改变输出数值。",
+      "mechanisms": ["invulnerable", "control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能翻滚后",
+      "slots": [
+        { "key": "blockCount", "what": "每次翻滚获得的抵挡次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "技能抵挡的次数，核对“一次”" },
+        { "key": "blockWindow", "what": "未消耗时技能抵挡的持续时间", "unit": "seconds", "claimed": null, "packHint": "技能抵挡 buff 的持续时间" },
+        { "key": "maxBlocks", "what": "可同时持有的抵挡次数上限", "unit": "count", "claimed": null, "packHint": "多次翻滚时抵挡是否叠加及上限" }
+      ],
+      "ambiguities": [
+        "“一次”为汉字数字，次数待核",
+        "抵挡的是伤害、控制还是两者未写",
+        "抵挡效果持续时间未写",
+        "能否叠加未写",
+        "是否抵挡普攻或飞行物未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "自成一派",
+      "text": "攻击距离+1米",
+      "reading": "攻击距离增加1米。原文没写是否只影响普攻，还是也影响强化普攻以及选择重炮千金、枪林弹雨后的普攻；也没写基础攻击距离。不改变单次伤害，只影响能否打到目标和站位安全。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "attackRangeIncrease", "what": "攻击距离增加量", "unit": "meters", "claimed": { "value": 1, "quote": "攻击距离+1米" }, "packHint": "该天赋增加的攻击距离，核对描述的1米（注意游戏内距离单位换算）" },
+        { "key": "baseAttackRange", "what": "孙尚香基础攻击距离", "unit": "meters", "claimed": null, "packHint": "孙尚香基础普攻射程，以及核心改变普攻后的射程" }
+      ],
+      "ambiguities": [
+        "是否作用于强化普攻和核心改变后的普攻未写",
+        "基础攻击距离未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "叛逆反击",
+      "text": "发射三颗子弹自动追击周围的敌方英雄",
+      "reading": "发射三颗子弹，自动追击周围的敌方英雄。原文没写触发时机：作为一技能天赋可能在翻滚时触发，名称“反击”也可能意味着受击时触发，原文均未说明。“三颗”是汉字数字，没有作为 claimed。原文只写追击“敌方英雄”，无尽守御模式中的普通怪物、精英是否算作目标未写。原文没有写：子弹伤害基础值、系数、伤害类型；“周围”的搜索半径；三颗子弹是分散追击不同目标还是同一目标；没有敌方英雄时是否发射；触发冷却；能否暴击、能否触发普攻效果。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "原文未写（推测为一技能翻滚时）",
+      "slots": [
+        { "key": "bulletCount", "what": "每次发射的子弹数（原文写“三颗”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该天赋发射的子弹数量，核对“三颗”" },
+        { "key": "searchRadius", "what": "追击目标的搜索半径（原文“周围”）", "unit": "meters", "claimed": null, "packHint": "子弹索敌范围" },
+        { "key": "bulletBaseDamage", "what": "每颗子弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "追击子弹的伤害基础值" },
+        { "key": "bulletDamageRatio", "what": "每颗子弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "追击子弹的伤害系数、加成属性、伤害类型" },
+        { "key": "triggerCooldown", "what": "触发冷却或内置冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发条件与冷却" },
+        { "key": "bulletCritScale", "what": "子弹暴击时的伤害倍率（能否暴击未写）", "unit": "ratio", "claimed": null, "packHint": "追击子弹能否暴击、能否触发普攻效果" }
+      ],
+      "ambiguities": [
+        "触发时机未写（翻滚时或受击时）",
+        "“三颗”为汉字数字，数量待核",
+        "“敌方英雄”在本模式中是否包含普通怪物、精英未写",
+        "子弹伤害、系数、伤害类型未写",
+        "搜索半径未写",
+        "多颗子弹的目标分配规则未写",
+        "无英雄目标时是否发射未写",
+        "触发冷却未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "能量爆发",
+      "text": "翻滚后3秒内大幅提升暴击率",
+      "reading": "翻滚（一技能）后3秒内大幅提升暴击率。“大幅”没有具体数值。原文没写暴击率加成数值、暴击率超过100%时是否有额外效果、重复翻滚是刷新持续时间还是叠加。",
+      "mechanisms": ["buff", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "一技能翻滚后",
+      "slots": [
+        { "key": "critRateBonus", "what": "暴击率加成（原文“大幅”）", "unit": "percent", "claimed": null, "packHint": "该天赋 buff 的暴击率加成数值" },
+        { "key": "duration", "what": "暴击率加成持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "翻滚后3秒内" }, "packHint": "该天赋 buff 的持续时间，核对描述的3秒" }
+      ],
+      "ambiguities": [
+        "“大幅”的具体暴击率数值未写",
+        "重复翻滚刷新还是叠加未写",
+        "暴击率溢出处理未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "钢铁炮火",
+      "text": "暴击伤害增加40%",
+      "reading": "暴击伤害增加40%。原文没写是在暴击伤害倍率上加40个百分点，还是把暴击伤害再乘1.4；也没写只对普攻/一技能相关伤害生效还是对所有暴击生效（该天赋位于一技能分组，但原文没有限定）。",
+      "mechanisms": ["crit"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（暴击时）",
+      "slots": [
+        { "key": "critDamageIncrease", "what": "暴击伤害增加量", "unit": "percent", "claimed": { "value": 40, "quote": "暴击伤害增加40%" }, "packHint": "该天赋暴击伤害加成，核对描述的40%，并确认加算还是乘算" },
+        { "key": "baseCritDamage", "what": "模式内基础暴击伤害倍率", "unit": "percent", "claimed": null, "packHint": "无尽守御模式的基础暴击伤害，用于判断+40%的叠加方式" }
+      ],
+      "ambiguities": [
+        "+40%是加算到暴击倍率还是乘算未写",
+        "作用范围（所有暴击还是一技能相关）未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "调皮公主",
+      "text": "技能可储存释放，至多储存2次",
+      "reading": "二技能（锁定瞄准原文称“红莲爆弹”）改为可储存释放，最多储存2次。原文没写每次充能的恢复时间（是否等于原冷却）、两次连续释放之间的最小间隔；选择指哪打哪（持续空投）时，两个空投区域能否同时存在也未写。",
+      "mechanisms": ["charges", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "maxCharges", "what": "二技能最大储存次数", "unit": "count", "claimed": { "value": 2, "quote": "至多储存2次" }, "packHint": "二技能储存次数上限，核对描述的2次" },
+        { "key": "chargeRechargeTime", "what": "每次充能的恢复时间", "unit": "seconds", "claimed": null, "packHint": "二技能每层充能的恢复时间，确认是否等于原冷却" },
+        { "key": "recastInterval", "what": "两次连续释放的最小间隔", "unit": "seconds", "claimed": null, "packHint": "储存释放时两次施放之间的最小间隔" }
+      ],
+      "ambiguities": [
+        "充能恢复时间未写",
+        "两次连续释放的最小间隔未写",
+        "选指哪打哪时多个空投区域能否共存未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "掠夺千金",
+      "text": "标记的目标死亡会给予孙尚香额外金钱（1%概率超级大奖）",
+      "reading": "被标记的目标死亡时，孙尚香获得额外金钱；括号注明有1%概率获得“超级大奖”。原文没写标记来源（捣乱冲动的“死亡标记”还是二技能原有的标记）、目标是否需要由孙尚香击杀、每次额外金钱数量、超级大奖金额，以及是否对所有敌人类型生效。金钱只影响经济，若该模式中金钱可用于购买装备则间接影响输出。",
+      "mechanisms": ["economy"],
+      "damageRelevance": "indirect",
+      "trigger": "被标记的目标死亡时",
+      "slots": [
+        { "key": "bonusGold", "what": "每次额外获得的金钱", "unit": "flat", "claimed": null, "packHint": "标记目标死亡时给予的额外金钱数值" },
+        { "key": "jackpotChance", "what": "触发超级大奖的概率", "unit": "percent", "claimed": { "value": 1, "quote": "1%概率超级大奖" }, "packHint": "超级大奖的触发概率，核对描述的1%" },
+        { "key": "jackpotGold", "what": "超级大奖的金钱数量", "unit": "flat", "claimed": null, "packHint": "超级大奖给予的金钱数值" }
+      ],
+      "ambiguities": [
+        "标记来源未写",
+        "是否需要孙尚香亲自击杀未写",
+        "额外金钱数量未写",
+        "超级大奖金额未写",
+        "对哪些敌人类型生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "征服大小姐",
+      "text": "碎甲效果提升40%",
+      "reading": "二技能的碎甲效果提升40%。“碎甲”推测为降低目标护甲（物理防御），从而提高后续伤害。原文没写基础碎甲数值、是固定值还是百分比、持续时间；“提升40%”是在原碎甲数值上乘1.4，还是加40个百分点，也未写；是否同时延长碎甲持续时间未写。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中后（碎甲生效时）",
+      "slots": [
+        { "key": "armorBreakIncrease", "what": "碎甲效果提升量", "unit": "percent", "claimed": { "value": 40, "quote": "碎甲效果提升40%" }, "packHint": "该天赋对碎甲效果的提升，核对描述的40%，并确认乘算还是加算" },
+        { "key": "baseArmorBreak", "what": "二技能原有碎甲数值（可能是固定值或百分比）", "unit": "percent", "claimed": null, "packHint": "二技能碎甲的基础护甲削减数值及形式" },
+        { "key": "armorBreakDuration", "what": "碎甲持续时间", "unit": "seconds", "claimed": null, "packHint": "碎甲 debuff 的持续时间，确认该天赋是否影响持续时间" }
+      ],
+      "ambiguities": [
+        "“碎甲”具体削减哪项属性未写",
+        "基础碎甲数值及形式未写",
+        "提升40%是乘算还是加算未写",
+        "碎甲持续时间、是否可叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "连环爆破",
+      "text": "连锁爆破，命中目标会向周围敌方单位发射小型爆弹",
+      "reading": "连锁爆破：二技能炸弹命中目标后，会从该目标向周围的敌方单位发射小型爆弹。原文没写：每次命中发射多少颗小型爆弹（固定数量还是周围每个敌人一颗）；“周围”的搜索半径；小型爆弹的伤害基础值、系数、爆炸半径；小型爆弹命中后是否继续连锁（名称“连锁爆破”）以及连锁层数上限；小型爆弹是否带碎甲、标记等二技能效果；同一目标能否被多次打中。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能炸弹命中目标后",
+      "slots": [
+        { "key": "miniBombCount", "what": "每次命中发射的小型爆弹数", "unit": "count", "claimed": null, "packHint": "小型爆弹的数量或每个周围敌人各一颗的规则" },
+        { "key": "searchRadius", "what": "小型爆弹寻找周围敌人的半径", "unit": "meters", "claimed": null, "packHint": "小型爆弹索敌范围" },
+        { "key": "miniBombBaseDamage", "what": "小型爆弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "小型爆弹的伤害基础值" },
+        { "key": "miniBombDamageRatio", "what": "小型爆弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "小型爆弹的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "miniBombRadius", "what": "小型爆弹爆炸半径", "unit": "meters", "claimed": null, "packHint": "小型爆弹的爆炸判定半径" },
+        { "key": "chainDepth", "what": "连锁层数上限（小型爆弹能否继续连锁）", "unit": "count", "claimed": null, "packHint": "小型爆弹命中后是否再次发射、连锁上限" }
+      ],
+      "ambiguities": [
+        "小型爆弹数量规则未写",
+        "搜索半径未写",
+        "小型爆弹伤害、系数、爆炸半径未写",
+        "是否继续连锁及层数上限未写",
+        "小型爆弹是否带碎甲、标记未写",
+        "同一目标能否被多次命中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "好战分子",
+      "text": "技能范围提升20%",
+      "reading": "二技能范围提升20%。原文没写是半径提升20%还是面积提升20%、基础范围多大；是否同时作用于指哪打哪的空投区域、炸弹爆炸半径、连环爆破的小型爆弹和超级炸弹。不改变单次伤害，影响命中目标数。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "areaIncrease", "what": "技能范围提升量", "unit": "percent", "claimed": { "value": 20, "quote": "技能范围提升20%" }, "packHint": "二技能范围加成，核对描述的20%，并确认作用于半径还是面积" },
+        { "key": "baseRadius", "what": "二技能基础爆炸半径", "unit": "meters", "claimed": null, "packHint": "二技能炸弹的基础爆炸半径" }
+      ],
+      "ambiguities": [
+        "提升的是半径还是面积未写",
+        "基础范围未写",
+        "是否作用于空投区域、小型爆弹、超级炸弹未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "锁定瞄准",
+      "text": "对红莲爆弹命中的目标追加一颗跟踪导弹",
+      "reading": "对被红莲爆弹（二技能）命中的目标追加一颗跟踪导弹。原文“一颗”是汉字数字，没有作为 claimed。原文没写：导弹伤害基础值、系数、伤害类型；单体还是带爆炸范围；发射延迟和飞行时间；一次爆弹命中多个目标时是否每个目标都追加一颗；指哪打哪空投、大小姐驾到飞行投弹、连环爆破小型爆弹是否算“红莲爆弹命中”；导弹能否暴击、能否带碎甲。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "红莲爆弹命中目标后",
+      "slots": [
+        { "key": "missilesPerTarget", "what": "每个被命中目标追加的导弹数（原文写“一颗”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "追加导弹数量，核对“一颗”" },
+        { "key": "missileBaseDamage", "what": "跟踪导弹伤害基础值", "unit": "flat", "claimed": null, "packHint": "跟踪导弹的伤害基础值" },
+        { "key": "missileDamageRatio", "what": "跟踪导弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "跟踪导弹的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "missileRadius", "what": "跟踪导弹爆炸半径（若不是单体）", "unit": "meters", "claimed": null, "packHint": "跟踪导弹是单体还是范围伤害，范围半径" },
+        { "key": "missileDelay", "what": "从命中到导弹命中的延迟", "unit": "seconds", "claimed": null, "packHint": "导弹发射延迟和飞行时间，用于时间轴" },
+        { "key": "internalCooldown", "what": "同一目标追加导弹的触发间隔（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否有内置冷却或每个目标的触发限制" }
+      ],
+      "ambiguities": [
+        "“一颗”为汉字数字，数量待核",
+        "导弹伤害、系数、伤害类型未写",
+        "单体还是范围未写",
+        "多目标命中时是否每个目标都追加未写",
+        "空投、飞行投弹、小型爆弹是否算“红莲爆弹命中”未写",
+        "能否暴击、能否带碎甲未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "战斗补给",
+      "text": "普攻标记目标获得生命回复",
+      "reading": "普攻被标记的目标时，孙尚香获得生命回复（按语序也可能理解为普攻会给目标打标记，原文有歧义）。原文没写：标记来源（捣乱冲动的死亡标记还是二技能原有标记）；回复是每次普攻立即回复还是获得一段持续回复；回复量（固定值、按最大生命百分比或按伤害）；触发冷却。只影响生存，不改变输出数值。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "普攻命中被标记的目标时",
+      "slots": [
+        { "key": "healBase", "what": "每次回复的固定值", "unit": "flat", "claimed": null, "packHint": "该天赋回复量的基础值" },
+        { "key": "healRatio", "what": "回复量的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "回复量的系数及加成属性" },
+        { "key": "healPctMaxHp", "what": "按最大生命百分比计算的回复量（若为此形式）", "unit": "percent", "claimed": null, "packHint": "回复是否按最大生命百分比计算" },
+        { "key": "regenDuration", "what": "若为持续回复，持续时间", "unit": "seconds", "claimed": null, "packHint": "回复是瞬间还是持续，持续时间" },
+        { "key": "triggerCooldown", "what": "触发冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋回复的内置冷却" }
+      ],
+      "ambiguities": [
+        "“普攻标记目标”的语义（攻击已标记目标还是普攻打标记）有歧义",
+        "标记来源未写",
+        "瞬间回复还是持续回复未写",
+        "回复量及形式未写",
+        "触发冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "不准回血！",
+      "text": "爆炸具有重伤效果，生命恢复降低50%",
+      "reading": "二技能爆炸附带重伤效果，使目标生命恢复降低50%。原文没写重伤持续时间、是否可叠加，也没写“爆炸”是否包含连环爆破小型爆弹、空投炸弹、超级炸弹。只削弱敌人回复，不改变孙尚香伤害数值；若该模式敌人有回复，则间接提高有效输出。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能爆炸命中目标后",
+      "slots": [
+        { "key": "healReduction", "what": "目标生命恢复降低比例（减少）", "unit": "percent", "claimed": { "value": 50, "quote": "生命恢复降低50%" }, "packHint": "重伤效果的回复削减比例，核对描述的50%" },
+        { "key": "duration", "what": "重伤持续时间", "unit": "seconds", "claimed": null, "packHint": "重伤 debuff 的持续时间" }
+      ],
+      "ambiguities": [
+        "重伤持续时间未写",
+        "是否可叠加、与其他重伤来源如何叠加未写",
+        "“爆炸”是否包含小型爆弹、空投炸弹、超级炸弹未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "超速驾驶",
+      "text": "飞行速度、距离、转向速度+25%",
+      "reading": "三技能的飞行速度、飞行距离、转向速度各提升25%（三项并列共用一个“+25%”，按各自提升25%理解）。“飞行”和“转向”与大小姐驾到（跟随火箭飞行）对应，原文没写选火力全开时是否作用于导弹飞行。原文没写基础飞行速度、距离、转向速度。速度和距离同比提升时飞行时长可能不变；若飞行时长改变，会影响飞行中持续投弹的次数。",
+      "mechanisms": ["mobility", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（大招飞行时）",
+      "slots": [
+        { "key": "flightSpeedIncrease", "what": "飞行速度提升百分比", "unit": "percent", "claimed": { "value": 25, "quote": "飞行速度、距离、转向速度+25%" }, "packHint": "大招飞行速度加成，核对描述的25%" },
+        { "key": "flightDistanceIncrease", "what": "飞行距离提升百分比", "unit": "percent", "claimed": { "value": 25, "quote": "飞行速度、距离、转向速度+25%" }, "packHint": "大招飞行距离加成，核对描述的25%" },
+        { "key": "turnSpeedIncrease", "what": "转向速度提升百分比", "unit": "percent", "claimed": { "value": 25, "quote": "飞行速度、距离、转向速度+25%" }, "packHint": "大招飞行转向速度加成，核对描述的25%" },
+        { "key": "baseFlightSpeed", "what": "大招基础飞行速度", "unit": "flat", "claimed": null, "packHint": "大招（火箭/导弹）的基础飞行速度" },
+        { "key": "baseFlightDistance", "what": "大招基础飞行距离", "unit": "meters", "claimed": null, "packHint": "大招（火箭/导弹）的基础飞行距离" },
+        { "key": "baseTurnSpeed", "what": "大招基础转向速度", "unit": "flat", "claimed": null, "packHint": "大招飞行时的基础转向速度" }
+      ],
+      "ambiguities": [
+        "+25%是否对三项各自生效（按并列理解）",
+        "选火力全开时是否作用于导弹未写",
+        "基础飞行速度、距离、转向速度未写",
+        "飞行时长是否变化未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "烈性炸药",
+      "text": "大招威力增加50%，但是会提升后坐力，发射时使自己后退",
+      "reading": "大招威力增加50%，但后坐力提升，发射时孙尚香会后退。“威力”推测主要指伤害，原文没写是否也提升范围；+50%是乘算还是与其他增伤加算未写；后退距离、后退是否打断后续动作（如火力全开的发射间位移），以及选大小姐驾到时后坐力如何体现，均未写。",
+      "mechanisms": ["damage-amp", "mobility"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招（发射）时",
+      "slots": [
+        { "key": "powerIncrease", "what": "大招威力（推测为伤害）提升量", "unit": "percent", "claimed": { "value": 50, "quote": "大招威力增加50%" }, "packHint": "该天赋对大招伤害的加成，核对描述的50%，并确认乘算还是加算、是否也影响范围" },
+        { "key": "recoilDistance", "what": "发射时自身后退距离", "unit": "meters", "claimed": null, "packHint": "后坐力造成的后退距离" },
+        { "key": "recoilDuration", "what": "后退动作时长", "unit": "seconds", "claimed": null, "packHint": "后坐力后退的动作时长，是否影响后续动作衔接" }
+      ],
+      "ambiguities": [
+        "“威力”是否只指伤害未写",
+        "+50%乘算还是加算未写",
+        "后退距离和时长未写",
+        "选大小姐驾到时后坐力表现未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "弱点识破",
+      "text": "大招附带真实伤害",
+      "reading": "大招伤害附带真实伤害。原文没写真实伤害的形式：是额外一段真实伤害（基础值加系数），还是原伤害的一部分转为真实伤害，或按原伤害百分比追加；每枚导弹/每颗炸弹是否都附带。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招伤害命中时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "附带真实伤害基础值（若为额外一段）", "unit": "flat", "claimed": null, "packHint": "大招附带真实伤害的基础值" },
+        { "key": "trueDamageRatio", "what": "附带真实伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "大招附带真实伤害的系数及加成属性" },
+        { "key": "trueDamagePctOfHit", "what": "按原伤害比例计算的真实伤害（若为转化或追加）", "unit": "percent", "claimed": null, "packHint": "真实伤害是否按原伤害比例转化或追加" }
+      ],
+      "ambiguities": [
+        "真实伤害的形式（额外一段、转化或按比例追加）未写",
+        "数值未写",
+        "每次命中都附带还是仅一次未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "惊险游戏",
+      "text": "获得50%伤害增强效果，每次死亡减少10%",
+      "reading": "获得50%伤害增强效果，孙尚香每死亡一次增强减少10%。按字面推测死亡5次后降为0，但原文没写最低值、减少的10%是百分点（50%→40%）还是按比例递减，也没写死亡次数是否在关卡/波次之间重置、能否恢复。原文也没写伤害增强作用于所有伤害还是只作用于大招（该天赋位于三技能分组）。",
+      "mechanisms": ["damage-amp", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "常驻；每次死亡时降低",
+      "slots": [
+        { "key": "damageBonus", "what": "初始伤害增强", "unit": "percent", "claimed": { "value": 50, "quote": "获得50%伤害增强效果" }, "packHint": "该天赋的初始伤害增强数值，核对描述的50%，确认作用范围" },
+        { "key": "reductionPerDeath", "what": "每次死亡减少的伤害增强（减少）", "unit": "percent", "claimed": { "value": 10, "quote": "每次死亡减少10%" }, "packHint": "每次死亡扣减的伤害增强，核对描述的10%，确认是百分点还是比例" },
+        { "key": "minDamageBonus", "what": "伤害增强下限", "unit": "percent", "claimed": null, "packHint": "伤害增强能否降到0或负值，下限是多少" }
+      ],
+      "ambiguities": [
+        "减少10%是百分点还是比例未写",
+        "伤害增强下限未写",
+        "死亡次数是否在关卡或波次间重置未写",
+        "作用于所有伤害还是只作用于大招未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "快速装填",
+      "text": "普攻减少3技能CD",
+      "reading": "普攻会减少三技能（大招）的冷却。原文没写每次普攻减少多少冷却（固定秒数还是剩余冷却的百分比）、是否需要命中、是否有触发间隔；选择枪林弹雨（加特林高速射击）时按每发子弹还是每次普攻计算；强化普攻是否减少更多。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "普攻时（是否需要命中未写）",
+      "slots": [
+        { "key": "cdReductionSeconds", "what": "每次普攻减少的大招冷却秒数（若为固定值）", "unit": "seconds", "claimed": null, "packHint": "每次普攻减少的三技能冷却数值及形式" },
+        { "key": "cdReductionPct", "what": "每次普攻减少的大招冷却比例（若为百分比）", "unit": "percent", "claimed": null, "packHint": "冷却缩减是否按百分比计算" },
+        { "key": "internalCooldown", "what": "触发间隔（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋减冷却的内置冷却，以及加特林子弹的计数方式" }
+      ],
+      "ambiguities": [
+        "每次减少多少冷却及形式未写",
+        "是否需要命中未写",
+        "触发间隔未写",
+        "加特林按每发子弹还是每次普攻计算未写",
+        "强化普攻是否减少更多未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "3技能", "reason": "3是技能编号，指三技能（大招），不是数值" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "就是任性",
+      "text": "大招期间获得双抗",
+      "reading": "大招期间获得双抗（物理防御和法术防御）。原文没写加成数值、是固定值还是百分比，以及“大招期间”具体多长（大小姐驾到为飞行期间，火力全开为连续发射期间，均未写时长）。只影响生存，不改变输出数值。",
+      "mechanisms": ["buff", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间",
+      "slots": [
+        { "key": "physDefBonus", "what": "物理防御加成", "unit": "flat", "claimed": null, "packHint": "大招期间物理防御加成数值及形式" },
+        { "key": "magicDefBonus", "what": "法术防御加成", "unit": "flat", "claimed": null, "packHint": "大招期间法术防御加成数值及形式" },
+        { "key": "duration", "what": "双抗加成持续时间（原文“大招期间”）", "unit": "seconds", "claimed": null, "packHint": "双抗 buff 的持续时间，确认是否等于大招持续时间" }
+      ],
+      "ambiguities": [
+        "双抗加成数值及形式未写",
+        "“大招期间”的具体时长未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "防身火力",
+      "text": "大招击中敌人获得真伤护盾",
+      "reading": "大招击中敌人后获得“真伤护盾”。原文没解释“真伤护盾”：可能是能抵挡真实伤害的护盾，也可能是护盾存在或破裂时造成真实伤害，原文不能确定。原文没写护盾量（固定值、系数或按最大生命）、持续时间、多次击中是否叠加及上限、触发间隔。按原文最直接的理解只影响生存。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "大招击中敌人后",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾量基础值", "unit": "flat", "claimed": null, "packHint": "真伤护盾的护盾量基础值" },
+        { "key": "shieldRatio", "what": "护盾量加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾量的系数及加成属性" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾的持续时间" },
+        { "key": "maxShield", "what": "多次击中叠加的护盾上限", "unit": "flat", "claimed": null, "packHint": "护盾能否叠加及上限" },
+        { "key": "triggerCooldown", "what": "触发间隔", "unit": "seconds", "claimed": null, "packHint": "该天赋护盾的内置冷却" }
+      ],
+      "ambiguities": [
+        "“真伤护盾”含义（抵挡真实伤害还是造成真实伤害）未写",
+        "护盾量及形式未写",
+        "持续时间未写",
+        "能否叠加及上限未写",
+        "触发间隔未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "致命射击",
+      "text": "大招可以暴击",
+      "reading": "大招伤害可以暴击（原文暗示大招原本不能暴击）。原文没写暴击率和暴击伤害是否按孙尚香面板计算、是否有折算；每枚导弹、每颗炸弹是否各自判定暴击；钢铁炮火等暴击伤害加成是否对大招生效。",
+      "mechanisms": ["crit"],
+      "damageRelevance": "direct",
+      "trigger": "大招伤害命中时",
+      "slots": [
+        { "key": "critRateScale", "what": "大招暴击率相对面板暴击率的折算系数（若有）", "unit": "ratio", "claimed": null, "packHint": "大招暴击是否按面板暴击率判定，是否有折算" },
+        { "key": "critDamageMultiplier", "what": "大招暴击时的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "大招暴击伤害倍率是否等于面板暴击伤害" }
+      ],
+      "ambiguities": [
+        "暴击率和暴击伤害是否按面板计算未写",
+        "多段伤害是否各自判定暴击未写",
+        "其他暴击伤害加成是否对大招生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

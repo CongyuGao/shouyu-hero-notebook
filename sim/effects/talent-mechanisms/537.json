@@ -1,0 +1,830 @@
+{
+  "heroId": "537",
+  "heroName": "司空震",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "破阵金身",
+      "text": "释放霸体1.5秒，命中自动打出1次双倍回复的强普",
+      "reading": "一技能核心。原文“释放霸体1.5秒”按归属理解为释放一技能时获得1.5秒霸体（霸体通常指不受控制效果影响，原文没有解释它的具体效果，例如是否附带减伤）；“命中”后自动打出1次强普（按字面即强化普攻），这次强普的回复量是双倍（“双倍”是汉字，字面为2倍，没有阿拉伯数字）。原文没有写：“命中”指一技能命中敌人，还是霸体期间的普攻或其他攻击命中；一技能同时命中多个敌人时是否只打出1次；自动打出的强普打向哪个目标、是近程还是远程效果（参见「雷神」t03）；这次强普的伤害是否与平常强普相同；强普原本的回复量和计算方式；“双倍”只作用于回复还是也作用于伤害（字面只写回复）；自动打出的强普是否算“使用强普”，从而触发「天雷贯体」(t20)、「净雷」(t22)。仓库里没有本模式司空震的基础技能原文，一技能本身的伤害、冷却不知道。",
+      "mechanisms": ["control-immunity", "proc", "heal", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时获得霸体；命中后自动打出强普",
+      "slots": [
+        { "key": "superArmorDuration", "what": "霸体持续时间", "unit": "seconds", "claimed": { "value": 1.5, "quote": "释放霸体1.5秒" }, "packHint": "核心 c1 霸体 buff 的持续时间，核对描述的1.5秒（描述值不可靠，需资源包核对），并确认霸体是否附带减伤" },
+        { "key": "autoEnhancedAttackCount", "what": "每次触发自动打出的强普次数", "unit": "count", "claimed": { "value": 1, "quote": "自动打出1次" }, "packHint": "核心 c1 每次触发自动打出的强普次数，核对描述的1次（描述值不可靠，需资源包核对）" },
+        { "key": "maxTriggersPerCast", "what": "一次一技能最多触发几次自动强普（命中多个敌人时）", "unit": "count", "claimed": null, "packHint": "核心 c1 的触发条件：命中指什么、命中多个敌人时是否多次触发" },
+        { "key": "healMultiplier", "what": "这次强普回复量相对平常强普的倍率（原文写“双倍”，是汉字，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "核心 c1 自动强普的回复倍率，以及倍率是否也作用于伤害" },
+        { "key": "enhancedAttackHealFlat", "what": "强普原本回复量的固定值部分", "unit": "flat", "claimed": null, "packHint": "强普基础回复量，确认是固定值、按攻击力系数还是按最大生命百分比" },
+        { "key": "enhancedAttackHealRatio", "what": "强普原本回复量的加成系数或最大生命比例（以资源包为准）", "unit": "ratio", "claimed": null, "packHint": "强普回复的加成属性与系数" },
+        { "key": "autoAttackBaseDamage", "what": "自动强普伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c1 自动强普的伤害基础值，确认是否与平常强普相同" },
+        { "key": "autoAttackDamageRatio", "what": "自动强普伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "自动强普伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "skill1Cooldown", "what": "一技能基础冷却（决定触发频率）", "unit": "seconds", "claimed": null, "packHint": "本模式司空震一技能的基础冷却" }
+      ],
+      "ambiguities": [
+        "“命中”指一技能命中还是霸体期间其他攻击命中没有写",
+        "命中多个敌人时是否多次触发没有写",
+        "“双倍”是汉字，倍率需核对；是否也作用于伤害没有写",
+        "强普原本的回复量和计算方式没有写",
+        "自动强普的目标、近程或远程效果、伤害是否与平常强普相同没有写",
+        "自动强普是否算“使用强普”触发 t20、t22 没有写",
+        "霸体是否附带减伤没有写",
+        "仓库里没有本模式司空震的基础技能原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "雷霆风暴",
+      "text": "使用一技能后，1秒内可以一直打出强普",
+      "reading": "一技能核心。使用一技能后的1秒内，普攻可以一直打出强普（按字面即强化普攻）。仓库里没有本模式司空震的基础技能原文，强普原本如何获得不知道。1秒内实际能打出几次强普取决于攻速和强普出手动作，原文没有写是否有次数上限；这1秒从一技能释放开始还是一技能动作结束开始计时没有写；窗口内强普的伤害、近程或远程效果是否与平常强普相同没有写；窗口内的每次强普是否都算“使用强普”从而触发「天雷贯体」(t20)、「净雷」(t22)、是否各自带回复没有写。攻速类效果（如「雷啸闪」t06）和出手速度类效果（如「无影击」t02）会影响窗口内的强普次数。",
+      "mechanisms": ["skill-change", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "使用一技能后",
+      "slots": [
+        { "key": "windowDuration", "what": "可一直打出强普的时间窗口", "unit": "seconds", "claimed": { "value": 1, "quote": "1秒内" }, "packHint": "核心 c2 强普窗口 buff 的持续时间，核对描述的1秒（描述值不可靠，需资源包核对），并确认从何时开始计时" },
+        { "key": "maxEnhancedAttacks", "what": "窗口内强普次数上限（原文没写是否存在）", "unit": "count", "claimed": null, "packHint": "核心 c2 窗口内强普是否有次数限制" },
+        { "key": "enhancedAttackFrames", "what": "强普出手动作帧数（决定窗口内最多打出几次）", "unit": "frames", "claimed": null, "packHint": "司空震强普的出手帧数及受攻速影响的方式" },
+        { "key": "enhancedAttackBaseDamage", "what": "强普伤害的基础值", "unit": "flat", "claimed": null, "packHint": "强普伤害基础值，确认窗口内的强普是否与平常相同" },
+        { "key": "enhancedAttackDamageRatio", "what": "强普伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "强普伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "skill1Cooldown", "what": "一技能基础冷却（决定窗口出现频率）", "unit": "seconds", "claimed": null, "packHint": "本模式司空震一技能的基础冷却" }
+      ],
+      "ambiguities": [
+        "窗口从何时开始计时没有写",
+        "窗口内强普次数是否有上限没有写",
+        "窗口内强普伤害、近程或远程效果是否与平常强普相同没有写",
+        "窗口内每次强普是否触发 t20、t22、是否带回复没有写",
+        "仓库里没有本模式司空震的基础技能原文，强普原本获得方式不知道"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "球状闪电",
+      "text": "额外朝两个方向发射曲线雷球",
+      "reading": "二技能核心。从二技能小天赋多处写“雷球”推断二技能发射雷球。选择后释放二技能时，额外朝两个方向（“两个”是汉字数字，字面为2个方向）发射沿曲线飞行的雷球，每个方向几颗原文没写（按字面理解为各一颗）。原文没有写：两个方向相对主方向的角度、曲线轨迹；额外雷球的伤害、爆炸范围、牵引效果是否与主雷球相同；同一目标能否被多颗雷球命中；额外雷球是否同样受二技能小天赋（t11 充雷、t12 雷气、t13 引雷诀、t14 电闪诀、t15 雷暴、t16 雷劫引）影响。仓库里没有本模式司空震的基础技能原文。",
+      "mechanisms": ["proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "extraBallCount", "what": "额外发射的雷球数量（原文“两个方向”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "核心 c3 额外雷球的方向数和每个方向的雷球数" },
+        { "key": "ballBaseDamage", "what": "雷球伤害的基础值", "unit": "flat", "claimed": null, "packHint": "二技能雷球爆炸伤害基础值" },
+        { "key": "ballDamageRatio", "what": "雷球伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "雷球伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "extraBallDamageScale", "what": "额外曲线雷球伤害相对主雷球的比例", "unit": "ratio", "claimed": null, "packHint": "核心 c3 曲线雷球是否有单独伤害系数" },
+        { "key": "explosionRadius", "what": "曲线雷球爆炸范围", "unit": "meters", "claimed": null, "packHint": "曲线雷球的爆炸半径，是否与主雷球相同" },
+        { "key": "flightDistance", "what": "曲线雷球飞行距离", "unit": "meters", "claimed": null, "packHint": "曲线雷球的飞行距离与轨迹" },
+        { "key": "sameTargetHitLimit", "what": "同一目标最多被几颗雷球命中", "unit": "count", "claimed": null, "packHint": "多颗雷球命中同一目标时是否都造成伤害" }
+      ],
+      "ambiguities": [
+        "“两个方向”是汉字数字，每个方向几颗雷球没有写",
+        "方向角度和曲线轨迹没有写",
+        "额外雷球伤害、爆炸范围、牵引是否与主雷球相同没有写",
+        "同一目标能否被多颗雷球命中没有写",
+        "额外雷球是否受 t11–t16 影响没有写",
+        "仓库里没有本模式司空震的基础技能原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "雷光叠嶂",
+      "text": "雷球爆炸后会返回，并向周围所有敌人发射雷球",
+      "reading": "二技能核心。雷球爆炸后会返回（原文没写返回到哪里，按字面可能是飞回司空震身边），并向周围所有敌人发射雷球。原文没有写：返回的雷球是否造成伤害、是否再次爆炸；“周围”以哪里为中心（爆炸点、返回途中还是返回终点）、范围多大；向每个敌人发射几颗雷球；这些雷球的伤害、爆炸范围、牵引是否与主雷球相同；“所有敌人”是否有目标数上限；发射出的雷球爆炸时是否再次触发本核心（是否会连锁）；是否受二技能小天赋 t11、t12、t13、t15、t16 影响。",
+      "mechanisms": ["proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "雷球爆炸后",
+      "slots": [
+        { "key": "returnHits", "what": "返回途中对敌人的伤害判定次数（原文没写返回是否造成伤害）", "unit": "count", "claimed": null, "packHint": "核心 c4 返回雷球是否有伤害判定" },
+        { "key": "returnDamageRatio", "what": "返回雷球伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "返回雷球伤害基础值、系数、加成属性" },
+        { "key": "secondaryRadius", "what": "发射雷球的索敌范围（原文“周围”）", "unit": "meters", "claimed": null, "packHint": "核心 c4 索敌半径及中心点" },
+        { "key": "secondaryBallsPerEnemy", "what": "向每个敌人发射的雷球数量", "unit": "count", "claimed": null, "packHint": "每个目标对应的雷球数量" },
+        { "key": "secondaryMaxTargets", "what": "可发射的目标数上限（原文“所有敌人”，未写是否有上限）", "unit": "count", "claimed": null, "packHint": "核心 c4 发射雷球的目标数上限" },
+        { "key": "secondaryBallBaseDamage", "what": "发射雷球伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c4 发射雷球的伤害基础值，是否与主雷球相同" },
+        { "key": "secondaryBallDamageRatio", "what": "发射雷球伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "发射雷球伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "chainLimit", "what": "发射的雷球爆炸后再次触发本核心的次数上限（原文没写是否连锁）", "unit": "count", "claimed": null, "packHint": "核心 c4 是否可连锁触发及其限制" }
+      ],
+      "ambiguities": [
+        "返回到哪里、返回是否造成伤害没有写",
+        "“周围”的中心和范围没有写",
+        "每个敌人几颗雷球、“所有敌人”是否有上限没有写",
+        "发射雷球的伤害、范围、牵引是否与主雷球相同没有写",
+        "是否会连锁触发没有写",
+        "是否受 t11、t12、t13、t15、t16 影响没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "雷霆破黑暗",
+      "text": "变身期间持续产生雷鼓，每0.8秒电击范围内的1个敌人并获得1层能量",
+      "reading": "大招核心。从大招小天赋多处写“变身”“变身状态”推断大招是变身，变身期间即大招状态，原文没有直接写明。选择后变身期间持续产生雷鼓，每0.8秒电击范围内的1个敌人，并获得1层能量。原文没有写：“持续产生雷鼓”是不断生成多个雷鼓、每个存在多久，还是一个持续存在的雷鼓效果；“范围”多大、以司空震还是雷鼓为中心；电击伤害的数值、系数、加成属性和伤害类型、能否暴击；范围内没有敌人时是否仍获得能量；能量的作用、上限和持续时间（「感电」t05 也写了能量，原文都没写能量做什么）；这里的雷鼓与「九霄雷」(t17)、「雷锁阵」(t18) 的雷鼓是否同一种，t17 的同时攻击多个敌人、弹射是否作用于这里的电击。变身基础持续时间不知道（仓库里没有本模式司空震的基础技能原文）。",
+      "mechanisms": ["summon", "proc", "stacking", "area"],
+      "damageRelevance": "direct",
+      "trigger": "变身期间每隔固定时间",
+      "slots": [
+        { "key": "tickInterval", "what": "电击间隔", "unit": "seconds", "claimed": { "value": 0.8, "quote": "每0.8秒" }, "packHint": "核心 c5 雷鼓电击周期，核对描述的0.8秒（描述值不可靠，需资源包核对）" },
+        { "key": "targetsPerTick", "what": "每次电击的目标数", "unit": "count", "claimed": { "value": 1, "quote": "电击范围内的1个敌人" }, "packHint": "核心 c5 每次电击的目标数，核对描述的1个（描述值不可靠，需资源包核对），并确认 t17 是否改变它" },
+        { "key": "energyPerTick", "what": "每次电击获得的能量层数", "unit": "count", "claimed": { "value": 1, "quote": "获得1层能量" }, "packHint": "核心 c5 每次获得的能量层数，核对描述的1层（描述值不可靠，需资源包核对），并确认没有命中敌人时是否获得" },
+        { "key": "shockRadius", "what": "电击索敌范围", "unit": "meters", "claimed": null, "packHint": "雷鼓电击的索敌半径及中心点" },
+        { "key": "shockBaseDamage", "what": "电击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c5 电击伤害基础值" },
+        { "key": "shockDamageRatio", "what": "电击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c5 电击伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "energyMaxStacks", "what": "能量层数上限", "unit": "count", "claimed": null, "packHint": "司空震能量的最大层数" },
+        { "key": "energyEffect", "what": "能量的效果数值（原文没写能量用途，单位暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "能量的用途、每层或满层效果及其数值单位" },
+        { "key": "transformDuration", "what": "变身基础持续时间（决定总电击次数）", "unit": "seconds", "claimed": null, "packHint": "本模式司空震大招变身的持续时间" }
+      ],
+      "ambiguities": [
+        "大招是否即变身原文没有直接写明",
+        "“持续产生雷鼓”是生成多个雷鼓还是持续效果、雷鼓存在多久没有写",
+        "电击范围和中心点没有写",
+        "电击伤害数值、系数、加成属性、伤害类型、能否暴击没有写",
+        "没有敌人时是否获得能量没有写",
+        "能量的作用、上限、持续时间没有写",
+        "与 t17、t18 的雷鼓是否同一种、是否受其影响没有写",
+        "变身基础持续时间不知道"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "雷天神鸣破",
+      "text": "变身巨大化，且变身时长+3秒，并大幅提升普攻距离",
+      "reading": "大招核心。变身时体型变大（巨大化），变身持续时间增加3秒（原文“+3秒”，表示在原有时长上增加3秒），并且普攻距离大幅提升。原文没有写：变身原本持续多久；“大幅提升普攻距离”提升多少，是固定值还是百分比；巨大化体型放大多少，是否同时扩大普攻、强普、技能的伤害范围或命中判定，是否改变受击体积。延长变身时间可以延长变身状态相关小天赋（如「爆气」t19、「雷鸣」t23、「感电」t05 大招状态下获得2层、「天雷贯体」t20 大招时强普叠层）的生效时间；普攻距离提升影响能否打到目标。本核心不直接写伤害变化，按间接影响处理。",
+      "mechanisms": ["buff", "area", "skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "变身时",
+      "slots": [
+        { "key": "durationExtension", "what": "变身时长增加量（原文“+3秒”，表示增加3秒）", "unit": "seconds", "claimed": { "value": 3, "quote": "变身时长+3秒" }, "packHint": "核心 c6 对变身时长的加成，核对描述的3秒（描述值不可靠，需资源包核对）" },
+        { "key": "baseTransformDuration", "what": "变身原本的持续时间", "unit": "seconds", "claimed": null, "packHint": "本模式司空震大招变身的基础持续时间" },
+        { "key": "attackRangeIncrease", "what": "普攻距离提升量（原文“大幅提升”，单位暂记为 meters，也可能是百分比）", "unit": "meters", "claimed": null, "packHint": "核心 c6 普攻距离加成的数值和单位" },
+        { "key": "sizeScale", "what": "巨大化体型缩放倍率", "unit": "ratio", "claimed": null, "packHint": "核心 c6 模型或碰撞体缩放倍率" },
+        { "key": "hitAreaScale", "what": "巨大化后攻击判定范围的放大倍率（原文没写是否放大）", "unit": "ratio", "claimed": null, "packHint": "巨大化是否放大普攻、强普、技能的伤害判定范围" }
+      ],
+      "ambiguities": [
+        "变身原本持续时间没有写",
+        "普攻距离提升多少、是固定值还是百分比没有写",
+        "巨大化放大多少、是否扩大攻击判定范围或受击体积没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "雷震千里",
+      "text": "击退敌人，且当前冷却-50%",
+      "reading": "一技能小天赋。原文没有写主语，按归属理解为一技能命中敌人时将其击退，并且一技能“当前冷却”减少50%（原文“-50%”，表示减少）。“当前冷却”可能指本次释放后进入的冷却减半，也可能指一技能冷却时间整体减少50%，原文没有写清；冷却减少是否需要命中敌人才触发也没写。原文没有写：击退距离、击退的控制时长；对首领或霸体单位是否生效。缩短一技能冷却提高释放频率，间接提高输出；击退会把敌人推开，可能影响后续命中。",
+      "mechanisms": ["control", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能释放或命中敌人时（原文未写清）",
+      "slots": [
+        { "key": "cooldownReduction", "what": "一技能当前冷却减少比例（原文“-50%”，表示减少50%）", "unit": "percent", "claimed": { "value": 50, "quote": "当前冷却-50%" }, "packHint": "该天赋对一技能冷却的减少比例，核对描述的50%（描述值不可靠，需资源包核对），并确认是本次冷却还是冷却时间整体减少、是否需要命中才触发" },
+        { "key": "knockbackDistance", "what": "击退距离", "unit": "meters", "claimed": null, "packHint": "该天赋击退位移距离" },
+        { "key": "knockbackDuration", "what": "击退控制时长", "unit": "seconds", "claimed": null, "packHint": "该天赋击退的控制时间" },
+        { "key": "skill1Cooldown", "what": "一技能基础冷却（用于计算减冷却收益）", "unit": "seconds", "claimed": null, "packHint": "本模式司空震一技能的基础冷却" }
+      ],
+      "ambiguities": [
+        "主语没有写，按归属理解为一技能",
+        "“当前冷却”是本次冷却还是冷却时间整体减少没有写清",
+        "冷却减少是否需要命中才触发没有写",
+        "击退距离、控制时长没有写",
+        "对首领或霸体单位是否生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "无影击",
+      "text": "强化普攻出手速度更快，且立刻补上下一发普攻",
+      "reading": "一技能小天赋。强化普攻的出手速度变快（出手动作缩短），并且强化普攻之后立刻补上下一发普攻。原文没有写出手速度快多少；“立刻补上下一发普攻”按字面理解为强化普攻后紧接着打出下一次普攻、不等待普攻间隔，这一发是普通普攻还是强化普攻、伤害是否与正常普攻相同、是否占用普攻间隔没有写。仓库里没有本模式司空震的基础技能原文，强化普攻的触发条件和出手帧数不知道。补出的普攻是一次额外伤害，按直接影响处理。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "强化普攻时",
+      "slots": [
+        { "key": "enhancedAttackFramesBase", "what": "强化普攻原本的出手帧数", "unit": "frames", "claimed": null, "packHint": "司空震强化普攻的出手动作帧数" },
+        { "key": "castSpeedIncrease", "what": "强化普攻出手速度提升比例（原文“更快”，未写数值）", "unit": "percent", "claimed": null, "packHint": "该天赋对强化普攻出手速度的加成，或加成后的出手帧数" },
+        { "key": "followUpAttackCount", "what": "每次强化普攻后补上的普攻次数（原文“下一发”，没有数字）", "unit": "count", "claimed": null, "packHint": "该天赋补出普攻的次数" },
+        { "key": "followUpDamageScale", "what": "补上的普攻伤害相对正常普攻的比例", "unit": "ratio", "claimed": null, "packHint": "补出普攻是普通普攻还是强化普攻、伤害系数是否与正常普攻相同" },
+        { "key": "followUpDelayFrames", "what": "强化普攻到补上普攻之间的间隔", "unit": "frames", "claimed": null, "packHint": "补出普攻的出手时机" }
+      ],
+      "ambiguities": [
+        "出手速度快多少没有写",
+        "补上的是普通普攻还是强化普攻没有写",
+        "补上普攻的伤害、是否占用普攻间隔没有写",
+        "仓库里没有本模式司空震的基础技能原文，强化普攻的触发条件不知道"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "雷神",
+      "text": "强化普攻会同时打出近远程两种效果",
+      "reading": "一技能小天赋。强化普攻同时打出近程和远程两种效果。按字面推断，强化普攻原本分近程、远程两种效果，平常只打出其中一种（「雷霆万里」t09 写“远程强化普攻”、「雷狱」t10 写“远程普攻”，可见普攻有远程形态）；原文没有写原本按什么条件区分（例如与目标的距离）。原文没有写：近程、远程效果各自的伤害、回复和其他效果；同时打出时两种效果是否都是完整数值；远程效果打向哪个目标、射程多少；同时打出时算一次还是两次强普，是否让「天雷贯体」(t20)、「净雷」(t22) 触发两次。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "强化普攻时",
+      "slots": [
+        { "key": "meleeEffectBaseDamage", "what": "近程效果伤害的基础值", "unit": "flat", "claimed": null, "packHint": "强化普攻近程效果的伤害基础值及附带效果（如回复）" },
+        { "key": "meleeEffectDamageRatio", "what": "近程效果伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "近程效果伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "rangedEffectBaseDamage", "what": "远程效果伤害的基础值", "unit": "flat", "claimed": null, "packHint": "强化普攻远程效果的伤害基础值及附带效果" },
+        { "key": "rangedEffectDamageRatio", "what": "远程效果伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "远程效果伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "rangedEffectRange", "what": "远程效果射程", "unit": "meters", "claimed": null, "packHint": "远程强化普攻的射程" },
+        { "key": "dualEffectScale", "what": "同时打出时每种效果相对单独打出的比例", "unit": "ratio", "claimed": null, "packHint": "该天赋下两种效果是否都按完整数值结算" },
+        { "key": "countsAsEnhancedAttacks", "what": "同时打出时计为几次强普（影响 t20、t22）", "unit": "count", "claimed": null, "packHint": "双效果强普的计数方式" }
+      ],
+      "ambiguities": [
+        "近程、远程效果原本的区分条件没有写",
+        "两种效果各自的伤害、回复和附带效果没有写",
+        "同时打出时是否都是完整数值没有写",
+        "远程效果的目标和射程没有写",
+        "同时打出算一次还是两次强普没有写",
+        "仓库里没有本模式司空震的基础技能原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "鸣音雷甲",
+      "text": "护盾上限提升至8层并对附近目标造成电击伤害",
+      "reading": "一技能小天赋。从“护盾上限提升至8层”推断司空震有一种按层计算的护盾（按归属可能与一技能有关），原文没有写护盾怎么获得、每层多少护盾值、原本上限几层。选择后护盾上限提升至8层，并对附近目标造成电击伤害。原文没有写：电击在什么时候触发（周期性持续、获得护盾时、护盾被打破时，或其他）；电击伤害的数值、系数、加成属性和伤害类型；“附近”的范围；目标数；能否暴击；伤害是否随护盾层数变化。仓库里没有本模式司空震的基础技能原文。",
+      "mechanisms": ["shield", "stacking", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（护盾上限）；电击触发时机原文未写",
+      "slots": [
+        { "key": "maxShieldLayers", "what": "护盾层数上限", "unit": "count", "claimed": { "value": 8, "quote": "护盾上限提升至8层" }, "packHint": "该天赋护盾层数上限，核对描述的8层（描述值不可靠，需资源包核对）" },
+        { "key": "baseMaxShieldLayers", "what": "护盾原本的层数上限", "unit": "count", "claimed": null, "packHint": "司空震分层护盾的基础上限" },
+        { "key": "shieldPerLayer", "what": "每层护盾值", "unit": "flat", "claimed": null, "packHint": "每层护盾的数值及加成属性" },
+        { "key": "layersPerGain", "what": "每次获得的护盾层数", "unit": "count", "claimed": null, "packHint": "护盾层的获得方式和每次获得层数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "分层护盾的持续时间和刷新规则" },
+        { "key": "shockInterval", "what": "电击触发间隔（原文没写触发方式）", "unit": "seconds", "claimed": null, "packHint": "该天赋电击的触发方式和频率" },
+        { "key": "shockBaseDamage", "what": "电击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋电击伤害基础值，确认是否随护盾层数变化" },
+        { "key": "shockDamageRatio", "what": "电击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "电击伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "shockRadius", "what": "电击范围（原文“附近”）", "unit": "meters", "claimed": null, "packHint": "电击作用半径" },
+        { "key": "shockMaxTargets", "what": "电击目标数上限", "unit": "count", "claimed": null, "packHint": "电击可命中的目标数" }
+      ],
+      "ambiguities": [
+        "护盾获得方式、每层数值、原本上限没有写",
+        "电击触发时机没有写",
+        "电击伤害数值、系数、加成属性、伤害类型、能否暴击没有写",
+        "电击范围、目标数没有写",
+        "伤害是否随护盾层数变化没有写",
+        "仓库里没有本模式司空震的基础技能原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "感电",
+      "text": "释放一技能获得1层能量，大招状态下获得2层",
+      "reading": "一技能小天赋。释放一技能时获得1层能量；大招状态下释放一技能获得2层（按字面理解；原文没写是2层替代1层，还是额外再加2层）。“大招状态”按其他天赋推断即变身状态。原文没有写能量是什么、有什么作用（核心「雷霆破黑暗」c5 也会获得能量，原文同样没写用途）；能量上限、持续时间、满层后发生什么都没写。能量用途未知，暂按间接影响输出处理。",
+      "mechanisms": ["stacking", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "energyPerCast", "what": "非大招状态下释放一技能获得的能量层数", "unit": "count", "claimed": { "value": 1, "quote": "释放一技能获得1层能量" }, "packHint": "该天赋每次获得的能量层数，核对描述的1层（描述值不可靠，需资源包核对）" },
+        { "key": "energyPerCastInUlt", "what": "大招状态下释放一技能获得的能量层数", "unit": "count", "claimed": { "value": 2, "quote": "大招状态下获得2层" }, "packHint": "该天赋大招状态下获得的能量层数，核对描述的2层（描述值不可靠，需资源包核对），并确认是替代还是额外" },
+        { "key": "energyMaxStacks", "what": "能量层数上限", "unit": "count", "claimed": null, "packHint": "司空震能量的最大层数" },
+        { "key": "energyEffect", "what": "能量的效果数值（原文没写能量用途，单位暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "能量的用途、每层或满层效果及其数值单位" },
+        { "key": "energyDuration", "what": "能量持续时间", "unit": "seconds", "claimed": null, "packHint": "能量层数的持续时间或衰减规则" }
+      ],
+      "ambiguities": [
+        "大招状态下2层是替代还是额外没有写",
+        "能量的作用没有写",
+        "能量上限、持续时间、满层效果没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "雷啸闪",
+      "text": "施法后获得30%衰减移速和30%攻速（可叠加）",
+      "reading": "一技能小天赋。“施法后”按归属理解为释放一技能后（原文没写是否包括其他技能），获得30%衰减移速和30%攻速，可叠加。“衰减移速”按字面理解为移速加成随时间逐渐减少。原文没有写：持续时间；移速衰减方式；“（可叠加）”只修饰攻速还是两者都可叠加；层数上限；叠加时是否刷新持续时间；攻速是否受攻速上限限制。攻速提高普攻和强普频率，间接影响输出。",
+      "mechanisms": ["buff", "stacking", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "施法后（按归属理解为释放一技能后）",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "移速加成初始值", "unit": "percent", "claimed": { "value": 30, "quote": "获得30%衰减移速" }, "packHint": "该天赋移速加成，核对描述的30%（描述值不可靠，需资源包核对），并确认衰减方式" },
+        { "key": "attackSpeedBonus", "what": "攻速加成（每层）", "unit": "percent", "claimed": { "value": 30, "quote": "30%攻速" }, "packHint": "该天赋攻速加成，核对描述的30%（描述值不可靠，需资源包核对）" },
+        { "key": "duration", "what": "buff 持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 持续时间，以及叠加时是否刷新" },
+        { "key": "moveSpeedDecayTime", "what": "移速衰减到零所需时间", "unit": "seconds", "claimed": null, "packHint": "衰减移速的衰减曲线" },
+        { "key": "maxStacks", "what": "叠加层数上限", "unit": "count", "claimed": null, "packHint": "该天赋 buff 最大层数，确认移速是否也叠加" }
+      ],
+      "ambiguities": [
+        "“施法”是否只指一技能没有写",
+        "持续时间、衰减方式没有写",
+        "“可叠加”修饰哪一项、层数上限、刷新规则没有写",
+        "是否受攻速上限限制没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "霹雳",
+      "text": "释放一技能后下两次普攻必定暴击",
+      "reading": "一技能小天赋。释放一技能后，接下来两次普攻（“两次”是汉字数字，字面为2次）必定暴击。原文没有写：这个效果持续多久、没用完是否过期；强化普攻是否算“普攻”、是否消耗次数；暴击伤害是否使用司空震自身的暴击效果；重复释放一技能是刷新为两次还是累加。",
+      "mechanisms": ["crit", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能后",
+      "slots": [
+        { "key": "guaranteedCritAttacks", "what": "必定暴击的普攻次数（原文“两次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该天赋必定暴击的次数" },
+        { "key": "buffDuration", "what": "必定暴击效果的持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的过期时间" },
+        { "key": "critMultiplier", "what": "必定暴击时的暴击倍率（是否沿用自身暴击效果）", "unit": "ratio", "claimed": null, "packHint": "必定暴击使用的暴击伤害来源" },
+        { "key": "maxStoredAttacks", "what": "重复释放时最多储存的暴击次数", "unit": "count", "claimed": null, "packHint": "重复释放一技能是刷新还是累加" }
+      ],
+      "ambiguities": [
+        "“两次”是汉字数字，需核对",
+        "持续时间、过期规则没有写",
+        "强化普攻是否算普攻没有写",
+        "暴击倍率来源没有写",
+        "重复释放刷新还是累加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "奔雷袭",
+      "text": "位移变为瞬移，并自动攻击附近敌人",
+      "reading": "一技能小天赋。从原文推断一技能带位移；选择后位移变为瞬移，并自动攻击附近敌人（原文没写攻击发生在瞬移起点还是终点、瞬移后还是过程中）。原文没有写：瞬移距离是否与原位移相同；瞬移后是否仍对路径上的敌人造成一技能伤害；“自动攻击”是普攻、强普还是一次单独的伤害，打几次、打几个目标；“附近”的范围；伤害数值、系数；能否暴击；是否算普攻从而消耗「霹雳」(t07) 的必定暴击次数。自动攻击是额外伤害，按直接影响处理。",
+      "mechanisms": ["mobility", "skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能位移时",
+      "slots": [
+        { "key": "blinkDistance", "what": "瞬移距离", "unit": "meters", "claimed": null, "packHint": "该天赋瞬移距离，是否与原位移相同" },
+        { "key": "autoAttackCount", "what": "自动攻击次数", "unit": "count", "claimed": null, "packHint": "瞬移后自动攻击的次数" },
+        { "key": "autoAttackRadius", "what": "自动攻击索敌范围（原文“附近”）", "unit": "meters", "claimed": null, "packHint": "自动攻击的索敌半径" },
+        { "key": "autoAttackMaxTargets", "what": "自动攻击目标数", "unit": "count", "claimed": null, "packHint": "自动攻击可命中的目标数" },
+        { "key": "autoAttackBaseDamage", "what": "自动攻击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "自动攻击是普攻、强普还是单独伤害，及其基础值" },
+        { "key": "autoAttackDamageRatio", "what": "自动攻击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "自动攻击伤害系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "瞬移距离是否与原位移相同没有写",
+        "瞬移是否仍对路径敌人造成伤害没有写",
+        "自动攻击的性质、次数、目标数、范围没有写",
+        "自动攻击伤害数值、系数、能否暴击没有写",
+        "是否消耗 t07 的必定暴击次数没有写",
+        "仓库里没有本模式司空震的基础技能原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "雷霆万里",
+      "text": "朝二技能方向发出远程强化普攻",
+      "reading": "二技能小天赋。按字面理解释放二技能时，朝二技能释放方向发出远程强化普攻（原文没写次数，按字面理解为一次）。原文没有写：这次远程强化普攻的伤害、射程是否与平常远程强化普攻相同；是否需要已满足强普条件、是否消耗强普；是否算“使用强普”，从而触发「天雷贯体」(t20)、「净雷」(t22)；能命中一个目标还是沿方向穿透多个目标；能否暴击。仓库里没有本模式司空震的基础技能原文。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "attacksPerCast", "what": "每次二技能发出的远程强化普攻次数", "unit": "count", "claimed": null, "packHint": "该天赋每次触发的强化普攻次数" },
+        { "key": "rangedAttackBaseDamage", "what": "远程强化普攻伤害的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋远程强化普攻伤害基础值，是否与平常相同" },
+        { "key": "rangedAttackDamageRatio", "what": "远程强化普攻伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "远程强化普攻伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "range", "what": "射程", "unit": "meters", "claimed": null, "packHint": "该天赋远程强化普攻的射程" },
+        { "key": "maxTargets", "what": "可命中的目标数", "unit": "count", "claimed": null, "packHint": "是单体还是穿透、最多命中几个目标" },
+        { "key": "skill2Cooldown", "what": "二技能基础冷却（决定触发频率）", "unit": "seconds", "claimed": null, "packHint": "本模式司空震二技能的基础冷却" }
+      ],
+      "ambiguities": [
+        "次数没有写",
+        "伤害、射程是否与平常远程强化普攻相同没有写",
+        "是否需要强普条件、是否消耗强普没有写",
+        "是否算“使用强普”触发 t20、t22 没有写",
+        "单体还是穿透、能否暴击没有写",
+        "仓库里没有本模式司空震的基础技能原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "雷狱",
+      "text": "变身前的远程普攻会产生闪电链效果，变身后则变成全范围的闪电链攻击",
+      "reading": "二技能小天赋。变身前（非大招状态）的远程普攻会产生闪电链效果；变身后变成全范围的闪电链攻击。闪电链按字面理解为从首个目标跳向附近其他敌人；“全范围”可能指变身后直接电击一定范围内所有敌人，原文没写范围多大。原文没有写：闪电链跳跃次数、跳跃距离、每跳伤害及是否衰减；闪电链伤害是普攻伤害本身还是额外伤害；变身后的“全范围”是否限定为远程普攻、作用半径和目标上限；能否暴击。",
+      "mechanisms": ["proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "变身前远程普攻命中时；变身后普攻时",
+      "slots": [
+        { "key": "chainJumps", "what": "变身前闪电链跳跃次数", "unit": "count", "claimed": null, "packHint": "该天赋闪电链的跳跃次数或可命中目标数" },
+        { "key": "chainJumpRange", "what": "闪电链跳跃距离", "unit": "meters", "claimed": null, "packHint": "闪电链每次跳跃的最大距离" },
+        { "key": "chainBaseDamage", "what": "闪电链伤害的基础值", "unit": "flat", "claimed": null, "packHint": "闪电链伤害基础值，确认是额外伤害还是普攻伤害本身" },
+        { "key": "chainDamageRatio", "what": "闪电链伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "闪电链伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "chainFalloff", "what": "每跳伤害衰减比例（原文没写是否衰减）", "unit": "percent", "claimed": null, "packHint": "闪电链每跳的伤害衰减" },
+        { "key": "ultRadius", "what": "变身后全范围闪电链的作用半径", "unit": "meters", "claimed": null, "packHint": "变身后闪电链攻击的范围" },
+        { "key": "ultMaxTargets", "what": "变身后全范围闪电链的目标数上限", "unit": "count", "claimed": null, "packHint": "变身后闪电链攻击可命中的目标数" }
+      ],
+      "ambiguities": [
+        "闪电链跳跃次数、距离、衰减没有写",
+        "闪电链是额外伤害还是普攻伤害本身没有写",
+        "“全范围”的半径、目标上限、是否限远程普攻没有写",
+        "伤害数值、系数、能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "充雷",
+      "text": "牵引效果增强，并电击爆炸范围内的目标",
+      "reading": "二技能小天赋。从原文推断雷球带有牵引效果；选择后牵引效果增强，并电击爆炸范围内的目标。原文没有写：“增强”是牵引距离、速度、范围还是持续时间增加，增加多少；电击伤害的数值、系数、加成属性和伤害类型；电击是否每次爆炸都触发（配合「引雷诀」t13 额外爆炸、c3/c4 额外雷球是否也触发）；能否暴击。",
+      "mechanisms": ["control", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "雷球牵引时；雷球爆炸时",
+      "slots": [
+        { "key": "pullStrengthIncrease", "what": "牵引效果增强幅度（原文“增强”，未写增强的是距离、速度还是范围）", "unit": "percent", "claimed": null, "packHint": "该天赋对牵引效果的加成项和数值" },
+        { "key": "pullDuration", "what": "牵引持续时间", "unit": "seconds", "claimed": null, "packHint": "雷球牵引的持续时间，以及该天赋是否改变它" },
+        { "key": "explosionRadius", "what": "雷球爆炸范围（电击作用范围）", "unit": "meters", "claimed": null, "packHint": "雷球爆炸半径" },
+        { "key": "shockBaseDamage", "what": "电击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋电击伤害基础值" },
+        { "key": "shockDamageRatio", "what": "电击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "电击伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "shockMaxTargets", "what": "电击目标数上限", "unit": "count", "claimed": null, "packHint": "电击可命中的目标数" }
+      ],
+      "ambiguities": [
+        "“增强”的具体项目和数值没有写",
+        "电击伤害数值、系数、加成属性、伤害类型、能否暴击没有写",
+        "电击是否每次爆炸都触发没有写",
+        "仓库里没有本模式司空震的基础技能原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "雷气",
+      "text": "雷球变大30%",
+      "reading": "二技能小天赋。雷球变大30%。原文没有写变大的是雷球飞行时的碰撞体积、爆炸范围还是牵引范围；30%是半径（直径）放大还是面积放大；是否也作用于「球状闪电」(c3)、「雷光叠嶂」(c4) 额外发射的雷球。范围变大可以命中更多目标，间接影响输出。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "sizeIncrease", "what": "雷球变大比例", "unit": "percent", "claimed": { "value": 30, "quote": "雷球变大30%" }, "packHint": "该天赋雷球缩放比例，核对描述的30%（描述值不可靠，需资源包核对），并确认作用于碰撞、爆炸还是牵引范围" },
+        { "key": "baseBallRadius", "what": "雷球原本的碰撞半径", "unit": "meters", "claimed": null, "packHint": "雷球飞行时的碰撞半径" },
+        { "key": "baseExplosionRadius", "what": "雷球原本的爆炸半径", "unit": "meters", "claimed": null, "packHint": "雷球爆炸半径" }
+      ],
+      "ambiguities": [
+        "变大的是碰撞、爆炸还是牵引范围没有写",
+        "30%是半径放大还是面积放大没有写",
+        "是否作用于 c3、c4 的额外雷球没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "引雷诀",
+      "text": "雷球爆炸后，将额外爆炸2次",
+      "reading": "二技能小天赋。雷球爆炸后，额外再爆炸2次。原文没有写：额外爆炸的位置（原地还是其他位置）和间隔；每次额外爆炸的伤害与首次爆炸相同还是不同；额外爆炸是否也带牵引；是否同样触发「充雷」(t11) 的电击、「雷暴」(t15) 的回复、「雷劫引」(t16) 的落雷、「雷光叠嶂」(c4) 的返回和发射；c3、c4 额外发射的雷球是否也会额外爆炸。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "雷球爆炸后",
+      "slots": [
+        { "key": "extraExplosions", "what": "额外爆炸次数", "unit": "count", "claimed": { "value": 2, "quote": "额外爆炸2次" }, "packHint": "该天赋额外爆炸次数，核对描述的2次（描述值不可靠，需资源包核对）" },
+        { "key": "explosionInterval", "what": "额外爆炸之间的间隔", "unit": "seconds", "claimed": null, "packHint": "额外爆炸的时间间隔" },
+        { "key": "extraExplosionDamageScale", "what": "额外爆炸伤害相对首次爆炸的比例", "unit": "ratio", "claimed": null, "packHint": "额外爆炸是否有单独的伤害系数" },
+        { "key": "explosionBaseDamage", "what": "雷球爆炸伤害的基础值", "unit": "flat", "claimed": null, "packHint": "二技能雷球爆炸伤害基础值" },
+        { "key": "explosionDamageRatio", "what": "雷球爆炸伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "雷球爆炸伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "explosionRadius", "what": "额外爆炸范围", "unit": "meters", "claimed": null, "packHint": "额外爆炸的半径，是否与首次相同" }
+      ],
+      "ambiguities": [
+        "额外爆炸位置、间隔没有写",
+        "额外爆炸伤害是否与首次相同没有写",
+        "额外爆炸是否带牵引没有写",
+        "是否触发 t11、t15、t16、c4 没有写",
+        "c3、c4 的额外雷球是否也额外爆炸没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "电闪诀",
+      "text": "雷球飞行速度和距离极大提升",
+      "reading": "二技能小天赋。雷球飞行速度和飞行距离“极大提升”，原文没写具体提升多少，也没写是固定值还是百分比。飞行距离决定能否打到远处敌人，飞行速度决定命中所需时间，间接影响输出。是否也作用于 c3、c4 额外发射的雷球没有写。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "flightSpeedIncrease", "what": "飞行速度提升比例（原文“极大提升”）", "unit": "percent", "claimed": null, "packHint": "该天赋雷球飞行速度加成" },
+        { "key": "flightDistanceIncrease", "what": "飞行距离提升比例（原文“极大提升”）", "unit": "percent", "claimed": null, "packHint": "该天赋雷球飞行距离加成" },
+        { "key": "baseFlightSpeed", "what": "雷球原本的飞行速度", "unit": "flat", "claimed": null, "packHint": "雷球基础飞行速度" },
+        { "key": "baseFlightDistance", "what": "雷球原本的飞行距离", "unit": "meters", "claimed": null, "packHint": "雷球基础飞行距离" }
+      ],
+      "ambiguities": [
+        "提升数值、固定值还是百分比没有写",
+        "是否作用于 c3、c4 额外雷球没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "雷暴",
+      "text": "雷球每次爆炸命中时回复血量",
+      "reading": "二技能小天赋。雷球每次爆炸命中时回复血量（原文没写主语，按字面理解为回复司空震自身）。原文没有写：回复量及计算方式；同一次爆炸命中多个敌人时按命中目标数多次回复还是只回复一次；配合「引雷诀」(t13) 每次额外爆炸是否都回复。回复不直接改变伤害，通过生存间接影响输出。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "雷球每次爆炸命中时",
+      "slots": [
+        { "key": "healFlat", "what": "每次回复的固定值部分", "unit": "flat", "claimed": null, "packHint": "该天赋回复量，确认是固定值、按攻击力系数还是按最大生命百分比" },
+        { "key": "healRatio", "what": "每次回复的加成系数或最大生命比例（以资源包为准）", "unit": "ratio", "claimed": null, "packHint": "该天赋回复的加成属性与系数" },
+        { "key": "healsPerExplosionCap", "what": "一次爆炸命中多个敌人时最多回复几次", "unit": "count", "claimed": null, "packHint": "多目标命中时是否多次回复" }
+      ],
+      "ambiguities": [
+        "回复对象没有写，按字面理解为自身",
+        "回复量和计算方式没有写",
+        "多目标命中时是否多次回复没有写",
+        "额外爆炸是否也回复没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "雷劫引",
+      "text": "爆炸中心处会生成一道更大的落雷",
+      "reading": "二技能小天赋。雷球爆炸中心处会生成一道落雷（“一道”是汉字数字）。“更大”没有写是相对什么（相对雷球爆炸还是某种原有的落雷）。原文没有写：落雷的伤害数值、系数、加成属性和伤害类型；落雷范围；生成延迟；是否带控制；每次爆炸都生成（配合 t13 额外爆炸、c3/c4 额外雷球）还是只在首次爆炸生成；能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "雷球爆炸时",
+      "slots": [
+        { "key": "strikeBaseDamage", "what": "落雷伤害的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋落雷伤害基础值" },
+        { "key": "strikeDamageRatio", "what": "落雷伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "落雷伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "strikeRadius", "what": "落雷范围（原文“更大”）", "unit": "meters", "claimed": null, "packHint": "落雷作用半径，以及“更大”的比较对象" },
+        { "key": "strikeDelay", "what": "爆炸到落雷生效的延迟", "unit": "seconds", "claimed": null, "packHint": "落雷生成的延迟时间" },
+        { "key": "strikesPerCast", "what": "每次二技能最多生成的落雷数", "unit": "count", "claimed": null, "packHint": "额外爆炸、额外雷球是否各自生成落雷" }
+      ],
+      "ambiguities": [
+        "“更大”的比较对象没有写",
+        "落雷伤害数值、系数、加成属性、伤害类型、能否暴击没有写",
+        "落雷范围、延迟、是否带控制没有写",
+        "是否每次爆炸都生成没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "九霄雷",
+      "text": "雷鼓可同时攻击5个敌人，并且命中敌人后额外弹射一次",
+      "reading": "大招小天赋。从原文推断大招会产生雷鼓攻击敌人，原文没写原本同时攻击几个敌人。选择后雷鼓可同时攻击5个敌人，命中敌人后额外弹射一次（“一次”是汉字数字）。原文没有写：弹射伤害是否与首次相同；弹射距离；弹射能否打到已命中的敌人；5个目标每个都弹射一次还是总共一次；是否作用于「雷霆破黑暗」(c5) 产生的雷鼓。仓库里没有本模式司空震的基础技能原文。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "雷鼓攻击时",
+      "slots": [
+        { "key": "maxTargets", "what": "雷鼓同时攻击的目标数", "unit": "count", "claimed": { "value": 5, "quote": "同时攻击5个敌人" }, "packHint": "该天赋雷鼓目标数，核对描述的5个（描述值不可靠，需资源包核对）" },
+        { "key": "baseMaxTargets", "what": "雷鼓原本同时攻击的目标数", "unit": "count", "claimed": null, "packHint": "大招雷鼓的基础目标数" },
+        { "key": "bounceCount", "what": "命中后额外弹射次数（原文“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该天赋弹射次数，以及是每个目标各弹射还是总共弹射" },
+        { "key": "bounceDamageScale", "what": "弹射伤害相对首次命中的比例", "unit": "ratio", "claimed": null, "packHint": "弹射伤害系数" },
+        { "key": "bounceRange", "what": "弹射距离", "unit": "meters", "claimed": null, "packHint": "弹射索敌半径，能否弹向已命中目标" },
+        { "key": "drumBaseDamage", "what": "雷鼓伤害的基础值", "unit": "flat", "claimed": null, "packHint": "大招雷鼓伤害基础值" },
+        { "key": "drumDamageRatio", "what": "雷鼓伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "雷鼓伤害系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "雷鼓原本目标数没有写",
+        "“一次”是汉字数字，需核对",
+        "弹射伤害、距离、能否弹向已命中目标没有写",
+        "每个目标各弹射还是总共弹射没有写",
+        "是否作用于 c5 的雷鼓没有写",
+        "仓库里没有本模式司空震的基础技能原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "雷锁阵",
+      "text": "被雷鼓击中的敌人，脚下生成一个可缓慢跟随的小雷鼓阵",
+      "reading": "大招小天赋。被雷鼓击中的敌人脚下生成一个（“一个”是汉字数字）小雷鼓阵，阵会缓慢跟随（按字面理解为跟随该敌人移动）。原文没有写小雷鼓阵的作用：周期性造成伤害、减速或禁锢等控制，还是其他效果（名称“雷锁”有锁住的意思，但原文没写控制）；也没写持续时间、跟随速度、范围、伤害间隔与数值、同一敌人能否同时存在多个阵、阵对附近其他敌人是否生效。按“雷鼓阵”与雷鼓类比可能造成伤害，暂按直接影响伤害处理；如果资源包显示它只有控制效果，应改为间接影响。",
+      "mechanisms": ["summon", "area", "other"],
+      "damageRelevance": "direct",
+      "trigger": "雷鼓击中敌人后",
+      "slots": [
+        { "key": "fieldDuration", "what": "小雷鼓阵存在时间", "unit": "seconds", "claimed": null, "packHint": "该天赋雷鼓阵的持续时间" },
+        { "key": "fieldRadius", "what": "小雷鼓阵作用范围", "unit": "meters", "claimed": null, "packHint": "雷鼓阵的作用半径" },
+        { "key": "followSpeed", "what": "跟随移动速度（原文“缓慢”）", "unit": "flat", "claimed": null, "packHint": "雷鼓阵跟随目标的移动速度" },
+        { "key": "tickInterval", "what": "小雷鼓阵生效间隔", "unit": "seconds", "claimed": null, "packHint": "雷鼓阵伤害或效果的周期" },
+        { "key": "tickBaseDamage", "what": "每次生效伤害的基础值（原文没写是否造成伤害）", "unit": "flat", "claimed": null, "packHint": "雷鼓阵伤害基础值，确认它是否造成伤害" },
+        { "key": "tickDamageRatio", "what": "每次生效伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "雷鼓阵伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "controlEffect", "what": "小雷鼓阵的控制效果数值，如减速比例（原文没写是否有控制）", "unit": "percent", "claimed": null, "packHint": "雷鼓阵是否带减速、禁锢等控制及其数值" },
+        { "key": "maxFieldsPerTarget", "what": "同一敌人身上最多同时存在的雷鼓阵数量", "unit": "count", "claimed": null, "packHint": "重复击中时新阵是否叠加或刷新" }
+      ],
+      "ambiguities": [
+        "“一个”是汉字数字，需核对",
+        "小雷鼓阵造成伤害、控制还是其他效果没有写",
+        "持续时间、跟随速度、范围、生效间隔、数值没有写",
+        "同一敌人能否存在多个阵没有写",
+        "对附近其他敌人是否生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "爆气",
+      "text": "变身状态下获得35%全能吸血和50%韧性",
+      "reading": "大招小天赋。变身状态下获得35%全能吸血和50%韧性。全能吸血通常指造成的伤害按比例回复生命（不分物理法术），韧性通常指减少受到的控制时间，原文都没有解释。原文没有写：全能吸血对范围伤害、真实伤害是否打折；韧性是否有上限。吸血和韧性不直接改变伤害，通过生存间接影响输出。",
+      "mechanisms": ["buff", "lifesteal", "control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "变身状态下",
+      "slots": [
+        { "key": "omnivamp", "what": "全能吸血比例", "unit": "percent", "claimed": { "value": 35, "quote": "35%全能吸血" }, "packHint": "该天赋全能吸血数值，核对描述的35%（描述值不可靠，需资源包核对）" },
+        { "key": "tenacity", "what": "韧性", "unit": "percent", "claimed": { "value": 50, "quote": "50%韧性" }, "packHint": "该天赋韧性数值，核对描述的50%（描述值不可靠，需资源包核对）" },
+        { "key": "aoeVampScale", "what": "范围伤害吸血折算比例（原文没写是否打折）", "unit": "percent", "claimed": null, "packHint": "全能吸血对范围伤害、真实伤害的折算规则" }
+      ],
+      "ambiguities": [
+        "全能吸血、韧性的具体定义原文没有解释",
+        "范围伤害、真实伤害吸血是否打折没有写",
+        "韧性是否有上限没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "天雷贯体",
+      "text": "大招时使用强普获得1层天雷之力，永久提升2点攻击和法强，上限150层",
+      "reading": "大招小天赋。大招期间（按其他天赋推断即变身期间）每次使用强普获得1层天雷之力；每层永久提升2点攻击和2点法强（按字面理解“2点”同时修饰攻击和法强），上限150层。“永久”按字面理解为层数在大招结束后保留，原文没写阵亡后是否保留。原文没有写：“攻击”是物理攻击还是其他；一次强普命中多个敌人是否叠多层；强普没有命中敌人是否也叠层（字面是“使用强普”）；c1、c2、t03、t09 产生的强普是否算“使用强普”；是否有叠层内置冷却。叠满所需的强普次数多，实际层数取决于一局中大招期间的强普次数。",
+      "mechanisms": ["stat", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "大招期间使用强普时",
+      "slots": [
+        { "key": "stacksPerEnhancedAttack", "what": "每次使用强普获得的天雷之力层数", "unit": "count", "claimed": { "value": 1, "quote": "获得1层天雷之力" }, "packHint": "该天赋每次叠加层数，核对描述的1层（描述值不可靠，需资源包核对），并确认多目标是否叠多层" },
+        { "key": "attackPerStack", "what": "每层攻击提升", "unit": "flat", "claimed": { "value": 2, "quote": "永久提升2点攻击" }, "packHint": "该天赋每层攻击加成，核对描述的2点（描述值不可靠，需资源包核对），并确认是物理攻击" },
+        { "key": "magicPowerPerStack", "what": "每层法强提升（原文“2点攻击和法强”，按字面2点同时修饰法强）", "unit": "flat", "claimed": { "value": 2, "quote": "2点攻击和法强" }, "packHint": "该天赋每层法强加成，核对描述的2点（描述值不可靠，需资源包核对）" },
+        { "key": "maxStacks", "what": "天雷之力层数上限", "unit": "count", "claimed": { "value": 150, "quote": "上限150层" }, "packHint": "该天赋最大层数，核对描述的150层（描述值不可靠，需资源包核对）" },
+        { "key": "stackInternalCooldown", "what": "叠层内置冷却（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋叠层是否有触发间隔" }
+      ],
+      "ambiguities": [
+        "“攻击”是否指物理攻击没有写",
+        "“2点”是否同时修饰法强按字面理解，需核对",
+        "多目标命中是否叠多层、未命中是否叠层没有写",
+        "c1、c2、t03、t09 产生的强普是否算“使用强普”没有写",
+        "阵亡后层数是否保留没有写",
+        "是否有叠层内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "风暴",
+      "text": "变身时击飞范围内的敌人并造成高额真伤",
+      "reading": "大招小天赋。变身时（按字面理解为进入变身的瞬间）击飞范围内的敌人，并造成“高额”真实伤害。原文没有写：范围大小、以哪里为中心；击飞时长；真实伤害的数值、系数、加成属性；目标数上限；能否暴击。",
+      "mechanisms": ["control", "true-damage", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "变身时",
+      "slots": [
+        { "key": "radius", "what": "击飞和伤害范围", "unit": "meters", "claimed": null, "packHint": "该天赋作用半径及中心点" },
+        { "key": "knockupDuration", "what": "击飞时长", "unit": "seconds", "claimed": null, "packHint": "该天赋击飞控制时间" },
+        { "key": "trueDamageBase", "what": "真实伤害的基础值（原文“高额”）", "unit": "flat", "claimed": null, "packHint": "该天赋真实伤害基础值" },
+        { "key": "trueDamageRatio", "what": "真实伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋真实伤害系数、加成属性以及能否暴击" },
+        { "key": "maxTargets", "what": "目标数上限", "unit": "count", "claimed": null, "packHint": "该天赋可命中的目标数" }
+      ],
+      "ambiguities": [
+        "范围大小和中心没有写",
+        "击飞时长没有写",
+        "“高额”真伤的数值、系数、加成属性没有写",
+        "目标数上限、能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "净雷",
+      "text": "使用强普后大招冷却减少2秒",
+      "reading": "大招小天赋。每次使用强普后，大招冷却减少2秒。原文没有写：处于变身状态（大招可能尚未进入冷却）时使用强普是否有效；一次强普命中多个目标是否多次减少；强普没有命中是否也触发（字面是“使用强普后”，没要求命中）；是否有内置冷却；c1、c2、t03、t09 产生的强普是否算“使用强普”。缩短大招冷却提高变身频率，间接影响输出。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "使用强普后",
+      "slots": [
+        { "key": "cdReductionPerUse", "what": "每次使用强普减少的大招冷却", "unit": "seconds", "claimed": { "value": 2, "quote": "大招冷却减少2秒" }, "packHint": "该天赋每次减少的大招冷却，核对描述的2秒（描述值不可靠，需资源包核对）" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（原文没写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋是否有触发冷却" },
+        { "key": "ultCooldown", "what": "大招基础冷却（用于计算减冷却收益）", "unit": "seconds", "claimed": null, "packHint": "本模式司空震大招的基础冷却，以及冷却从变身开始还是结束开始计时" }
+      ],
+      "ambiguities": [
+        "变身期间使用强普是否有效没有写",
+        "多目标是否多次减少、未命中是否触发没有写",
+        "是否有内置冷却没有写",
+        "c1、c2、t03、t09 产生的强普是否算“使用强普”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "雷鸣",
+      "text": "变身后的每1秒获得6%法术和物理穿透",
+      "reading": "大招小天赋。变身后每1秒获得6%法术穿透和6%物理穿透（按字面理解“6%”同时修饰法术和物理穿透）。“每1秒获得”按字面理解为随变身时间累积，但原文没写是累积叠加还是只维持当前一秒；没写层数或穿透总量上限；没写变身结束后是否清空；6%是百分比穿透还是其他计算方式（字面为百分比）。穿透直接改变伤害结算，按直接影响处理。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "变身后每1秒",
+      "slots": [
+        { "key": "tickInterval", "what": "获得穿透的间隔", "unit": "seconds", "claimed": { "value": 1, "quote": "每1秒" }, "packHint": "该天赋叠加间隔，核对描述的1秒（描述值不可靠，需资源包核对）" },
+        { "key": "magicPenPerTick", "what": "每次获得的法术穿透", "unit": "percent", "claimed": { "value": 6, "quote": "获得6%法术" }, "packHint": "该天赋每次法术穿透加成，核对描述的6%（描述值不可靠，需资源包核对）" },
+        { "key": "physPenPerTick", "what": "每次获得的物理穿透（原文“6%法术和物理穿透”，按字面6%同时修饰物理穿透）", "unit": "percent", "claimed": { "value": 6, "quote": "6%法术和物理穿透" }, "packHint": "该天赋每次物理穿透加成，核对描述的6%（描述值不可靠，需资源包核对）" },
+        { "key": "maxStacks", "what": "穿透叠加层数上限（原文没写是否存在）", "unit": "count", "claimed": null, "packHint": "该天赋层数或穿透总量上限" },
+        { "key": "stackDuration", "what": "每层穿透持续时间（原文没写是累积还是只维持一秒）", "unit": "seconds", "claimed": null, "packHint": "穿透层数持续时间，以及变身结束后是否清空" }
+      ],
+      "ambiguities": [
+        "“每1秒获得”是累积叠加还是只维持一秒没有写",
+        "层数或穿透总量上限没有写",
+        "变身结束后是否清空没有写",
+        "6%是否为百分比穿透没有写清"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "聚雷隙",
+      "text": "变身立刻获得巨额护盾和不屈效果4秒",
+      "reading": "大招小天赋。变身时立刻获得“巨额”护盾和不屈效果，持续4秒（按字面“4秒”同时修饰护盾和不屈，原文没写清）。不屈效果原文没有解释（通常指一段时间内不会因受伤阵亡，需核对）。原文没有写护盾数值及计算方式、不屈结束时是否有其他效果。不直接改变伤害，通过生存间接影响输出。",
+      "mechanisms": ["shield", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "变身时",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾基础值（原文“巨额”）", "unit": "flat", "claimed": null, "packHint": "该天赋护盾基础值" },
+        { "key": "shieldRatio", "what": "护盾加成系数或最大生命比例（以资源包为准）", "unit": "ratio", "claimed": null, "packHint": "该天赋护盾加成属性与系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间（原文“巨额护盾和不屈效果4秒”，按字面4秒可能同时修饰护盾）", "unit": "seconds", "claimed": { "value": 4, "quote": "巨额护盾和不屈效果4秒" }, "packHint": "该天赋护盾持续时间，核对描述的4秒（描述值不可靠，需资源包核对），并确认4秒是否修饰护盾" },
+        { "key": "unyieldingDuration", "what": "不屈效果持续时间", "unit": "seconds", "claimed": { "value": 4, "quote": "不屈效果4秒" }, "packHint": "该天赋不屈 buff 持续时间，核对描述的4秒（描述值不可靠，需资源包核对），并确认不屈的具体效果" }
+      ],
+      "ambiguities": [
+        "“4秒”是否同时修饰护盾没有写清",
+        "“巨额”护盾的数值和计算方式没有写",
+        "不屈效果的具体含义原文没有解释",
+        "不屈结束时是否有其他效果没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

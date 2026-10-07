@@ -1,0 +1,752 @@
+{
+  "heroId": "132",
+  "heroName": "马可波罗",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "华美序章",
+      "text": "技能变更：向前发射扇形弹幕",
+      "reading": "一技能核心。原文写“技能变更：向前发射扇形弹幕”：选该核心后，一技能的释放形态改为朝前方发射扇形弹幕。原文没有写原本的一技能是什么形态（从一技能小天赋「抗阻」写“技能期间”、「效能」写“技能的持续时间”看，一技能有一段持续时间）。原文也没有写：扇形角度、弹幕射程、子弹数量、发射持续多久和发射间隔、每颗子弹伤害是否与原一技能相同、同一目标最多被几颗子弹命中、弹幕子弹是否算“主子弹”、是否叠加被动印记、能否暴击，以及「追踪」「扩容」「远射」「降温」等一技能小天赋是否作用于变更后的弹幕。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "fanAngle", "what": "扇形弹幕的角度（度数，按 flat 记录）", "unit": "flat", "claimed": null, "packHint": "该核心下一技能扇形弹幕的角度" },
+        { "key": "range", "what": "弹幕射程（子弹飞行距离）", "unit": "meters", "claimed": null, "packHint": "该核心下一技能弹幕子弹的飞行距离" },
+        { "key": "bulletCount", "what": "一次释放发射的子弹数量（或每轮子弹数）", "unit": "count", "claimed": null, "packHint": "该核心下一技能每次释放/每轮的子弹数量，以及是否随攻速或档位变化" },
+        { "key": "fireDuration", "what": "弹幕持续发射时间", "unit": "seconds", "claimed": null, "packHint": "该核心下一技能的持续时间" },
+        { "key": "fireInterval", "what": "每轮弹幕（或每颗子弹）的发射间隔", "unit": "seconds", "claimed": null, "packHint": "该核心下一技能子弹的发射间隔或帧数" },
+        { "key": "bulletDamageBase", "what": "每颗子弹基础伤害", "unit": "flat", "claimed": null, "packHint": "该核心下一技能子弹伤害基础值，确认是否与原一技能共用" },
+        { "key": "bulletDamageRatio", "what": "每颗子弹伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "该核心下一技能子弹的攻击力等属性加成系数、伤害类型、能否暴击" },
+        { "key": "maxHitsPerTarget", "what": "一次释放中同一目标最多被命中的次数", "unit": "count", "claimed": null, "packHint": "扇形弹幕对同一目标的命中次数上限" },
+        { "key": "passiveStacksPerHit", "what": "每颗子弹命中叠加的被动印记层数", "unit": "count", "claimed": null, "packHint": "弹幕子弹命中时叠加被动印记的层数" },
+        { "key": "skillCooldown", "what": "选该核心后一技能冷却", "unit": "seconds", "claimed": null, "packHint": "该核心下一技能冷却时间，确认是否与默认不同" }
+      ],
+      "ambiguities": [
+        "原本的一技能形态未写",
+        "扇形角度、射程、子弹数量、发射持续时间与间隔未写",
+        "每颗子弹伤害、系数、能否暴击未写",
+        "同一目标最多被命中几次未写",
+        "弹幕子弹是否算“主子弹”（影响「追踪」「降温」）未写",
+        "是否叠加被动印记未写",
+        "其他一技能小天赋是否作用于变更后的弹幕未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "皆大欢喜",
+      "text": "子弹将在目标周围的敌人间弹射（最多3个目标，各弹射1次）",
+      "reading": "一技能核心。原文写“子弹将在目标周围的敌人间弹射”：子弹命中目标后，会弹向该目标周围的其他敌人；括号里写“最多3个目标，各弹射1次”。原文没有写：“3个目标”是否包含最初被命中的目标；“各弹射1次”是指每个目标只会被弹到1次，还是每颗子弹各弹射1次；弹射的搜索范围；弹射伤害是否等于原子弹伤害或有衰减；弹射命中是否叠加被动印记、是否触发「回转」「降温」等命中效果；按所属一技能栏位理解为一技能子弹，普攻子弹是否也弹射原文没写。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能子弹命中目标后",
+      "slots": [
+        { "key": "maxTargets", "what": "弹射最多涉及的目标数", "unit": "count", "claimed": { "value": 3, "quote": "最多3个目标" }, "packHint": "弹射目标上限，核对描述的3个，并确认是否包含首个被命中目标；需资源包核对" },
+        { "key": "bouncesPerTarget", "what": "每个目标被弹射命中的次数（或每颗子弹的弹射次数，原文有歧义）", "unit": "count", "claimed": { "value": 1, "quote": "各弹射1次" }, "packHint": "弹射次数规则，核对描述的1次，并确认是按目标计还是按子弹计；需资源包核对" },
+        { "key": "bounceRange", "what": "弹射搜索范围（以被命中目标为中心）", "unit": "meters", "claimed": null, "packHint": "弹射寻找下一个目标的半径" },
+        { "key": "bounceDamagePct", "what": "弹射伤害相对原子弹伤害的比例", "unit": "percent", "claimed": null, "packHint": "弹射子弹的伤害系数或衰减比例" },
+        { "key": "bounceTravelTime", "what": "每次弹射的延迟或飞行时间", "unit": "seconds", "claimed": null, "packHint": "弹射子弹的飞行速度或延迟帧数" }
+      ],
+      "ambiguities": [
+        "“3个目标”是否包含首个目标未写",
+        "“各弹射1次”是按目标计还是按子弹计有歧义",
+        "弹射范围未写",
+        "弹射伤害是否衰减未写",
+        "弹射命中是否叠加被动印记、是否触发其他命中效果未写",
+        "普攻子弹是否也会弹射未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "一梭入魂",
+      "text": "防御破坏效果所需层数降低4层",
+      "reading": "二技能栏位核心，作用于被动。原文写“防御破坏效果所需层数降低4层”：被动需要叠到一定层数才会触发“防御破坏”，选该核心后所需层数减少4层。结合小天赋「裂变」写的“被动印记”，层数应是叠在目标身上的印记，但本条原文没有直接写明。原文没有写：被动原本需要多少层、每次命中叠几层、哪些攻击能叠层、层数持续多久、防御破坏的具体效果（降低多少防御或改成其他伤害形式）、防御破坏持续多久、触发后层数是否清空。",
+      "mechanisms": ["stacking", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（被动叠层时）",
+      "slots": [
+        { "key": "stackReduction", "what": "触发防御破坏所需层数的减少量", "unit": "count", "claimed": { "value": 4, "quote": "降低4层" }, "packHint": "该核心对被动所需层数的修改，核对描述的“降低4层”；9月分析结论为实际只要4层就触发（可能是“降到4层”而不是“减少4层”），需资源包核对" },
+        { "key": "baseStacksRequired", "what": "未选该核心时触发防御破坏所需层数", "unit": "count", "claimed": null, "packHint": "无尽守御版马可波罗被动触发防御破坏的默认层数" },
+        { "key": "stacksPerHit", "what": "每次命中叠加的印记层数", "unit": "count", "claimed": null, "packHint": "普攻、各技能子弹命中时叠加的被动印记层数" },
+        { "key": "stackDuration", "what": "印记层数持续时间", "unit": "seconds", "claimed": null, "packHint": "被动印记的持续时间与刷新规则" },
+        { "key": "defenseBreakDuration", "what": "防御破坏持续时间", "unit": "seconds", "claimed": null, "packHint": "被动防御破坏的持续时间；9月分析结论为实际6秒（被动描述5秒），需资源包核对" },
+        { "key": "defenseBreakValue", "what": "防御破坏的效果数值（降低防御的比例或其他形式，原文未写，暂按百分比记录）", "unit": "percent", "claimed": null, "packHint": "被动防御破坏的具体效果和数值" }
+      ],
+      "ambiguities": [
+        "被动原本所需层数未写",
+        "“降低4层”是减少4层还是降到4层，需与实际核对",
+        "每次命中叠几层、哪些攻击能叠层未写",
+        "层数持续时间未写",
+        "防御破坏的具体效果和持续时间未写",
+        "触发后层数是否清空未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：「一梭入魂」实际只要 4 层就触发防御破坏（描述“所需层数降低4层”）",
+        "9月资源包分析结论，原始条目号未记录，待复核：被动的防御破坏实际持续 6 秒（描述 5 秒）；无尽守御里马可波罗是单独改过的版本，子弹数和弹幕轮数都随攻速变化"
+      ]
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "能者不劳",
+      "text": "施法后，朝附近最多3个敌人发射5颗子弹",
+      "reading": "二技能核心。原文写“施法后，朝附近最多3个敌人发射5颗子弹”：施法后自动朝附近的敌人发射5颗子弹，目标最多3个。“施法”按该核心所属的二技能理解，原文没有明确写是哪个技能。原文没有写：“附近”的范围、5颗子弹是总数还是对每个目标各5颗、敌人不足3个时子弹如何分配、每颗子弹伤害与系数、伤害类型、能否暴击、是否叠加被动印记、子弹是一次射出还是依次射出。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能施法后（原文只写“施法后”）",
+      "slots": [
+        { "key": "maxTargets", "what": "最多锁定的敌人数", "unit": "count", "claimed": { "value": 3, "quote": "最多3个敌人" }, "packHint": "该核心子弹的目标上限，核对描述的3个；需资源包核对" },
+        { "key": "bulletCount", "what": "发射的子弹数量（总数还是每个目标各算，原文有歧义）", "unit": "count", "claimed": { "value": 5, "quote": "5颗子弹" }, "packHint": "该核心发射的子弹数及分配方式，核对描述的5颗；需资源包核对" },
+        { "key": "searchRange", "what": "“附近”的索敌范围", "unit": "meters", "claimed": null, "packHint": "该核心子弹的索敌半径" },
+        { "key": "bulletDamageBase", "what": "每颗子弹基础伤害", "unit": "flat", "claimed": null, "packHint": "该核心子弹伤害基础值" },
+        { "key": "bulletDamageRatio", "what": "每颗子弹伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "该核心子弹的攻击力等属性加成系数、伤害类型、能否暴击" },
+        { "key": "fireInterval", "what": "子弹依次射出时的间隔", "unit": "seconds", "claimed": null, "packHint": "该核心子弹的发射间隔或帧数" },
+        { "key": "passiveStacksPerBullet", "what": "每颗子弹命中叠加的被动印记层数", "unit": "count", "claimed": null, "packHint": "该核心子弹是否叠加被动印记以及叠几层" }
+      ],
+      "ambiguities": [
+        "“施法”指哪个技能未明确",
+        "5颗子弹是总数还是每个目标各5颗未写",
+        "敌人不足3个时子弹如何分配未写",
+        "“附近”范围未写",
+        "子弹伤害、系数、伤害类型、能否暴击未写",
+        "是否叠加被动印记未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "Duet!",
+      "text": "技能变更：瞬移后弹幕将朝最近单位移动，同时自身可正常移动。",
+      "reading": "大招核心。原文写“技能变更：瞬移后弹幕将朝最近单位移动，同时自身可正常移动。”：选该核心后，大招瞬移之后产生的弹幕会朝最近的单位移动，马可波罗自己在大招期间可以正常移动。原文写的是“单位”，没有说明是否包括怪物。原文也没有写：弹幕移动速度、寻找“最近单位”的范围、目标死亡后是否转向、弹幕范围与伤害是否与原大招相同、大招期间能否普攻或释放其他技能、大招持续时间是否改变。",
+      "mechanisms": ["skill-change", "summon", "mobility"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招瞬移后",
+      "slots": [
+        { "key": "barrageMoveSpeed", "what": "弹幕移动速度", "unit": "flat", "claimed": null, "packHint": "该核心下大招弹幕的移动速度" },
+        { "key": "seekRange", "what": "弹幕寻找最近单位的范围", "unit": "meters", "claimed": null, "packHint": "该核心下大招弹幕的索敌半径，以及可追踪的单位类型" },
+        { "key": "barrageRadius", "what": "弹幕作用半径", "unit": "meters", "claimed": null, "packHint": "该核心下大招弹幕的伤害范围，确认是否与原大招相同" },
+        { "key": "barrageDuration", "what": "弹幕持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心下大招持续时间" },
+        { "key": "roundInterval", "what": "每轮弹幕的间隔", "unit": "seconds", "claimed": null, "packHint": "该核心下大招每轮弹幕的间隔或帧数，以及轮数与攻速的关系" },
+        { "key": "roundDamageBase", "what": "每轮弹幕基础伤害", "unit": "flat", "claimed": null, "packHint": "该核心下大招每轮伤害基础值" },
+        { "key": "roundDamageRatio", "what": "每轮弹幕伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "该核心下大招每轮伤害的攻击力等属性加成系数、能否暴击" }
+      ],
+      "ambiguities": [
+        "“最近单位”是否包括怪物未写",
+        "弹幕移动速度和索敌范围未写",
+        "目标死亡后是否转向未写",
+        "弹幕范围与伤害是否与原大招相同未写",
+        "大招期间能否普攻、释放其他技能未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：「Duet!」的弹幕只追英雄，不追怪物"
+      ]
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "Show Time!",
+      "text": "技能期间获得30%免伤，并免疫控制效果，同时范围+50%",
+      "reading": "大招核心。原文写“技能期间获得30%免伤，并免疫控制效果，同时范围+50%”：大招持续期间，马可波罗获得30%免伤并免疫控制，同时大招范围增加50%。原文没有写：“范围+50%”是半径增加还是面积增加、原大招范围多大、免伤对哪些伤害类型生效、与其他免伤如何叠加、“技能期间”是否等于大招持续时间。",
+      "mechanisms": ["damage-reduction", "control-immunity", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招持续期间",
+      "slots": [
+        { "key": "damageReduction", "what": "大招期间免伤比例", "unit": "percent", "claimed": { "value": 30, "quote": "30%免伤" }, "packHint": "该核心的免伤数值，核对描述的30%；需资源包核对" },
+        { "key": "areaIncrease", "what": "大招范围增加比例（半径还是面积原文未写）", "unit": "percent", "claimed": { "value": 50, "quote": "范围+50%" }, "packHint": "该核心的大招范围加成，核对描述的+50%；9月分析结论为实际+80%，需资源包核对" },
+        { "key": "baseRadius", "what": "原大招范围", "unit": "meters", "claimed": null, "packHint": "无尽守御版大招弹幕的基础范围" },
+        { "key": "effectDuration", "what": "免伤与免控持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心免伤和免控 buff 的持续时间，确认是否等于大招持续时间" }
+      ],
+      "ambiguities": [
+        "“范围+50%”是半径还是面积未写",
+        "原大招范围未写",
+        "免伤生效的伤害类型及叠加方式未写",
+        "“技能期间”是否等于大招持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：「Show Time!」实际范围 +80%（描述 +50%）"
+      ]
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "追踪",
+      "text": "主子弹会在一定范围内追踪敌方英雄",
+      "reading": "一技能小天赋。原文写“主子弹会在一定范围内追踪敌方英雄”：“主子弹”在一定范围内会自动追踪敌方英雄。原文没有写：哪些子弹算“主子弹”、“一定范围”多大、追踪对象只写了英雄，无尽守御里的怪物是否被追踪没写。追踪只影响命中，不改变单发伤害。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（主子弹飞行时）",
+      "slots": [
+        { "key": "trackingRange", "what": "追踪生效范围（“一定范围”）", "unit": "meters", "claimed": null, "packHint": "该天赋主子弹的追踪半径，以及可追踪的单位类型" }
+      ],
+      "ambiguities": [
+        "“主子弹”指哪些子弹未写",
+        "“一定范围”未写具体值",
+        "怪物是否会被追踪未写（原文只写敌方英雄）"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：「追踪」学了没有效果"
+      ]
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "回转",
+      "text": "每颗子弹造成伤害时，将回复少量生命值",
+      "reading": "一技能小天赋。原文写“每颗子弹造成伤害时，将回复少量生命值”：每颗子弹造成伤害时，马可波罗回复少量生命值。原文没有写：“少量”是多少、按什么计算（固定值、造成伤害的比例、最大生命比例）、是否只限一技能子弹（按所属栏位推测，但原文没写）还是包括普攻和大招子弹、是否有内置冷却或单次释放的回复上限。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "子弹造成伤害时",
+      "slots": [
+        { "key": "healFlat", "what": "每颗子弹回复的固定生命值", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复的固定数值（“少量”的具体值）" },
+        { "key": "healRatio", "what": "每颗子弹回复量对应的比例（按伤害或最大生命，原文未写）", "unit": "percent", "claimed": null, "packHint": "该天赋回复量的计算方式与比例" },
+        { "key": "healCooldown", "what": "回复的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋回复的触发间隔或上限" }
+      ],
+      "ambiguities": [
+        "“少量”的具体值未写",
+        "回复量计算方式未写",
+        "是否只限一技能子弹未写",
+        "内置冷却或回复上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "远射",
+      "text": "子弹飞行距离+2米",
+      "reading": "一技能小天赋。原文写“子弹飞行距离+2米”：子弹能飞得更远，飞行距离增加2米。原文没有写作用于哪些子弹（按所属一技能栏位推测为一技能子弹，原文没写明），也没有写原本的飞行距离。只影响能否打到更远的目标，不改变单发伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "rangeIncrease", "what": "子弹飞行距离增加量", "unit": "meters", "claimed": { "value": 2, "quote": "+2米" }, "packHint": "该天赋的飞行距离加成，核对描述的+2米；9月分析结论为实际只+1米，需资源包核对" },
+        { "key": "baseRange", "what": "原本的子弹飞行距离", "unit": "meters", "claimed": null, "packHint": "无尽守御版一技能子弹的基础飞行距离" }
+      ],
+      "ambiguities": [
+        "作用于哪些子弹未写",
+        "原本飞行距离未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：「远射」实际只 +1 米（描述 +2 米）"
+      ]
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "抗阻",
+      "text": "技能期间抵抗一次控制，成功后获得护盾",
+      "reading": "一技能小天赋。原文写“技能期间抵抗一次控制，成功后获得护盾”：一技能持续期间可以抵抗一次控制，抵抗成功后获得护盾。原文写“一次”是汉字数字，校验只认阿拉伯数字，所以没有作为 claimed。原文没有写：护盾量、护盾持续时间、每次释放一技能是否重新获得抵抗次数。",
+      "mechanisms": ["control-immunity", "shield"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能持续期间受到控制时",
+      "slots": [
+        { "key": "blockCount", "what": "每次一技能期间可抵抗的控制次数（原文写“一次”，是汉字数字，校验只认阿拉伯数字，所以没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该天赋抵抗控制的次数，核对原文的“一次”" },
+        { "key": "shieldFlat", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾的基础数值" },
+        { "key": "shieldRatio", "what": "护盾加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "该天赋护盾的属性加成系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋护盾的持续时间" }
+      ],
+      "ambiguities": [
+        "护盾量和加成属性未写",
+        "护盾持续时间未写",
+        "每次释放一技能是否重置抵抗次数未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "扩容",
+      "text": "每个档位，子弹数量额外+2",
+      "reading": "一技能小天赋。原文写“每个档位，子弹数量额外+2”：每个“档位”的子弹数量额外增加2颗。原文没有解释“档位”是什么（有几个档位、按什么划分），也没有写原本每档子弹数，以及作用于哪种子弹（按所属一技能栏位推测为一技能子弹，原文没写明）。",
+      "mechanisms": ["area"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "extraBulletsPerTier", "what": "每个档位额外增加的子弹数", "unit": "count", "claimed": { "value": 2, "quote": "子弹数量额外+2" }, "packHint": "该天赋每档额外子弹数，核对描述的+2；需资源包核对" },
+        { "key": "tierCount", "what": "档位数量", "unit": "count", "claimed": null, "packHint": "一技能子弹数量的档位数" },
+        { "key": "tierThreshold", "what": "进入各档位的条件（若按攻速分档则为攻速阈值，原文未写，暂按百分比记录）", "unit": "percent", "claimed": null, "packHint": "各档位的划分条件和阈值" },
+        { "key": "baseBulletsPerTier", "what": "未学该天赋时每个档位的子弹数", "unit": "count", "claimed": null, "packHint": "无尽守御版一技能各档位的基础子弹数" }
+      ],
+      "ambiguities": [
+        "“档位”含义、数量、划分条件未写",
+        "每档原本子弹数未写",
+        "作用于哪种子弹未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：被动的防御破坏实际持续 6 秒（描述 5 秒）；无尽守御里马可波罗是单独改过的版本，子弹数和弹幕轮数都随攻速变化"
+      ]
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "应变",
+      "text": "使用一技能后3秒内，获得70%移速且可穿越地形",
+      "reading": "一技能小天赋。原文写“使用一技能后3秒内，获得70%移速且可穿越地形”：释放一技能后的3秒内，马可波罗获得70%移速，并且可以穿越地形。“获得70%移速”按字面理解为移速提升70%。原文没有写移速是否随时间衰减。只影响走位，不影响伤害。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "使用一技能后",
+      "slots": [
+        { "key": "duration", "what": "移速与穿越地形的持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "3秒内" }, "packHint": "该天赋 buff 的持续时间，核对描述的3秒；需资源包核对" },
+        { "key": "moveSpeedBonus", "what": "移速提升比例", "unit": "percent", "claimed": { "value": 70, "quote": "70%移速" }, "packHint": "该天赋的移速加成，核对描述的70%；9月分析结论为实际+50%，需资源包核对" }
+      ],
+      "ambiguities": [
+        "移速是否随时间衰减未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：「应变」实际移速 +50%（描述 70%）"
+      ]
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "降温",
+      "text": "每次主子弹命中目标，冷却-0.2秒",
+      "reading": "一技能小天赋。原文写“每次主子弹命中目标，冷却-0.2秒”：每次“主子弹”命中目标，冷却减少0.2秒。原文没有写：减少哪个技能的冷却（按所属一技能栏位推测为一技能，原文没写明）、哪些子弹算“主子弹”、一次释放最多减少多少、一颗子弹命中多个目标时是否多次触发。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "主子弹命中目标时",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每次主子弹命中减少的冷却（原文写“-0.2秒”，是减少）", "unit": "seconds", "claimed": { "value": 0.2, "quote": "冷却-0.2秒" }, "packHint": "该天赋每次命中的冷却减少量，核对描述的0.2秒；需资源包核对" },
+        { "key": "maxReductionPerCast", "what": "一次释放最多减少的冷却（若有上限）", "unit": "seconds", "claimed": null, "packHint": "该天赋冷却减少的上限或内置冷却" }
+      ],
+      "ambiguities": [
+        "减少哪个技能的冷却未写",
+        "“主子弹”定义未写",
+        "冷却减少上限未写",
+        "一颗子弹命中多个目标是否多次触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "效能",
+      "text": "技能的持续时间+0.5秒",
+      "reading": "一技能小天赋。原文写“技能的持续时间+0.5秒”：一技能的持续时间增加0.5秒。原文没有写一技能原本持续多久，也没有写多出的时间里是否继续发射子弹、能多射几轮。若一技能在持续期间持续射击，延长时间等于多出射击时间。",
+      "mechanisms": ["other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "durationIncrease", "what": "一技能持续时间增加量", "unit": "seconds", "claimed": { "value": 0.5, "quote": "+0.5秒" }, "packHint": "该天赋对一技能持续时间的加成，核对描述的+0.5秒；需资源包核对" },
+        { "key": "baseDuration", "what": "一技能原本持续时间", "unit": "seconds", "claimed": null, "packHint": "无尽守御版一技能的基础持续时间" },
+        { "key": "fireInterval", "what": "一技能持续期间的发射间隔（用于换算多出的子弹数）", "unit": "seconds", "claimed": null, "packHint": "一技能子弹或每轮的发射间隔帧数" }
+      ],
+      "ambiguities": [
+        "一技能原本持续时间未写",
+        "多出的持续时间里是否继续发射子弹未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "网罗",
+      "text": "被动范围提升，监测到敌方后，被动效果提升",
+      "reading": "二技能栏位小天赋，作用于被动。原文写“被动范围提升，监测到敌方后，被动效果提升”：被动的作用范围变大；被动检测到敌人后，被动效果增强。原文没有写：被动原本范围多大、提升多少（比例还是米数）、“监测到敌方”的条件、“被动效果”具体指什么（其他条目提到被动印记和防御破坏，但本条没说是哪一个）、提升多少、持续多久。",
+      "mechanisms": ["area", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "常驻；被动监测到敌方后",
+      "slots": [
+        { "key": "basePassiveRange", "what": "被动原本范围", "unit": "meters", "claimed": null, "packHint": "无尽守御版被动的作用/检测范围" },
+        { "key": "passiveRangeIncrease", "what": "被动范围提升量（原文未写是比例还是米数，暂按百分比记录）", "unit": "percent", "claimed": null, "packHint": "该天赋对被动范围的加成" },
+        { "key": "passiveEffectIncrease", "what": "监测到敌方后被动效果的提升量（提升的是哪项效果原文未写）", "unit": "percent", "claimed": null, "packHint": "该天赋提升的被动效果项目和数值" },
+        { "key": "boostDuration", "what": "被动效果提升的持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋效果提升的持续时间或结束条件" }
+      ],
+      "ambiguities": [
+        "被动原本范围和提升量未写",
+        "“监测到敌方”的条件未写",
+        "“被动效果”指哪项效果未写",
+        "效果提升量和持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "过热",
+      "text": "施法后5秒内，普通攻击将额外发出1颗子弹",
+      "reading": "二技能小天赋。原文写“施法后5秒内，普通攻击将额外发出1颗子弹”：施法后的5秒内，每次普攻额外多发出1颗子弹。“施法”按所属二技能栏位理解，原文没有明确写是哪个技能。原文没有写：额外子弹的伤害（是否等同普攻）、目标选择（同一目标还是其他目标）、能否暴击、是否叠加被动印记。",
+      "mechanisms": ["buff", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能施法后5秒内普攻时（原文只写“施法后”）",
+      "slots": [
+        { "key": "duration", "what": "效果持续时间", "unit": "seconds", "claimed": { "value": 5, "quote": "5秒内" }, "packHint": "该天赋 buff 持续时间，核对描述的5秒；需资源包核对" },
+        { "key": "extraBulletsPerAttack", "what": "每次普攻额外发出的子弹数", "unit": "count", "claimed": { "value": 1, "quote": "额外发出1颗子弹" }, "packHint": "该天赋每次普攻额外子弹数，核对描述的1颗；需资源包核对" },
+        { "key": "extraBulletDamagePct", "what": "额外子弹伤害相对普攻的比例", "unit": "percent", "claimed": null, "packHint": "额外子弹的伤害系数、伤害类型、能否暴击" },
+        { "key": "passiveStacksPerExtraBullet", "what": "额外子弹命中叠加的被动印记层数", "unit": "count", "claimed": null, "packHint": "额外子弹是否叠加被动印记" }
+      ],
+      "ambiguities": [
+        "“施法”指哪个技能未明确",
+        "额外子弹伤害和目标选择未写",
+        "额外子弹能否暴击、是否叠加被动印记未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "裂变",
+      "text": "普攻将攻击至多三个带有被动印记的目标",
+      "reading": "二技能栏位小天赋。原文写“普攻将攻击至多三个带有被动印记的目标”：普攻可以同时攻击带有被动印记的目标，最多三个。原文写“三个”是汉字数字，校验只认阿拉伯数字，所以没有作为 claimed。原文没有写：主目标是否也要带印记、“三个”是否包含主目标、额外目标的搜索范围、对额外目标是否全额伤害、额外命中是否继续叠加印记。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "普攻时，范围内有带被动印记的目标",
+      "slots": [
+        { "key": "maxTargets", "what": "普攻最多攻击的目标数（原文写“三个”，是汉字数字，校验只认阿拉伯数字，所以没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该天赋普攻的目标上限，核对原文的“三个”" },
+        { "key": "splitRange", "what": "寻找带印记目标的范围", "unit": "meters", "claimed": null, "packHint": "该天赋额外目标的搜索半径" },
+        { "key": "extraTargetDamagePct", "what": "对额外目标造成的伤害比例", "unit": "percent", "claimed": null, "packHint": "该天赋对额外目标的伤害系数" }
+      ],
+      "ambiguities": [
+        "主目标是否需要带印记未写",
+        "“三个”是否包含主目标未写",
+        "额外目标搜索范围未写",
+        "对额外目标是否全额伤害未写",
+        "额外命中是否叠加印记未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "损毁",
+      "text": "受被动防御破坏影响的敌人，其周围生成力场，持续造成伤害",
+      "reading": "二技能栏位小天赋，作用于被动。原文写“受被动防御破坏影响的敌人，其周围生成力场，持续造成伤害”：敌人处于被动的防御破坏状态时，在它周围生成力场，持续造成伤害。原文没有写：力场范围、伤害间隔、每跳伤害与系数、伤害类型、力场是否伤害该敌人自身还是只伤害周围其他敌人、力场持续多久（是否等于防御破坏持续时间）。",
+      "mechanisms": ["summon", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "敌人受被动防御破坏影响期间",
+      "slots": [
+        { "key": "fieldRadius", "what": "力场半径", "unit": "meters", "claimed": null, "packHint": "该天赋力场的伤害范围" },
+        { "key": "tickInterval", "what": "力场伤害间隔", "unit": "seconds", "claimed": null, "packHint": "该天赋力场的伤害频率" },
+        { "key": "tickDamageBase", "what": "每跳基础伤害", "unit": "flat", "claimed": null, "packHint": "该天赋力场每跳伤害基础值和伤害类型" },
+        { "key": "tickDamageRatio", "what": "每跳伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "该天赋力场每跳伤害的攻击力等属性加成系数" },
+        { "key": "fieldDuration", "what": "力场持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋力场持续时间，确认是否等于防御破坏持续时间" }
+      ],
+      "ambiguities": [
+        "力场范围、伤害间隔、伤害数值和类型未写",
+        "力场是否伤害被防御破坏的敌人自身未写",
+        "力场持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：被动的防御破坏实际持续 6 秒（描述 5 秒）；无尽守御里马可波罗是单独改过的版本，子弹数和弹幕轮数都随攻速变化"
+      ]
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "开镜",
+      "text": "普通攻击射程增加至8.75米",
+      "reading": "二技能栏位小天赋。原文写“普通攻击射程增加至8.75米”：普攻射程变为8.75米。原文是“增加至”，8.75米是增加后的射程，不是增加量。原文没有写原本普攻射程。只影响能否打到更远的目标，不改变单发伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "attackRange", "what": "学习后普攻射程（原文“增加至”，是最终值而不是增量）", "unit": "meters", "claimed": { "value": 8.75, "quote": "增加至8.75米" }, "packHint": "该天赋设定的普攻射程，核对描述的8.75米；需资源包核对" },
+        { "key": "baseAttackRange", "what": "原本普攻射程", "unit": "meters", "claimed": null, "packHint": "无尽守御版马可波罗的基础普攻射程" }
+      ],
+      "ambiguities": [
+        "原本普攻射程未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "连闪",
+      "text": "二技能可储存，最多储存2次，但储存时间增加",
+      "reading": "二技能小天赋。原文写“二技能可储存，最多储存2次，但储存时间增加”：二技能变为可储存使用，最多存2次，代价是储存（充能）时间变长。原文没有写：储存时间原本多久、增加多少（秒数还是比例）、两次释放之间的最短间隔。",
+      "mechanisms": ["charges", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "maxCharges", "what": "最多储存次数", "unit": "count", "claimed": { "value": 2, "quote": "最多储存2次" }, "packHint": "该天赋二技能储存上限，核对描述的2次；需资源包核对" },
+        { "key": "chargeTime", "what": "学习后每次储存所需时间", "unit": "seconds", "claimed": null, "packHint": "该天赋下二技能的充能时间" },
+        { "key": "chargeTimeIncrease", "what": "储存时间增加量（原文未写是秒数还是比例，暂按秒记录）", "unit": "seconds", "claimed": null, "packHint": "该天赋对二技能充能时间的增加量" },
+        { "key": "recastInterval", "what": "两次释放之间的最短间隔", "unit": "seconds", "claimed": null, "packHint": "储存状态下二技能的连续释放间隔" }
+      ],
+      "ambiguities": [
+        "储存时间原本多久、增加多少未写",
+        "两次释放最短间隔未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "备弹",
+      "text": "二技能不再消耗能量并回复能量和生命值",
+      "reading": "二技能小天赋。原文写“二技能不再消耗能量并回复能量和生命值”：释放二技能不再消耗能量，并且会回复能量和生命值。原文没有写：二技能原本消耗多少能量、回复多少能量和生命、回复按什么计算。",
+      "mechanisms": ["heal", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "baseEnergyCost", "what": "二技能原本的能量消耗", "unit": "flat", "claimed": null, "packHint": "无尽守御版二技能的能量消耗" },
+        { "key": "energyRestore", "what": "回复的能量", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复的能量" },
+        { "key": "hpRestoreFlat", "what": "回复的生命值（固定值）", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复的生命固定值" },
+        { "key": "hpRestoreRatio", "what": "回复生命对应的比例（按什么属性原文未写）", "unit": "percent", "claimed": null, "packHint": "该天赋生命回复的计算方式与比例" }
+      ],
+      "ambiguities": [
+        "二技能原本能量消耗未写",
+        "回复能量和生命的数值及计算方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "跃迁",
+      "text": "二技能位移后获得0.25秒不可选中",
+      "reading": "二技能小天赋。原文写“二技能位移后获得0.25秒不可选中”：二技能位移结束后，马可波罗有0.25秒不可被选中。原文没有写不可选中期间能否攻击或释放技能、是否同时免疫非指向伤害。",
+      "mechanisms": ["invulnerable"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能位移后",
+      "slots": [
+        { "key": "untargetableDuration", "what": "不可选中持续时间", "unit": "seconds", "claimed": { "value": 0.25, "quote": "0.25秒不可选中" }, "packHint": "该天赋不可选中状态的持续时间，核对描述的0.25秒；需资源包核对" }
+      ],
+      "ambiguities": [
+        "不可选中期间能否攻击、释放技能未写",
+        "是否免疫范围伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "急救",
+      "text": "大招每次命中目标，将为回复少量生命值",
+      "reading": "大招小天赋。原文写“大招每次命中目标，将为回复少量生命值”：大招每次命中目标时回复少量生命值。原文“将为回复”疑似漏字，回复对象没有写明（按字面推测为马可波罗自身）。原文没有写：“少量”是多少、按什么计算、是否有内置冷却或上限。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "大招每次命中目标时",
+      "slots": [
+        { "key": "healPerHit", "what": "每次命中回复的固定生命值", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复的固定数值（“少量”的具体值）" },
+        { "key": "healRatio", "what": "每次命中回复量对应的比例（按伤害或最大生命，原文未写）", "unit": "percent", "claimed": null, "packHint": "该天赋回复量的计算方式与比例" },
+        { "key": "healCooldown", "what": "回复的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋回复的触发间隔或单次大招回复上限" }
+      ],
+      "ambiguities": [
+        "回复对象未写明（原文“将为回复”疑似漏字）",
+        "“少量”的具体值和计算方式未写",
+        "内置冷却或回复上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "缚地",
+      "text": "大招命中目标时，使其移速-70%",
+      "reading": "大招小天赋。原文写“大招命中目标时，使其移速-70%”：大招命中目标时，目标移速降低70%。原文没有写：减速持续多久、是否随时间衰减、多次命中是否刷新、对首领类怪物是否生效。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中目标时",
+      "slots": [
+        { "key": "slowPercent", "what": "目标移速降低比例（原文写“-70%”，是减少）", "unit": "percent", "claimed": { "value": 70, "quote": "移速-70%" }, "packHint": "该天赋减速数值，核对描述的70%；需资源包核对" },
+        { "key": "slowDuration", "what": "减速持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋减速效果的持续时间与刷新规则" }
+      ],
+      "ambiguities": [
+        "减速持续时间未写",
+        "是否衰减、多次命中是否刷新未写",
+        "对首领类怪物是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "炽热",
+      "text": "施法1秒后，进入狂暴模式，射出额外子弹",
+      "reading": "大招小天赋。原文写“施法1秒后，进入狂暴模式，射出额外子弹”：施法1秒后进入“狂暴模式”，期间射出额外子弹。“施法”按所属大招栏位理解，原文没有明确写是哪个技能。原文没有写：狂暴模式持续多久（是否到大招结束）、额外子弹数量或频率、额外子弹伤害与系数、狂暴模式除了额外子弹还有没有其他效果。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招施法1秒后（原文只写“施法”）",
+      "slots": [
+        { "key": "delay", "what": "施法后进入狂暴模式的延迟", "unit": "seconds", "claimed": { "value": 1, "quote": "施法1秒后" }, "packHint": "该天赋进入狂暴模式的延迟，核对描述的1秒；需资源包核对" },
+        { "key": "frenzyDuration", "what": "狂暴模式持续时间", "unit": "seconds", "claimed": null, "packHint": "狂暴模式的持续时间，确认是否到大招结束为止" },
+        { "key": "extraBulletCount", "what": "狂暴模式下额外子弹数量（每轮或总数）", "unit": "count", "claimed": null, "packHint": "狂暴模式额外子弹的数量或发射频率" },
+        { "key": "extraBulletDamageBase", "what": "额外子弹基础伤害", "unit": "flat", "claimed": null, "packHint": "狂暴模式额外子弹伤害基础值" },
+        { "key": "extraBulletDamageRatio", "what": "额外子弹伤害加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "狂暴模式额外子弹的攻击力等属性加成系数、能否暴击" }
+      ],
+      "ambiguities": [
+        "“施法”指哪个技能未明确",
+        "狂暴模式持续时间未写",
+        "额外子弹数量、频率、伤害未写",
+        "狂暴模式的其他效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "升温",
+      "text": "施法时，在原地生成额外的大招弹幕",
+      "reading": "大招小天赋。原文写“施法时，在原地生成额外的大招弹幕”：释放大招时，在原地额外生成一份大招弹幕。从「Duet!」写的“瞬移后”看大招带有瞬移，“原地”可能指瞬移前的位置，本条原文没有明确。原文没有写：额外弹幕数量、范围、持续时间、伤害是否与正常大招弹幕相同、两份弹幕能否同时命中同一目标。",
+      "mechanisms": ["summon", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招施法时",
+      "slots": [
+        { "key": "extraBarrageCount", "what": "额外生成的弹幕数量", "unit": "count", "claimed": null, "packHint": "该天赋额外弹幕的数量" },
+        { "key": "extraBarrageRadius", "what": "额外弹幕范围", "unit": "meters", "claimed": null, "packHint": "该天赋额外弹幕的伤害范围" },
+        { "key": "extraBarrageDuration", "what": "额外弹幕持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋额外弹幕的持续时间或轮数" },
+        { "key": "extraBarrageDamagePct", "what": "额外弹幕伤害相对正常大招弹幕的比例", "unit": "percent", "claimed": null, "packHint": "该天赋额外弹幕的伤害系数，确认是否与正常弹幕相同" }
+      ],
+      "ambiguities": [
+        "“原地”是否指瞬移前的位置未明确",
+        "额外弹幕数量、范围、持续时间未写",
+        "额外弹幕伤害未写",
+        "两份弹幕能否同时命中同一目标未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "连闪",
+      "text": "大招可储存，最多储存2次",
+      "reading": "大招小天赋。原文写“大招可储存，最多储存2次”：大招变为可储存使用，最多存2次。原文没有写：每次储存所需时间（是否等于大招冷却）、两次释放之间的最短间隔、上一次大招未结束时能否再放。",
+      "mechanisms": ["charges"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "maxCharges", "what": "最多储存次数", "unit": "count", "claimed": { "value": 2, "quote": "最多储存2次" }, "packHint": "该天赋大招储存上限，核对描述的2次；需资源包核对" },
+        { "key": "chargeTime", "what": "每次储存所需时间", "unit": "seconds", "claimed": null, "packHint": "该天赋下大招的充能时间" },
+        { "key": "recastInterval", "what": "两次释放之间的最短间隔", "unit": "seconds", "claimed": null, "packHint": "储存状态下大招的连续释放间隔" }
+      ],
+      "ambiguities": [
+        "储存时间未写",
+        "两次释放最短间隔未写",
+        "上一次大招未结束时能否再放未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "效能",
+      "text": "大招持续时间+2.5秒",
+      "reading": "大招小天赋。原文写“大招持续时间+2.5秒”：大招持续时间增加2.5秒。原文没有写大招原本持续多久，也没有写多出的时间能多打几轮弹幕。",
+      "mechanisms": ["other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "durationIncrease", "what": "大招持续时间增加量", "unit": "seconds", "claimed": { "value": 2.5, "quote": "+2.5秒" }, "packHint": "该天赋对大招持续时间的加成，核对描述的+2.5秒；9月分析结论为实际多3秒，需资源包核对" },
+        { "key": "baseDuration", "what": "大招原本持续时间", "unit": "seconds", "claimed": null, "packHint": "无尽守御版大招的基础持续时间" },
+        { "key": "roundInterval", "what": "大招每轮弹幕间隔（用于换算多出的轮数）", "unit": "seconds", "claimed": null, "packHint": "大招每轮弹幕的间隔帧数，以及轮数与攻速的关系" }
+      ],
+      "ambiguities": [
+        "大招原本持续时间未写",
+        "多出的时间换算成几轮弹幕未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": [
+        "9月资源包分析结论，原始条目号未记录，待复核：三技能「效能」实际大招持续时间多 3 秒（描述 +2.5 秒）",
+        "9月资源包分析结论，原始条目号未记录，待复核：被动的防御破坏实际持续 6 秒（描述 5 秒）；无尽守御里马可波罗是单独改过的版本，子弹数和弹幕轮数都随攻速变化"
+      ]
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "造势",
+      "text": "大招范围内的敌方单位输出降低25%",
+      "reading": "大招小天赋。原文写“大招范围内的敌方单位输出降低25%”：处在大招范围内的敌方单位，造成的伤害（输出）降低25%。原文没有写：“输出”是否包括所有伤害类型、离开范围后是否立即失效、对首领类怪物是否生效。效果是削弱敌人，保护马可波罗和队友，不直接改变马可波罗的伤害。",
+      "mechanisms": ["damage-reduction", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "敌方单位处于大招范围内时",
+      "slots": [
+        { "key": "outputReduction", "what": "敌方输出降低比例（原文“降低25%”，是减少）", "unit": "percent", "claimed": { "value": 25, "quote": "输出降低25%" }, "packHint": "该天赋减少敌方输出的数值，核对描述的25%；需资源包核对" },
+        { "key": "lingerDuration", "what": "离开大招范围后效果残留时间（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋 debuff 的持续时间或刷新规则" }
+      ],
+      "ambiguities": [
+        "“输出”包括哪些伤害类型未写",
+        "离开范围后是否立即失效未写",
+        "对首领类怪物是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "返场",
+      "text": "完成英雄击杀或助攻时，冷却-33%",
+      "reading": "大招小天赋。原文写“完成英雄击杀或助攻时，冷却-33%”：击杀英雄或获得助攻时，冷却减少33%。原文没有写：减少哪个技能的冷却（按所属大招栏位推测为大招，原文没写明）、33%是按剩余冷却还是总冷却计算、无尽守御里击杀怪物是否算“英雄击杀”、是否有内置冷却。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "完成英雄击杀或助攻时",
+      "slots": [
+        { "key": "cooldownReductionPct", "what": "冷却减少比例（原文写“-33%”，是减少；按剩余还是总冷却原文未写）", "unit": "percent", "claimed": { "value": 33, "quote": "冷却-33%" }, "packHint": "该天赋冷却减少的比例与计算基准，核对描述的33%；需资源包核对" },
+        { "key": "triggerCooldown", "what": "触发的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发的内置冷却与可触发的击杀类型" }
+      ],
+      "ambiguities": [
+        "减少哪个技能的冷却未写",
+        "33%按剩余冷却还是总冷却未写",
+        "击杀怪物是否计入未写",
+        "内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

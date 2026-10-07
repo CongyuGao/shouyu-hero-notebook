@@ -1,0 +1,808 @@
+{
+  "heroId": "128",
+  "heroName": "曹操",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "凌波微步",
+      "text": "打出强普可朝移动方向位移且攻击距离和宽度将逐段放大",
+      "reading": "核心。打出强化普攻（强普）时，曹操可以朝当前移动方向位移；强普的攻击距离和攻击宽度会一段比一段大。“逐段”说明强普有多段，但原文没写共有几段、每段位移多远、每段距离和宽度放大多少、放大是否有上限，也没写强普的伤害数值本身是否改变。",
+      "mechanisms": ["mobility", "area", "skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "打出强普时",
+      "slots": [
+        { "key": "segmentCount", "what": "强普的段数（原文用“逐段”表示有多段，没写几段）", "unit": "count", "claimed": null, "packHint": "强普的分段数，以及选此核心后段数是否变化" },
+        { "key": "dashDistance", "what": "每段强普附带的位移距离", "unit": "meters", "claimed": null, "packHint": "该核心下强普每段位移距离（游戏内距离单位需换算为米）" },
+        { "key": "baseAttackRange", "what": "第一段强普的攻击距离", "unit": "meters", "claimed": null, "packHint": "强普首段攻击判定区域的长度" },
+        { "key": "baseAttackWidth", "what": "第一段强普的攻击宽度", "unit": "meters", "claimed": null, "packHint": "强普首段攻击判定区域的宽度" },
+        { "key": "rangeGrowthPerSegment", "what": "每段攻击距离的放大幅度（原文没写是按比例还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该核心每段攻击距离的放大数值及计算方式（比例或固定值）" },
+        { "key": "widthGrowthPerSegment", "what": "每段攻击宽度的放大幅度（原文没写是按比例还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该核心每段攻击宽度的放大数值及计算方式（比例或固定值）" },
+        { "key": "growthCap", "what": "放大的上限段数或上限倍数（原文没写是否有上限）", "unit": "count", "claimed": null, "packHint": "放大效果是否封顶、在第几段封顶" },
+        { "key": "segmentInterval", "what": "相邻两段强普之间的衔接间隔", "unit": "seconds", "claimed": null, "packHint": "强普段与段之间的间隔时间或帧数" }
+      ],
+      "ambiguities": [
+        "没写强普共有几段",
+        "没写每段位移距离",
+        "没写每段攻击距离和宽度放大多少、按比例还是固定值、有无上限",
+        "没写放大后攻击伤害数值是否改变、命中目标数是否有上限",
+        "没写站立不动时朝哪个方向位移"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "击沉！",
+      "text": "位移数增长到五段，第三段后的每一次位移距离和范围都会得到提升",
+      "reading": "核心。位移次数增加到五段；第三段之后的每一次位移，位移距离和范围都会提升。“增长到”说明原本段数更少，但原文没写原本几段，也没写这里的“位移”是一技能本身的位移还是强普附带的位移（本条归在一技能组）。“第三段后”是否包含第三段不明确；提升幅度没写，“每一次…都会得到提升”是逐段累加还是统一提升一次也不明确；多出来的段是否各自造成伤害原文没写。",
+      "mechanisms": ["mobility", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（释放位移时）",
+      "slots": [
+        { "key": "segmentCount", "what": "增长后的位移总段数（原文写“五段”，是中文数字，校验器无法作为 claimed，见 unusedNumbers）", "unit": "count", "claimed": null, "packHint": "该核心下位移总段数，核对描述的五段" },
+        { "key": "baseSegmentCount", "what": "未选此核心时的原始位移段数", "unit": "count", "claimed": null, "packHint": "一技能或强普原本的位移段数" },
+        { "key": "boostStartSegment", "what": "从第几段开始提升（原文“第三段后”，中文数字；是否包含第三段不明）", "unit": "count", "claimed": null, "packHint": "提升生效的起始段序号，核对描述的“第三段后”" },
+        { "key": "distanceBoost", "what": "提升后每次位移距离的增加幅度（原文没写数值，也没写是比例还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "第三段后位移距离的加成数值及计算方式，是否逐段累加" },
+        { "key": "areaBoost", "what": "提升后每次位移的范围增加幅度（原文没写数值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "第三段后位移伤害判定范围的加成数值及计算方式，是否逐段累加" },
+        { "key": "segmentDamageBase", "what": "每段位移附带伤害的基础值（原文没写新增段是否造成伤害）", "unit": "flat", "claimed": null, "packHint": "每段位移的伤害基础值，第四、五段是否有伤害、是否与前段相同" },
+        { "key": "segmentDamageRatio", "what": "每段位移附带伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "每段位移伤害的属性加成系数及对应属性" },
+        { "key": "recastWindow", "what": "段与段之间可以继续释放的时间窗口", "unit": "seconds", "claimed": null, "packHint": "多段位移的再次释放时限" }
+      ],
+      "ambiguities": [
+        "没写“位移”指一技能本身的位移还是强普附带的位移",
+        "没写原本有几段",
+        "“第三段后”是否包含第三段",
+        "提升幅度未写；是逐段累加还是统一提升一次未写",
+        "新增的第四、五段是否各自造成伤害未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "五段", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 segmentCount 的说明，待资源包核对" },
+        { "quote": "第三段", "reason": "中文数字，表示提升开始的段序号；已写进参数槽 boostStartSegment 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "炼狱剑气",
+      "text": "二技能命中目标或到达末端时将爆炸",
+      "reading": "核心。二技能命中目标时，或者飞到末端时，会发生爆炸。原文没写爆炸伤害、伤害类型、爆炸范围；没写命中目标爆炸后二技能是否继续飞行，因而一次释放最多爆炸几次（命中时一次、到末端再一次）也不明确。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中目标或到达末端时",
+      "slots": [
+        { "key": "explosionBase", "what": "爆炸伤害基础值", "unit": "flat", "claimed": null, "packHint": "二技能爆炸的伤害基础值" },
+        { "key": "explosionRatio", "what": "爆炸伤害加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "二技能爆炸伤害的属性加成系数及对应属性、伤害类型、能否暴击" },
+        { "key": "explosionRadius", "what": "爆炸半径", "unit": "meters", "claimed": null, "packHint": "二技能爆炸的作用范围" },
+        { "key": "maxExplosionsPerCast", "what": "一次二技能最多爆炸次数", "unit": "count", "claimed": null, "packHint": "命中目标后二技能是否消失或继续飞行，一次释放能爆炸几次" },
+        { "key": "maxTargets", "what": "单次爆炸命中目标数上限（原文没写是否有上限）", "unit": "count", "claimed": null, "packHint": "爆炸是否有命中目标数上限" }
+      ],
+      "ambiguities": [
+        "爆炸伤害、伤害类型、能否暴击未写",
+        "爆炸范围未写",
+        "命中目标后二技能是否继续飞行、能否命中目标后再在末端爆炸一次未写",
+        "“目标”是否包括非英雄单位未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "天下归心",
+      "text": "二技能使用后随机获得一个部下的能力来提升自己的普攻能力，大招时获得两",
+      "reading": "核心。使用二技能后，随机获得一位部下的能力，用来强化曹操的普攻。原文在“大招时获得两”处截断，可能是指大招期间一次获得两个部下的能力，但后文缺失，需要确认。原文没写有哪些部下、每种能力强化什么、强化多少、持续多久（定时还是到下次释放二技能为止），也没写随机的概率和能否重复。",
+      "mechanisms": ["buff", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "二技能使用后；大招期间另有效果",
+      "slots": [
+        { "key": "abilityPoolSize", "what": "可随机到的部下能力种类数", "unit": "count", "claimed": null, "packHint": "部下能力池的种类和数量" },
+        { "key": "abilityChance", "what": "每种部下能力被抽中的概率", "unit": "percent", "claimed": null, "packHint": "部下能力的随机权重，是否可以重复抽到" },
+        { "key": "abilitiesPerCast", "what": "每次二技能获得的能力数量（原文“一个”，中文数字）", "unit": "count", "claimed": null, "packHint": "每次使用二技能获得的部下能力数量，核对描述的一个" },
+        { "key": "abilitiesDuringUlt", "what": "大招期间获得的能力数量（原文截断为“获得两”）", "unit": "count", "claimed": null, "packHint": "大招期间获得部下能力的数量与方式，补全被截断的原文" },
+        { "key": "abilityDuration", "what": "部下能力的持续时间（原文没写是定时还是持续到下次二技能）", "unit": "seconds", "claimed": null, "packHint": "部下能力 buff 的持续时间或结束条件" },
+        { "key": "abilityEffectValue", "what": "部下能力对普攻的提升数值（每种能力需要各自一组参数，种类和数值原文都没写）", "unit": "flat", "claimed": null, "packHint": "每个部下能力的具体效果及数值（伤害、范围、附加效果等）" }
+      ],
+      "ambiguities": [
+        "原文截断于“大招时获得两”，后文缺失",
+        "有哪些部下、各自的能力是什么未写",
+        "能力对普攻提升多少未写",
+        "能力持续时间或结束条件未写",
+        "随机方式、能否重复抽到同一能力未写",
+        "“普攻能力”是否也作用于强普未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "技能编号，不是参数" },
+        { "quote": "一个部下", "reason": "中文数字，校验器无法作为 claimed；已写进参数槽 abilitiesPerCast 的说明，待资源包核对" },
+        { "quote": "获得两", "reason": "中文数字且原文在此截断；已写进参数槽 abilitiesDuringUlt 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "乱世奸雄",
+      "text": "大招期间每2.5秒额外抽取一次血量，命中英雄时可额外获得攻击力和物穿",
+      "reading": "核心。大招期间每2.5秒额外进行一次抽取血量；抽取命中英雄时，曹操额外获得攻击力和物理穿透。“额外”说明大招本身也会抽取血量，但原文没写原本的抽取频率。原文没写每次抽取多少血量、按什么计算、抽到的血量是否回复给曹操、抽取范围和目标数，也没写攻击力和物穿加成的数值、持续时间、能否叠加。",
+      "mechanisms": ["proc", "heal", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "大招期间每2.5秒；抽取命中英雄时",
+      "slots": [
+        { "key": "drawInterval", "what": "额外抽取血量的间隔", "unit": "seconds", "claimed": { "value": 2.5, "quote": "每2.5秒额外抽取一次血量" }, "packHint": "额外抽取的触发间隔，核对描述的2.5秒（描述值不可靠，需资源包核对）" },
+        { "key": "drawDamageBase", "what": "每次抽取对敌人造成的血量损失基础值", "unit": "flat", "claimed": null, "packHint": "抽取血量的伤害基础值、伤害类型" },
+        { "key": "drawDamageRatio", "what": "每次抽取伤害的加成系数（原文没写按什么属性或按目标生命计算）", "unit": "ratio", "claimed": null, "packHint": "抽取血量的加成属性和系数，是否按目标生命百分比计算" },
+        { "key": "drawHeal", "what": "每次抽取为曹操回复的生命（原文没写是否回复）", "unit": "flat", "claimed": null, "packHint": "抽取血量对自身的回复量及计算方式" },
+        { "key": "drawRadius", "what": "抽取的作用范围", "unit": "meters", "claimed": null, "packHint": "额外抽取的作用范围（是否等于大招范围）" },
+        { "key": "drawMaxTargets", "what": "每次抽取的目标数上限", "unit": "count", "claimed": null, "packHint": "每次抽取能作用的敌人数量" },
+        { "key": "atkBonus", "what": "抽取命中英雄后获得的攻击力加成", "unit": "flat", "claimed": null, "packHint": "命中英雄后获得的攻击力数值（固定值或百分比）" },
+        { "key": "physPenBonus", "what": "抽取命中英雄后获得的物理穿透（原文没写是固定值还是百分比，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "命中英雄后获得的物穿数值及类型（固定值或百分比）" },
+        { "key": "buffDuration", "what": "攻击力和物穿加成的持续时间", "unit": "seconds", "claimed": null, "packHint": "攻击力与物穿 buff 的持续时间（是否持续到大招结束）" },
+        { "key": "buffMaxStacks", "what": "攻击力和物穿加成的层数上限（原文没写能否叠加）", "unit": "count", "claimed": null, "packHint": "攻击力与物穿 buff 能否叠加、最多几层" }
+      ],
+      "ambiguities": [
+        "大招本身的抽取频率未写",
+        "每次抽取的血量、计算方式、是否对敌人造成伤害、是否回复自身未写",
+        "抽取范围和目标数未写",
+        "攻击力和物穿加成数值未写，物穿是固定值还是百分比未写",
+        "加成持续时间、能否叠加未写",
+        "“命中英雄时”是指额外抽取命中英雄，还是任何抽取命中英雄都给加成，不明确"
+      ],
+      "unusedNumbers": [
+        { "quote": "一次", "reason": "中文数字，表示每个间隔额外抽取一次，含义已体现在参数槽 drawInterval 中" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "霸道的力量",
+      "text": "大招强化期间至多可对三名敌人同时发射剑气",
+      "reading": "核心。大招强化期间，曹操发射剑气时最多可以同时对三名敌人发射。原文没写原本是否只打一个目标、多个目标时每道剑气伤害是否相同、选取目标的范围和优先规则。",
+      "mechanisms": ["area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "大招强化期间发射剑气时",
+      "slots": [
+        { "key": "maxTargets", "what": "同时发射剑气的目标数上限（原文“三名”，中文数字，见 unusedNumbers）", "unit": "count", "claimed": null, "packHint": "大招强化期间剑气的目标数上限，核对描述的三名" },
+        { "key": "perTargetDamageRatio", "what": "多目标时每道剑气相对单目标剑气的伤害比例（原文没写是否衰减）", "unit": "ratio", "claimed": null, "packHint": "多目标剑气每道的伤害是否有衰减系数" },
+        { "key": "targetingRange", "what": "选取剑气目标的范围", "unit": "meters", "claimed": null, "packHint": "大招强化期间剑气的索敌范围" },
+        { "key": "swordQiBase", "what": "大招强化期间剑气的伤害基础值（属于强化剑气本体数据）", "unit": "flat", "claimed": null, "packHint": "大招强化期间强普剑气的伤害基础值、伤害类型" },
+        { "key": "swordQiRatio", "what": "大招强化期间剑气的伤害加成系数（属于强化剑气本体数据）", "unit": "ratio", "claimed": null, "packHint": "大招强化期间强普剑气的属性加成系数及对应属性" }
+      ],
+      "ambiguities": [
+        "原本是否只对一个目标发射剑气未写",
+        "多目标时每道剑气伤害是否相同未写",
+        "选取目标的范围和优先规则未写",
+        "敌人少于三名时是否会向同一目标发射多道未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "三名", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 maxTargets 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "宁负天下人",
+      "text": "强普剑气命中恢复翻倍",
+      "reading": "强普的剑气命中后获得的恢复效果翻倍。说明强普剑气命中本来就有恢复，但原文没写原本恢复多少、按什么计算（固定值、最大生命百分比或伤害百分比），也没写命中多个目标时是否每个目标都恢复。“翻倍”字面是变为原来的两倍，原文没有阿拉伯数字。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "强普剑气命中后",
+      "slots": [
+        { "key": "baseHeal", "what": "强普剑气命中时原本的恢复量（原文没写计算方式）", "unit": "flat", "claimed": null, "packHint": "强普剑气命中恢复的基础数值及计算方式" },
+        { "key": "healMultiplier", "what": "恢复倍率（原文“翻倍”，字面为两倍，无阿拉伯数字）", "unit": "ratio", "claimed": null, "packHint": "该天赋对强普剑气恢复的倍率，核对“翻倍”是否为2倍、与其他治疗加成如何叠算" },
+        { "key": "healTargetsCap", "what": "一次强普剑气命中多个目标时计算恢复的目标数上限", "unit": "count", "claimed": null, "packHint": "强普剑气恢复是否按命中目标数逐个计算、有无上限" }
+      ],
+      "ambiguities": [
+        "原本恢复量和计算方式未写",
+        "“翻倍”与其他治疗加成是相乘还是相加未写",
+        "命中多个目标时是否每个目标都恢复未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "青釭剑",
+      "text": "强普剑气获得60%暴击概率",
+      "reading": "强普的剑气获得60%暴击概率。原文没写这60%是在自身暴击率之上额外增加，还是把强普剑气的暴击率直接定为60%；也没写暴击时的暴击伤害是否沿用自身暴击效果。",
+      "mechanisms": ["crit"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（强普剑气）",
+      "slots": [
+        { "key": "critChance", "what": "强普剑气获得的暴击概率", "unit": "percent", "claimed": { "value": 60, "quote": "60%暴击概率" }, "packHint": "强普剑气的暴击率加成，核对描述的60%，并确认是叠加在自身暴击率上还是直接设定（描述值不可靠，需资源包核对）" },
+        { "key": "critDamage", "what": "强普剑气暴击时的暴击伤害（原文没写是否沿用自身暴击效果）", "unit": "percent", "claimed": null, "packHint": "强普剑气暴击伤害的计算方式" }
+      ],
+      "ambiguities": [
+        "60%是额外增加还是直接设定未写",
+        "与自身暴击率相加后是否受100%上限截断未写",
+        "暴击伤害是否沿用自身暴击效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "唯快不破",
+      "text": "被动获取的攻速翻0.5倍",
+      "reading": "被动获得的攻速加成翻0.5倍。原文没写被动本身给多少攻速、怎样获得（常驻还是触发、能否叠层）。“翻0.5倍”字面可以理解为在原有基础上再增加0.5倍（即变为1.5倍），也可能理解为乘以0.5，需要核对。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "被动获得攻速时",
+      "slots": [
+        { "key": "passiveAttackSpeed", "what": "被动原本提供的攻速加成", "unit": "percent", "claimed": null, "packHint": "曹操被动提供的攻速数值（每层或总计）" },
+        { "key": "multiplier", "what": "被动攻速的放大倍数（原文“翻0.5倍”，可能是额外增加0.5倍即1.5倍，也可能是乘以0.5）", "unit": "ratio", "claimed": { "value": 0.5, "quote": "翻0.5倍" }, "packHint": "该天赋对被动攻速的倍率，核对描述的0.5倍及其含义（描述值不可靠，需资源包核对）" },
+        { "key": "passiveDuration", "what": "被动攻速的持续时间（原文没写被动是常驻还是触发）", "unit": "seconds", "claimed": null, "packHint": "被动攻速 buff 的持续时间与触发条件" },
+        { "key": "attackSpeedCap", "what": "攻速上限（原文没写放大后是否受上限限制）", "unit": "percent", "claimed": null, "packHint": "该模式下攻速上限" }
+      ],
+      "ambiguities": [
+        "被动本身的攻速数值和获得方式未写",
+        "“翻0.5倍”是变为1.5倍还是乘以0.5不明确",
+        "是否受攻速上限限制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "一剑寒三洲",
+      "text": "下砸时的一技能将打出五道剑芒",
+      "reading": "一技能在下砸时会打出五道剑芒。原文没写“下砸”是一技能的哪一段，没写每道剑芒的伤害、方向和距离，也没写剑芒是附加在原有下砸伤害之上还是替代它、同一目标能否被多道剑芒命中。",
+      "mechanisms": ["proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "一技能下砸时",
+      "slots": [
+        { "key": "bladeCount", "what": "剑芒数量（原文“五道”，中文数字，见 unusedNumbers）", "unit": "count", "claimed": null, "packHint": "下砸时打出的剑芒数量，核对描述的五道" },
+        { "key": "bladeBase", "what": "每道剑芒的伤害基础值", "unit": "flat", "claimed": null, "packHint": "剑芒伤害基础值、伤害类型、能否暴击" },
+        { "key": "bladeRatio", "what": "每道剑芒的伤害加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "剑芒伤害的属性加成系数及对应属性" },
+        { "key": "bladeRange", "what": "剑芒飞行距离", "unit": "meters", "claimed": null, "packHint": "剑芒的飞行距离或作用范围" },
+        { "key": "bladeSpreadAngle", "what": "五道剑芒的分布角度（单位为度，属于无单位数值，按 flat 建槽）", "unit": "flat", "claimed": null, "packHint": "剑芒发射方向与夹角" },
+        { "key": "maxHitsPerTarget", "what": "同一目标最多被几道剑芒命中", "unit": "count", "claimed": null, "packHint": "剑芒对同一目标的命中次数限制" }
+      ],
+      "ambiguities": [
+        "“下砸”是一技能哪一段未写",
+        "剑芒伤害、方向、距离未写",
+        "剑芒是附加还是替代原有下砸伤害未写",
+        "同一目标能否被多道剑芒命中未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一技能", "reason": "技能编号，不是参数" },
+        { "quote": "五道", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 bladeCount 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "志在千里",
+      "text": "一技能可朝落点附近敌人发射剑气，每次释放都会让下次多发射一道剑气",
+      "reading": "一技能释放后，可以向落点附近的敌人发射剑气；每释放一次，下次发射的剑气就多一道。原文没写第一次发射几道、剑气数量上限、多久不释放会重置，也没写“每次释放”指一技能的每一段还是每完整释放一次，以及剑气伤害和索敌范围。",
+      "mechanisms": ["proc", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "一技能释放后（落点附近有敌人）",
+      "slots": [
+        { "key": "initialCount", "what": "第一次释放时发射的剑气数量", "unit": "count", "claimed": null, "packHint": "该天赋初始剑气数量" },
+        { "key": "incrementPerCast", "what": "每次释放后下次增加的剑气数量（原文“多发射一道”，中文数字）", "unit": "count", "claimed": null, "packHint": "每次释放增加的剑气数，核对描述的一道" },
+        { "key": "maxCount", "what": "剑气数量上限", "unit": "count", "claimed": null, "packHint": "累计剑气数量的上限" },
+        { "key": "resetTime", "what": "多久不释放一技能后剑气数量重置", "unit": "seconds", "claimed": null, "packHint": "剑气数量累计的保留时间或重置条件（是否在死亡或波次结束时重置）" },
+        { "key": "searchRadius", "what": "落点附近索敌范围", "unit": "meters", "claimed": null, "packHint": "以落点为中心的剑气索敌半径" },
+        { "key": "swordQiBase", "what": "每道剑气的伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋剑气的伤害基础值、伤害类型、能否暴击" },
+        { "key": "swordQiRatio", "what": "每道剑气的伤害加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "该天赋剑气的属性加成系数及对应属性" }
+      ],
+      "ambiguities": [
+        "第一次发射几道未写",
+        "剑气数量上限未写",
+        "重置条件未写",
+        "“每次释放”是每段还是每完整释放一次未写",
+        "剑气伤害、索敌范围、多道剑气能否命中同一目标未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一技能", "reason": "技能编号，不是参数" },
+        { "quote": "一道", "reason": "中文数字，校验器无法作为 claimed；已写进参数槽 incrementPerCast 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "超长位移！",
+      "text": "位移距离增加50且位移之间的衔接速度加快",
+      "reading": "位移距离增加50，并且相邻两次位移之间的衔接速度加快。原文“50”没有单位（没写%也没写米），可能是游戏内距离单位，也可能是漏写了%；没写这里的位移指一技能本身的位移还是强普附带的位移（本条归在一技能组），也没写衔接加快多少。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（位移时）",
+      "slots": [
+        { "key": "dashDistanceIncrease", "what": "位移距离增加量（原文“增加50”没写单位，按原文记为无单位的 flat 值；可能是游戏内距离单位，也可能漏写了%）", "unit": "flat", "claimed": { "value": 50, "quote": "位移距离增加50" }, "packHint": "位移距离加成的数值和单位，核对描述的50（描述值不可靠，需资源包核对）" },
+        { "key": "baseDashDistance", "what": "原本的位移距离", "unit": "meters", "claimed": null, "packHint": "一技能或强普原本每段位移距离，用于换算增加量" },
+        { "key": "chainSpeedUp", "what": "位移之间衔接加快的幅度（原文没写数值，也没写是缩短间隔还是加快动作，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "位移衔接间隔或动作速度的变化数值" }
+      ],
+      "ambiguities": [
+        "“50”的单位未写",
+        "“位移”指一技能还是强普附带位移未写",
+        "衔接速度加快多少、是缩短间隔还是加快动作未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "以一敌百",
+      "text": "使用一技能后获得强普的层数翻倍",
+      "reading": "使用一技能后获得的强普层数翻倍。说明一技能本来就会给强普层数，但原文没写原本给几层、层数上限是否也翻倍、层数能保留多久。“翻倍”字面是变为原来的两倍，原文没有阿拉伯数字。",
+      "mechanisms": ["stacking", "charges"],
+      "damageRelevance": "direct",
+      "trigger": "使用一技能后",
+      "slots": [
+        { "key": "baseStacks", "what": "一技能原本给予的强普层数", "unit": "count", "claimed": null, "packHint": "使用一技能获得的强普层数" },
+        { "key": "stackMultiplier", "what": "层数倍率（原文“翻倍”，字面为两倍，无阿拉伯数字）", "unit": "ratio", "claimed": null, "packHint": "该天赋对强普层数的倍率，核对“翻倍”是否为2倍" },
+        { "key": "maxStacks", "what": "强普层数上限（原文没写上限是否也翻倍）", "unit": "count", "claimed": null, "packHint": "强普层数上限，以及选此天赋后是否变化" },
+        { "key": "stackDuration", "what": "强普层数的保留时间", "unit": "seconds", "claimed": null, "packHint": "强普层数的持续时间" }
+      ],
+      "ambiguities": [
+        "原本获得几层未写",
+        "层数上限是否也翻倍未写",
+        "层数持续时间未写",
+        "“使用一技能后”是每段都给还是整个技能给一次未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一技能", "reason": "技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "王权霸业",
+      "text": "释放强普可以抵抗一次控制，成功后获得护盾",
+      "reading": "释放强普时可以抵抗一次控制；成功抵抗后获得护盾。原文没写抵抗效果在强普释放后保留多久、是否有冷却，也没写护盾数值、加成属性和持续时间。",
+      "mechanisms": ["control-immunity", "shield"],
+      "damageRelevance": "indirect",
+      "trigger": "释放强普时；成功抵抗控制后",
+      "slots": [
+        { "key": "blocksPerCast", "what": "每次释放强普可抵抗的控制次数（原文“一次”，中文数字）", "unit": "count", "claimed": null, "packHint": "抵抗控制次数，核对描述的一次" },
+        { "key": "blockWindow", "what": "抵抗效果的持续时间", "unit": "seconds", "claimed": null, "packHint": "释放强普后抵抗控制状态保留多久" },
+        { "key": "blockCooldown", "what": "抵抗效果的冷却或内置冷却", "unit": "seconds", "claimed": null, "packHint": "抵抗控制是否有内置冷却" },
+        { "key": "shieldBase", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "抵抗成功后护盾的基础数值" },
+        { "key": "shieldRatio", "what": "护盾加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "护盾的属性加成系数及对应属性" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间" }
+      ],
+      "ambiguities": [
+        "抵抗效果保留时间、冷却未写",
+        "护盾数值、加成属性、持续时间未写",
+        "护盾能否叠加未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一次", "reason": "中文数字，校验器无法作为 claimed；已写进参数槽 blocksPerCast 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "相得益彰",
+      "text": "二技能每命中一个单位减少一三技能10%冷却",
+      "reading": "二技能每命中一个单位，一技能和三技能的冷却各减少10%。原文没写10%是按总冷却还是剩余冷却计算，没写一次二技能命中多个单位时是否有上限，也没写“单位”是否包括非英雄目标（原文用“单位”而不是“英雄”）。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中单位时",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每命中一个单位减少的一、三技能冷却比例", "unit": "percent", "claimed": { "value": 10, "quote": "减少一三技能10%冷却" }, "packHint": "每命中一个单位的冷却减少比例，核对描述的10%，并确认按总冷却还是剩余冷却计算（描述值不可靠，需资源包核对）" },
+        { "key": "maxCountedHits", "what": "一次二技能计入的命中单位数上限", "unit": "count", "claimed": null, "packHint": "单次二技能触发冷却减少的次数上限" }
+      ],
+      "ambiguities": [
+        "10%按总冷却还是剩余冷却计算未写",
+        "单次二技能命中单位数上限未写",
+        "“单位”是否包括非英雄目标未写",
+        "二技能爆炸（核心炼狱剑气）命中是否也计入未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "技能编号，不是参数" },
+        { "quote": "一个单位", "reason": "表示按命中单位逐个计算，不是独立参数" },
+        { "quote": "一三技能", "reason": "技能编号（一技能和三技能），不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "明明如月",
+      "text": "二技能飞行速度和距离提升50%",
+      "reading": "二技能的飞行速度和飞行距离都提升50%。原文没写原本的速度和距离，也没写50%是相对原值的比例提升还是其他计算方式。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "speedIncrease", "what": "二技能飞行速度提升比例", "unit": "percent", "claimed": { "value": 50, "quote": "二技能飞行速度和距离提升50%" }, "packHint": "二技能飞行速度加成，核对描述的50%（描述值不可靠，需资源包核对）" },
+        { "key": "rangeIncrease", "what": "二技能飞行距离提升比例", "unit": "percent", "claimed": { "value": 50, "quote": "二技能飞行速度和距离提升50%" }, "packHint": "二技能飞行距离加成，核对描述的50%（描述值不可靠，需资源包核对）" },
+        { "key": "baseSpeed", "what": "二技能原本的飞行速度（游戏内速度单位，按 flat 建槽）", "unit": "flat", "claimed": null, "packHint": "二技能弹道原本飞行速度" },
+        { "key": "baseRange", "what": "二技能原本的飞行距离", "unit": "meters", "claimed": null, "packHint": "二技能弹道原本飞行距离" }
+      ],
+      "ambiguities": [
+        "原本的速度和距离未写",
+        "速度和距离是否都各提升50%（原文合并写法）需核对"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "顺手牵羊",
+      "text": "二技能每命中一个敌人可以额外获得一层能量",
+      "reading": "二技能每命中一个敌人，额外获得一层能量。“额外”说明二技能原本可能也给能量，但原文没写；没写能量用来做什么、能量上限多少，也没写一次二技能命中多个敌人时是否有上限。",
+      "mechanisms": ["stacking", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中敌人时",
+      "slots": [
+        { "key": "energyPerHit", "what": "每命中一个敌人获得的能量层数（原文“一层”，中文数字）", "unit": "count", "claimed": null, "packHint": "每命中一个敌人获得的能量，核对描述的一层" },
+        { "key": "energyCap", "what": "能量上限", "unit": "count", "claimed": null, "packHint": "曹操能量的上限与用途" },
+        { "key": "maxCountedHits", "what": "一次二技能计入的命中敌人数上限", "unit": "count", "claimed": null, "packHint": "单次二技能获得能量的次数上限" }
+      ],
+      "ambiguities": [
+        "能量用途未写",
+        "能量上限未写",
+        "二技能原本是否给能量未写",
+        "单次命中敌人数上限未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "技能编号，不是参数" },
+        { "quote": "一个敌人", "reason": "表示按命中敌人逐个计算，不是独立参数" },
+        { "quote": "一层", "reason": "中文数字，校验器无法作为 claimed；已写进参数槽 energyPerHit 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "声东击西",
+      "text": "一技能到达目标点后，将再次攻击附近血量最少的单位一次",
+      "reading": "原文写“一技能到达目标点后”，会再攻击一次附近血量最少的单位。本条在原图里归在二技能组，二技能也有“到达末端”的写法（见核心炼狱剑气），所以“一技能”可能是二技能的笔误，需要确认。原文没写追加攻击的伤害、搜索范围、伤害类型，也没写“血量最少”按当前血量还是血量百分比，以及是否限定英雄。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "技能到达目标点后（原文写一技能，本条归在二技能组）",
+      "slots": [
+        { "key": "extraHitBase", "what": "追加攻击的伤害基础值", "unit": "flat", "claimed": null, "packHint": "追加攻击的伤害基础值、伤害类型、能否暴击" },
+        { "key": "extraHitRatio", "what": "追加攻击的伤害加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "追加攻击的属性加成系数及对应属性" },
+        { "key": "searchRadius", "what": "目标点附近的搜索范围", "unit": "meters", "claimed": null, "packHint": "追加攻击的索敌半径" },
+        { "key": "extraHitCount", "what": "追加攻击次数（原文“一次”，中文数字）", "unit": "count", "claimed": null, "packHint": "到达目标点后追加攻击的次数，核对描述的一次" }
+      ],
+      "ambiguities": [
+        "原文写一技能但本条归在二技能组，触发技能需确认",
+        "追加攻击伤害、伤害类型未写",
+        "搜索范围未写",
+        "“血量最少”按当前血量还是百分比未写",
+        "“单位”是否包括非英雄目标未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一技能", "reason": "技能编号（本条归在二技能组，可能为笔误），不是参数" },
+        { "quote": "单位一次", "reason": "中文数字，校验器无法作为 claimed；已写进参数槽 extraHitCount 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "倚天斩",
+      "text": "强普的最后一击将打击整个前方扇形区域且必定暴击",
+      "reading": "强普的最后一击会打击前方整个扇形区域，并且必定暴击。原文没写扇形半径和角度、“最后一击”是第几段，也没写必定暴击时暴击伤害怎么计算。本条归在二技能组，但描述的是强普。",
+      "mechanisms": ["area", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "强普最后一击",
+      "slots": [
+        { "key": "sectorRadius", "what": "扇形区域半径", "unit": "meters", "claimed": null, "packHint": "强普最后一击扇形判定的半径" },
+        { "key": "sectorAngle", "what": "扇形区域角度（单位为度，属于无单位数值，按 flat 建槽）", "unit": "flat", "claimed": null, "packHint": "强普最后一击扇形判定的角度" },
+        { "key": "lastHitBase", "what": "强普最后一击的伤害基础值（属于强普本体数据）", "unit": "flat", "claimed": null, "packHint": "强普最后一击的伤害基础值、伤害类型" },
+        { "key": "lastHitRatio", "what": "强普最后一击的伤害加成系数（属于强普本体数据）", "unit": "ratio", "claimed": null, "packHint": "强普最后一击的属性加成系数及对应属性" },
+        { "key": "critDamage", "what": "必定暴击时的暴击伤害（原文没写是否沿用自身暴击效果）", "unit": "percent", "claimed": null, "packHint": "强普最后一击暴击伤害的计算方式" }
+      ],
+      "ambiguities": [
+        "扇形半径和角度未写",
+        "“最后一击”是第几段未写（段数可能受核心影响）",
+        "暴击伤害计算方式未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "最后一击", "reason": "“一击”指一次攻击，表示强普的最后一段，不是数值参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "云长公",
+      "text": "强普最后一击关羽将协助攻击",
+      "reading": "强普最后一击时，关羽会协助攻击。原文没写关羽攻击的伤害、次数、范围、伤害类型，也没写关羽的伤害按谁的属性计算、能否暴击、出现有无延迟。本条归在二技能组，但描述的是强普。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "强普最后一击",
+      "slots": [
+        { "key": "guanyuBase", "what": "关羽协助攻击的伤害基础值", "unit": "flat", "claimed": null, "packHint": "关羽协助攻击的伤害基础值、伤害类型、能否暴击" },
+        { "key": "guanyuRatio", "what": "关羽协助攻击的伤害加成系数（原文没写按曹操还是其他属性计算）", "unit": "ratio", "claimed": null, "packHint": "关羽协助攻击的属性加成系数及对应属性" },
+        { "key": "guanyuHitCount", "what": "关羽每次协助的攻击次数", "unit": "count", "claimed": null, "packHint": "关羽单次协助的伤害段数" },
+        { "key": "guanyuRadius", "what": "关羽攻击的作用范围", "unit": "meters", "claimed": null, "packHint": "关羽攻击的判定范围" },
+        { "key": "guanyuDelay", "what": "关羽出现到造成伤害的延迟", "unit": "seconds", "claimed": null, "packHint": "关羽协助攻击的伤害帧或延迟" }
+      ],
+      "ambiguities": [
+        "关羽攻击伤害、次数、范围、伤害类型未写",
+        "伤害按谁的属性计算、能否暴击未写",
+        "有无冷却或延迟未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "最后一击", "reason": "“一击”指一次攻击，表示强普的最后一段，不是数值参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "望梅止渴",
+      "text": "使用二技能后获得60%爆发移速，保持移动可增加自身攻击力",
+      "reading": "使用二技能后获得60%的爆发移速；保持移动时可以增加自身攻击力。原文没写爆发移速持续多久、是否衰减，也没写攻击力按移动距离还是移动时间增加、每次增加多少、上限多少、停止移动后是否消失。",
+      "mechanisms": ["mobility", "buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "使用二技能后；保持移动时",
+      "slots": [
+        { "key": "moveSpeedBurst", "what": "爆发移速加成", "unit": "percent", "claimed": { "value": 60, "quote": "60%爆发移速" }, "packHint": "二技能后爆发移速数值，核对描述的60%（描述值不可靠，需资源包核对）" },
+        { "key": "moveSpeedDuration", "what": "爆发移速持续时间（原文没写是否衰减）", "unit": "seconds", "claimed": null, "packHint": "爆发移速的持续时间与衰减方式" },
+        { "key": "atkGainRate", "what": "保持移动时攻击力的增加量（按距离还是按时间原文没写）", "unit": "flat", "claimed": null, "packHint": "移动增加攻击力的计算方式与每单位增加量" },
+        { "key": "atkGainCap", "what": "移动增加攻击力的上限", "unit": "flat", "claimed": null, "packHint": "移动叠加攻击力的上限" },
+        { "key": "atkBuffDuration", "what": "攻击力加成的持续时间（原文没写停止移动后是否消失）", "unit": "seconds", "claimed": null, "packHint": "攻击力加成的持续时间与清除条件" }
+      ],
+      "ambiguities": [
+        "爆发移速持续时间和衰减方式未写",
+        "攻击力按距离还是时间增加、每次多少、上限未写",
+        "攻击力是固定值还是百分比未写",
+        "“保持移动”是否仅限二技能后的一段时间内未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "左右开弓",
+      "text": "使用二技能时不再会打断强化普攻",
+      "reading": "释放二技能时不再打断正在进行的强化普攻。说明原本释放二技能会打断强普。这是纯功能性改动，本身不带数值；它让二技能可以穿插在强普过程中释放，影响连招节奏。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "强普期间释放二技能时",
+      "slots": [],
+      "ambiguities": [
+        "原本被打断时强普会损失什么（剩余段数或层数）未写",
+        "二技能施法期间强普是同时进行还是暂停后接续未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "乘胜追击",
+      "text": "抽取敌方英雄时会拉进敌人",
+      "reading": "抽取敌方英雄时会把敌人拉近（原文写“拉进”）。本条归在大招组，“抽取”应指大招期间的抽取血量。只对敌方英雄生效；原文没写拉动距离、拉动方向（拉向曹操还是大招中心）、是否附带控制时间、是否有冷却。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "抽取敌方英雄时",
+      "slots": [
+        { "key": "pullDistance", "what": "拉动距离", "unit": "meters", "claimed": null, "packHint": "抽取英雄时的拉动距离或拉向的位置" },
+        { "key": "pullDuration", "what": "拉动过程或附带控制的持续时间", "unit": "seconds", "claimed": null, "packHint": "拉动位移的时长，是否附带控制" },
+        { "key": "pullCooldown", "what": "对同一英雄触发拉动的冷却", "unit": "seconds", "claimed": null, "packHint": "拉动效果是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "拉动距离和方向未写",
+        "是否附带控制时间未写",
+        "是否有冷却未写",
+        "“拉进”是“拉近”还是“拉进范围内”不明确"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "降临时代",
+      "text": "提升血量上限的效果翻倍",
+      "reading": "提升血量上限的效果翻倍。原文没写是哪个效果在提升血量上限（本条归在大招组，可能与大招的抽取有关，但原文没写），没写原本提升多少、是永久还是限时、是否有上限。“翻倍”字面是变为原来的两倍，原文没有阿拉伯数字。",
+      "mechanisms": ["stat", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "获得血量上限提升时",
+      "slots": [
+        { "key": "baseMaxHpGain", "what": "原本每次提升的血量上限", "unit": "flat", "claimed": null, "packHint": "提升血量上限效果的来源与原始数值" },
+        { "key": "multiplier", "what": "提升效果倍率（原文“翻倍”，字面为两倍，无阿拉伯数字）", "unit": "ratio", "claimed": null, "packHint": "该天赋对血量上限提升的倍率，核对“翻倍”是否为2倍" },
+        { "key": "maxHpGainCap", "what": "血量上限提升的累计上限", "unit": "flat", "claimed": null, "packHint": "血量上限提升是否封顶" },
+        { "key": "duration", "what": "血量上限提升的持续时间（原文没写是永久还是限时）", "unit": "seconds", "claimed": null, "packHint": "血量上限提升的持续时间" }
+      ],
+      "ambiguities": [
+        "提升血量上限的效果来源未写",
+        "原本提升多少未写",
+        "永久还是限时未写",
+        "累计上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "扬帆，起航",
+      "text": "开启大招时直接获得满额能量，之后每2.5秒补充满",
+      "reading": "开启大招时直接获得满额能量，之后每2.5秒把能量补满一次。原文没写能量上限是多少、能量用来做什么，也没写“之后”是只在大招期间持续还是一直持续。",
+      "mechanisms": ["stacking", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "开启大招时；之后每2.5秒",
+      "slots": [
+        { "key": "energyCap", "what": "能量上限（满额能量的数量）", "unit": "count", "claimed": null, "packHint": "曹操能量的上限与用途" },
+        { "key": "refillInterval", "what": "能量补满的间隔", "unit": "seconds", "claimed": { "value": 2.5, "quote": "之后每2.5秒补充满" }, "packHint": "能量补满的周期，核对描述的2.5秒（描述值不可靠，需资源包核对）" },
+        { "key": "refillDuration", "what": "周期补满效果的持续时间（原文没写是否仅限大招期间）", "unit": "seconds", "claimed": null, "packHint": "周期补满能量效果何时结束（是否与大招持续时间一致）" }
+      ],
+      "ambiguities": [
+        "能量上限和用途未写",
+        "“之后”是否只在大招期间持续未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "何以解忧",
+      "text": "强化普攻的索敌距离增加50%",
+      "reading": "强化普攻的索敌距离增加50%。原文没写原本的索敌距离，也没写攻击判定范围是否随之变化。本条归在大招组，但描述的是强化普攻，没写是否仅限大招期间。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（强化普攻索敌时）",
+      "slots": [
+        { "key": "targetingRangeIncrease", "what": "强化普攻索敌距离提升比例", "unit": "percent", "claimed": { "value": 50, "quote": "索敌距离增加50%" }, "packHint": "强化普攻索敌距离加成，核对描述的50%（描述值不可靠，需资源包核对）" },
+        { "key": "baseTargetingRange", "what": "强化普攻原本的索敌距离", "unit": "meters", "claimed": null, "packHint": "强化普攻原本的索敌距离" }
+      ],
+      "ambiguities": [
+        "原本索敌距离未写",
+        "攻击判定范围是否随之增加未写",
+        "是否仅限大招期间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "浴血奋战",
+      "text": "大招期间每0.4秒会从周围敌人身上抽取血球回复自身最大生命值",
+      "reading": "大招期间每0.4秒从周围敌人身上抽取血球，回复自身生命。“回复自身最大生命值”可以理解为按最大生命值的比例回复生命，也可能指提升最大生命值，原文不明确。原文没写每次回复量、是对每个敌人各抽一个血球还是每次只抽一个、作用范围，也没写抽取血球是否对敌人造成伤害。",
+      "mechanisms": ["heal", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间每0.4秒",
+      "slots": [
+        { "key": "interval", "what": "抽取血球的间隔", "unit": "seconds", "claimed": { "value": 0.4, "quote": "每0.4秒" }, "packHint": "抽取血球的触发间隔，核对描述的0.4秒（描述值不可靠，需资源包核对）" },
+        { "key": "healPerOrb", "what": "每个血球的回复量（原文没写数值，也没写是否按最大生命值百分比，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "血球回复量及计算方式（最大生命百分比或固定值），或是否为提升最大生命值" },
+        { "key": "radius", "what": "“周围敌人”的范围", "unit": "meters", "claimed": null, "packHint": "抽取血球的作用半径" },
+        { "key": "orbsPerTick", "what": "每次抽取的血球数量（每个敌人一个还是总共一个）", "unit": "count", "claimed": null, "packHint": "每次触发抽取的血球数与敌人数的关系" },
+        { "key": "maxEnemies", "what": "每次抽取的敌人数上限", "unit": "count", "claimed": null, "packHint": "抽取血球的目标数上限" },
+        { "key": "drawDamage", "what": "抽取血球对敌人造成的伤害（原文没写是否造成伤害）", "unit": "flat", "claimed": null, "packHint": "抽取血球是否对敌人造成伤害及数值" }
+      ],
+      "ambiguities": [
+        "“回复自身最大生命值”是按最大生命比例回复还是提升最大生命值不明确",
+        "每次回复量未写",
+        "每次抽取几个血球、范围、目标上限未写",
+        "抽取是否对敌人造成伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "借刀杀人",
+      "text": "大招范围中的友军8秒内的攻击，将向目标发射一道来自曹操的剑气",
+      "reading": "处在大招范围中的友军，8秒内每次攻击都会让曹操向该目标发射一道剑气。原文没写8秒从何时开始计时（释放大招时还是进入范围时）、离开范围后是否仍生效、“攻击”是否包括技能，也没写剑气伤害按曹操还是友军属性计算、是否有触发间隔。",
+      "mechanisms": ["team", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招范围内的友军攻击时（8秒内）",
+      "slots": [
+        { "key": "duration", "what": "友军攻击触发剑气的有效时间", "unit": "seconds", "claimed": { "value": 8, "quote": "8秒内的攻击" }, "packHint": "该效果的持续时间及起算时机，核对描述的8秒（描述值不可靠，需资源包核对）" },
+        { "key": "swordQiPerAttack", "what": "友军每次攻击触发的剑气数量（原文“一道”，中文数字）", "unit": "count", "claimed": null, "packHint": "每次友军攻击发射的剑气数，核对描述的一道" },
+        { "key": "swordQiBase", "what": "剑气伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋剑气的伤害基础值、伤害类型、能否暴击" },
+        { "key": "swordQiRatio", "what": "剑气伤害加成系数（原文没写按曹操还是友军属性计算）", "unit": "ratio", "claimed": null, "packHint": "该天赋剑气的属性加成系数及取谁的属性" },
+        { "key": "triggerCooldown", "what": "同一友军触发剑气的内置冷却", "unit": "seconds", "claimed": null, "packHint": "友军攻击触发剑气的间隔限制" },
+        { "key": "ultRadius", "what": "大招范围（判定友军是否在范围中）", "unit": "meters", "claimed": null, "packHint": "大招作用半径" }
+      ],
+      "ambiguities": [
+        "8秒的起算时机未写",
+        "离开大招范围后是否仍生效未写",
+        "“攻击”是否包括技能未写",
+        "剑气伤害取谁的属性未写",
+        "触发间隔未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一道", "reason": "中文数字，校验器无法作为 claimed；已写进参数槽 swordQiPerAttack 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "洗刷刷",
+      "text": "大招强化期间的强普打出后会返回到自身",
+      "reading": "大招强化期间，强普打出去之后会飞回到曹操身上。原文没写返回途中是否再次造成伤害、伤害是否与去程相同，也没写同一目标能否被去程和回程各命中一次。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "大招强化期间打出强普后",
+      "slots": [
+        { "key": "returnDamageRatio", "what": "回程命中时伤害相对去程的比例（原文没写回程是否造成伤害）", "unit": "ratio", "claimed": null, "packHint": "强普回程的伤害系数，是否与去程相同" },
+        { "key": "maxHitsPerTarget", "what": "同一目标每次强普最多被命中次数（去程加回程）", "unit": "count", "claimed": null, "packHint": "去程与回程能否重复命中同一目标" },
+        { "key": "returnTime", "what": "强普从打出到返回自身的时间", "unit": "seconds", "claimed": null, "packHint": "回程弹道的飞行时间或速度" }
+      ],
+      "ambiguities": [
+        "回程是否造成伤害未写",
+        "回程伤害是否与去程相同未写",
+        "同一目标能否被去程和回程各命中一次未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "开疆扩土",
+      "text": "大招范围增加30%",
+      "reading": "大招范围增加30%。原文没写原本范围，也没写是半径增加30%还是面积增加30%。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "rangeIncrease", "what": "大招范围提升比例（原文没写按半径还是面积计算）", "unit": "percent", "claimed": { "value": 30, "quote": "大招范围增加30%" }, "packHint": "大招范围加成，核对描述的30%并确认作用于半径还是面积（描述值不可靠，需资源包核对）" },
+        { "key": "baseUltRadius", "what": "大招原本的作用半径", "unit": "meters", "claimed": null, "packHint": "大招原本的作用半径" }
+      ],
+      "ambiguities": [
+        "原本范围未写",
+        "30%作用于半径还是面积未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

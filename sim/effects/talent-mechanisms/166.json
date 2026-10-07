@@ -1,0 +1,762 @@
+{
+  "heroId": "166",
+  "heroName": "亚瑟",
+  "source": "data/initial-guides.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "对御",
+      "text": "生成魔法盾牌，每秒吸收1次来自正面的子弹和伤害",
+      "reading": "一技能核心。生成一面魔法盾牌，每秒可以吸收1次来自正面的子弹和伤害。原文没有写盾牌何时生成、持续多久、是否与其他天赋里的“举盾”是同一状态，没有写“正面”的判定范围，没有写“子弹和伤害”是共用这1次还是各算1次，没有写吸收是把整次伤害全部抵消还是有数值上限，也没有写侧面、背后的伤害如何处理。只影响承伤，按间接影响输出处理。",
+      "mechanisms": ["skill-change", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "魔法盾牌存在期间受到来自正面的子弹或伤害时（原文未写盾牌生成时机，按所属一技能推断）",
+      "slots": [
+        { "key": "absorbCountPerWindow", "what": "每个吸收周期内可吸收的次数", "unit": "count", "claimed": { "value": 1, "quote": "每秒吸收1次" }, "packHint": "魔法盾牌每个周期可吸收的子弹或伤害次数，核对描述的1次，需以资源包为准；同时确认子弹和伤害是共用次数还是各自计算" },
+        { "key": "absorbWindow", "what": "吸收次数恢复的周期（原文“每秒”，没有阿拉伯数字，校验器无法引用，所以 claimed 留空）", "unit": "seconds", "claimed": null, "packHint": "魔法盾牌吸收次数的刷新间隔，核对原文的“每秒”，需以资源包为准" },
+        { "key": "absorbCapPerHit", "what": "单次吸收的伤害上限（原文没写是完全吸收还是有上限）", "unit": "flat", "claimed": null, "packHint": "魔法盾牌单次吸收是否有数值上限，以及上限的计算方式" },
+        { "key": "frontalArc", "what": "“正面”判定的角度范围（单位为度，用 flat 记录）", "unit": "flat", "claimed": null, "packHint": "魔法盾牌正面判定的角度或判定区域" },
+        { "key": "shieldDuration", "what": "魔法盾牌存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c1 魔法盾牌的持续时间，确认是否与举盾持续时间相同" },
+        { "key": "cooldown", "what": "选此核心后一技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c1 下一技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "盾牌生成时机和持续时间没有写",
+        "“魔法盾牌”与其他天赋中的“举盾”是否为同一状态没有写",
+        "“正面”的判定范围没有写",
+        "“子弹和伤害”共用1次还是各1次没有写",
+        "吸收是整次抵消还是有数值上限没有写",
+        "“每秒”没有阿拉伯数字，周期是否严格为1秒、从何时开始计时没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "影破",
+      "text": "自身周围若存在敌人，则会追击挥砍敌人",
+      "reading": "一技能核心。自身周围有敌人时，会追击并挥砍敌人。原文没有写“周围”的范围、多久触发一次、每次挥砍几个目标或几段、伤害数值和类型，也没有写这个效果是常驻、一技能释放后持续一段时间，还是只在一技能期间生效；“追击”是否包含位移也没有写明。",
+      "mechanisms": ["proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "自身周围存在敌人时（原文未写是否限于一技能期间或释放后）",
+      "slots": [
+        { "key": "detectRadius", "what": "判定“周围”存在敌人的半径", "unit": "meters", "claimed": null, "packHint": "核心 c2 检测敌人的范围" },
+        { "key": "slashBaseDamage", "what": "每次追击挥砍的基础伤害", "unit": "flat", "claimed": null, "packHint": "核心 c2 挥砍伤害的基础值及伤害类型" },
+        { "key": "slashDamageRatio", "what": "每次追击挥砍的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c2 挥砍伤害系数，以及它按哪项属性加成" },
+        { "key": "slashInterval", "what": "两次追击挥砍之间的间隔或触发冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c2 追击挥砍的触发频率或内置冷却（秒或帧）" },
+        { "key": "slashesPerTrigger", "what": "每次触发的挥砍段数", "unit": "count", "claimed": null, "packHint": "一次追击包含几段挥砍" },
+        { "key": "targetsPerSlash", "what": "每次挥砍命中的目标数（单体还是范围）", "unit": "count", "claimed": null, "packHint": "挥砍是单体还是范围判定，最多命中几个目标" },
+        { "key": "activeDuration", "what": "效果生效时长（如果不是常驻）", "unit": "seconds", "claimed": null, "packHint": "确认核心 c2 是常驻效果还是一技能释放后持续一段时间" },
+        { "key": "chaseDistance", "what": "追击时的位移距离（如果追击包含位移）", "unit": "meters", "claimed": null, "packHint": "确认“追击”是否有位移，如有则找最大追击距离" },
+        { "key": "cooldown", "what": "选此核心后一技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c2 下一技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "“周围”的范围没有写",
+        "触发频率或冷却没有写",
+        "伤害数值、系数和类型没有写",
+        "单体还是范围、每次几段没有写",
+        "效果是常驻还是只在一技能期间或释放后一段时间内生效没有写",
+        "“追击”是否包含位移没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "宏图",
+      "text": "盾牌数量额外+3，并大大提升技能范围",
+      "reading": "二技能核心。二技能的盾牌数量在原有基础上额外增加3个，并且大大提升技能范围。原文没有写原本有几个盾牌、“大大提升”的具体幅度、提升的是盾牌环绕半径还是整个技能作用范围，也没有写新增盾牌的伤害是否与原有盾牌相同。盾牌数量和范围增加会让单次施法命中次数或命中目标变多，直接影响伤害。",
+      "mechanisms": ["skill-change", "area", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "extraShieldCount", "what": "额外增加的盾牌数量（原文“+3”，为个数）", "unit": "count", "claimed": { "value": 3, "quote": "盾牌数量额外+3" }, "packHint": "核心 c3 二技能额外盾牌数量，核对描述的+3，需以资源包为准" },
+        { "key": "baseShieldCount", "what": "二技能原有盾牌数量", "unit": "count", "claimed": null, "packHint": "二技能本体的盾牌数量" },
+        { "key": "rangeIncrease", "what": "技能范围提升幅度（原文“大大提升”）", "unit": "percent", "claimed": null, "packHint": "核心 c3 范围提升的数值，确认是百分比还是固定距离" },
+        { "key": "baseRange", "what": "二技能原有作用范围或盾牌环绕半径", "unit": "meters", "claimed": null, "packHint": "二技能本体的作用半径，确认此核心提升的是哪一项" },
+        { "key": "shieldHitBaseDamage", "what": "每面盾牌每次命中的基础伤害（技能本体参数，确认此核心是否改变）", "unit": "flat", "claimed": null, "packHint": "二技能盾牌每次命中的伤害基础值及伤害类型，确认新增盾牌是否相同" },
+        { "key": "shieldHitDamageRatio", "what": "每面盾牌每次命中的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "二技能盾牌伤害系数及加成属性" },
+        { "key": "cooldown", "what": "选此核心后二技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c3 下二技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "原有盾牌数量没有写",
+        "“大大提升技能范围”的幅度没有写",
+        "提升的是盾牌环绕半径还是整个技能范围没有写",
+        "新增盾牌伤害是否与原有盾牌相同没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "磐坚",
+      "text": "以4副巨大盾牌造成伤害，目标首次被命中后附加旋转效果",
+      "reading": "二技能核心。二技能改为用4副巨大盾牌造成伤害；目标第一次被命中后会被附加“旋转效果”。原文没有写巨大盾牌的伤害、尺寸或判定范围、攻击频率，没有解释“旋转效果”是控制、附加伤害还是其他效果以及持续多久，也没有写“首次被命中”是指每次施法内的首次还是整场战斗的首次。",
+      "mechanisms": ["skill-change", "summon", "area", "other"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时；目标首次被巨大盾牌命中时附加旋转效果",
+      "slots": [
+        { "key": "shieldCount", "what": "巨大盾牌数量", "unit": "count", "claimed": { "value": 4, "quote": "以4副巨大盾牌" }, "packHint": "核心 c4 巨大盾牌数量，核对描述的4副，需以资源包为准" },
+        { "key": "shieldHitBaseDamage", "what": "每副巨大盾牌每次命中的基础伤害", "unit": "flat", "claimed": null, "packHint": "核心 c4 巨大盾牌伤害基础值及伤害类型" },
+        { "key": "shieldHitDamageRatio", "what": "每副巨大盾牌每次命中的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c4 巨大盾牌伤害系数及加成属性" },
+        { "key": "shieldHitInterval", "what": "巨大盾牌对同一目标两次命中之间的间隔", "unit": "seconds", "claimed": null, "packHint": "巨大盾牌的攻击频率或对同一目标的判定间隔（秒或帧）" },
+        { "key": "shieldRadius", "what": "巨大盾牌的判定尺寸或环绕半径（原文“巨大”）", "unit": "meters", "claimed": null, "packHint": "巨大盾牌的碰撞判定尺寸和环绕半径" },
+        { "key": "spinDuration", "what": "旋转效果持续时间", "unit": "seconds", "claimed": null, "packHint": "核心 c4 旋转效果的持续时间，以及旋转效果是什么（控制、减益或伤害）" },
+        { "key": "spinDamage", "what": "旋转效果附带的伤害（原文没写是否存在）", "unit": "flat", "claimed": null, "packHint": "确认旋转效果是否造成伤害，如有则找伤害值、系数和伤害类型" },
+        { "key": "cooldown", "what": "选此核心后二技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c4 下二技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "巨大盾牌的伤害、系数和类型没有写",
+        "巨大盾牌的尺寸、攻击频率没有写",
+        "“旋转效果”具体是什么效果没有写",
+        "旋转效果持续时间、是否造成伤害没有写",
+        "“首次被命中”是每次施法内首次还是整场首次没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "处决",
+      "text": "立即斩杀生命低于25%的目标，施法5秒后，目标死亡将刷新冷却",
+      "reading": "大招核心。立即斩杀生命低于25%的目标；另外，原文写“施法5秒后，目标死亡将刷新冷却”。原文没有写斩杀是大招命中时判定还是施法期间任意时刻判定、25%的基准（按字面是生命比例，未写是否为最大生命）、能否对首领或挑战怪生效、每次施法最多斩杀几个目标；“施法5秒后”的含义也不明确，可能是施法后5秒内目标死亡刷新，也可能是5秒之后目标死亡才刷新；“目标死亡”是否限于被亚瑟击杀、刷新是完全重置还是部分减少也没有写。",
+      "mechanisms": ["execute", "cooldown"],
+      "damageRelevance": "direct",
+      "trigger": "大招作用于生命低于阈值的目标时斩杀；施法后目标死亡时刷新冷却",
+      "slots": [
+        { "key": "executeThreshold", "what": "斩杀生命阈值（原文“生命低于25%”，基准未写）", "unit": "percent", "claimed": { "value": 25, "quote": "生命低于25%" }, "packHint": "核心 c5 斩杀阈值，核对描述的25%，需以资源包为准；同时确认基准是否为最大生命、对首领或挑战怪是否生效" },
+        { "key": "refreshTiming", "what": "与刷新冷却相关的时间（原文“施法5秒后”，是5秒内死亡刷新还是5秒之后死亡才刷新未写明）", "unit": "seconds", "claimed": { "value": 5, "quote": "施法5秒后" }, "packHint": "核心 c5 刷新冷却的判定时间窗口，核对描述的5秒，需以资源包为准，并确认窗口方向" },
+        { "key": "refreshAmount", "what": "刷新冷却的比例（原文“刷新”，未写是完全重置还是部分减少）", "unit": "percent", "claimed": null, "packHint": "核心 c5 刷新冷却时重置的比例或减少的秒数" },
+        { "key": "maxExecutesPerCast", "what": "每次施法最多斩杀的目标数", "unit": "count", "claimed": null, "packHint": "确认斩杀是否只对主目标生效或对范围内所有目标生效" },
+        { "key": "cooldown", "what": "选此核心后大招的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c5 下大招的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "斩杀判定时机（命中时还是施法期间任意时刻）没有写",
+        "25%的基准没有写",
+        "对首领或挑战怪是否生效没有写",
+        "每次施法最多斩杀几个目标没有写",
+        "“施法5秒后”是5秒内还是5秒之后没有写明",
+        "“目标死亡”是否限于亚瑟击杀、是否限于大招命中的目标没有写",
+        "刷新是完全重置还是部分减少没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "圣辉",
+      "text": "召唤圣殿骑士汇聚圣印之力常侍身旁，以圣光打击周围敌人",
+      "reading": "大招核心。召唤一名圣殿骑士，汇聚圣印之力，一直在亚瑟身旁，用圣光打击周围的敌人。原文没有写骑士存在多久（“常侍”字面是常伴身旁，未写是否有时限）、打击频率、打击范围、每次命中几个目标、伤害数值和类型；“汇聚圣印之力”与大招原有圣印的关系（是否替代圣印、圣印相关天赋是否作用于骑士）也没有写。",
+      "mechanisms": ["summon", "proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时召唤；骑士存在期间周期性打击周围敌人",
+      "slots": [
+        { "key": "knightDuration", "what": "圣殿骑士存在时间（原文“常侍身旁”，未写是常驻还是有时限）", "unit": "seconds", "claimed": null, "packHint": "核心 c6 圣殿骑士的存在时间，确认是否与圣印持续时间挂钩" },
+        { "key": "strikeBaseDamage", "what": "每次圣光打击的基础伤害", "unit": "flat", "claimed": null, "packHint": "核心 c6 圣光打击伤害的基础值及伤害类型" },
+        { "key": "strikeDamageRatio", "what": "每次圣光打击的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c6 圣光打击伤害系数及加成属性" },
+        { "key": "strikeInterval", "what": "两次圣光打击之间的间隔", "unit": "seconds", "claimed": null, "packHint": "圣光打击的频率（秒或帧）" },
+        { "key": "strikeRadius", "what": "圣光打击的“周围”范围", "unit": "meters", "claimed": null, "packHint": "圣光打击的判定半径" },
+        { "key": "targetsPerStrike", "what": "每次打击命中的目标数", "unit": "count", "claimed": null, "packHint": "圣光打击是单体还是范围，最多命中几个目标" },
+        { "key": "cooldown", "what": "选此核心后大招的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c6 下大招的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "骑士存在时间没有写",
+        "打击频率、范围、目标数没有写",
+        "伤害数值、系数和类型没有写",
+        "“汇聚圣印之力”与原有圣印的关系没有写，圣印相关小天赋（t17、t21、t22、t23、t24）是否对骑士生效未知",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "回生",
+      "text": "举盾碰撞目标可造成伤害，并为自身回复生命",
+      "reading": "一技能小天赋。举盾时碰撞到目标会造成伤害，同时为自身回复生命。原文没有写碰撞伤害和回复量、碰撞判定范围、同一目标能被碰撞几次或间隔多久、回复是每次碰撞触发还是每个目标各触发一次。",
+      "mechanisms": ["proc", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "举盾期间碰撞到目标时",
+      "slots": [
+        { "key": "collisionBaseDamage", "what": "碰撞伤害的基础值", "unit": "flat", "claimed": null, "packHint": "天赋 t01 碰撞伤害的基础值及伤害类型" },
+        { "key": "collisionDamageRatio", "what": "碰撞伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "天赋 t01 碰撞伤害系数及加成属性" },
+        { "key": "collisionRadius", "what": "碰撞判定范围", "unit": "meters", "claimed": null, "packHint": "举盾碰撞的判定半径或宽度" },
+        { "key": "sameTargetInterval", "what": "同一目标两次碰撞伤害之间的间隔", "unit": "seconds", "claimed": null, "packHint": "同一目标能否被重复碰撞，以及重复判定的间隔" },
+        { "key": "healFlat", "what": "每次碰撞回复的固定值", "unit": "flat", "claimed": null, "packHint": "天赋 t01 回复量的固定值部分" },
+        { "key": "healPercent", "what": "每次碰撞回复的百分比部分（基准未写：最大生命、已损生命或造成的伤害）", "unit": "percent", "claimed": null, "packHint": "天赋 t01 回复量的百分比部分及其基准" }
+      ],
+      "ambiguities": [
+        "碰撞伤害数值、系数和类型没有写",
+        "同一目标能否被重复碰撞没有写",
+        "回复量和计算基准没有写",
+        "回复是每次碰撞触发还是每个目标触发一次没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "急空",
+      "text": "获得爆发移速",
+      "reading": "一技能小天赋。获得爆发移速。原文没有写触发时机（按所属一技能推断为释放一技能时或之后）、移速加成数值、持续时间，也没有写“爆发”是否意味着移速随时间衰减。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "释放一技能时或之后（原文未写触发时机，按所属技能推断）",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "移速加成", "unit": "percent", "claimed": null, "packHint": "天赋 t02 移速加成数值，确认是百分比还是固定值" },
+        { "key": "duration", "what": "移速加成持续时间", "unit": "seconds", "claimed": null, "packHint": "天赋 t02 移速 buff 的持续时间" },
+        { "key": "decayDuration", "what": "移速从峰值衰减到结束所用的时间（如果是衰减型）", "unit": "seconds", "claimed": null, "packHint": "确认“爆发移速”是否随时间衰减，以及衰减方式" }
+      ],
+      "ambiguities": [
+        "触发时机没有写",
+        "移速加成数值和持续时间没有写",
+        "是否随时间衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "庇抵",
+      "text": "施法后获得护盾（技能结束或进行普攻后清除）",
+      "reading": "一技能小天赋。释放一技能后获得护盾，护盾在一技能结束或进行普攻后被清除。原文没有写护盾值、护盾值按什么属性计算，也没有写护盾是否有独立的最长存在时间。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "释放一技能后",
+      "slots": [
+        { "key": "shieldFlat", "what": "护盾值的固定部分", "unit": "flat", "claimed": null, "packHint": "天赋 t03 护盾值基础值" },
+        { "key": "shieldRatio", "what": "护盾值的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "天赋 t03 护盾值系数及加成属性（例如最大生命）" },
+        { "key": "maxDuration", "what": "护盾最长存在时间（原文只写技能结束或普攻后清除）", "unit": "seconds", "claimed": null, "packHint": "护盾是否有独立的持续时间，或完全取决于一技能持续时间" }
+      ],
+      "ambiguities": [
+        "护盾值和计算方式没有写",
+        "“技能结束”的具体时长取决于一技能本体，原文没有写",
+        "强化普攻是否也算“进行普攻”而清除护盾没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "幻移",
+      "text": "强普命中时，生成3个幻影，协同斩击目标，并对目标附加额外伤害",
+      "reading": "一技能小天赋。强化普攻命中时生成3个幻影，幻影一起斩击目标，并对目标附加额外伤害。原文没有写每个幻影斩击几次、斩击伤害多少，也没有写“附加额外伤害”是幻影斩击本身的伤害，还是另外一份伤害；伤害类型、触发间隔都没有写。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "强化普攻命中时",
+      "slots": [
+        { "key": "phantomCount", "what": "生成的幻影数量", "unit": "count", "claimed": { "value": 3, "quote": "生成3个幻影" }, "packHint": "天赋 t04 幻影数量，核对描述的3个，需以资源包为准" },
+        { "key": "slashesPerPhantom", "what": "每个幻影斩击的次数", "unit": "count", "claimed": null, "packHint": "每个幻影的斩击段数" },
+        { "key": "phantomSlashBaseDamage", "what": "幻影每次斩击的基础伤害", "unit": "flat", "claimed": null, "packHint": "幻影斩击伤害基础值及伤害类型" },
+        { "key": "phantomSlashDamageRatio", "what": "幻影每次斩击的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "幻影斩击伤害系数及加成属性" },
+        { "key": "extraDamageBase", "what": "对目标附加的额外伤害基础值（如果与幻影斩击分开计算）", "unit": "flat", "claimed": null, "packHint": "确认“附加额外伤害”是否为独立伤害，如是则找基础值和伤害类型" },
+        { "key": "extraDamageRatio", "what": "对目标附加的额外伤害系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外伤害系数及加成属性" },
+        { "key": "slashDelay", "what": "幻影生成到斩击命中的时间", "unit": "seconds", "claimed": null, "packHint": "幻影斩击的出手时间点（秒或帧）" },
+        { "key": "internalCooldown", "what": "触发内置冷却", "unit": "seconds", "claimed": null, "packHint": "天赋 t04 是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "每个幻影斩击几次没有写",
+        "斩击伤害数值、系数和类型没有写",
+        "“附加额外伤害”与幻影斩击是同一份还是两份伤害没有写",
+        "触发间隔或内置冷却没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "连斩",
+      "text": "对目标连斩2次",
+      "reading": "一技能小天赋。对目标连续斩击2次。原文没有写是一技能哪个动作（技能本体还是强化普攻）变为连斩，没有写“2次”是总共2次还是额外2次，也没有写每次斩击的伤害是否与原来相同。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "一技能斩击目标时（原文未写具体是哪个动作）",
+      "slots": [
+        { "key": "slashCount", "what": "连斩次数（原文“2次”，未写是总次数还是额外次数）", "unit": "count", "claimed": { "value": 2, "quote": "连斩2次" }, "packHint": "天赋 t05 连斩次数，核对描述的2次，需以资源包为准，并确认是总次数还是额外次数" },
+        { "key": "perSlashDamageRatio", "what": "每次斩击相对原斩击的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "连斩每一段的伤害系数，确认是否与原斩击相同" },
+        { "key": "slashInterval", "what": "两次斩击之间的间隔", "unit": "seconds", "claimed": null, "packHint": "连斩各段出手时间点（秒或帧）" }
+      ],
+      "ambiguities": [
+        "连斩作用于一技能哪个动作没有写",
+        "“2次”是总次数还是额外次数没有写",
+        "每次斩击伤害是否与原来相同没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "持续",
+      "text": "举盾持续时间+3秒",
+      "reading": "一技能小天赋。举盾状态的持续时间增加3秒。原文没有写举盾原本持续多久。举盾本身不直接造成伤害，但会延长举盾相关效果（如 t01 碰撞伤害、t07 回复）的生效时间，所以按间接影响输出处理。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（举盾时生效）",
+      "slots": [
+        { "key": "durationIncrease", "what": "举盾持续时间增加量", "unit": "seconds", "claimed": { "value": 3, "quote": "举盾持续时间+3秒" }, "packHint": "天赋 t06 举盾持续时间增量，核对描述的3秒，需以资源包为准" },
+        { "key": "baseDuration", "what": "举盾原有持续时间", "unit": "seconds", "claimed": null, "packHint": "一技能举盾状态的基础持续时间" }
+      ],
+      "ambiguities": [
+        "举盾原有持续时间没有写",
+        "延长后是否影响一技能冷却开始计时的时间点没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "回复",
+      "text": "举盾期间，5米内每有1名敌方英雄，将为自身回复生命值",
+      "reading": "一技能小天赋。举盾期间，自身5米内每有1名敌方英雄，就为自身回复生命值，回复量随附近敌方英雄人数增加。原文没有写每名英雄对应的回复量、回复是持续每隔一段时间回复还是一次性回复、人数是否有上限；本模式的敌人哪些算“敌方英雄”也没有写。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "举盾期间，5米内有敌方英雄时",
+      "slots": [
+        { "key": "radius", "what": "统计敌方英雄的范围", "unit": "meters", "claimed": { "value": 5, "quote": "5米内" }, "packHint": "天赋 t07 统计范围，核对描述的5米，需以资源包为准" },
+        { "key": "heroesPerStep", "what": "每多少名敌方英雄计一份回复（原文“每有1名”）", "unit": "count", "claimed": { "value": 1, "quote": "每有1名敌方英雄" }, "packHint": "回复按人数计算的步长，核对描述的1名，需以资源包为准" },
+        { "key": "healPerHeroFlat", "what": "每名敌方英雄对应回复量的固定部分", "unit": "flat", "claimed": null, "packHint": "天赋 t07 每名英雄对应的回复固定值" },
+        { "key": "healPerHeroPercent", "what": "每名敌方英雄对应回复量的百分比部分（基准未写）", "unit": "percent", "claimed": null, "packHint": "天赋 t07 每名英雄对应的回复百分比及其基准（最大生命或已损生命）" },
+        { "key": "healInterval", "what": "回复间隔（原文没写是周期回复还是一次性回复）", "unit": "seconds", "claimed": null, "packHint": "确认回复是每隔一段时间触发还是举盾时一次性结算，如是周期回复则找间隔" },
+        { "key": "maxHeroesCounted", "what": "计入回复的敌方英雄人数上限", "unit": "count", "claimed": null, "packHint": "天赋 t07 人数是否有上限" }
+      ],
+      "ambiguities": [
+        "每名英雄对应的回复量和基准没有写",
+        "周期回复还是一次性回复没有写",
+        "人数上限没有写",
+        "本模式中哪些敌人算“敌方英雄”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "顽抗",
+      "text": "技能期间，击败目标将立即刷新冷却",
+      "reading": "一技能小天赋。一技能期间击败目标，会立即刷新冷却（按所属技能推断为一技能冷却）。原文没有写“技能期间”具体多长、刷新是完全重置还是部分减少、每次施法能刷新几次、是否有内置冷却，也没有写“击败目标”是否限于一技能造成的击杀、是否包括非英雄单位。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能期间击败目标时",
+      "slots": [
+        { "key": "refreshAmount", "what": "刷新冷却的比例（原文“刷新”，未写是完全重置还是部分减少）", "unit": "percent", "claimed": null, "packHint": "天赋 t08 刷新冷却的比例或减少的秒数" },
+        { "key": "skillWindow", "what": "“技能期间”的时长", "unit": "seconds", "claimed": null, "packHint": "一技能持续时间，确认击杀判定窗口" },
+        { "key": "maxRefreshesPerCast", "what": "每次施法最多刷新次数", "unit": "count", "claimed": null, "packHint": "天赋 t08 是否限制刷新次数" },
+        { "key": "internalCooldown", "what": "刷新效果的内置冷却", "unit": "seconds", "claimed": null, "packHint": "天赋 t08 是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "刷新的是哪个技能的冷却没有写明（按所属技能推断为一技能）",
+        "“技能期间”的时长没有写",
+        "刷新是完全重置还是部分减少没有写",
+        "刷新次数上限和内置冷却没有写",
+        "“击败目标”是否限于一技能击杀、是否包括非英雄单位没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "灵息",
+      "text": "伤害附带额外真实伤害",
+      "reading": "二技能小天赋。二技能造成伤害时附带一份额外的真实伤害。原文没有写真实伤害的数值或计算方式（固定值、按属性加成还是按本次伤害的比例），也没有写是否每次伤害都附带、是否有内置冷却。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能造成伤害时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "额外真实伤害的固定部分", "unit": "flat", "claimed": null, "packHint": "天赋 t09 真实伤害基础值" },
+        { "key": "trueDamageRatio", "what": "额外真实伤害的属性加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "天赋 t09 真实伤害系数及加成属性" },
+        { "key": "trueDamagePercentOfHit", "what": "额外真实伤害按本次伤害比例计算的部分（如果是这种计算方式）", "unit": "percent", "claimed": null, "packHint": "确认真实伤害是否按本次伤害的比例计算，如是则找比例" },
+        { "key": "internalCooldown", "what": "附带真实伤害的内置冷却或对同一目标的间隔", "unit": "seconds", "claimed": null, "packHint": "天赋 t09 是否每次伤害都附带，是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "真实伤害数值和计算方式没有写",
+        "是否每次伤害都附带没有写",
+        "内置冷却没有写",
+        "附带的真实伤害能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "意志",
+      "text": "命中目标后，获得护盾（技能结束后清除）",
+      "reading": "二技能小天赋。二技能命中目标后获得护盾，护盾在二技能结束后被清除。原文没有写护盾值和计算方式，也没有写多次命中是否叠加护盾、叠加是否有上限、是否每次施法只触发一次。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中目标后",
+      "slots": [
+        { "key": "shieldPerHitFlat", "what": "每次获得护盾值的固定部分", "unit": "flat", "claimed": null, "packHint": "天赋 t10 护盾值基础值" },
+        { "key": "shieldRatio", "what": "护盾值的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "天赋 t10 护盾值系数及加成属性（例如最大生命）" },
+        { "key": "shieldCap", "what": "护盾叠加上限（如果多次命中可叠加）", "unit": "flat", "claimed": null, "packHint": "确认多次命中是否叠加护盾，如是则找上限" },
+        { "key": "maxGrantsPerCast", "what": "每次施法最多获得护盾的次数", "unit": "count", "claimed": null, "packHint": "确认护盾是每次命中触发还是每次施法一次" }
+      ],
+      "ambiguities": [
+        "护盾值和计算方式没有写",
+        "多次命中是否叠加、上限多少没有写",
+        "每次施法触发次数没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "漩涡",
+      "text": "施法期间，每次造成伤害时，冷却-0.2秒",
+      "reading": "二技能小天赋。二技能施法期间，每次造成伤害时冷却减少0.2秒（原文“-0.2秒”表示减少）。原文没有写减少的是哪个技能的冷却（按所属技能推断为二技能）、施法期间冷却尚未开始时减少量如何结算、每次施法最多减少多少，也没有写同一时刻命中多个目标是否按多次计算。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能施法期间每次造成伤害时",
+      "slots": [
+        { "key": "reductionPerHit", "what": "每次造成伤害时冷却减少的秒数（原文“-0.2秒”，表示减少）", "unit": "seconds", "claimed": { "value": 0.2, "quote": "冷却-0.2秒" }, "packHint": "天赋 t11 每次伤害减少的冷却，核对描述的0.2秒，需以资源包为准" },
+        { "key": "maxReductionPerCast", "what": "每次施法最多减少的冷却", "unit": "seconds", "claimed": null, "packHint": "天赋 t11 是否有减少总量上限" },
+        { "key": "countInterval", "what": "计数间隔（同一时刻多段伤害或多个目标是否分别计算）", "unit": "seconds", "claimed": null, "packHint": "天赋 t11 的触发内置冷却，以及多目标命中是否各算一次" }
+      ],
+      "ambiguities": [
+        "减少的是哪个技能的冷却没有写明（按所属技能推断为二技能）",
+        "施法期间冷却尚未开始时减少量如何结算没有写",
+        "减少总量上限没有写",
+        "同时命中多个目标是否按多次计算没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "超频",
+      "text": "盾牌攻击频率提升",
+      "reading": "二技能小天赋。二技能盾牌的攻击频率提升。原文没有写盾牌原本的攻击频率和提升幅度。频率提升会在同样时间内打出更多次伤害，直接影响伤害。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（二技能盾牌攻击时）",
+      "slots": [
+        { "key": "baseAttackInterval", "what": "盾牌原有攻击间隔", "unit": "seconds", "claimed": null, "packHint": "二技能盾牌本体的攻击间隔（秒或帧）" },
+        { "key": "frequencyIncrease", "what": "攻击频率提升幅度", "unit": "percent", "claimed": null, "packHint": "天赋 t12 攻击频率提升数值，确认是百分比提升还是改为固定间隔" }
+      ],
+      "ambiguities": [
+        "盾牌原有攻击频率没有写",
+        "提升幅度没有写",
+        "是否同样作用于核心 c4 的巨大盾牌没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "同棘",
+      "text": "释放技能瞬间向周围敌方英雄单位甩出飞盾，造成伤害与沉默效果",
+      "reading": "二技能小天赋。释放二技能的瞬间，向周围的敌方英雄单位甩出飞盾，造成伤害并附加沉默。原文没有写“周围”的范围、飞盾数量或最多命中几个目标、伤害数值和类型、沉默时长；按原文只对敌方英雄单位生效，本模式的敌人哪些算英雄单位没有写。",
+      "mechanisms": ["proc", "control", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能瞬间",
+      "slots": [
+        { "key": "radius", "what": "甩出飞盾的“周围”范围", "unit": "meters", "claimed": null, "packHint": "天赋 t13 索敌范围" },
+        { "key": "maxTargets", "what": "飞盾数量或最多命中目标数", "unit": "count", "claimed": null, "packHint": "天赋 t13 每次甩出的飞盾数量或目标上限" },
+        { "key": "damageBase", "what": "飞盾伤害基础值", "unit": "flat", "claimed": null, "packHint": "天赋 t13 飞盾伤害基础值及伤害类型" },
+        { "key": "damageRatio", "what": "飞盾伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "天赋 t13 飞盾伤害系数及加成属性" },
+        { "key": "silenceDuration", "what": "沉默时长", "unit": "seconds", "claimed": null, "packHint": "天赋 t13 沉默持续时间" }
+      ],
+      "ambiguities": [
+        "范围、飞盾数量和目标上限没有写",
+        "伤害数值、系数和类型没有写",
+        "沉默时长没有写",
+        "本模式中哪些敌人算“敌方英雄单位”没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "轮游",
+      "text": "使用技能后，盾牌可抵挡1次飞行子弹",
+      "reading": "二技能小天赋。使用二技能后，盾牌可以抵挡1次飞行子弹。原文没有写是每面盾牌各抵挡1次还是所有盾牌共抵挡1次、抵挡后盾牌是否消失、抵挡效果在什么时间段内有效。",
+      "mechanisms": ["damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "使用二技能后，飞行子弹碰到盾牌时",
+      "slots": [
+        { "key": "blockCount", "what": "可抵挡的飞行子弹次数（原文未写是每面盾牌还是总共）", "unit": "count", "claimed": { "value": 1, "quote": "抵挡1次飞行子弹" }, "packHint": "天赋 t14 抵挡次数，核对描述的1次，需以资源包为准，并确认是每面盾牌还是总共" },
+        { "key": "blockWindow", "what": "抵挡效果的有效时间", "unit": "seconds", "claimed": null, "packHint": "确认抵挡效果是否持续到二技能结束或有独立时长" }
+      ],
+      "ambiguities": [
+        "每面盾牌各1次还是总共1次没有写",
+        "抵挡后盾牌是否消失、是否影响盾牌伤害没有写",
+        "有效时间没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "益谷",
+      "text": "每次造成伤害时，回复生命值",
+      "reading": "二技能小天赋。二技能每次造成伤害时回复生命值。原文没有写回复量和计算方式（固定值、按最大生命还是按造成伤害的比例），也没有写是否有内置冷却。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能每次造成伤害时",
+      "slots": [
+        { "key": "healFlat", "what": "每次回复的固定值", "unit": "flat", "claimed": null, "packHint": "天赋 t15 回复固定值" },
+        { "key": "healPercent", "what": "每次回复的百分比部分（基准未写：最大生命、已损生命或造成的伤害）", "unit": "percent", "claimed": null, "packHint": "天赋 t15 回复百分比及其基准" },
+        { "key": "internalCooldown", "what": "回复的内置冷却", "unit": "seconds", "claimed": null, "packHint": "天赋 t15 是否有内置冷却，多目标命中是否各算一次" }
+      ],
+      "ambiguities": [
+        "回复量和计算方式没有写",
+        "内置冷却没有写",
+        "同时命中多个目标是否各回复一次没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "持恒",
+      "text": "技能持续时间+3秒",
+      "reading": "二技能小天赋。二技能持续时间增加3秒。原文没有写二技能原本持续多久。按其他二技能天赋原文（t11“施法期间，每次造成伤害时”、t12“盾牌攻击频率”）推断二技能在持续期间多次造成伤害，延长持续时间会增加伤害次数，所以按直接影响伤害处理。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（释放二技能时生效）",
+      "slots": [
+        { "key": "durationIncrease", "what": "二技能持续时间增加量", "unit": "seconds", "claimed": { "value": 3, "quote": "技能持续时间+3秒" }, "packHint": "天赋 t16 持续时间增量，核对描述的3秒，需以资源包为准" },
+        { "key": "baseDuration", "what": "二技能原有持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能本体的持续时间" }
+      ],
+      "ambiguities": [
+        "二技能原有持续时间没有写",
+        "延长后是否影响冷却开始计时的时间点没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "劲域",
+      "text": "圣印造成额外真实伤害",
+      "reading": "大招小天赋。圣印造成伤害时额外造成真实伤害。原文没有写真实伤害的数值或计算方式，也没有写是每次圣印伤害都附带还是另外独立计时造成。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "圣印造成伤害时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "额外真实伤害的固定部分", "unit": "flat", "claimed": null, "packHint": "天赋 t17 真实伤害基础值" },
+        { "key": "trueDamageRatio", "what": "额外真实伤害的属性加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "天赋 t17 真实伤害系数及加成属性" },
+        { "key": "trueDamagePercentOfHit", "what": "额外真实伤害按圣印本次伤害比例计算的部分（如果是这种计算方式）", "unit": "percent", "claimed": null, "packHint": "确认真实伤害是否按圣印伤害的比例计算，如是则找比例" },
+        { "key": "tickInterval", "what": "额外真实伤害的触发间隔（如果独立于圣印伤害计时）", "unit": "seconds", "claimed": null, "packHint": "确认真实伤害是否随每次圣印伤害触发，或独立计时" }
+      ],
+      "ambiguities": [
+        "真实伤害数值和计算方式没有写",
+        "是随每次圣印伤害附带还是独立计时没有写",
+        "附带的真实伤害能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "沉驭",
+      "text": "可将敌方英雄击飞得更高，并眩晕1秒",
+      "reading": "大招小天赋。大招可以把敌方英雄击飞得更高，并眩晕1秒。原文没有写“更高”是否意味着击飞时间延长、延长多少，没有写眩晕是在击飞落地后开始还是与击飞同时计算；按原文只对敌方英雄生效，本模式的敌人哪些算英雄没有写。只有控制效果，按间接影响输出处理。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招击飞敌方英雄时",
+      "slots": [
+        { "key": "stunDuration", "what": "眩晕时长", "unit": "seconds", "claimed": { "value": 1, "quote": "眩晕1秒" }, "packHint": "天赋 t18 眩晕时长，核对描述的1秒，需以资源包为准" },
+        { "key": "knockupIncrease", "what": "击飞时长增加量（原文“击飞得更高”，未写是否延长时长）", "unit": "seconds", "claimed": null, "packHint": "天赋 t18 击飞高度或击飞时长的变化" },
+        { "key": "baseKnockup", "what": "大招原有击飞时长", "unit": "seconds", "claimed": null, "packHint": "大招本体的击飞时长" }
+      ],
+      "ambiguities": [
+        "“更高”是否延长击飞时长没有写",
+        "眩晕与击飞的先后关系没有写",
+        "本模式中哪些敌人算“敌方英雄”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "广愈",
+      "text": "该技能每次命中英雄回复，斩击回复更多",
+      "reading": "大招小天赋。大招每次命中英雄时回复生命，其中斩击命中时回复更多。原文没有写回复量、计算方式、“更多”具体多多少；按原文只对命中英雄生效，本模式的敌人哪些算英雄没有写。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "大招每次命中英雄时",
+      "slots": [
+        { "key": "healPerHitFlat", "what": "每次命中英雄回复的固定值", "unit": "flat", "claimed": null, "packHint": "天赋 t19 每次命中的回复固定值" },
+        { "key": "healPerHitPercent", "what": "每次命中英雄回复的百分比部分（基准未写）", "unit": "percent", "claimed": null, "packHint": "天赋 t19 每次命中的回复百分比及其基准" },
+        { "key": "slashHealMultiplier", "what": "斩击命中回复相对普通命中回复的倍率（原文“更多”）", "unit": "ratio", "claimed": null, "packHint": "天赋 t19 斩击回复的数值或倍率" }
+      ],
+      "ambiguities": [
+        "回复量和计算方式没有写",
+        "斩击回复“更多”的幅度没有写",
+        "本模式中哪些敌人算“英雄”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "续裁",
+      "text": "施法后额外斩击1次",
+      "reading": "大招小天赋。释放大招后额外进行1次斩击。原文没有写额外斩击的伤害是否与原斩击相同、出现在施法后多久、作用于哪个目标或范围。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招后",
+      "slots": [
+        { "key": "extraSlashCount", "what": "额外斩击次数", "unit": "count", "claimed": { "value": 1, "quote": "额外斩击1次" }, "packHint": "天赋 t20 额外斩击次数，核对描述的1次，需以资源包为准" },
+        { "key": "extraSlashDamageRatio", "what": "额外斩击相对原斩击的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "额外斩击的伤害系数，确认是否与原斩击相同" },
+        { "key": "extraSlashDelay", "what": "施法到额外斩击命中的间隔", "unit": "seconds", "claimed": null, "packHint": "额外斩击的出手时间点（秒或帧）" }
+      ],
+      "ambiguities": [
+        "额外斩击伤害是否与原斩击相同没有写",
+        "额外斩击的时机和作用目标没有写",
+        "与核心 c5 斩杀、t19 斩击回复是否联动没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "长续",
+      "text": "圣印持续时间增加3秒",
+      "reading": "大招小天赋。圣印持续时间增加3秒。原文没有写圣印原本持续多久。按其他大招天赋原文（t17“圣印造成额外真实伤害”、t23“圣印伤害频率”）推断圣印在持续期间周期性造成伤害，延长持续时间会增加伤害次数，所以按直接影响伤害处理。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（圣印生成时生效）",
+      "slots": [
+        { "key": "durationIncrease", "what": "圣印持续时间增加量", "unit": "seconds", "claimed": { "value": 3, "quote": "圣印持续时间增加3秒" }, "packHint": "天赋 t21 圣印持续时间增量，核对描述的3秒，需以资源包为准" },
+        { "key": "baseDuration", "what": "圣印原有持续时间", "unit": "seconds", "claimed": null, "packHint": "大招圣印的基础持续时间" }
+      ],
+      "ambiguities": [
+        "圣印原有持续时间没有写",
+        "是否对核心 c6 圣殿骑士的存在时间生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "共裁",
+      "text": "圣印范围内，所有敌人都将受到圣剑伤害",
+      "reading": "大招小天赋。圣印范围内的所有敌人都会受到圣剑伤害。原文用“都将”，暗示不选此天赋时圣剑伤害只作用于部分目标，但原文没有写原本作用于哪些目标；也没有写圣剑伤害的数值、触发时机（施法时一次还是圣印期间多次）、圣印范围大小、目标数上限。",
+      "mechanisms": ["area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "圣印存在期间（原文未写圣剑伤害的触发时机）",
+      "slots": [
+        { "key": "swordDamageBase", "what": "圣剑伤害基础值（技能本体参数）", "unit": "flat", "claimed": null, "packHint": "大招圣剑伤害基础值及伤害类型，确认此天赋下是否改变" },
+        { "key": "swordDamageRatio", "what": "圣剑伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "大招圣剑伤害系数及加成属性" },
+        { "key": "sealRadius", "what": "圣印范围", "unit": "meters", "claimed": null, "packHint": "大招圣印的作用半径" },
+        { "key": "maxTargets", "what": "圣剑伤害目标数上限（原文“所有敌人”）", "unit": "count", "claimed": null, "packHint": "确认是否真的无目标上限" },
+        { "key": "hitsPerCast", "what": "每次施法圣剑伤害触发的次数", "unit": "count", "claimed": null, "packHint": "圣剑伤害是施法时一次还是圣印期间多次触发" }
+      ],
+      "ambiguities": [
+        "不选此天赋时圣剑伤害作用于哪些目标没有写",
+        "圣剑伤害数值、系数和类型没有写",
+        "触发时机和次数没有写",
+        "圣印范围和目标上限没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "频促",
+      "text": "圣印伤害频率大大提升",
+      "reading": "大招小天赋。圣印造成伤害的频率大大提升。原文没有写圣印原本的伤害间隔和“大大提升”的具体幅度，也没有写每次伤害的数值是否随之调整。频率提升会增加伤害次数，直接影响伤害。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（圣印存在期间）",
+      "slots": [
+        { "key": "baseTickInterval", "what": "圣印原有伤害间隔", "unit": "seconds", "claimed": null, "packHint": "大招圣印的基础伤害间隔（秒或帧）" },
+        { "key": "frequencyIncrease", "what": "伤害频率提升幅度（原文“大大提升”）", "unit": "percent", "claimed": null, "packHint": "天赋 t23 频率提升数值，确认是百分比提升还是改为固定间隔" },
+        { "key": "perTickDamageScale", "what": "频率提升后每次伤害相对原来的倍率（原文没写是否调整）", "unit": "ratio", "claimed": null, "packHint": "确认频率提升后每次圣印伤害数值是否改变" }
+      ],
+      "ambiguities": [
+        "圣印原有伤害间隔没有写",
+        "“大大提升”的幅度没有写",
+        "每次伤害数值是否随之调整没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "环愈",
+      "text": "圣印范围内，亚瑟将持续回复生命",
+      "reading": "大招小天赋。亚瑟处于圣印范围内时持续回复生命。原文没有写回复量、计算方式和回复间隔。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "亚瑟处于圣印范围内时",
+      "slots": [
+        { "key": "healPerTickFlat", "what": "每次回复的固定值", "unit": "flat", "claimed": null, "packHint": "天赋 t24 每次回复的固定值" },
+        { "key": "healPerTickPercent", "what": "每次回复的百分比部分（基准未写）", "unit": "percent", "claimed": null, "packHint": "天赋 t24 每次回复的百分比及其基准（最大生命或已损生命）" },
+        { "key": "healInterval", "what": "回复间隔", "unit": "seconds", "claimed": null, "packHint": "天赋 t24 持续回复的间隔（秒或帧）" },
+        { "key": "sealRadius", "what": "圣印范围", "unit": "meters", "claimed": null, "packHint": "大招圣印的作用半径，确认回复判定是否与伤害范围相同" }
+      ],
+      "ambiguities": [
+        "回复量、计算方式和间隔没有写",
+        "是否对核心 c6 圣殿骑士生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

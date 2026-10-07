@@ -1,0 +1,761 @@
+{
+  "heroId": "175",
+  "heroName": "钟馗",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "鬼门爆影",
+      "text": "额外释放一个自爆幻影，且会追踪附近1个目标",
+      "reading": "一技能核心。选择后，释放一技能时额外释放一个（汉字数字）自爆幻影，幻影会追踪附近1个目标；按“自爆”字面理解，幻影接触目标后爆炸造成伤害。“额外”说明这是在一技能原有效果之外多出来的幻影；一技能原本是否也会放出幻影，仓库里没有本模式钟馗的基础技能原文，无法确定。原文没有写：追踪的索敌范围和选目标规则；幻影移动速度、存在时间、找不到目标时是否原地自爆；自爆伤害是只打被追踪的目标还是范围伤害、范围多大；伤害数值、系数、伤害类型；能否暴击；幻影伤害是否算一技能伤害，从而触发「连击破煞」「锤势连印」「驱邪愈体」「魂锤减息」等一技能小天赋。",
+      "mechanisms": ["summon", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "phantomCount", "what": "每次释放的自爆幻影数量（原文写汉字“一个”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "核心 c1 每次释放一技能生成的幻影数量，核对原文的一个，需以资源包为准" },
+        { "key": "trackTargetCount", "what": "每个幻影追踪的目标数", "unit": "count", "claimed": { "value": 1, "quote": "追踪附近1个目标" }, "packHint": "核心 c1 幻影追踪的目标数，核对描述的1个，描述值需资源包核对" },
+        { "key": "trackRange", "what": "追踪索敌范围（原文“附近”的距离）", "unit": "meters", "claimed": null, "packHint": "幻影寻找追踪目标的范围与选目标规则" },
+        { "key": "phantomSpeed", "what": "幻影追踪时的移动速度（速度值，用 flat 记录，单位以资源包为准）", "unit": "flat", "claimed": null, "packHint": "幻影的移动速度，用于计算从释放到自爆的时间" },
+        { "key": "phantomLifetime", "what": "幻影最长存在时间", "unit": "seconds", "claimed": null, "packHint": "幻影存在时长，以及超时或无目标时是否自爆" },
+        { "key": "explosionRadius", "what": "自爆伤害半径（如为范围伤害）", "unit": "meters", "claimed": null, "packHint": "幻影自爆的伤害判定范围，确认是单体还是范围" },
+        { "key": "explosionBaseDamage", "what": "自爆伤害的基础值", "unit": "flat", "claimed": null, "packHint": "幻影自爆伤害的基础值" },
+        { "key": "explosionDamageRatio", "what": "自爆伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "幻影自爆伤害系数、加成属性和伤害类型，以及能否暴击" },
+        { "key": "explosionMaxTargets", "what": "自爆最多命中的目标数（如有上限）", "unit": "count", "claimed": null, "packHint": "幻影自爆伤害的目标数上限" }
+      ],
+      "ambiguities": [
+        "一技能原本是否也会放出幻影没有写，仓库里没有本模式钟馗的基础技能原文",
+        "追踪的索敌范围和选目标规则没有写",
+        "幻影移动速度、存在时间、无目标时的处理没有写",
+        "自爆是单体还是范围伤害、范围多大没有写",
+        "自爆伤害数值、系数、伤害类型没有写",
+        "能否暴击没有写",
+        "幻影伤害是否算一技能伤害、能否触发一技能小天赋没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "鬼影三重奏",
+      "text": "额外锤击2次",
+      "reading": "一技能核心。选择后，一技能在原有锤击之外再额外锤击2次。核心名“三重奏”暗示合计三次锤击（原本一次加额外2次），但原文没写一技能原本锤几次，仓库里也没有本模式钟馗的基础技能原文，不能只凭名字确定。原文没有写：额外锤击的伤害是否与原锤击相同或有衰减；几次锤击之间的间隔；额外锤击落在同一位置还是随朝向前移；是否延长施法时间、是否改变一技能冷却；能否暴击；额外锤击是否各自触发锤击相关的小天赋（「连击破煞」「魂锤减息」「鬼影步」「游魂」等）。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "extraHammerCount", "what": "额外锤击次数", "unit": "count", "claimed": { "value": 2, "quote": "额外锤击2次" }, "packHint": "核心 c2 额外锤击段数，核对描述的2次，描述值需资源包核对" },
+        { "key": "baseHammerCount", "what": "未选此核心时一技能的锤击次数", "unit": "count", "claimed": null, "packHint": "一技能原本的锤击段数" },
+        { "key": "hammerBaseDamage", "what": "每次锤击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "一技能锤击伤害基础值" },
+        { "key": "hammerDamageRatio", "what": "每次锤击伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "锤击伤害系数、加成属性、伤害类型，以及能否暴击" },
+        { "key": "extraHammerDamagePct", "what": "额外锤击伤害相对原锤击伤害的比例（如有衰减）", "unit": "percent", "claimed": null, "packHint": "核心 c2 额外锤击每段伤害，确认与原锤击是否相同" },
+        { "key": "hammerInterval", "what": "相邻两次锤击之间的间隔", "unit": "seconds", "claimed": null, "packHint": "核心 c2 下各段锤击的出手帧或间隔（秒或帧）" },
+        { "key": "hammerRadius", "what": "每次锤击的作用范围", "unit": "meters", "claimed": null, "packHint": "锤击判定范围，确认额外锤击与原锤击范围、落点是否相同" },
+        { "key": "castDuration", "what": "选此核心后一技能的总施法时长", "unit": "seconds", "claimed": null, "packHint": "核心 c2 下一技能总动作时长（帧），确认额外锤击是否延长锁定时间" },
+        { "key": "cooldown", "what": "选此核心后一技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c2 下一技能冷却，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "一技能原本锤几次没有写，“三重奏”只是名字暗示",
+        "额外锤击伤害是否与原锤击相同没有写",
+        "锤击间隔、落点没有写",
+        "是否延长施法时间、是否改变冷却没有写",
+        "能否暴击没有写",
+        "额外锤击是否各自触发锤击类小天赋没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "撕魂钩魄",
+      "text": "勾回过程将造成伤害（伤害与位移的距离相关）",
+      "reading": "二技能核心。选择后，钩锁把目标勾回的过程中会造成伤害，伤害大小与位移的距离相关。按字面理解，被拉动得越远伤害越高，但原文只写“相关”，没写是正相关、按比例还是分档。原文没有写：“位移的距离”指被勾目标被拉动的距离还是钩锁飞行距离；伤害是拉回结束时结算一次还是拉回过程中分段造成；基础伤害、按距离增加的伤害、系数、伤害类型；伤害或距离上限；能否暴击；原本钩锁是否就有命中伤害、这份伤害是否额外叠加。「远邪钩链」提升钩锁施法距离，可能让这份伤害更高，原文未写两者关系。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "钩锁勾中目标并拉回时",
+      "slots": [
+        { "key": "pullDamageBase", "what": "勾回伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c3 勾回伤害的基础值" },
+        { "key": "damagePerDistance", "what": "每米位移增加的伤害（伤害与距离的具体关系原文未写，按每米记录，资源包若为分档或比例需改结构）", "unit": "flat", "claimed": null, "packHint": "核心 c3 勾回伤害随位移距离变化的公式：每米伤害、分档或比例" },
+        { "key": "pullDamageRatio", "what": "勾回伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "勾回伤害系数、加成属性、伤害类型，以及能否暴击" },
+        { "key": "damageCap", "what": "勾回伤害上限（如有）", "unit": "flat", "claimed": null, "packHint": "勾回伤害或计入距离的上限" },
+        { "key": "hookRange", "what": "钩锁最大距离（决定最大位移）", "unit": "meters", "claimed": null, "packHint": "二技能钩锁的最大施法距离与实际拉回距离" },
+        { "key": "pullSpeed", "what": "拉回速度（速度值，用 flat 记录，决定拉回时长）", "unit": "flat", "claimed": null, "packHint": "钩锁拉回目标的速度或拉回总时长" },
+        { "key": "tickInterval", "what": "如为拉回过程中分段伤害，每段之间的间隔", "unit": "seconds", "claimed": null, "packHint": "勾回伤害的结算方式：一次结算或按间隔分段" }
+      ],
+      "ambiguities": [
+        "“位移的距离”指目标被拉动距离还是钩锁飞行距离没有写",
+        "伤害与距离的具体关系（正比、分档）没有写",
+        "一次结算还是过程中分段没有写",
+        "伤害数值、系数、伤害类型、上限没有写",
+        "能否暴击没有写",
+        "原钩锁是否有命中伤害、与这份伤害是否叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "链聚魂牵",
+      "text": "钩锁必定到达终点，一并拉回路径上所有敌人",
+      "reading": "二技能核心。选择后，钩锁不会在勾中第一个敌人时停下，而是必定飞到终点，并把飞行路径上碰到的所有敌人一起拉回。按字面理解，“终点”是钩锁最大距离处。原文没有写：拉回到哪里（拉到钟馗身边还是固定距离）；“所有敌人”是否有隐藏的目标数上限；路径判定宽度；钩锁原本对被勾目标的伤害（如有）是否对每个被拉回的敌人都结算；对首领类目标是否同样拉动；选此核心后钩锁冷却和飞行时间是否改变。原文没有直接写伤害，主要作用是聚怪和控制，记为间接影响；如果钩锁本身有伤害并对每个目标结算，则会直接增加多目标伤害。",
+      "mechanisms": ["skill-change", "control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "hookRange", "what": "钩锁飞到终点的距离", "unit": "meters", "claimed": null, "packHint": "二技能钩锁最大距离，确认选此核心后是否改变" },
+        { "key": "pathWidth", "what": "钩锁路径判定宽度", "unit": "meters", "claimed": null, "packHint": "钩锁碰撞判定宽度" },
+        { "key": "maxTargets", "what": "一次最多拉回的敌人数（原文写“所有敌人”，确认有无隐藏上限）", "unit": "count", "claimed": null, "packHint": "核心 c4 拉回目标数上限" },
+        { "key": "pullEndDistance", "what": "拉回结束时目标与钟馗的距离", "unit": "meters", "claimed": null, "packHint": "拉回终点位置，用于判断能否接上一技能或大招" },
+        { "key": "hookFlightTime", "what": "钩锁飞到终点并拉回的总时长", "unit": "seconds", "claimed": null, "packHint": "核心 c4 下钩锁出手到拉回结束的帧数" },
+        { "key": "hookBaseDamage", "what": "钩锁命中伤害的基础值（原文未提伤害，如有）", "unit": "flat", "claimed": null, "packHint": "二技能钩锁命中是否造成伤害及其基础值" },
+        { "key": "hookDamageRatio", "what": "钩锁命中伤害的加成系数（如有，加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "钩锁命中伤害系数、加成属性和伤害类型，以及是否对每个被拉目标结算" }
+      ],
+      "ambiguities": [
+        "拉回到哪里没有写",
+        "“所有敌人”是否有目标数上限没有写",
+        "路径判定宽度没有写",
+        "钩锁本身是否有伤害、是否对每个目标结算没有写",
+        "对首领类目标是否有效没有写",
+        "冷却、飞行时间是否改变没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "链锁千重劫",
+      "text": "施法时对范围内所有目标挂上钩子，随后缓慢拉回，并造成额外伤害",
+      "reading": "三技能核心。选择后，释放大招时对范围内所有目标挂上钩子，随后把这些目标缓慢拉回（按字面理解拉向钟馗），并造成额外伤害。“额外”说明这是在大招原有伤害之外多出来的伤害。原文没有写：挂钩的范围半径和目标数上限；拉回持续多久、速度多快；额外伤害是挂钩时、拉回过程中还是拉回结束时造成，一次还是多段；伤害数值、系数、伤害类型；能否暴击；对首领类目标是否同样拉动；选此核心后大招冷却、持续时间是否改变。",
+      "mechanisms": ["skill-change", "control", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "hookRadius", "what": "挂钩子的范围半径", "unit": "meters", "claimed": null, "packHint": "核心 c5 施法时挂钩的范围" },
+        { "key": "maxTargets", "what": "最多挂钩的目标数（原文写“所有目标”，确认有无隐藏上限）", "unit": "count", "claimed": null, "packHint": "核心 c5 挂钩目标数上限" },
+        { "key": "pullDuration", "what": "缓慢拉回的持续时间", "unit": "seconds", "claimed": null, "packHint": "核心 c5 拉回过程持续时长" },
+        { "key": "pullSpeed", "what": "拉回速度（速度值，用 flat 记录）", "unit": "flat", "claimed": null, "packHint": "核心 c5 拉回速度" },
+        { "key": "extraDamageBase", "what": "额外伤害的基础值（每段）", "unit": "flat", "claimed": null, "packHint": "核心 c5 额外伤害基础值" },
+        { "key": "extraDamageRatio", "what": "额外伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c5 额外伤害系数、加成属性、伤害类型，以及能否暴击" },
+        { "key": "extraDamageHits", "what": "额外伤害的段数", "unit": "count", "claimed": null, "packHint": "核心 c5 额外伤害是一次还是多段，以及结算时机" },
+        { "key": "extraDamageInterval", "what": "多段时每段之间的间隔", "unit": "seconds", "claimed": null, "packHint": "核心 c5 额外伤害的间隔（秒或帧）" }
+      ],
+      "ambiguities": [
+        "挂钩范围和目标数上限没有写",
+        "拉回时长、速度、拉回终点没有写",
+        "额外伤害的结算时机和段数没有写",
+        "额外伤害数值、系数、伤害类型没有写",
+        "能否暴击没有写",
+        "对首领类目标是否有效没有写",
+        "大招冷却、持续时间是否改变没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "黑洞吞星宇",
+      "text": "施法范围提升至360度，并且生成真实护盾",
+      "reading": "三技能核心。选择后，大招的施法范围变为以钟馗为中心的360度（“提升至”说明原本角度更小，原值未写），并且会生成“真实护盾”。原文没有解释“真实护盾”：可能指能抵挡真实伤害的护盾，也可能只是在原有效果外实际生成一层护盾，不能确定。原文没有写：大招半径是否改变；护盾值及计算属性、持续时间；是否与「冥罚之护」写到的可叠加护盾是同一种。从其他条目看大招会命中目标并有牵引，范围扩大到360度会让大招命中、牵引更多敌人，记为直接影响。",
+      "mechanisms": ["area", "shield", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "castAngle", "what": "大招施法角度（单位为度，用 flat 表示角度值）", "unit": "flat", "claimed": { "value": 360, "quote": "施法范围提升至360度" }, "packHint": "核心 c6 下大招判定区域角度，核对描述的360度，描述值需资源包核对" },
+        { "key": "baseCastAngle", "what": "未选此核心时大招的施法角度（度，用 flat 表示）", "unit": "flat", "claimed": null, "packHint": "大招原本的判定区域角度" },
+        { "key": "castRadius", "what": "大招作用半径", "unit": "meters", "claimed": null, "packHint": "大招判定半径，确认选此核心后是否改变" },
+        { "key": "shieldBase", "what": "真实护盾的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c6 护盾基础值，并确认“真实护盾”的定义" },
+        { "key": "shieldRatio", "what": "真实护盾的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c6 护盾系数与加成属性" },
+        { "key": "shieldDuration", "what": "真实护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "核心 c6 护盾持续时间" }
+      ],
+      "ambiguities": [
+        "大招原本的施法角度没有写",
+        "大招半径是否改变没有写",
+        "“真实护盾”的含义没有解释",
+        "护盾值、计算属性、持续时间没有写",
+        "与「冥罚之护」的可叠加护盾是否为同一种没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "幽冥反噬",
+      "text": "受到攻击有33%概率自动施法（冷却3秒）",
+      "reading": "一技能小天赋。钟馗受到攻击时有33%概率自动施法，该效果冷却3秒。原文没写自动施放的是哪个技能，按所在的一技能分支理解为自动施放一技能，需资源包确认。原文没有写：“受到攻击”只算普攻还是任何伤害；3秒冷却是触发判定的内置冷却，还是自动施法后进入的技能冷却；自动施法是否消耗或重置一技能自身冷却、一技能冷却中能否触发；自动施法朝哪个方向或目标；自动施放的伤害是否与手动相同，是否带上核心效果（额外锤击、自爆幻影）和其他一技能小天赋。自动施法会多出一技能伤害，记为直接影响；触发频率取决于受击频率。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "受到攻击时",
+      "slots": [
+        { "key": "triggerChance", "what": "受到攻击时触发自动施法的概率", "unit": "percent", "claimed": { "value": 33, "quote": "33%概率" }, "packHint": "该天赋触发概率，核对描述的33%，描述值需资源包核对" },
+        { "key": "internalCooldown", "what": "自动施法的冷却", "unit": "seconds", "claimed": { "value": 3, "quote": "冷却3秒" }, "packHint": "该天赋冷却，核对描述的3秒，描述值需资源包核对，并确认是触发内置冷却还是技能冷却" },
+        { "key": "autoCastDamagePct", "what": "自动施法伤害相对手动施放的比例", "unit": "percent", "claimed": null, "packHint": "自动施放的技能编号，以及其伤害、核心效果是否与手动施放相同" }
+      ],
+      "ambiguities": [
+        "自动施放的是哪个技能没有写",
+        "“受到攻击”的范围（普攻还是任何伤害）没有写",
+        "3秒冷却的性质没有写",
+        "与一技能自身冷却的关系没有写",
+        "自动施法的方向或目标没有写",
+        "自动施法的伤害、是否带核心和其他小天赋效果没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "鬼影步",
+      "text": "锤击时往面朝方向小幅位移",
+      "reading": "一技能小天赋。每次锤击时钟馗向面朝方向小幅位移。“小幅”没有数值。原文没有写：位移距离和耗时；能否穿越地形；选「鬼影三重奏」时每次额外锤击是否都位移；位移是否改变一技能动作时长。位移会改变锤击落点，模拟走位时才需要；不改变伤害数值，记为不影响伤害。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "每次锤击时",
+      "slots": [
+        { "key": "dashDistance", "what": "每次锤击的位移距离（原文只写“小幅”）", "unit": "meters", "claimed": null, "packHint": "该天赋每次锤击的位移距离" },
+        { "key": "dashDuration", "what": "位移耗时", "unit": "seconds", "claimed": null, "packHint": "位移的持续帧数，确认是否改变锤击动作时长" }
+      ],
+      "ambiguities": [
+        "“小幅”位移的距离没有写",
+        "能否穿越地形没有写",
+        "额外锤击是否每次都位移没有写",
+        "是否改变动作时长没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "魂锤减息",
+      "text": "每命中1个单位冷却-0.2秒",
+      "reading": "一技能小天赋。每命中1个单位，冷却减少0.2秒（原文写“-0.2秒”，表示减少）。原文没写减少的是哪个技能的冷却，按所在的一技能分支理解为一技能冷却。原文没有写：“命中”是每次锤击分别计数还是每次施法计数（选「鬼影三重奏」时额外锤击是否各算一次，自爆幻影是否算）；同一单位被多次命中是否重复计算；“单位”是否包括所有敌方单位；单次施法的减少量是否有上限。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能命中单位时",
+      "slots": [
+        { "key": "unitsPerReduction", "what": "每次减冷却所需命中的单位数", "unit": "count", "claimed": { "value": 1, "quote": "每命中1个单位" }, "packHint": "该天赋计数条件，核对描述的每1个单位，描述值需资源包核对" },
+        { "key": "reductionPerUnit", "what": "每命中1个单位减少的冷却（原文写“-0.2秒”，表示减少0.2秒）", "unit": "seconds", "claimed": { "value": 0.2, "quote": "冷却-0.2秒" }, "packHint": "每个单位减少的冷却秒数，核对描述的0.2秒，描述值需资源包核对，并确认作用于哪个技能" },
+        { "key": "maxReductionPerCast", "what": "单次施法最多减少的冷却（如有上限）", "unit": "seconds", "claimed": null, "packHint": "该天赋单次施法冷却减少上限" }
+      ],
+      "ambiguities": [
+        "减少哪个技能的冷却没有写",
+        "按每次锤击还是每次施法计数没有写",
+        "同一单位多次命中是否重复计算没有写",
+        "“单位”的范围没有写",
+        "单次施法减少量上限没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "连击破煞",
+      "text": "3秒内，锤击命中相同目标将造成更多伤害",
+      "reading": "一技能小天赋。3秒内锤击再次命中同一个目标时造成更多伤害。按字面理解，锤击命中某目标后的3秒内，后续锤击对该目标增伤。“更多伤害”没有数值。原文没有写：增伤幅度；是从第二次命中起固定增伤还是逐次叠加，层数上限；3秒从首次命中开始计还是每次命中刷新；增伤只作用于锤击伤害还是该目标受到的所有伤害；自爆幻影等非锤击伤害是否计入。选「鬼影三重奏」时一次施法内就有多次锤击，按字面同一次施法内即可触发。",
+      "mechanisms": ["damage-amp", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "3秒内锤击再次命中同一目标时",
+      "slots": [
+        { "key": "window", "what": "计算连续命中的时间窗口", "unit": "seconds", "claimed": { "value": 3, "quote": "3秒内" }, "packHint": "该天赋计时窗口，核对描述的3秒，描述值需资源包核对，并确认计时起点与刷新规则" },
+        { "key": "damageAmp", "what": "锤击对同一目标的增伤幅度（原文只写“更多伤害”）", "unit": "percent", "claimed": null, "packHint": "该天赋每次或每层增伤数值" },
+        { "key": "maxStacks", "what": "增伤层数上限（如可叠加）", "unit": "count", "claimed": null, "packHint": "增伤是否叠加及层数上限" },
+        { "key": "hitsBeforeAmp", "what": "开始增伤前需要的命中次数", "unit": "count", "claimed": null, "packHint": "从第几次命中同一目标起开始增伤" }
+      ],
+      "ambiguities": [
+        "增伤幅度没有写",
+        "固定增伤还是逐次叠加、层数上限没有写",
+        "3秒的计时和刷新规则没有写",
+        "增伤作用范围（锤击还是所有伤害）没有写",
+        "非锤击伤害是否计入没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "游魂",
+      "text": "锤击后提升移速，且可移动施法",
+      "reading": "一技能小天赋。锤击后获得移速提升，并且一技能可以边移动边施放（“可移动施法”按所在分支理解为一技能）。原文没有写：移速提升数值、持续时间；多次锤击时能否叠加；移动施法时移速是否降低。纯功能性效果，不改变伤害数值，模拟走位时才需要。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "锤击后",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "锤击后的移速加成", "unit": "percent", "claimed": null, "packHint": "该天赋移速 buff 数值" },
+        { "key": "duration", "what": "移速加成持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋移速 buff 持续时间" },
+        { "key": "maxStacks", "what": "多次锤击时移速加成的层数上限（如可叠加）", "unit": "count", "claimed": null, "packHint": "移速 buff 是否叠加及层数上限" },
+        { "key": "castMoveSpeedPct", "what": "移动施法期间的移速比例（如有降低）", "unit": "percent", "claimed": null, "packHint": "一技能施法期间的移速修正" }
+      ],
+      "ambiguities": [
+        "移速提升数值、持续时间没有写",
+        "能否叠加没有写",
+        "“可移动施法”是否只指一技能没有写",
+        "移动施法时移速是否降低没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "锤势连印",
+      "text": "一技能造成伤害时，均可叠加大招印记",
+      "reading": "一技能小天赋。一技能每次造成伤害时都能叠加大招印记。“均可”说明未选此天赋时一技能只有部分伤害能叠加印记或不能叠加，但原文没写原规则。“大招印记”的作用原文没有解释，仓库里也没有本模式钟馗的基础技能原文，只能从名字推测与大招有关，无法确定它是增伤、加护盾还是其他效果。原文没有写：每次伤害叠几层；印记叠在目标身上还是钟馗身上；层数上限、持续时间；多目标、多段锤击、自爆幻影是否各算一次。印记效果未知，暂按间接影响记录。",
+      "mechanisms": ["stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能造成伤害时",
+      "slots": [
+        { "key": "stacksPerDamage", "what": "每次一技能伤害叠加的大招印记层数", "unit": "count", "claimed": null, "packHint": "该天赋每次伤害叠加的印记层数" },
+        { "key": "maxMarks", "what": "大招印记层数上限", "unit": "count", "claimed": null, "packHint": "大招印记的层数上限" },
+        { "key": "markDuration", "what": "大招印记持续时间", "unit": "seconds", "claimed": null, "packHint": "大招印记持续时间与刷新规则" },
+        { "key": "markEffectPerStack", "what": "每层大招印记的效果数值（作用未写，单位暂用百分比）", "unit": "percent", "claimed": null, "packHint": "大招印记的效果定义、每层数值与作用方式" }
+      ],
+      "ambiguities": [
+        "大招印记的作用没有解释",
+        "未选此天赋时的叠加规则没有写",
+        "每次伤害叠几层没有写",
+        "印记叠在目标还是自身没有写",
+        "层数上限、持续时间没有写",
+        "多目标、多段伤害是否各算一次没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "驱邪愈体",
+      "text": "造成伤害将回复生命（每次最多伤害3个目标）",
+      "reading": "一技能小天赋。造成伤害时回复生命。原文没限定是一技能伤害还是所有伤害，按所在的一技能分支理解为一技能伤害。括号里的“每次最多伤害3个目标”有两种读法：一是每次伤害最多按3个目标计算回复量；二是一技能每次最多只能伤害3个目标，相当于给群伤加了限制。原文不能确定是哪一种。原文没有写：回复量是固定值、按伤害比例还是按最大生命计算；具体数值；是否有冷却。回复只影响生存，记为间接影响；如果是第二种读法，会直接降低多目标伤害。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "造成伤害时",
+      "slots": [
+        { "key": "maxTargetsCounted", "what": "每次最多计入的目标数（限制回复计算还是限制伤害目标数原文未写明）", "unit": "count", "claimed": { "value": 3, "quote": "每次最多伤害3个目标" }, "packHint": "该天赋目标数上限，核对描述的3个，描述值需资源包核对，并确认限制的是回复计算还是一技能伤害目标" },
+        { "key": "healBase", "what": "每个目标对应的回复基础值", "unit": "flat", "claimed": null, "packHint": "该天赋回复量基础值" },
+        { "key": "healRatio", "what": "回复的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋回复系数与加成属性（如最大生命或攻击）" },
+        { "key": "healPctOfDamage", "what": "按造成伤害比例回复时的比例（如属此类）", "unit": "percent", "claimed": null, "packHint": "确认回复是否按伤害比例计算及比例" },
+        { "key": "internalCooldown", "what": "回复触发的内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "该天赋回复的内置冷却" }
+      ],
+      "ambiguities": [
+        "是一技能伤害还是所有伤害触发没有写",
+        "“每次最多伤害3个目标”限制的是回复计算还是伤害目标数不明确",
+        "回复量计算方式和数值没有写",
+        "是否有冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "冥界降临",
+      "text": "一技能和被动范围提升",
+      "reading": "一技能小天赋。一技能和被动的作用范围都提升。从这条看被动带有范围效果，但被动的具体内容原文没写，仓库里也没有本模式钟馗的基础技能原文。原文没有写：提升幅度；按比例还是固定距离；作用于半径还是面积；一技能范围是否也包括核心的额外锤击和自爆幻影。范围扩大会让一技能命中更多目标，记为直接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "skill1RangeBonus", "what": "一技能范围提升幅度（原文未写是比例还是固定距离，暂用百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋一技能范围加成，确认是比例还是固定距离、作用于半径还是面积" },
+        { "key": "passiveRangeBonus", "what": "被动范围提升幅度（原文未写是比例还是固定距离，暂用百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋被动范围加成，以及被动范围效果的定义" },
+        { "key": "skill1BaseRadius", "what": "一技能原作用范围", "unit": "meters", "claimed": null, "packHint": "一技能锤击原判定范围，用于换算提升后范围" },
+        { "key": "passiveBaseRadius", "what": "被动原作用范围", "unit": "meters", "claimed": null, "packHint": "被动原判定范围，用于换算提升后范围" }
+      ],
+      "ambiguities": [
+        "提升幅度没有写",
+        "按比例还是固定距离、半径还是面积没有写",
+        "被动的范围效果是什么没有写",
+        "是否包括额外锤击和自爆幻影没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "远邪钩链",
+      "text": "钩锁施法距离提升",
+      "reading": "二技能小天赋。钩锁的施法距离提升，即钩锁能飞得更远。原文没有写提升幅度、按比例还是固定距离，也没写钩锁原距离。距离主要影响能勾到多远的敌人，记为间接影响；选「撕魂钩魄」时勾回伤害与位移距离相关，更远的钩锁可能带来更高勾回伤害，原文未写两者关系。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "rangeBonus", "what": "钩锁施法距离提升幅度（原文未写是比例还是固定距离，暂用百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋钩锁距离加成，确认是比例还是固定距离" },
+        { "key": "baseRange", "what": "钩锁原施法距离", "unit": "meters", "claimed": null, "packHint": "二技能钩锁原最大距离" }
+      ],
+      "ambiguities": [
+        "提升幅度、方式没有写",
+        "钩锁原距离没有写",
+        "与「撕魂钩魄」勾回伤害的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "白给钩",
+      "text": "未勾到敌人将返还75%冷却",
+      "reading": "二技能小天赋。钩锁没有勾到敌人时返还75%冷却。按字面理解为返还钩锁（二技能）冷却的75%，原文没写是总冷却还是剩余冷却的75%。原文没有写：选「链聚魂牵」时钩锁必定飞到终点，路径上没有敌人是否算“未勾到”；只勾到队友（「伙伴钩」）是否算未勾到；勾到小兵、野怪是否算勾到敌人。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "钩锁未勾到敌人时",
+      "slots": [
+        { "key": "refundPct", "what": "未勾到敌人时返还的冷却比例", "unit": "percent", "claimed": { "value": 75, "quote": "返还75%冷却" }, "packHint": "该天赋冷却返还比例，核对描述的75%，描述值需资源包核对，并确认按总冷却还是剩余冷却计算" },
+        { "key": "baseCooldown", "what": "钩锁冷却", "unit": "seconds", "claimed": null, "packHint": "二技能冷却，用于换算返还秒数" }
+      ],
+      "ambiguities": [
+        "按总冷却还是剩余冷却计算没有写",
+        "与「链聚魂牵」「伙伴钩」搭配时“未勾到”的判定没有写",
+        "非英雄单位是否算敌人没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "速钩",
+      "text": "钩锁初始速度大幅提升",
+      "reading": "二技能小天赋。钩锁飞出时的初始速度大幅提升。“初始速度”说明钩锁飞行速度可能在飞行中变化，但原文没写原速度和变化方式；“大幅”没有数值。原文没有写提升后的速度、是否同时提升拉回速度。速度影响钩锁命中所需时间和命中难度，记为间接影响。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "initialSpeedBonus", "what": "钩锁初始速度提升幅度（原文只写“大幅”）", "unit": "percent", "claimed": null, "packHint": "该天赋钩锁初始速度加成" },
+        { "key": "baseInitialSpeed", "what": "钩锁原初始飞行速度（速度值，用 flat 记录）", "unit": "flat", "claimed": null, "packHint": "二技能钩锁的初始速度和飞行中的速度变化方式" }
+      ],
+      "ambiguities": [
+        "提升幅度没有写",
+        "原速度和速度变化方式没有写",
+        "是否同时提升拉回速度没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "叠罪",
+      "text": "被动提供的最大血量增加，且最大层数提升至66层",
+      "reading": "二技能小天赋。被动提供的最大生命加成增加，并且被动最大层数提升到66层。从这条看被动是按层数提供最大生命的叠层效果（「赏罚分明」也写到钩锁命中增加被动层数）。“提升至”说明原层数上限更低，原值未写。原文没有写：“最大血量增加”是每层提供的最大生命提高还是总量提高，提高多少；被动原本每层多少最大生命；被动层数还能通过哪些方式获得、是否永久保留。最大生命只影响生存，记为间接影响；如果某个技能伤害随最大生命提升，则会影响伤害，原文未写。",
+      "mechanisms": ["stacking", "stat"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（被动叠层时）",
+      "slots": [
+        { "key": "maxStacks", "what": "被动层数上限", "unit": "count", "claimed": { "value": 66, "quote": "最大层数提升至66层" }, "packHint": "该天赋下被动层数上限，核对描述的66层，描述值需资源包核对" },
+        { "key": "baseMaxStacks", "what": "未选此天赋时被动层数上限", "unit": "count", "claimed": null, "packHint": "被动原层数上限" },
+        { "key": "hpPerStackBonus", "what": "被动每层最大生命的提高量（原文未写是每层提高还是总量提高）", "unit": "flat", "claimed": null, "packHint": "该天赋对被动最大生命加成的提升方式与数值" },
+        { "key": "baseHpPerStack", "what": "被动原本每层提供的最大生命", "unit": "flat", "claimed": null, "packHint": "被动每层最大生命基础数值" }
+      ],
+      "ambiguities": [
+        "最大血量增加的方式和数值没有写",
+        "被动原本每层最大生命、原层数上限没有写",
+        "被动层数获得方式和保留规则没有写",
+        "是否有技能伤害随最大生命提升没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "赏罚分明",
+      "text": "钩锁命中时，增加1层被动层数",
+      "reading": "二技能小天赋。钩锁命中时增加1层被动层数。原文没有写：一次命中多个敌人时（如选「链聚魂牵」）是每个目标各加1层还是每次施法只加1层；命中小兵、野怪、首领、队友是否都算；是否有冷却。按「叠罪」理解被动按层提供最大生命，主要影响生存，记为间接影响。",
+      "mechanisms": ["stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "钩锁命中时",
+      "slots": [
+        { "key": "stacksPerHit", "what": "每次钩锁命中增加的被动层数", "unit": "count", "claimed": { "value": 1, "quote": "增加1层被动层数" }, "packHint": "该天赋每次命中增加的被动层数，核对描述的1层，描述值需资源包核对" },
+        { "key": "maxStacksPerCast", "what": "每次施法最多因此获得的层数（多目标时，如有上限）", "unit": "count", "claimed": null, "packHint": "钩锁命中多个目标时的叠层规则" }
+      ],
+      "ambiguities": [
+        "多目标命中时按目标还是按施法计数没有写",
+        "哪些单位算命中没有写",
+        "是否有冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "游魄",
+      "text": "技能可移动施法",
+      "reading": "二技能小天赋。原文只写“技能”，按所在的二技能分支理解为释放钩锁时可以边移动边施法。原文没写移动施法时移速是否降低。纯功能性效果，不改变伤害数值，模拟走位时才需要。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "castMoveSpeedPct", "what": "移动施法期间的移速比例（如有降低）", "unit": "percent", "claimed": null, "packHint": "二技能施法期间的移速修正，并确认该天赋作用于哪个技能" }
+      ],
+      "ambiguities": [
+        "“技能”具体指哪个技能没有写",
+        "移动施法时移速是否降低没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "巨锁",
+      "text": "钩锁的宽度增加",
+      "reading": "二技能小天赋。钩锁的判定宽度增加，更容易勾中敌人。原文没有写增加幅度（比例还是固定值）和原宽度。选「链聚魂牵」时更宽的钩锁可能沿路径拉回更多敌人。只影响命中，记为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "widthBonus", "what": "钩锁宽度提升幅度（原文未写是比例还是固定值，暂用百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋钩锁宽度加成，确认是比例还是固定值" },
+        { "key": "baseWidth", "what": "钩锁原判定宽度", "unit": "meters", "claimed": null, "packHint": "二技能钩锁原碰撞宽度" }
+      ],
+      "ambiguities": [
+        "增加幅度和方式没有写",
+        "原宽度没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "伙伴钩",
+      "text": "钩子可勾队友，并回复其生命",
+      "reading": "二技能小天赋。钩锁可以勾中队友，并回复被勾队友的生命。原文没有写：勾中队友后是否把队友拉向钟馗；回复量及计算属性；钩锁路径上同时有队友和敌人时优先勾谁；勾中队友是否算“命中”，从而触发「赏罚分明」或影响「白给钩」返还。只影响队友生存，不改变钟馗的伤害。",
+      "mechanisms": ["team", "heal"],
+      "damageRelevance": "none",
+      "trigger": "钩锁勾中队友时",
+      "slots": [
+        { "key": "allyHealBase", "what": "回复队友生命的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋队友回复量基础值" },
+        { "key": "allyHealRatio", "what": "回复队友生命的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋队友回复系数与加成属性" }
+      ],
+      "ambiguities": [
+        "是否把队友拉回没有写",
+        "回复量和计算属性没有写",
+        "队友和敌人同时在路径上时的优先级没有写",
+        "勾中队友是否算命中没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "吞星漩",
+      "text": "技能持续时间提升",
+      "reading": "三技能小天赋。原文只写“技能”，按所在的三技能分支理解为大招持续时间提升。原文没有写：提升多少（秒数还是比例）；大招原持续时间；大招是否按间隔分段造成伤害；护盾、霸体、牵引等附带效果是否一起延长。如果大招按时间分段造成伤害，持续时间延长会增加伤害段数，记为直接影响；大招是否分段伤害原文没写。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "durationBonus", "what": "大招持续时间提升量（原文未写是秒数还是比例，暂用秒）", "unit": "seconds", "claimed": null, "packHint": "该天赋大招持续时间加成，确认是秒数还是比例" },
+        { "key": "baseDuration", "what": "大招原持续时间", "unit": "seconds", "claimed": null, "packHint": "大招原持续时长（帧）" },
+        { "key": "tickInterval", "what": "大招伤害间隔（如分段伤害）", "unit": "seconds", "claimed": null, "packHint": "大招伤害结算方式与间隔，用于计算延长后的伤害段数" }
+      ],
+      "ambiguities": [
+        "“技能”具体指哪个技能没有写",
+        "提升幅度和方式没有写",
+        "大招原持续时间、是否分段伤害没有写",
+        "附带效果是否一起延长没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "冥罚之护",
+      "text": "增加可叠加护盾的层数上限和持续时间",
+      "reading": "三技能小天赋。可叠加护盾的层数上限和持续时间都增加。原文没写这个可叠加护盾怎么获得，按所在的三技能分支理解与大招有关。原文没有写：层数上限和持续时间各增加多少；原上限和原持续时间；每层护盾量及计算属性；与「黑洞吞星宇」的真实护盾是否为同一种。护盾只影响生存，记为间接影响。",
+      "mechanisms": ["shield", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "获得可叠加护盾时",
+      "slots": [
+        { "key": "maxStacksBonus", "what": "护盾层数上限增加量", "unit": "count", "claimed": null, "packHint": "该天赋护盾层数上限加成" },
+        { "key": "durationBonus", "what": "护盾持续时间增加量", "unit": "seconds", "claimed": null, "packHint": "该天赋护盾持续时间加成" },
+        { "key": "baseMaxStacks", "what": "护盾原层数上限", "unit": "count", "claimed": null, "packHint": "可叠加护盾原层数上限" },
+        { "key": "baseDuration", "what": "护盾原持续时间", "unit": "seconds", "claimed": null, "packHint": "可叠加护盾原持续时间" },
+        { "key": "shieldPerStack", "what": "每层护盾量", "unit": "flat", "claimed": null, "packHint": "可叠加护盾每层数值、计算属性与获得条件" }
+      ],
+      "ambiguities": [
+        "可叠加护盾的获得方式没有写",
+        "层数上限、持续时间的增加量和原值没有写",
+        "每层护盾量没有写",
+        "与真实护盾的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "断阴阳",
+      "text": "死亡后将释放大招",
+      "reading": "三技能小天赋。钟馗死亡后会自动释放一次大招。原文没有写：大招在冷却中时是否也能释放；死亡后释放的大招伤害、持续时间、牵引是否与正常大招相同；是否带核心效果；是否有次数限制或冷却。只在死亡时触发，持续输出的模拟中通常不会出现；触发时会额外造成一次大招伤害，记为直接影响。",
+      "mechanisms": ["proc", "other"],
+      "damageRelevance": "direct",
+      "trigger": "死亡时",
+      "slots": [
+        { "key": "castDamagePct", "what": "死亡后释放的大招伤害相对正常大招的比例", "unit": "percent", "claimed": null, "packHint": "死亡触发的大招是否与正常大招相同（伤害、持续时间、核心效果）" },
+        { "key": "triggerLimit", "what": "可触发次数上限（如有）", "unit": "count", "claimed": null, "packHint": "该天赋触发次数限制" },
+        { "key": "internalCooldown", "what": "触发冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发冷却，以及大招冷却中能否触发" }
+      ],
+      "ambiguities": [
+        "大招冷却中能否触发没有写",
+        "死亡触发的大招效果是否与正常相同没有写",
+        "次数限制或冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "镇邪祟",
+      "text": "命中目标将减少技能冷却",
+      "reading": "三技能小天赋。命中目标时减少技能冷却。原文只写“命中目标”“技能冷却”，按所在的三技能分支理解为大招命中时减少大招冷却，但也可能减少所有技能冷却，原文不能确定。原文没有写：每次减少多少（秒数还是比例）；大招多段命中时是否每段都算；多个目标是否分别计数；单次施法减少量上限。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中目标时",
+      "slots": [
+        { "key": "reductionPerHit", "what": "每次命中减少的冷却（原文未写是秒数还是比例，暂用秒）", "unit": "seconds", "claimed": null, "packHint": "该天赋每次命中减少的冷却，确认是秒数还是比例、作用于哪些技能" },
+        { "key": "maxReductionPerCast", "what": "单次施法最多减少的冷却（如有上限）", "unit": "seconds", "claimed": null, "packHint": "该天赋单次施法冷却减少上限" },
+        { "key": "internalCooldown", "what": "减冷却触发的内置冷却（如有）", "unit": "seconds", "claimed": null, "packHint": "多段命中时的计数规则与内置冷却" }
+      ],
+      "ambiguities": [
+        "减少哪个技能的冷却没有写",
+        "每次减少多少、按秒还是比例没有写",
+        "多段、多目标是否分别计数没有写",
+        "单次减少量上限没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "扫地机器人",
+      "text": "技能可移动施法",
+      "reading": "三技能小天赋。原文只写“技能”，按所在的三技能分支理解为释放大招时可以边移动边施法。原文没有写移动施法时移速是否降低，大招的作用区域是否跟随钟馗移动。纯功能性效果，不改变伤害数值，模拟走位时才需要；如果大招区域跟随移动，实际覆盖的敌人可能更多，原文未写。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "castMoveSpeedPct", "what": "移动施法期间的移速比例（如有降低）", "unit": "percent", "claimed": null, "packHint": "大招施法期间的移速修正，并确认大招区域是否跟随移动" }
+      ],
+      "ambiguities": [
+        "“技能”具体指哪个技能没有写",
+        "移动施法时移速是否降低没有写",
+        "大招区域是否跟随移动没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "破万法",
+      "text": "霸体持续时间增加",
+      "reading": "三技能小天赋。霸体的持续时间增加。原文没写霸体来自哪个技能，按所在的三技能分支理解为大招附带的霸体（免疫控制）。原文没有写增加多少、原持续时间。霸体只防止被控制打断，记为间接影响。",
+      "mechanisms": ["control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "获得霸体时",
+      "slots": [
+        { "key": "durationBonus", "what": "霸体持续时间增加量", "unit": "seconds", "claimed": null, "packHint": "该天赋霸体持续时间加成" },
+        { "key": "baseDuration", "what": "霸体原持续时间", "unit": "seconds", "claimed": null, "packHint": "霸体来源技能与原持续时间" }
+      ],
+      "ambiguities": [
+        "霸体来自哪个技能没有写",
+        "增加量和原持续时间没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "荡走",
+      "text": "大招的牵引效果增强",
+      "reading": "三技能小天赋。大招的牵引效果增强。原文没写“增强”具体指牵引速度更快、牵引范围更大还是牵引力度更大，也没写增强幅度。牵引属于控制和聚怪，记为间接影响。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "pullSpeedBonus", "what": "牵引速度或力度提升幅度（如属此类）", "unit": "percent", "claimed": null, "packHint": "该天赋对大招牵引速度或力度的加成" },
+        { "key": "pullRangeBonus", "what": "牵引范围提升幅度（如属此类，暂用百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋对大招牵引范围的加成，确认“增强”的具体含义" }
+      ],
+      "ambiguities": [
+        "“增强”指速度、范围还是力度没有写",
+        "增强幅度没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "镇黄泉",
+      "text": "吞噬低生命目标，回复大量生命且额外获得被动",
+      "reading": "三技能小天赋。按所在的三技能分支理解为大招可以吞噬生命值低的目标（字面上即直接消灭目标），吞噬后回复大量生命，并额外获得被动。“额外获得被动”按「叠罪」「赏罚分明」理解为额外获得被动层数，但原文只写“被动”。原文没有写：“低生命”的阈值（百分比还是固定值）；吞噬的范围和触发时机；是否对首领类目标生效；“大量生命”的数值；获得几层被动；是否有冷却或次数限制。吞噬相当于斩杀，记为直接影响。",
+      "mechanisms": ["execute", "heal", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "大招期间目标生命低于阈值时（阈值未写）",
+      "slots": [
+        { "key": "hpThreshold", "what": "可被吞噬的生命阈值（原文只写“低生命”，未写按比例还是固定值，暂用百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋吞噬判定的生命阈值及计算方式" },
+        { "key": "devourRange", "what": "吞噬判定范围", "unit": "meters", "claimed": null, "packHint": "吞噬的作用范围与触发时机" },
+        { "key": "healBase", "what": "吞噬后回复生命的基础值（原文只写“大量”）", "unit": "flat", "claimed": null, "packHint": "该天赋回复量基础值" },
+        { "key": "healRatio", "what": "吞噬后回复生命的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋回复系数与加成属性" },
+        { "key": "passiveStacksGained", "what": "吞噬后额外获得的被动层数", "unit": "count", "claimed": null, "packHint": "该天赋额外获得被动的具体内容与层数" },
+        { "key": "internalCooldown", "what": "吞噬的冷却或次数限制（如有）", "unit": "seconds", "claimed": null, "packHint": "该天赋吞噬的冷却与每次大招可吞噬的目标数" }
+      ],
+      "ambiguities": [
+        "“低生命”阈值没有写",
+        "吞噬范围和触发时机没有写",
+        "是否对首领类目标生效没有写",
+        "回复量没有写",
+        "“额外获得被动”的具体内容和层数没有写",
+        "冷却或次数限制没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

@@ -1,0 +1,1639 @@
+{
+  "heroId": "176",
+  "heroName": "杨玉环",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "小弦切切",
+      "text": "拨弦两次，第二次时4个音波将全部攻击同一目标",
+      "reading": "一技能核心。一技能变为拨弦两次（“两次”是汉字数字），第二次拨弦时，4个音波全部攻击同一个目标。按字面理解，第一次拨弦的音波仍按原有方式攻击，第二次的4个音波集中到同一目标。仓库里没有本模式杨玉环的基础技能原文，一技能每次拨弦发出几个音波、音波如何选择目标、两次拨弦是需要再按一次还是自动连续，原文都没写。原文没写“同一目标”如何选定，没写每个音波的伤害数值、系数和伤害类型，没写4个音波打同一目标时是否有伤害递减，也没写两次拨弦之间的间隔、选此核心后一技能冷却是否改变、音波能否暴击。",
+      "mechanisms": ["skill-change", "charges"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时（第二次拨弦集中攻击）",
+      "slots": [
+        {
+          "key": "strumCount",
+          "what": "每次一技能的拨弦次数（原文写汉字“两次”，校验器只识别阿拉伯数字，所以 claimed 留空）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "核心 c1 一技能拨弦段数，核对原文的两次，需以资源包为准"
+        },
+        {
+          "key": "secondStrumWaveCount",
+          "what": "第二次拨弦时集中攻击同一目标的音波数量",
+          "unit": "count",
+          "claimed": { "value": 4, "quote": "第二次时4个音波" },
+          "packHint": "核心 c1 第二次拨弦发出的音波数量，核对描述的4个，描述值需资源包核对"
+        },
+        {
+          "key": "firstStrumWaveCount",
+          "what": "第一次拨弦发出的音波数量",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "核心 c1 第一次拨弦的音波数量与索敌方式，确认是否与原一技能相同"
+        },
+        {
+          "key": "waveBaseDamage",
+          "what": "每个音波伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "一技能音波伤害的基础值，确认选此核心后是否改变"
+        },
+        {
+          "key": "waveDamageRatio",
+          "what": "每个音波伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "一技能音波伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "sameTargetFalloff",
+          "what": "多个音波命中同一目标时的伤害递减（如有）",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "同一目标被多个音波命中时是否有伤害衰减及衰减比例"
+        },
+        {
+          "key": "recastWindow",
+          "what": "两次拨弦之间的间隔或第二次拨弦的可释放时间窗口",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "核心 c1 第二段拨弦的释放间隔或可再次释放的窗口时长（秒或帧）"
+        },
+        {
+          "key": "targetAcquireRange",
+          "what": "第二次拨弦选择攻击目标的索敌范围",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "第二次拨弦锁定目标的范围与选目标规则"
+        },
+        {
+          "key": "cooldown",
+          "what": "选此核心后一技能的冷却",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "核心 c1 下一技能冷却时间，确认是否与原技能不同、从第一段还是第二段开始计算"
+        }
+      ],
+      "ambiguities": [
+        "仓库里没有本模式杨玉环一技能的基础原文，原本每次发出几个音波、如何索敌没有写",
+        "两次拨弦是手动再次释放还是自动连续没有写，间隔没有写",
+        "第一次拨弦的音波数量和攻击方式没有写",
+        "“同一目标”如何选定没有写",
+        "音波伤害数值、系数、伤害类型没有写",
+        "4个音波打同一目标时是否有伤害递减没有写",
+        "选此核心后一技能冷却是否改变没有写",
+        "音波能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "大弦嘈嘈",
+      "text": "强化普攻伤害提升并增加到四枚",
+      "reading": "一技能核心。强化普攻的伤害提升，并且强化普攻的弹体数量增加到四枚（“四枚”是汉字数字）。从一技能分支的「穿波」「广域」「华章」都写到强化普攻看，强化普攻与一技能相关，但强化普攻如何获得（例如释放一技能后下一次普攻被强化）原文没写。原文没写伤害提升多少、是百分比提升还是基础值/系数提高，没写原来是几枚，没写四枚是否各自独立造成伤害、能否全部命中同一目标、是否可暴击。",
+      "mechanisms": ["skill-change", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "打出强化普攻时",
+      "slots": [
+        {
+          "key": "enhancedBasicDamageAmp",
+          "what": "强化普攻伤害提升幅度（原文只写“提升”）",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "核心 c2 强化普攻伤害提升数值，确认是百分比增幅还是基础值或系数提高"
+        },
+        {
+          "key": "projectileCount",
+          "what": "选此核心后强化普攻的弹体数量（原文写汉字“四枚”，校验器只识别阿拉伯数字，所以 claimed 留空）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "核心 c2 强化普攻弹体数量，核对原文的四枚，需以资源包为准"
+        },
+        {
+          "key": "originalProjectileCount",
+          "what": "未选此核心时强化普攻的弹体数量",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "原强化普攻的弹体数量"
+        },
+        {
+          "key": "projectileBaseDamage",
+          "what": "每枚强化普攻弹体伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "强化普攻每枚弹体伤害的基础值"
+        },
+        {
+          "key": "projectileDamageRatio",
+          "what": "每枚强化普攻弹体伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "强化普攻每枚弹体伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "hitsPerTargetLimit",
+          "what": "一次强化普攻中同一目标最多被几枚弹体命中",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "多枚弹体对同一目标的判定次数限制"
+        },
+        {
+          "key": "enhancedBasicPerCast",
+          "what": "每次获得强化普攻的次数（获得方式原文未写）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "强化普攻的获得条件与每次获得的强化次数"
+        }
+      ],
+      "ambiguities": [
+        "伤害提升多少没有写，是百分比增幅还是基础值或系数提高没有写",
+        "原来强化普攻是几枚没有写",
+        "强化普攻如何获得没有写",
+        "四枚是否各自独立造成伤害、能否全部命中同一目标没有写",
+        "强化普攻能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "如听仙乐",
+      "text": "从外向内依次生成3圈眩晕区域",
+      "reading": "二技能核心。二技能改为从外向内依次生成3圈眩晕区域：最外圈先生成，然后逐圈向内，处在生成区域的敌人被眩晕。从「涟漪」「制衡」「应弦」都写到“外圈眩晕”“外圈命中”看，二技能原本就有外圈眩晕，这个核心把眩晕区域变成3圈。原文没写每圈的半径和宽度、圈与圈之间的生成间隔、每圈眩晕时长、每圈是否造成伤害，没写同一敌人被多圈命中时能否被重复眩晕，也没写选此核心后「制衡」「应弦」「涟漪」里的“外圈”指最外一圈还是三圈都算。",
+      "mechanisms": ["skill-change", "control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时",
+      "slots": [
+        {
+          "key": "ringCount",
+          "what": "眩晕区域的圈数",
+          "unit": "count",
+          "claimed": { "value": 3, "quote": "3圈眩晕区域" },
+          "packHint": "核心 c3 二技能生成的眩晕圈数，核对描述的3圈，描述值需资源包核对"
+        },
+        {
+          "key": "ringInterval",
+          "what": "相邻两圈生成的时间间隔",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "各圈眩晕区域的生成时间点或间隔（秒或帧）"
+        },
+        {
+          "key": "ringStunDuration",
+          "what": "每圈的眩晕时长",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "每圈眩晕时长，确认各圈是否相同"
+        },
+        {
+          "key": "ringRadius",
+          "what": "各圈的半径或环宽",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "三圈眩晕区域各自的内外半径"
+        },
+        {
+          "key": "ringDamageBase",
+          "what": "每圈伤害的基础值（如有）",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "每圈是否造成伤害及基础值"
+        },
+        {
+          "key": "ringDamageRatio",
+          "what": "每圈伤害的加成系数（如有，加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "每圈伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "restunLimit",
+          "what": "一次二技能中同一敌人最多被眩晕的次数",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "同一敌人被多圈命中时的重复眩晕规则"
+        },
+        {
+          "key": "cooldown",
+          "what": "选此核心后二技能的冷却",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "核心 c3 下二技能冷却时间，确认是否与原技能不同"
+        }
+      ],
+      "ambiguities": [
+        "每圈半径、宽度、生成间隔没有写",
+        "每圈眩晕时长没有写",
+        "每圈是否造成伤害没有写",
+        "同一敌人被多圈命中能否重复眩晕没有写",
+        "选此核心后「制衡」「应弦」「涟漪」的“外圈”指哪一圈没有写",
+        "仓库里没有本模式二技能的基础原文，原二技能的范围、伤害、内外圈结构没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "银瓶乍破",
+      "text": "二技能期间，额外释放1次被动效果",
+      "reading": "二技能核心。在二技能持续期间额外释放1次被动效果。从「破阵」「惊鸿调」「愈者」看，被动效果包括“清平”和“破阵”两种（清平能对队友生效且带回复，破阵造成伤害），但这次额外释放的是哪一种、按什么规则选择原文没写。仓库里没有本模式杨玉环被动的原文，被动的伤害和回复数值都要从资源包查。原文没写“二技能期间”有多长、额外那次在期间的哪个时刻释放、作用范围和目标，也没写它是否计入「六幺」的3次计数、是否吃到「破阵」「惊鸿调」的改动。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "二技能持续期间",
+      "slots": [
+        {
+          "key": "extraPassiveCount",
+          "what": "二技能期间额外释放被动效果的次数",
+          "unit": "count",
+          "claimed": { "value": 1, "quote": "额外释放1次被动效果" },
+          "packHint": "核心 c4 二技能期间额外被动的释放次数，核对描述的1次，描述值需资源包核对"
+        },
+        {
+          "key": "skill2Duration",
+          "what": "“二技能期间”的持续时长",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "二技能持续时间（秒或帧）"
+        },
+        {
+          "key": "extraPassiveTiming",
+          "what": "额外被动在二技能开始后多久释放",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "额外被动的触发时间点"
+        },
+        {
+          "key": "passiveDamageBase",
+          "what": "被动破阵效果伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "被动破阵效果伤害的基础值，确认额外释放的被动是否与普通被动相同"
+        },
+        {
+          "key": "passiveDamageRatio",
+          "what": "被动破阵效果伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "被动破阵效果伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "passiveHealRatio",
+          "what": "被动清平效果回复量的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "被动清平效果回复的基础值、系数和加成属性"
+        },
+        {
+          "key": "passiveRange",
+          "what": "额外被动的作用范围",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "额外被动的作用半径或选目标范围"
+        }
+      ],
+      "ambiguities": [
+        "额外释放的是清平还是破阵、选择规则没有写",
+        "仓库里没有本模式被动的原文，被动伤害和回复数值没有写",
+        "“二技能期间”的时长和额外被动的释放时刻没有写",
+        "额外被动的作用范围和目标没有写",
+        "是否计入「六幺」的3次计数、是否受「破阵」「惊鸿调」影响没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "错杂弹",
+      "text": "不可选中结束后进入乱弹状态，对范围内造成持续伤害和回复效果",
+      "reading": "大招核心。大招的不可选中阶段结束后，杨玉环进入“乱弹”状态，对范围内持续造成伤害并产生回复效果。原文没写乱弹状态持续多久、伤害和回复的跳数间隔、每跳伤害和回复数值、范围半径、范围是否跟随杨玉环移动，也没写回复对象是自身、队友还是两者，没写乱弹期间能否移动和释放技能、伤害能否暴击。",
+      "mechanisms": ["skill-change", "area", "proc", "heal", "team"],
+      "damageRelevance": "direct",
+      "trigger": "大招不可选中阶段结束后",
+      "slots": [
+        {
+          "key": "chaosDuration",
+          "what": "乱弹状态持续时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "核心 c5 乱弹状态的持续时间"
+        },
+        {
+          "key": "tickInterval",
+          "what": "持续伤害和回复的跳数间隔",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "乱弹状态伤害与回复的结算间隔（秒或帧）"
+        },
+        {
+          "key": "radius",
+          "what": "乱弹状态的作用范围半径",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "乱弹状态范围半径，确认是否跟随自身"
+        },
+        {
+          "key": "tickDamageBase",
+          "what": "每跳伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "乱弹状态每跳伤害基础值"
+        },
+        {
+          "key": "tickDamageRatio",
+          "what": "每跳伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "乱弹状态每跳伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "tickHealBase",
+          "what": "每跳回复的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "乱弹状态每跳回复基础值"
+        },
+        {
+          "key": "tickHealRatio",
+          "what": "每跳回复的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "乱弹状态每跳回复系数和加成属性，以及回复对象是自身还是队友"
+        },
+        {
+          "key": "maxTargets",
+          "what": "每跳伤害最多命中的目标数（如有上限）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "乱弹状态每跳伤害的目标数上限"
+        }
+      ],
+      "ambiguities": [
+        "乱弹状态持续时间和跳数间隔没有写",
+        "每跳伤害和回复数值、系数、伤害类型没有写",
+        "范围半径、是否跟随自身没有写",
+        "回复对象是自身、队友还是两者没有写",
+        "乱弹期间能否移动、释放技能没有写",
+        "伤害能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "落玉盘",
+      "text": "大招范围缩小，但大幅提升伤害和回复效果",
+      "reading": "大招核心。大招的范围缩小，同时“大幅”提升大招的伤害和回复效果。仓库里没有本模式大招的基础原文，大招原本的范围、伤害、回复数值都要从资源包查。原文没写范围缩小多少（按比例还是固定距离），没写伤害和回复各提升多少，也没写提升是否同样作用于大招的结束效果和「珠落」「急行」等大招相关小天赋产生的伤害。",
+      "mechanisms": ["skill-change", "area", "damage-amp", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选此核心后释放大招时生效）",
+      "slots": [
+        {
+          "key": "radiusReduction",
+          "what": "大招范围缩小幅度（原文没写按比例还是固定距离）",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "核心 c6 大招范围缩小后的半径或缩小比例"
+        },
+        {
+          "key": "ultBaseRadius",
+          "what": "大招原本的范围半径",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "未选此核心时大招的范围半径"
+        },
+        {
+          "key": "damageAmp",
+          "what": "大招伤害提升幅度（原文“大幅提升”）",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "核心 c6 大招伤害提升数值，确认是百分比增幅还是系数提高"
+        },
+        {
+          "key": "healAmp",
+          "what": "大招回复效果提升幅度（原文“大幅提升”）",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "核心 c6 大招回复提升数值，确认是百分比增幅还是系数提高"
+        }
+      ],
+      "ambiguities": [
+        "范围缩小多少没有写",
+        "“大幅提升”的伤害和回复具体数值没有写",
+        "提升是否作用于结束效果和大招相关小天赋的伤害没有写",
+        "仓库里没有本模式大招的基础原文，原本的范围、伤害、回复没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "破势",
+      "text": "音波命中时爆炸，造成范围伤害",
+      "reading": "音波命中时爆炸，在命中位置造成范围伤害。按字面理解，这是在音波原有伤害之外多出的一次范围伤害。原文没写“音波”只指一技能的音波，还是也包括「流转」的伴身音波、「珠落」大招期间的音波、「连弹」弹射的音波；没写爆炸半径、伤害数值、系数、伤害类型，没写被音波直接命中的目标是否也吃爆炸伤害、能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "音波命中敌人时",
+      "slots": [
+        {
+          "key": "explosionRadius",
+          "what": "爆炸范围半径",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "该天赋音波爆炸的范围半径"
+        },
+        {
+          "key": "explosionBaseDamage",
+          "what": "爆炸伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "该天赋爆炸伤害的基础值"
+        },
+        {
+          "key": "explosionDamageRatio",
+          "what": "爆炸伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "该天赋爆炸伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "maxTargets",
+          "what": "每次爆炸最多命中的目标数（如有上限）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "爆炸伤害的目标数上限"
+        }
+      ],
+      "ambiguities": [
+        "“音波”覆盖哪些来源没有写（一技能、伴身音波、珠落音波、弹射音波）",
+        "爆炸半径、伤害数值、系数、伤害类型没有写",
+        "主目标是否同时吃爆炸伤害没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "穿波",
+      "text": "强化普攻可触发被动并造成贯穿伤害",
+      "reading": "强化普攻可以触发被动效果，并且造成贯穿伤害。按字面理解，未选此天赋时强化普攻不能触发被动；选后强化普攻能触发被动，同时变为贯穿，穿过第一个敌人继续命中后面的敌人。原文没写每次强化普攻触发几次被动（多枚弹体各算一次还是整次算一次）、触发清平还是破阵，没写贯穿伤害是额外一段伤害还是原强普伤害改为贯穿，没写贯穿路径长宽、对后续目标是否衰减、能否暴击。",
+      "mechanisms": ["proc", "skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "强化普攻命中时",
+      "slots": [
+        {
+          "key": "passiveTriggersPerEnhancedBasic",
+          "what": "每次强化普攻触发被动的次数",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "强化普攻触发被动的规则，确认多枚弹体是否分别触发"
+        },
+        {
+          "key": "pierceBaseDamage",
+          "what": "贯穿伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "该天赋贯穿伤害基础值，确认是额外伤害还是原强普伤害改为贯穿"
+        },
+        {
+          "key": "pierceDamageRatio",
+          "what": "贯穿伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "贯穿伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "pierceLength",
+          "what": "贯穿路径长度",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "贯穿弹体的飞行距离"
+        },
+        {
+          "key": "pierceWidth",
+          "what": "贯穿路径判定宽度",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "贯穿弹体碰撞判定宽度"
+        },
+        {
+          "key": "pierceFalloff",
+          "what": "对后续目标的伤害衰减（如有）",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "贯穿伤害对第二个及之后目标的衰减比例"
+        },
+        {
+          "key": "pierceMaxTargets",
+          "what": "贯穿最多命中的目标数（如有上限）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "贯穿目标数上限"
+        }
+      ],
+      "ambiguities": [
+        "每次强化普攻触发几次被动没有写",
+        "触发的是清平还是破阵没有写",
+        "贯穿伤害是额外伤害还是原强普伤害改为贯穿没有写",
+        "贯穿路径长宽、目标上限、后续目标衰减没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "连弹",
+      "text": "音波可在敌人间弹射1次",
+      "reading": "音波命中敌人后可以弹射到另一个敌人，弹射1次。原文没写弹射距离、弹射目标选择规则、能否弹回原目标、弹射伤害是否衰减，没写“音波”覆盖哪些来源（一技能、伴身音波、珠落音波），也没写弹射命中是否算“命中音波”从而计入「调息」、触发「破势」爆炸。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "音波命中敌人后",
+      "slots": [
+        {
+          "key": "bounceCount",
+          "what": "每个音波的弹射次数",
+          "unit": "count",
+          "claimed": { "value": 1, "quote": "弹射1次" },
+          "packHint": "该天赋音波弹射次数，核对描述的1次，描述值需资源包核对"
+        },
+        {
+          "key": "bounceRange",
+          "what": "弹射寻找下一个目标的范围",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "弹射索敌半径与选目标规则"
+        },
+        {
+          "key": "bounceDamagePct",
+          "what": "弹射伤害相对原音波伤害的比例",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "弹射后伤害是否衰减及比例"
+        }
+      ],
+      "ambiguities": [
+        "弹射距离和选目标规则没有写",
+        "能否弹回原目标没有写",
+        "弹射伤害是否衰减没有写",
+        "“音波”覆盖哪些来源没有写",
+        "弹射命中是否计入「调息」、是否触发「破势」没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "调息",
+      "text": "5秒内命中四枚音波后，产生一次额外伤害",
+      "reading": "5秒内命中四枚音波（“四枚”是汉字数字）后，产生一次（汉字）额外伤害。原文没写四枚是否必须命中同一目标，5秒是从第一枚开始计时还是滑动窗口，额外伤害打在哪个目标、数值、系数、伤害类型，触发后计数是否清零、是否有内置冷却，也没写哪些来源的音波计入（一技能、伴身音波、珠落音波、弹射音波）、能否暴击。",
+      "mechanisms": ["proc", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "5秒内累计命中四枚音波后",
+      "slots": [
+        {
+          "key": "window",
+          "what": "累计命中音波的时间窗口",
+          "unit": "seconds",
+          "claimed": { "value": 5, "quote": "5秒内命中四枚音波" },
+          "packHint": "该天赋计数窗口时长，核对描述的5秒，描述值需资源包核对"
+        },
+        {
+          "key": "wavesRequired",
+          "what": "触发所需的音波命中数（原文写汉字“四枚”，校验器只识别阿拉伯数字，所以 claimed 留空）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "该天赋触发所需命中数，核对原文的四枚，需以资源包为准"
+        },
+        {
+          "key": "procCount",
+          "what": "每次触发的额外伤害次数（原文写汉字“一次”，claimed 留空）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "每次触发的额外伤害段数，核对原文的一次"
+        },
+        {
+          "key": "extraDamageBase",
+          "what": "额外伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "该天赋额外伤害基础值"
+        },
+        {
+          "key": "extraDamageRatio",
+          "what": "额外伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "该天赋额外伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "internalCooldown",
+          "what": "触发后的内置冷却（如有）",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "该天赋触发的内置冷却与计数清零规则"
+        }
+      ],
+      "ambiguities": [
+        "四枚是否必须命中同一目标没有写",
+        "5秒的计时方式没有写",
+        "额外伤害的目标、数值、系数、伤害类型没有写",
+        "触发后计数是否清零、是否有内置冷却没有写",
+        "哪些来源的音波计入没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "无垠",
+      "text": "释放技能获得爆发衰减移速",
+      "reading": "释放技能后获得爆发衰减移速：先获得一段较高的移速加成，随后逐渐衰减。原文没写“技能”包括哪些（一二三技能是否都算），没写初始移速加成、衰减持续时间、是否有冷却。移速只影响走位，不改变伤害数值。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放技能后",
+      "slots": [
+        {
+          "key": "moveSpeedPeak",
+          "what": "爆发时的移速加成",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "该天赋爆发移速的初始数值"
+        },
+        {
+          "key": "decayDuration",
+          "what": "移速衰减到零的持续时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "该天赋移速 buff 的持续时间与衰减方式"
+        },
+        {
+          "key": "internalCooldown",
+          "what": "触发的内置冷却（如有）",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "该天赋触发的内置冷却"
+        }
+      ],
+      "ambiguities": [
+        "哪些技能可以触发没有写",
+        "初始移速、衰减时长没有写",
+        "是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "流转",
+      "text": "释放一技能后，获得1枚伴身音波自动攻击附近目标",
+      "reading": "释放一技能后获得1枚伴身音波，它伴随杨玉环并自动攻击附近目标。原文没写伴身音波持续时间或可攻击次数、攻击间隔、索敌范围、每次攻击伤害，没写多次释放一技能能否同时拥有多枚，没写它是否算“音波”从而受「破势」「连弹」「调息」影响、是否触发被动、能否暴击。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能后",
+      "slots": [
+        {
+          "key": "orbCount",
+          "what": "每次释放一技能获得的伴身音波数量",
+          "unit": "count",
+          "claimed": { "value": 1, "quote": "获得1枚伴身音波" },
+          "packHint": "该天赋每次获得的伴身音波数量，核对描述的1枚，描述值需资源包核对"
+        },
+        {
+          "key": "orbDuration",
+          "what": "伴身音波存在时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "伴身音波的持续时间，或攻击若干次后消失的规则"
+        },
+        {
+          "key": "attacksPerOrb",
+          "what": "每枚伴身音波的攻击次数（如果攻击后消耗）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "伴身音波是一次性攻击还是持续攻击，以及攻击次数"
+        },
+        {
+          "key": "attackInterval",
+          "what": "伴身音波两次攻击的间隔",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "伴身音波攻击间隔（秒或帧）"
+        },
+        {
+          "key": "attackRange",
+          "what": "伴身音波的索敌范围（原文“附近”）",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "伴身音波索敌半径"
+        },
+        {
+          "key": "attackBaseDamage",
+          "what": "每次攻击伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "伴身音波伤害基础值"
+        },
+        {
+          "key": "attackDamageRatio",
+          "what": "每次攻击伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "伴身音波伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "maxOrbs",
+          "what": "同时存在的伴身音波数量上限",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "伴身音波数量上限，以及超过上限时的替换规则"
+        }
+      ],
+      "ambiguities": [
+        "伴身音波持续时间或攻击次数没有写",
+        "攻击间隔、索敌范围、伤害数值和系数没有写",
+        "多枚能否同时存在没有写",
+        "是否算“音波”从而受其他音波小天赋影响没有写",
+        "是否触发被动、能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "广域",
+      "text": "一技能和强普范围+25%",
+      "reading": "一技能和强化普攻的范围增加25%。原文没写“范围”指射程、判定宽度还是作用半径，没写是否同时影响「破势」爆炸范围、「连弹」弹射距离、「华章」返回路径。范围加大能覆盖更多敌人，属于间接影响输出。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        {
+          "key": "rangeIncreasePct",
+          "what": "一技能和强化普攻范围的增加比例（原文“+25%”表示增加）",
+          "unit": "percent",
+          "claimed": { "value": 25, "quote": "范围+25%" },
+          "packHint": "该天赋范围增幅，核对描述的25%，描述值需资源包核对，并确认作用于射程、宽度还是半径"
+        },
+        {
+          "key": "skill1BaseRange",
+          "what": "一技能原本的范围",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "一技能射程或作用半径的基础值"
+        },
+        {
+          "key": "enhancedBasicBaseRange",
+          "what": "强化普攻原本的范围",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "强化普攻射程或判定宽度的基础值"
+        }
+      ],
+      "ambiguities": [
+        "“范围”指射程、宽度还是半径没有写",
+        "是否影响「破势」「连弹」「华章」相关范围没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "华章",
+      "text": "强普结束后返回自身，对路径上敌人造成伤害",
+      "reading": "强化普攻（的弹体）到达终点或结束后返回杨玉环自身，返回途中对路径上的敌人造成伤害。原文没写返回伤害的数值、系数、伤害类型，没写是否与去程伤害相同；选「大弦嘈嘈」后四枚是否各自返回并分别造成伤害、同一敌人能否被多枚返回弹体重复命中都没写；也没写返回速度、路径宽度、返回命中能否触发被动或暴击。",
+      "mechanisms": ["proc", "skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "强化普攻结束后返回时",
+      "slots": [
+        {
+          "key": "returnBaseDamage",
+          "what": "返回伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "该天赋强普回程伤害基础值，确认是否与去程相同"
+        },
+        {
+          "key": "returnDamageRatio",
+          "what": "返回伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "回程伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "returnTravelTime",
+          "what": "从终点返回自身所需时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "回程飞行速度或回程时长（秒或帧）"
+        },
+        {
+          "key": "returnPathWidth",
+          "what": "回程路径的判定宽度",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "回程弹体碰撞判定宽度"
+        },
+        {
+          "key": "returnHitsPerTarget",
+          "what": "一次强化普攻中同一敌人最多被回程命中的次数",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "多枚弹体回程对同一目标的判定次数限制"
+        }
+      ],
+      "ambiguities": [
+        "返回伤害数值、系数、伤害类型没有写",
+        "是否与去程伤害相同没有写",
+        "多枚弹体是否各自返回、同一敌人能否被重复命中没有写",
+        "返回速度、路径宽度没有写",
+        "返回命中能否触发被动、能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "涟漪",
+      "text": "对受到外圈眩晕的敌方英雄，在其脚下生成小范围二技能",
+      "reading": "二技能外圈眩晕到敌方英雄时，在这个英雄脚下生成一个小范围的二技能。只对敌方英雄生效，非英雄敌人不触发。按字面理解，小范围二技能是缩小版的二技能，但原文没写它包含哪些效果（伤害、眩晕、是否也有内外圈）、生成延迟、半径、伤害数值；没写小范围二技能再眩晕英雄时能否继续触发「涟漪」形成连锁，也没写它的命中是否计入「应弦」减冷却、能否触发「银瓶乍破」。",
+      "mechanisms": ["proc", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "二技能外圈眩晕敌方英雄时",
+      "slots": [
+        {
+          "key": "miniRadius",
+          "what": "小范围二技能的半径",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "该天赋生成的小范围二技能半径"
+        },
+        {
+          "key": "miniDelay",
+          "what": "眩晕后到小范围二技能生效的延迟",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "小范围二技能的生成和生效时间点（秒或帧）"
+        },
+        {
+          "key": "miniDamageBase",
+          "what": "小范围二技能伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "小范围二技能伤害基础值，确认是否为原二技能伤害的一定比例"
+        },
+        {
+          "key": "miniDamageRatio",
+          "what": "小范围二技能伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "小范围二技能伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "miniStunDuration",
+          "what": "小范围二技能的眩晕时长（如有）",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "小范围二技能是否眩晕及时长"
+        },
+        {
+          "key": "chainLimit",
+          "what": "小范围二技能连锁触发的次数上限（如可连锁）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "小范围二技能能否再次触发该天赋，以及上限"
+        }
+      ],
+      "ambiguities": [
+        "小范围二技能包含哪些效果没有写",
+        "半径、延迟、伤害数值没有写",
+        "能否连锁触发没有写",
+        "是否计入「应弦」、能否触发「银瓶乍破」没有写",
+        "选「如听仙乐」后哪一圈算外圈没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "制衡",
+      "text": "二技能外圈眩晕时间翻倍",
+      "reading": "二技能外圈造成的眩晕时间翻倍（“翻倍”按字面是变为原来的两倍，原文没有阿拉伯数字）。原文没写外圈原本眩晕多久、内圈是否受影响，也没写选「如听仙乐」后三圈是否都算外圈、「涟漪」生成的小范围二技能是否也翻倍。眩晕本身不造成伤害，属于控制，间接影响输出。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能外圈眩晕敌人时",
+      "slots": [
+        {
+          "key": "outerStunMultiplier",
+          "what": "外圈眩晕时间倍率（原文“翻倍”即两倍，为汉字表述，校验器只识别阿拉伯数字，所以 claimed 留空）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "该天赋外圈眩晕时长倍率，核对原文的翻倍，需以资源包为准"
+        },
+        {
+          "key": "outerStunBaseDuration",
+          "what": "外圈原本的眩晕时长",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "二技能外圈眩晕的基础时长"
+        }
+      ],
+      "ambiguities": [
+        "外圈原本眩晕多久没有写",
+        "内圈是否受影响没有写",
+        "选「如听仙乐」后哪些圈算外圈没有写",
+        "「涟漪」的小范围二技能是否也翻倍没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "应弦",
+      "text": "外圈每命中一个敌方英雄，二技能当前冷却-30%",
+      "reading": "二技能外圈每命中一名敌方英雄（“一个”是汉字数字），二技能当前冷却减少30%。“当前冷却”按字面理解是正在进行的冷却，但减少的是剩余冷却的30%还是总冷却的30%原文没写。原文没写命中英雄数是否有上限，多名英雄时是逐次按剩余冷却乘算还是加算，选「如听仙乐」后多圈命中同一英雄是否重复计算，「涟漪」的小范围二技能命中是否也计入，以及外圈命中时二技能是否已进入冷却。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能外圈命中敌方英雄时",
+      "slots": [
+        {
+          "key": "cdReducePct",
+          "what": "每命中一名敌方英雄减少二技能当前冷却的比例（原文“-30%”表示减少30%）",
+          "unit": "percent",
+          "claimed": { "value": 30, "quote": "二技能当前冷却-30%" },
+          "packHint": "该天赋减冷却比例，核对描述的30%，描述值需资源包核对，并确认按剩余冷却还是总冷却计算"
+        },
+        {
+          "key": "maxHeroesCounted",
+          "what": "一次二技能最多计算的命中英雄数",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "该天赋触发次数上限和同一英雄重复计算规则"
+        },
+        {
+          "key": "skill2BaseCooldown",
+          "what": "二技能的基础冷却",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "二技能冷却时间，用于计算减少后的实际冷却"
+        }
+      ],
+      "ambiguities": [
+        "按剩余冷却还是总冷却的30%计算没有写",
+        "多名英雄时乘算还是加算没有写",
+        "命中英雄数上限没有写",
+        "多圈命中同一英雄是否重复计算没有写",
+        "「涟漪」的命中是否计入没有写",
+        "外圈命中时二技能是否已进入冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "推覆",
+      "text": "使用二技能后，移速+150%",
+      "reading": "使用二技能后移速增加150%。原文没写持续时间、是否随时间衰减、是否有冷却。移速只影响走位，不改变伤害数值。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "使用二技能后",
+      "slots": [
+        {
+          "key": "moveSpeedPct",
+          "what": "移速加成（原文“+150%”表示增加）",
+          "unit": "percent",
+          "claimed": { "value": 150, "quote": "移速+150%" },
+          "packHint": "该天赋移速 buff 数值，核对描述的150%，描述值需资源包核对"
+        },
+        {
+          "key": "duration",
+          "what": "移速加成持续时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "该天赋移速 buff 持续时间及是否衰减"
+        }
+      ],
+      "ambiguities": [
+        "持续时间没有写",
+        "是否衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "愈者",
+      "text": "清平效果对队友生效时，额外回复自身生命",
+      "reading": "被动的清平效果作用在队友身上时，杨玉环自己也额外回复生命。“额外”说明清平效果本身带回复。原文没写自身回复量（固定值、按清平回复量比例还是按某项属性）、同时对多名队友生效时是否每名都触发、是否有冷却。按字面只有清平作用于队友时才触发，没有队友时不会触发。只影响生存，间接影响输出。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "清平效果对队友生效时",
+      "slots": [
+        {
+          "key": "selfHealBase",
+          "what": "自身回复量的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "该天赋自身回复基础值"
+        },
+        {
+          "key": "selfHealRatio",
+          "what": "自身回复量的加成系数（加成属性未写，可能按清平回复量、法术攻击或最大生命）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "该天赋自身回复系数和加成属性"
+        },
+        {
+          "key": "alliesCounted",
+          "what": "一次清平生效最多计算的队友数",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "同时对多名队友生效时是否分别触发及上限"
+        },
+        {
+          "key": "internalCooldown",
+          "what": "触发的内置冷却（如有）",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "该天赋触发的内置冷却"
+        }
+      ],
+      "ambiguities": [
+        "自身回复量和加成属性没有写",
+        "多名队友时是否分别触发没有写",
+        "是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "六幺",
+      "text": "产生3次被动效果后，额外触发1次强化被动效果",
+      "reading": "每累计产生3次被动效果后，额外触发1次强化的被动效果。原文没写强化被动比普通被动强多少、强化的是清平还是破阵还是两者，没写额外那次强化被动是否计入下一轮的3次、3次计数是否有时间限制，也没写强化被动是否同样吃「破阵」的3次伤害、「惊鸿调」的同时生效。",
+      "mechanisms": ["proc", "stacking", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "每累计产生3次被动效果后",
+      "slots": [
+        {
+          "key": "passivesRequired",
+          "what": "触发所需的被动效果次数",
+          "unit": "count",
+          "claimed": { "value": 3, "quote": "产生3次被动效果后" },
+          "packHint": "该天赋计数阈值，核对描述的3次，描述值需资源包核对"
+        },
+        {
+          "key": "extraEnhancedCount",
+          "what": "每次达到阈值额外触发的强化被动次数",
+          "unit": "count",
+          "claimed": { "value": 1, "quote": "额外触发1次强化被动效果" },
+          "packHint": "额外强化被动的次数，核对描述的1次，描述值需资源包核对"
+        },
+        {
+          "key": "enhancedDamageAmp",
+          "what": "强化被动相对普通被动的伤害提升",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "强化被动的伤害数值或相对普通被动的倍率"
+        },
+        {
+          "key": "enhancedHealAmp",
+          "what": "强化被动相对普通被动的回复提升",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "强化被动的回复数值或相对普通被动的倍率"
+        },
+        {
+          "key": "counterWindow",
+          "what": "被动计数的有效期（如有）",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "计数是否会过期及时长，触发后是否清零"
+        }
+      ],
+      "ambiguities": [
+        "强化被动强多少没有写",
+        "强化的是清平还是破阵没有写",
+        "额外的强化被动是否计入下一轮计数没有写",
+        "计数是否有时间限制没有写",
+        "是否同样受「破阵」「惊鸿调」影响没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "破阵",
+      "text": "每次破阵效果造成3次伤害",
+      "reading": "被动的破阵效果每次触发时造成3次伤害。原文没写是原本的1段伤害变为3段（每段都是全额）还是总伤害分成3段，没写3次伤害之间的间隔、是否都打同一个目标、能否暴击，也没写破阵效果本身的伤害数值。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "每次破阵效果触发时",
+      "slots": [
+        {
+          "key": "hitsPerProc",
+          "what": "每次破阵效果的伤害次数",
+          "unit": "count",
+          "claimed": { "value": 3, "quote": "造成3次伤害" },
+          "packHint": "该天赋破阵伤害段数，核对描述的3次，描述值需资源包核对"
+        },
+        {
+          "key": "perHitDamagePct",
+          "what": "每段伤害相对原破阵伤害的比例",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "每段是全额破阵伤害还是总伤害平分"
+        },
+        {
+          "key": "pozhenBaseDamage",
+          "what": "破阵效果伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "被动破阵效果伤害基础值"
+        },
+        {
+          "key": "pozhenDamageRatio",
+          "what": "破阵效果伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "被动破阵效果伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "hitInterval",
+          "what": "3段伤害之间的间隔",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "破阵多段伤害的结算间隔（秒或帧）"
+        }
+      ],
+      "ambiguities": [
+        "每段是全额还是总伤害平分没有写",
+        "段间间隔没有写",
+        "是否都打同一目标没有写",
+        "破阵效果本身的伤害数值没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "惊鸿调",
+      "text": "同时造成清平和破阵效果",
+      "reading": "被动触发时同时造成清平和破阵两种效果。按字面理解，未选此天赋时每次被动只造成其中一种。原文没写原来两种效果如何切换，没写同时造成时两种效果是否都是全额。破阵部分直接增加伤害，清平部分带回复。",
+      "mechanisms": ["skill-change", "proc", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "被动效果触发时",
+      "slots": [
+        {
+          "key": "qingpingScale",
+          "what": "同时触发时清平效果占全额的比例",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "该天赋下清平效果是否全额"
+        },
+        {
+          "key": "pozhenScale",
+          "what": "同时触发时破阵效果占全额的比例",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "该天赋下破阵效果是否全额"
+        },
+        {
+          "key": "qingpingHealBase",
+          "what": "清平效果回复的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "被动清平效果回复基础值"
+        },
+        {
+          "key": "qingpingHealRatio",
+          "what": "清平效果回复的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "被动清平效果回复系数和加成属性"
+        },
+        {
+          "key": "pozhenBaseDamage",
+          "what": "破阵效果伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "被动破阵效果伤害基础值"
+        },
+        {
+          "key": "pozhenDamageRatio",
+          "what": "破阵效果伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "被动破阵效果伤害系数、加成属性和伤害类型"
+        }
+      ],
+      "ambiguities": [
+        "原来清平和破阵如何切换没有写",
+        "同时造成时两种效果是否都全额没有写",
+        "仓库里没有本模式被动的原文，清平和破阵的数值没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "破缚",
+      "text": "大招不可选中期间，可以释放一二技能",
+      "reading": "大招带来的不可选中期间可以释放一技能和二技能。按字面理解，未选此天赋时不可选中期间不能释放一二技能。原文没写释放一二技能会不会结束不可选中状态，没写技能从哪里释放、是否影响大招持续时间。它让大招期间可以插入技能，增加输出时间，但不改变伤害数值。",
+      "mechanisms": ["skill-change", "invulnerable"],
+      "damageRelevance": "indirect",
+      "trigger": "大招不可选中期间",
+      "slots": [
+        {
+          "key": "untargetableDuration",
+          "what": "大招不可选中的持续时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "大招不可选中状态的持续时间，确认释放一二技能是否会提前结束"
+        }
+      ],
+      "ambiguities": [
+        "释放一二技能是否结束不可选中没有写",
+        "是否影响大招持续时间没有写",
+        "不可选中持续时间没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "珠落",
+      "text": "大招持续期间，对范围内目标释放音波",
+      "reading": "大招持续期间对范围内的目标释放音波。原文没写释放间隔、每次几个音波、范围半径、每个音波伤害和选目标规则，没写这些音波是否算“音波”从而受「破势」「连弹」「调息」影响、是否触发被动，也没写“大招持续期间”与“不可选中期间”是否同一时长。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招持续期间",
+      "slots": [
+        {
+          "key": "waveInterval",
+          "what": "两次释放音波的间隔",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "该天赋音波释放间隔（秒或帧）"
+        },
+        {
+          "key": "wavesPerRelease",
+          "what": "每次释放的音波数量",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "每次释放的音波数量与选目标规则"
+        },
+        {
+          "key": "range",
+          "what": "释放音波的索敌范围",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "该天赋音波索敌半径，确认是否与大招范围相同"
+        },
+        {
+          "key": "waveBaseDamage",
+          "what": "每个音波伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "该天赋音波伤害基础值，确认是否与一技能音波相同"
+        },
+        {
+          "key": "waveDamageRatio",
+          "what": "每个音波伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "该天赋音波伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "ultDuration",
+          "what": "大招持续时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "大招持续时间，确认与不可选中时长的关系"
+        }
+      ],
+      "ambiguities": [
+        "释放间隔、每次音波数量没有写",
+        "范围、伤害数值、选目标规则没有写",
+        "是否受其他音波小天赋影响、是否触发被动没有写",
+        "大招持续期间与不可选中期间是否相同没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "飘飞",
+      "text": "不可选中期间，可以穿越地形并且增加移动速度",
+      "reading": "大招的不可选中期间可以穿越地形，并且移动速度增加。原文没写移速增加多少、是否衰减。穿越地形和移速只影响走位，不改变伤害数值。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "大招不可选中期间",
+      "slots": [
+        {
+          "key": "moveSpeedPct",
+          "what": "不可选中期间的移速加成",
+          "unit": "percent",
+          "claimed": null,
+          "packHint": "该天赋不可选中期间移速加成数值"
+        }
+      ],
+      "ambiguities": [
+        "移速增加多少没有写",
+        "是否衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "疾返",
+      "text": "大招每命中1名敌方英雄，当前冷却-20%（每个敌人仅触发1次）",
+      "reading": "大招每命中1名敌方英雄，大招当前冷却减少20%，同一个敌人只触发1次。原文没写减少的是剩余冷却还是总冷却的20%，没写命中时大招是否已进入冷却（如果冷却在大招结束后才开始计算，减少如何结算），没写命中英雄数上限、多名英雄时乘算还是加算。“每个敌人仅触发1次”按字面是同一英雄只算一次，原文没写是每次大招内限一次还是跨多次大招也只算一次。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中敌方英雄时（每个敌人限1次）",
+      "slots": [
+        {
+          "key": "cdReducePct",
+          "what": "每命中一名敌方英雄减少大招当前冷却的比例（原文“-20%”表示减少20%）",
+          "unit": "percent",
+          "claimed": { "value": 20, "quote": "当前冷却-20%" },
+          "packHint": "该天赋减冷却比例，核对描述的20%，描述值需资源包核对，并确认按剩余冷却还是总冷却计算"
+        },
+        {
+          "key": "triggersPerEnemy",
+          "what": "同一敌人可触发的次数",
+          "unit": "count",
+          "claimed": { "value": 1, "quote": "每个敌人仅触发1次" },
+          "packHint": "同一敌人触发次数限制，核对描述的1次，描述值需资源包核对，并确认是每次大招内还是全局"
+        },
+        {
+          "key": "maxHeroesCounted",
+          "what": "一次大招最多计算的命中英雄数",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "该天赋触发次数总上限"
+        },
+        {
+          "key": "ultBaseCooldown",
+          "what": "大招的基础冷却",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "大招冷却时间及冷却开始时间点，用于计算减少后的实际冷却"
+        }
+      ],
+      "ambiguities": [
+        "按剩余冷却还是总冷却的20%计算没有写",
+        "命中时大招是否已进入冷却没有写",
+        "命中英雄数上限、多名英雄乘算还是加算没有写",
+        "“每个敌人仅触发1次”是每次大招内还是全局没有写"
+      ],
+      "unusedNumbers": [
+        {
+          "quote": "每命中1名敌方英雄",
+          "reason": "“1名”表示按每一名敌方英雄计数，是计数单位而不是独立参数；每次的减冷却比例记在 cdReducePct"
+        }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "遁影",
+      "text": "向指定方向位移后释放大招",
+      "reading": "大招改为先向指定方向位移，再释放大招。原文没写位移距离、位移耗时、位移期间是否不可选中、能否穿越地形。只改变大招的释放位置，不改变伤害数值。",
+      "mechanisms": ["mobility", "skill-change"],
+      "damageRelevance": "none",
+      "trigger": "释放大招时",
+      "slots": [
+        {
+          "key": "dashDistance",
+          "what": "位移距离",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "该天赋大招前位移的距离"
+        },
+        {
+          "key": "dashDuration",
+          "what": "位移耗时",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "位移动作时长（秒或帧），决定大招实际生效时间点"
+        }
+      ],
+      "ambiguities": [
+        "位移距离和耗时没有写",
+        "位移期间是否不可选中没有写",
+        "能否穿越地形没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "重奏",
+      "text": "开启大招瞬间，释放1次结束效果",
+      "reading": "开启大招的瞬间释放1次大招的“结束效果”。从这句话看大招结束时原本有一个结束效果，选此天赋后开启时也释放一次；大招结束时是否仍释放原文没写，按字面这是额外的一次。仓库里没有本模式大招的原文，结束效果具体是什么（伤害、回复、范围）原文没写；选「错杂弹」时，不可选中结束后的“乱弹状态”是否算结束效果也没写。",
+      "mechanisms": ["proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "开启大招瞬间",
+      "slots": [
+        {
+          "key": "extraEndEffectCount",
+          "what": "开启大招时释放结束效果的次数",
+          "unit": "count",
+          "claimed": { "value": 1, "quote": "释放1次结束效果" },
+          "packHint": "该天赋开启时释放结束效果的次数，核对描述的1次，描述值需资源包核对"
+        },
+        {
+          "key": "endEffectDamageBase",
+          "what": "结束效果伤害的基础值",
+          "unit": "flat",
+          "claimed": null,
+          "packHint": "大招结束效果伤害基础值，确认开启时释放的是否与结束时相同"
+        },
+        {
+          "key": "endEffectDamageRatio",
+          "what": "结束效果伤害的加成系数（加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "大招结束效果伤害系数、加成属性和伤害类型"
+        },
+        {
+          "key": "endEffectHealRatio",
+          "what": "结束效果回复的加成系数（如有，加成属性未写）",
+          "unit": "ratio",
+          "claimed": null,
+          "packHint": "大招结束效果是否带回复及数值"
+        },
+        {
+          "key": "endEffectRadius",
+          "what": "结束效果的范围半径",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "大招结束效果作用半径"
+        }
+      ],
+      "ambiguities": [
+        "结束效果具体是什么没有写",
+        "大招结束时是否仍释放结束效果没有写",
+        "选「错杂弹」时乱弹状态是否算结束效果没有写",
+        "结束效果的伤害、回复、范围没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "绵延",
+      "text": "不可选中持续时间+1秒",
+      "reading": "大招不可选中的持续时间增加1秒。原文没写基础不可选中时长，没写大招其他效果（「珠落」的音波、「急行」的额外被动）是否随之延长，也没写「错杂弹」的乱弹状态是否因此推迟。更长的不可选中期能让「急行」「破缚」等效果作用更久，间接影响输出。",
+      "mechanisms": ["invulnerable", "skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（大招不可选中期间）",
+      "slots": [
+        {
+          "key": "durationIncrease",
+          "what": "不可选中持续时间的增加量",
+          "unit": "seconds",
+          "claimed": { "value": 1, "quote": "持续时间+1秒" },
+          "packHint": "该天赋不可选中延长时长，核对描述的1秒，描述值需资源包核对"
+        },
+        {
+          "key": "untargetableBaseDuration",
+          "what": "大招不可选中的基础持续时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "大招不可选中状态的基础时长"
+        }
+      ],
+      "ambiguities": [
+        "基础不可选中时长没有写",
+        "大招其他持续效果是否同步延长没有写",
+        "「错杂弹」乱弹状态是否推迟没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "急行",
+      "text": "不可选中期间，每0.5s释放一次额外被动效果",
+      "reading": "大招不可选中期间，每0.5秒释放一次（汉字）额外的被动效果。总次数取决于不可选中的持续时间（「绵延」可延长）。原文没写释放的是清平还是破阵，没写首次释放是在开始瞬间还是0.5秒后，没写额外被动的作用范围和目标，也没写它是否计入「六幺」的3次计数、是否受「破阵」「惊鸿调」影响。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招不可选中期间，每0.5秒",
+      "slots": [
+        {
+          "key": "interval",
+          "what": "额外被动的释放间隔",
+          "unit": "seconds",
+          "claimed": { "value": 0.5, "quote": "每0.5s释放一次额外被动效果" },
+          "packHint": "该天赋额外被动的释放周期，核对描述的0.5秒，描述值需资源包核对"
+        },
+        {
+          "key": "passivesPerTick",
+          "what": "每次释放的被动次数（原文写汉字“一次”，claimed 留空）",
+          "unit": "count",
+          "claimed": null,
+          "packHint": "每个周期释放的被动次数，核对原文的一次"
+        },
+        {
+          "key": "firstTickDelay",
+          "what": "进入不可选中后首次释放的延迟",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "首次释放在开始瞬间还是一个周期后"
+        },
+        {
+          "key": "untargetableDuration",
+          "what": "大招不可选中的持续时间",
+          "unit": "seconds",
+          "claimed": null,
+          "packHint": "大招不可选中时长，用于计算总释放次数"
+        },
+        {
+          "key": "passiveRange",
+          "what": "额外被动的作用范围",
+          "unit": "meters",
+          "claimed": null,
+          "packHint": "额外被动的作用半径或选目标范围"
+        }
+      ],
+      "ambiguities": [
+        "释放的是清平还是破阵没有写",
+        "首次释放时间点没有写",
+        "作用范围和目标没有写",
+        "是否计入「六幺」、是否受「破阵」「惊鸿调」影响没有写",
+        "不可选中时长没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

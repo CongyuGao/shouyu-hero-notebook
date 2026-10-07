@@ -1,0 +1,786 @@
+{
+  "heroId": "142",
+  "heroName": "安琪拉",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "多多多多益善",
+      "text": "技能变更：技能变为散射，且额外产生8颗火球",
+      "reading": "选择该核心后，一技能的发射方式变为散射，并且在原有火球之外额外产生8颗火球。原文没有写：一技能原本有几颗火球；散射的扇形角度和火球分布；每颗火球的伤害基础值、系数、加成属性和伤害类型；额外的8颗火球与原有火球伤害是否相同；火球飞行距离；同一目标最多能被几颗火球命中、重复命中是否衰减；能否暴击；与举一反二（两轮火球）、危险魔法（伴身火球）同时选择时的叠加方式。",
+      "mechanisms": ["skill-change", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "选择该核心后释放一技能时",
+      "slots": [
+        { "key": "extraFireballCount", "what": "散射时额外产生的火球数量", "unit": "count", "claimed": { "value": 8, "quote": "额外产生8颗火球" }, "packHint": "该核心下一技能额外生成的火球子弹数量，描述值8颗需资源包核对" },
+        { "key": "baseFireballCount", "what": "一技能原有火球数量（散射前或散射后的基础数量）", "unit": "count", "claimed": null, "packHint": "一技能基础火球子弹数量，以及该核心下的总火球数" },
+        { "key": "scatterArc", "what": "散射扇形角度（角度单位以资源包为准，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "该核心散射的扇形角度或各火球的发射方向偏移" },
+        { "key": "fireballBaseDamage", "what": "每颗火球伤害基础值", "unit": "flat", "claimed": null, "packHint": "该核心下每颗火球子弹的伤害基础值，确认额外火球与原有火球是否相同" },
+        { "key": "fireballRatio", "what": "每颗火球伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "火球伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "fireballRange", "what": "散射火球飞行距离", "unit": "meters", "claimed": null, "packHint": "该核心下火球子弹的飞行距离" },
+        { "key": "maxHitsPerTarget", "what": "同一目标在一次施法中最多被几颗火球命中", "unit": "count", "claimed": null, "packHint": "火球对同一目标的命中次数限制（若有）" },
+        { "key": "repeatHitDamageFactor", "what": "同一目标被多颗火球命中时后续火球的伤害比例（是否衰减）", "unit": "percent", "claimed": null, "packHint": "多颗火球重复命中同一目标时的伤害衰减规则（若有）" }
+      ],
+      "ambiguities": [
+        "一技能原有火球数量未写",
+        "散射角度与火球分布未写",
+        "每颗火球伤害、系数、加成属性、伤害类型未写",
+        "额外火球与原有火球伤害是否相同未写",
+        "火球飞行距离未写",
+        "同一目标能被几颗火球命中、重复命中是否衰减未写",
+        "能否暴击未写",
+        "与举一反二、危险魔法、火球相关小天赋同时选择时如何叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "超级大火球",
+      "text": "小火球融合成一个超级大火球，且可穿透敌人",
+      "reading": "选择该核心后，一技能原本发射的多颗小火球融合成一个超级大火球，并且这个大火球可以穿透敌人（命中敌人后继续飞行）。“一个”是汉字数字。原文没有写：大火球的伤害基础值、系数、加成属性和伤害类型，以及与原来多颗小火球伤害总和的关系；大火球的体积（碰撞宽度）和飞行距离；最多穿透几个目标、穿透后伤害是否衰减；能否暴击；与举一反二（两轮火球）同时选择时是否变为两个大火球；大火球命中是否按一次“火球命中”触发火烧屁屁咯、火球精通。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "选择该核心后释放一技能时",
+      "slots": [
+        { "key": "bigFireballBaseDamage", "what": "超级大火球伤害基础值", "unit": "flat", "claimed": null, "packHint": "该核心下超级大火球子弹的伤害基础值" },
+        { "key": "bigFireballRatio", "what": "超级大火球伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "超级大火球伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "bigFireballWidth", "what": "超级大火球碰撞宽度或半径", "unit": "meters", "claimed": null, "packHint": "超级大火球子弹的碰撞体积" },
+        { "key": "bigFireballRange", "what": "超级大火球飞行距离", "unit": "meters", "claimed": null, "packHint": "超级大火球子弹的飞行距离" },
+        { "key": "pierceMaxTargets", "what": "最多穿透目标数", "unit": "count", "claimed": null, "packHint": "超级大火球的穿透目标数上限（若有）" },
+        { "key": "pierceDamageFactor", "what": "穿透后对后续目标的伤害比例（是否衰减）", "unit": "percent", "claimed": null, "packHint": "穿透后伤害衰减规则（若有）" }
+      ],
+      "ambiguities": [
+        "超级大火球伤害、系数、加成属性、伤害类型未写",
+        "与原来多颗小火球伤害总和的关系未写",
+        "大火球体积和飞行距离未写",
+        "最多穿透目标数、穿透后是否衰减未写",
+        "能否暴击未写",
+        "与举一反二同时选择时是否放出两个大火球未写",
+        "大火球命中算几次“火球命中”（影响火烧屁屁咯、火球精通）未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "烈焰黑洞",
+      "text": "漩涡变大25%，持续吸引其周围敌人并喷射火球",
+      "reading": "选择该核心后，二技能的漩涡变大25%，并且漩涡存在期间持续把周围的敌人吸向漩涡，同时向外喷射火球。原文没有写：“变大25%”指半径还是面积；吸引的作用半径和吸引速度（位移强度）；喷射火球的频率、每次数量、目标选择方式（朝周围敌人还是随机方向）、飞行距离；喷射火球的伤害基础值、系数、加成属性和伤害类型；漩涡本体伤害是否改变；能否暴击；喷射的火球是否算作“火球”从而触发一技能的火球类小天赋。",
+      "mechanisms": ["area", "control", "summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "选择该核心后二技能漩涡存在期间",
+      "slots": [
+        { "key": "vortexSizeBonusPct", "what": "漩涡变大的比例（半径还是面积未写）", "unit": "percent", "claimed": { "value": 25, "quote": "漩涡变大25%" }, "packHint": "该核心对二技能漩涡范围的修正，描述值25%需资源包核对，并确认作用于半径还是面积" },
+        { "key": "pullRadius", "what": "吸引敌人的作用半径", "unit": "meters", "claimed": null, "packHint": "黑洞吸引效果的作用范围" },
+        { "key": "pullStrength", "what": "吸引速度或每次吸引位移（单位以资源包为准，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "黑洞吸引效果的位移速度或强度" },
+        { "key": "fireballInterval", "what": "喷射火球的间隔", "unit": "seconds", "claimed": null, "packHint": "黑洞喷射火球的周期" },
+        { "key": "fireballsPerVolley", "what": "每次喷射的火球数量", "unit": "count", "claimed": null, "packHint": "黑洞每次喷射的火球子弹数量" },
+        { "key": "fireballBaseDamage", "what": "喷射火球伤害基础值", "unit": "flat", "claimed": null, "packHint": "黑洞喷射火球的伤害基础值" },
+        { "key": "fireballRatio", "what": "喷射火球伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "黑洞喷射火球的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "fireballRange", "what": "喷射火球飞行距离或索敌范围", "unit": "meters", "claimed": null, "packHint": "黑洞喷射火球的飞行距离、索敌半径及是否追踪目标" }
+      ],
+      "ambiguities": [
+        "“变大25%”指半径还是面积未写",
+        "吸引半径和吸引强度未写",
+        "喷射火球的频率、数量、目标选择、飞行距离未写",
+        "喷射火球伤害、系数、加成属性、伤害类型未写",
+        "漩涡本体伤害是否改变未写",
+        "能否暴击未写",
+        "喷射的火球能否触发一技能火球类小天赋未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "纵情燃烧",
+      "text": "额外释放2个火种",
+      "reading": "选择该核心后，二技能除原有火种外额外释放2个火种。按其他二技能小天赋的用语，“火种”是二技能放出去的投射物，之后会裂变成火焰漩涡。原文没有写：额外火种的发射方向或夹角；额外火种是否各自生成漩涡；额外火种及其漩涡的伤害与主火种是否相同；同一目标能否被多个火种或多个漩涡同时伤害；与分则能成、闪烁火光、火焰花绳等以火种为对象的小天赋同时选择时，额外火种是否也触发这些效果。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "选择该核心后释放二技能时",
+      "slots": [
+        { "key": "extraSeedCount", "what": "额外释放的火种数量", "unit": "count", "claimed": { "value": 2, "quote": "额外释放2个火种" }, "packHint": "该核心下二技能额外生成的火种子弹数量，描述值2个需资源包核对" },
+        { "key": "seedSpreadAngle", "what": "额外火种与主火种的夹角（角度单位以资源包为准，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "额外火种的发射方向偏移" },
+        { "key": "extraSeedDamageFactor", "what": "额外火种及其漩涡相对主火种的伤害比例", "unit": "percent", "claimed": null, "packHint": "额外火种与其生成漩涡的伤害参数，确认是否与主火种相同" },
+        { "key": "maxSeedHitsPerTarget", "what": "同一目标最多同时受几个火种或漩涡伤害", "unit": "count", "claimed": null, "packHint": "多个火种、漩涡对同一目标的伤害叠加规则（若有）" }
+      ],
+      "ambiguities": [
+        "额外火种的发射方向或夹角未写",
+        "额外火种是否各自生成漩涡未写",
+        "额外火种及漩涡伤害是否与主火种相同未写",
+        "同一目标能否被多个火种或漩涡同时伤害未写",
+        "额外火种能否触发以火种为对象的小天赋未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "无敌多重射线",
+      "text": "额外分裂2段光辉",
+      "reading": "选择该核心后，大招额外分裂出2段光辉。按核心名“多重射线”，理解为大招的射线额外分出2道。原文没有写：分裂出的光辉朝什么方向、与主射线的夹角；分裂光辉的长度、宽度；分裂光辉的伤害与主射线是否相同；同一目标能否同时被主射线和分裂光辉伤害；分裂光辉是否也提供大招的其他效果（如火焰之沼减速、折射棱光折射）。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "选择该核心后释放大招时",
+      "slots": [
+        { "key": "extraBeamCount", "what": "额外分裂的光辉数量", "unit": "count", "claimed": { "value": 2, "quote": "额外分裂2段光辉" }, "packHint": "该核心下大招额外分裂的射线数量，描述值2段需资源包核对" },
+        { "key": "beamAngle", "what": "分裂光辉与主射线的夹角（角度单位以资源包为准，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "分裂射线的方向偏移" },
+        { "key": "extraBeamLength", "what": "分裂光辉长度", "unit": "meters", "claimed": null, "packHint": "分裂射线的长度与宽度" },
+        { "key": "extraBeamDamageFactor", "what": "分裂光辉相对主射线的伤害比例", "unit": "percent", "claimed": null, "packHint": "分裂射线的伤害参数，确认是否与主射线相同" },
+        { "key": "maxBeamHitsPerTarget", "what": "同一目标最多同时受几道光辉伤害", "unit": "count", "claimed": null, "packHint": "多道射线对同一目标的伤害叠加规则（若有）" }
+      ],
+      "ambiguities": [
+        "分裂方向、夹角未写",
+        "分裂光辉长度、宽度未写",
+        "分裂光辉伤害是否与主射线相同未写",
+        "同一目标能否同时被多道光辉伤害未写",
+        "分裂光辉是否带有大招的其他效果和小天赋效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "究极灭世激光",
+      "text": "施法距离+50%",
+      "reading": "选择该核心后，大招的施法距离增加50%。原文没有写：“+50%”是相对原施法距离的比例提升还是其他计算方式；大招原施法距离；射线宽度、伤害是否随之改变。核心名带“激光”字样，但原文只写了施法距离，是否还有其他改变不明。施法距离变长主要影响能覆盖的目标数量，不直接改变单次伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "选择该核心后释放大招时",
+      "slots": [
+        { "key": "castRangeBonusPct", "what": "大招施法距离提高的比例", "unit": "percent", "claimed": { "value": 50, "quote": "施法距离+50%" }, "packHint": "该核心对大招施法距离的修正，描述值50%需资源包核对，并确认是相对提升还是加法" },
+        { "key": "baseCastRange", "what": "大招原施法距离", "unit": "meters", "claimed": null, "packHint": "大招射线的基础长度或施法距离" }
+      ],
+      "ambiguities": [
+        "“+50%”的计算方式（相对原距离提升还是其他方式）未写",
+        "大招原施法距离未写",
+        "射线宽度、伤害是否改变未写",
+        "核心名中的“激光”是否意味着其他变化未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "火焰掌握",
+      "text": "技能可储存释放，最多2次",
+      "reading": "一技能变为可以储存次数释放，最多储存2次。原文没有写：每次充能的恢复时间（是否等于原冷却）；两次释放之间的最短间隔；冷却缩减是否作用于充能时间；选择时是否立刻获得满层。",
+      "mechanisms": ["charges", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能）",
+      "slots": [
+        { "key": "maxCharges", "what": "最多储存次数", "unit": "count", "claimed": { "value": 2, "quote": "最多2次" }, "packHint": "一技能充能上限，描述值2次需资源包核对" },
+        { "key": "chargeRechargeTime", "what": "每次充能恢复时间", "unit": "seconds", "claimed": null, "packHint": "一技能充能恢复时间，确认是否等于原冷却以及是否受冷却缩减影响" },
+        { "key": "castInterval", "what": "两次释放之间的最短间隔", "unit": "seconds", "claimed": null, "packHint": "充能技能连续释放的间隔冷却" }
+      ],
+      "ambiguities": [
+        "充能恢复时间未写",
+        "连续释放的最短间隔未写",
+        "冷却缩减是否作用于充能时间未写",
+        "选择时是否立即满层未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "火球快递",
+      "text": "火球飞行距离和速度+20%",
+      "reading": "一技能火球的飞行距离和飞行速度都提高20%。原文没有写：“+20%”是相对原值的比例提升还是其他计算方式；原飞行距离和速度；是否也作用于危险魔法的伴身火球、烈焰黑洞喷射的火球、请勿靠近召唤的火球。距离和速度影响命中范围和命中时机，不直接改变单次伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能火球）",
+      "slots": [
+        { "key": "flightRangeBonusPct", "what": "火球飞行距离提高的比例", "unit": "percent", "claimed": { "value": 20, "quote": "飞行距离和速度+20%" }, "packHint": "该天赋对一技能火球飞行距离的修正，描述值20%需资源包核对" },
+        { "key": "flightSpeedBonusPct", "what": "火球飞行速度提高的比例", "unit": "percent", "claimed": { "value": 20, "quote": "速度+20%" }, "packHint": "该天赋对一技能火球飞行速度的修正，描述值20%需资源包核对" },
+        { "key": "baseFlightRange", "what": "火球原飞行距离", "unit": "meters", "claimed": null, "packHint": "一技能火球子弹的基础飞行距离" },
+        { "key": "baseFlightSpeed", "what": "火球原飞行速度（速度单位以资源包为准，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "一技能火球子弹的基础飞行速度" }
+      ],
+      "ambiguities": [
+        "“+20%”的计算方式未写",
+        "原飞行距离和速度未写",
+        "是否作用于伴身火球、黑洞喷射火球、反击火球未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "举一反二",
+      "text": "每次放出两轮火球",
+      "reading": "一技能每次施放时放出两轮火球（按字面理解为同一次施法连续发射两波）。“两轮”是汉字数字，字面为2轮，数量仍需核对。原文没有写：两轮之间的间隔；第二轮火球伤害是否与第一轮相同；施法动作是否因此变长；同一目标被两轮命中时是否都造成全额伤害；与多多多多益善、超级大火球同时选择时第二轮的形态。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "roundsPerCast", "what": "每次施法放出的火球轮数（原文写“两轮”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该天赋下一技能每次施法的发射波数，核对“两轮”" },
+        { "key": "roundInterval", "what": "两轮火球之间的间隔", "unit": "seconds", "claimed": null, "packHint": "第二轮火球相对第一轮的发射延迟（帧数或秒）" },
+        { "key": "secondRoundDamageFactor", "what": "第二轮火球相对第一轮的伤害比例", "unit": "percent", "claimed": null, "packHint": "第二轮火球的伤害参数，确认是否与第一轮相同" },
+        { "key": "castActionFrames", "what": "选择该天赋后一技能施法动作总帧数", "unit": "frames", "claimed": null, "packHint": "该天赋下一技能动作总帧数与两轮火球的出手帧" }
+      ],
+      "ambiguities": [
+        "“两轮”没有阿拉伯数字，轮数需核对",
+        "两轮间隔未写",
+        "第二轮伤害是否与第一轮相同未写",
+        "施法动作是否变长未写",
+        "同一目标被两轮命中是否都为全额伤害未写",
+        "与一技能核心同时选择时第二轮的形态未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "优雅魔法",
+      "text": "移动中可施法，永久获得15%移速加成",
+      "reading": "选择后可以在移动中施法（施法时不必停下），并且永久获得15%移速加成。原文“施法”没有限定技能，该天赋在一技能分组，是否只对一技能生效不明。原文没有写：15%移速是相对基础移速还是与其他移速加成相加；移动施法时是否有移速惩罚；施法动作时长是否改变。移动施法与移速影响走位和生存，不直接改变伤害。",
+      "mechanisms": ["mobility", "stat"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "moveSpeedBonusPct", "what": "永久移速加成", "unit": "percent", "claimed": { "value": 15, "quote": "永久获得15%移速加成" }, "packHint": "该天赋的移速加成数值，描述值15%需资源包核对，并确认叠加方式" },
+        { "key": "castingMoveSpeedFactor", "what": "移动施法期间的移速比例（是否有减速）", "unit": "percent", "claimed": null, "packHint": "移动施法状态下的移速修正（若有）" }
+      ],
+      "ambiguities": [
+        "“移动中可施法”只对一技能还是所有技能生效未写",
+        "移速加成的叠加方式未写",
+        "移动施法期间是否减速未写",
+        "施法动作时长是否改变未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "炽热激情",
+      "text": "技能命中后获得法术攻击加成，最多叠加10次",
+      "reading": "技能命中后获得法术攻击加成，可以叠加，最多叠加10次。原文“技能”没有限定，该天赋在一技能分组，是只有一技能命中还是任意技能命中都叠加不明。原文没有写：每层法术攻击加成是多少、是固定值还是百分比；持续时间；重复命中时是刷新持续时间还是每层独立计时；同一次施法多颗火球命中是叠一层还是每颗各叠一层；命中野怪或小兵是否也叠加；叠满后是否有额外效果。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "技能命中后",
+      "slots": [
+        { "key": "magicAtkPerStack", "what": "每层法术攻击加成（固定值还是百分比未写，暂按 flat 建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋 buff 每层的法术攻击加成数值和类型" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": { "value": 10, "quote": "最多叠加10次" }, "packHint": "该天赋 buff 最大层数，描述值10次需资源包核对" },
+        { "key": "duration", "what": "buff 持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的持续时间与刷新规则" },
+        { "key": "stacksPerCast", "what": "同一次施法最多叠加的层数", "unit": "count", "claimed": null, "packHint": "多颗火球或多个目标同时命中时的叠层规则" },
+        { "key": "internalCooldown", "what": "叠层内置冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋叠层的触发间隔限制（若有）" }
+      ],
+      "ambiguities": [
+        "只有一技能命中还是任意技能命中都叠加未写",
+        "每层法术攻击数值和类型未写",
+        "持续时间和刷新规则未写",
+        "一次施法多颗火球命中叠几层未写",
+        "命中非英雄单位是否叠加未写",
+        "叠层内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "火烧屁屁咯",
+      "text": "每次火球命中时，会让敌人灼烧2秒钟",
+      "reading": "每次火球命中敌人时，使敌人进入灼烧状态，持续2秒。原文没有写：灼烧每跳伤害的基础值、系数、加成属性和伤害类型；跳伤间隔；重复命中时是刷新持续时间还是叠加多层；“火球”是否包括危险魔法的伴身火球、烈焰黑洞喷射的火球、请勿靠近召唤的火球；灼烧能否暴击；灼烧伤害是否触发其他命中类效果。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "火球命中敌人时",
+      "slots": [
+        { "key": "burnDuration", "what": "灼烧持续时间", "unit": "seconds", "claimed": { "value": 2, "quote": "灼烧2秒钟" }, "packHint": "灼烧 debuff 的持续时间，描述值2秒需资源包核对" },
+        { "key": "burnTickBaseDamage", "what": "灼烧每跳伤害基础值", "unit": "flat", "claimed": null, "packHint": "灼烧 debuff 每跳伤害基础值" },
+        { "key": "burnTickRatio", "what": "灼烧每跳伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "灼烧伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "burnTickInterval", "what": "灼烧跳伤间隔", "unit": "seconds", "claimed": null, "packHint": "灼烧 debuff 的伤害周期" },
+        { "key": "burnMaxStacks", "what": "灼烧可叠加层数（重复命中刷新还是叠加）", "unit": "count", "claimed": null, "packHint": "灼烧 debuff 的叠加规则与层数上限" }
+      ],
+      "ambiguities": [
+        "灼烧伤害、系数、加成属性、伤害类型未写",
+        "跳伤间隔未写",
+        "重复命中时刷新还是叠加未写",
+        "“火球”是否包括伴身火球、黑洞喷射火球、反击火球未写",
+        "灼烧能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "火球精通",
+      "text": "每颗火球命中将回复生命",
+      "reading": "每颗火球命中时，安琪拉回复生命。原文没有写：每次回复多少（固定值、按法术攻击还是按最大生命计算）；命中野怪或小兵是否也回复；是否有内置冷却或每次施法的回复次数上限；“火球”是否包括伴身火球、黑洞喷射火球、反击火球。回复生命影响生存，不直接改变伤害。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "每颗火球命中时",
+      "slots": [
+        { "key": "healBase", "what": "每颗火球命中的回复量基础值", "unit": "flat", "claimed": null, "packHint": "该天赋每次命中的回复基础值" },
+        { "key": "healRatio", "what": "回复量加成系数（加成属性未写，可能按法术攻击或最大生命）", "unit": "ratio", "claimed": null, "packHint": "该天赋回复量的加成属性与系数" },
+        { "key": "internalCooldown", "what": "回复的内置冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋回复的触发间隔限制（若有）" },
+        { "key": "maxHealsPerCast", "what": "每次施法最多触发回复的次数", "unit": "count", "claimed": null, "packHint": "一次施法多颗火球命中时的回复次数上限（若有）" }
+      ],
+      "ambiguities": [
+        "回复量及计算方式未写",
+        "命中非英雄单位是否回复未写",
+        "内置冷却或次数上限未写",
+        "“火球”包括哪些火球未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "危险魔法",
+      "text": "每3秒会获得1个伴身火球，施法时一并丢出",
+      "reading": "每3秒获得1个伴随在身边的火球，施法时把已积攒的伴身火球一并丢出。原文“施法”没有限定技能，该天赋在一技能分组，是只在释放一技能时丢出还是释放任意技能都丢出不明。原文没有写：伴身火球最多积攒几个；积满后是否继续计时；伴身火球的伤害基础值、系数、加成属性和伤害类型；丢出的方向（跟随技能方向还是自动索敌）和飞行距离；伴身火球是否算作“火球”从而触发火烧屁屁咯、火球精通、炽热激情；能否暴击。",
+      "mechanisms": ["summon", "charges", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "常驻每3秒生成；施法时丢出",
+      "slots": [
+        { "key": "generationInterval", "what": "伴身火球生成间隔", "unit": "seconds", "claimed": { "value": 3, "quote": "每3秒" }, "packHint": "伴身火球的生成周期，描述值3秒需资源包核对" },
+        { "key": "fireballsPerGeneration", "what": "每次生成的伴身火球数量", "unit": "count", "claimed": { "value": 1, "quote": "获得1个伴身火球" }, "packHint": "每次生成的伴身火球数量，描述值1个需资源包核对" },
+        { "key": "maxStoredFireballs", "what": "伴身火球积攒上限", "unit": "count", "claimed": null, "packHint": "伴身火球的最大存储数量" },
+        { "key": "fireballBaseDamage", "what": "每个伴身火球伤害基础值", "unit": "flat", "claimed": null, "packHint": "伴身火球子弹的伤害基础值" },
+        { "key": "fireballRatio", "what": "每个伴身火球伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "伴身火球伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "fireballRange", "what": "伴身火球飞行距离或索敌范围", "unit": "meters", "claimed": null, "packHint": "伴身火球丢出后的飞行距离、方向规则或索敌半径" }
+      ],
+      "ambiguities": [
+        "只在一技能施法时丢出还是任意施法都丢出未写",
+        "积攒上限、积满后是否继续计时未写",
+        "伴身火球伤害、系数、加成属性、伤害类型未写",
+        "丢出方向和飞行距离未写",
+        "伴身火球能否触发其他火球类小天赋未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "温暖旋风",
+      "text": "自身处于火焰旋风内时，每秒回复已损生命值的12%",
+      "reading": "安琪拉自己站在火焰旋风（按所在分组理解为二技能的旋风）范围内时，每秒回复已损失生命值的12%。原文没有写：判定“处于旋风内”的范围；镜像戏法让自身被漩涡加持时是否也算处于旋风内；回复是否受治疗效果修正。回复生命影响生存，不直接改变伤害。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "自身处于火焰旋风内时，每秒",
+      "slots": [
+        { "key": "healPctMissingHp", "what": "每次回复的已损生命比例", "unit": "percent", "claimed": { "value": 12, "quote": "每秒回复已损生命值的12%" }, "packHint": "该天赋每跳回复的已损生命百分比，描述值12%需资源包核对" },
+        { "key": "healTickInterval", "what": "回复间隔（原文写“每秒”，没有阿拉伯数字，未作为 claimed）", "unit": "seconds", "claimed": null, "packHint": "该天赋回复的周期，核对“每秒”" },
+        { "key": "vortexRadius", "what": "判定自身处于旋风内的范围", "unit": "meters", "claimed": null, "packHint": "二技能火焰旋风的半径或该天赋的判定范围" }
+      ],
+      "ambiguities": [
+        "“处于旋风内”的判定范围未写",
+        "镜像戏法的自身漩涡是否算处于旋风内未写",
+        "“每秒”没有阿拉伯数字，回复周期需核对"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "野蛮火种",
+      "text": "火焰漩涡飞行速度与距离+25%",
+      "reading": "二技能火焰漩涡的飞行速度和飞行距离都提高25%。其他二技能小天赋把飞行出去的投射物叫“火种”，裂变后才是“漩涡”，本条写的是“火焰漩涡飞行”，按天赋名“野蛮火种”理解为飞行中的火种，但原文用词不一致。原文没有写：“+25%”是相对原值的比例提升还是其他计算方式；原飞行速度和距离。距离和速度影响命中范围和时机，不直接改变单次伤害。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（二技能）",
+      "slots": [
+        { "key": "flightSpeedBonusPct", "what": "火种/漩涡飞行速度提高的比例", "unit": "percent", "claimed": { "value": 25, "quote": "飞行速度与距离+25%" }, "packHint": "该天赋对二技能投射物飞行速度的修正，描述值25%需资源包核对" },
+        { "key": "flightRangeBonusPct", "what": "火种/漩涡飞行距离提高的比例", "unit": "percent", "claimed": { "value": 25, "quote": "距离+25%" }, "packHint": "该天赋对二技能投射物飞行距离的修正，描述值25%需资源包核对" },
+        { "key": "baseFlightRange", "what": "二技能投射物原飞行距离", "unit": "meters", "claimed": null, "packHint": "二技能火种子弹的基础飞行距离" }
+      ],
+      "ambiguities": [
+        "“火焰漩涡飞行”与其他条目“火种”用词不一致，作用对象需核对",
+        "“+25%”的计算方式未写",
+        "原飞行速度和距离未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "镜像戏法",
+      "text": "火种裂变时，自身也将被火焰漩涡加持",
+      "reading": "二技能火种裂变（变成火焰漩涡）时，安琪拉自身也获得火焰漩涡加持。按字面理解为自己身上也出现一个火焰漩涡，但原文没有写“加持”的具体效果：是否对自身周围敌人造成伤害、伤害是否与火种漩涡相同、范围多大、持续多久、是否跟随自身移动；是否算温暖旋风所说的“处于火焰旋风内”。damageRelevance 按“自身漩涡会像二技能漩涡一样造成伤害”的字面推测标为 direct，需资源包确认。",
+      "mechanisms": ["summon", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能火种裂变时",
+      "slots": [
+        { "key": "selfVortexDuration", "what": "自身漩涡加持持续时间", "unit": "seconds", "claimed": null, "packHint": "自身漩涡效果的持续时间" },
+        { "key": "selfVortexRadius", "what": "自身漩涡作用半径", "unit": "meters", "claimed": null, "packHint": "自身漩涡效果的范围" },
+        { "key": "selfVortexDamageFactor", "what": "自身漩涡相对火种漩涡的伤害比例（是否造成伤害未写）", "unit": "percent", "claimed": null, "packHint": "自身漩涡是否造成伤害及其伤害参数，确认是否与火种漩涡相同" }
+      ],
+      "ambiguities": [
+        "“加持”的具体效果未写",
+        "自身漩涡是否造成伤害、伤害多少未写",
+        "范围、持续时间、是否跟随移动未写",
+        "是否算温暖旋风的“处于火焰旋风内”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "噬体旋风",
+      "text": "火种直接命中的敌人会被挂满被动",
+      "reading": "二技能火种直接命中（不是被裂变后的漩涡波及）的敌人，会被直接挂满被动层数。天赋原文没有写被动的效果和层数上限；瓦解烈焰写到“挂有10层被动效果”，但本条没有写满层是不是10层。原文也没有写：“直接命中”的判定（火种飞行途中碰到还是落点处）；被挂满的层数持续多久。被动效果未知，按与瓦解烈焰的联动标为 direct。",
+      "mechanisms": ["stacking"],
+      "damageRelevance": "direct",
+      "trigger": "二技能火种直接命中敌人时",
+      "slots": [
+        { "key": "passiveMaxStacks", "what": "被动层数上限（即“挂满”的层数）", "unit": "count", "claimed": null, "packHint": "安琪拉被动标记的最大层数，对照瓦解烈焰的10层核对" },
+        { "key": "passiveEffectPerStack", "what": "被动每层效果（效果类型与数值未写，暂按 percent 建槽）", "unit": "percent", "claimed": null, "packHint": "安琪拉被动每层的效果类型与数值" },
+        { "key": "passiveStackDuration", "what": "被动层数持续时间", "unit": "seconds", "claimed": null, "packHint": "安琪拉被动标记的持续时间与刷新规则" }
+      ],
+      "ambiguities": [
+        "被动的效果未写",
+        "被动满层层数未写（瓦解烈焰提到10层，是否等于满层需核对）",
+        "“直接命中”的判定方式未写",
+        "层数持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "闪烁火光",
+      "text": "再次释放移动到火种位置，并释放两个扩散的火焰漩涡",
+      "reading": "二技能可以再次释放：再次释放时安琪拉移动到火种所在位置，并释放两个向外扩散的火焰漩涡。“两个”是汉字数字，字面为2个，数量仍需核对。原文没有写：再次释放的可用时间窗口；移动方式（瞬移还是位移、途中能否被打断）；扩散漩涡的方向、扩散距离、持续时间；扩散漩涡伤害基础值、系数、加成属性、伤害类型，是否与主漩涡相同；能否暴击；再次释放是否影响二技能冷却开始时间。",
+      "mechanisms": ["skill-change", "mobility", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能释放后再次点击二技能时",
+      "slots": [
+        { "key": "recastWindow", "what": "再次释放的可用时间窗口", "unit": "seconds", "claimed": null, "packHint": "二段技能的可释放时限" },
+        { "key": "extraVortexCount", "what": "再次释放时放出的扩散漩涡数量（原文写“两个”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "再次释放时生成的漩涡数量，核对“两个”" },
+        { "key": "extraVortexBaseDamage", "what": "扩散漩涡伤害基础值", "unit": "flat", "claimed": null, "packHint": "扩散漩涡的伤害基础值" },
+        { "key": "extraVortexRatio", "what": "扩散漩涡伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "扩散漩涡伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "extraVortexDuration", "what": "扩散漩涡持续时间", "unit": "seconds", "claimed": null, "packHint": "扩散漩涡的持续时间与伤害周期" },
+        { "key": "spreadDistance", "what": "扩散漩涡的扩散距离", "unit": "meters", "claimed": null, "packHint": "扩散漩涡的移动距离与方向" },
+        { "key": "recastActionFrames", "what": "再次释放（移动加放漩涡）的动作总帧数", "unit": "frames", "claimed": null, "packHint": "二段释放动作的总帧数与漩涡生成帧" }
+      ],
+      "ambiguities": [
+        "“两个”没有阿拉伯数字，数量需核对",
+        "再次释放的时间窗口未写",
+        "移动方式未写",
+        "扩散漩涡方向、距离、持续时间未写",
+        "扩散漩涡伤害、系数、加成属性、伤害类型未写",
+        "能否暴击未写",
+        "是否影响二技能冷却开始时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "不灭火苗",
+      "text": "旋风持续时间+1.5秒",
+      "reading": "二技能旋风的持续时间增加1.5秒。原文没有写：旋风原持续时间；旋风的伤害周期（持续时间变长能多出几跳伤害）；是否也作用于分则能成的小漩涡、闪烁火光的扩散漩涡、镜像戏法的自身漩涡、烈焰黑洞的黑洞。",
+      "mechanisms": ["other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（二技能旋风）",
+      "slots": [
+        { "key": "durationBonus", "what": "旋风持续时间增加量", "unit": "seconds", "claimed": { "value": 1.5, "quote": "持续时间+1.5秒" }, "packHint": "该天赋对二技能旋风持续时间的修正，描述值1.5秒需资源包核对" },
+        { "key": "baseDuration", "what": "旋风原持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能旋风的基础持续时间" },
+        { "key": "vortexTickInterval", "what": "旋风伤害周期", "unit": "seconds", "claimed": null, "packHint": "二技能旋风的伤害间隔，用于计算延长后多出的伤害次数" }
+      ],
+      "ambiguities": [
+        "旋风原持续时间未写",
+        "旋风伤害周期未写",
+        "是否作用于其他天赋生成的漩涡未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "分则能成",
+      "text": "生成主漩涡时，向周围衍生出3颗小漩涡",
+      "reading": "二技能生成主漩涡时，向主漩涡周围额外衍生出3颗小漩涡。原文没有写：小漩涡出现的位置或距离主漩涡多远；小漩涡的半径、持续时间；小漩涡伤害基础值、系数、加成属性和伤害类型，是否与主漩涡相同；同一目标能否同时受主漩涡和小漩涡伤害；能否暴击。",
+      "mechanisms": ["summon", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能生成主漩涡时",
+      "slots": [
+        { "key": "smallVortexCount", "what": "衍生小漩涡数量", "unit": "count", "claimed": { "value": 3, "quote": "衍生出3颗小漩涡" }, "packHint": "该天赋生成的小漩涡数量，描述值3颗需资源包核对" },
+        { "key": "spawnDistance", "what": "小漩涡距主漩涡的距离", "unit": "meters", "claimed": null, "packHint": "小漩涡的生成位置偏移" },
+        { "key": "smallVortexRadius", "what": "小漩涡半径", "unit": "meters", "claimed": null, "packHint": "小漩涡的作用范围" },
+        { "key": "smallVortexDuration", "what": "小漩涡持续时间", "unit": "seconds", "claimed": null, "packHint": "小漩涡的持续时间与伤害周期" },
+        { "key": "smallVortexDamageFactor", "what": "小漩涡相对主漩涡的伤害比例（伤害类型未写）", "unit": "percent", "claimed": null, "packHint": "小漩涡的伤害基础值、系数、加成属性、伤害类型及能否暴击" },
+        { "key": "maxVortexHitsPerTarget", "what": "同一目标最多同时受几个漩涡伤害", "unit": "count", "claimed": null, "packHint": "多个漩涡对同一目标的伤害叠加规则（若有）" }
+      ],
+      "ambiguities": [
+        "小漩涡位置和距离未写",
+        "小漩涡半径、持续时间未写",
+        "小漩涡伤害、系数、加成属性、伤害类型未写",
+        "同一目标能否同时受多个漩涡伤害未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "火焰花绳",
+      "text": "自身与火种间受火绳连接，对触碰火绳的敌人造成伤害",
+      "reading": "二技能释放后，安琪拉与火种之间由一条火绳连接，触碰到火绳的敌人受到伤害。原文没有写：火绳存在多久（只在火种飞行期间还是持续到漩涡结束）；火绳最大长度、是否会因距离过远断开；火绳伤害基础值、系数、加成属性和伤害类型；同一敌人持续接触时的伤害间隔和次数上限；能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能火种存在期间敌人触碰火绳时",
+      "slots": [
+        { "key": "ropeBaseDamage", "what": "火绳伤害基础值", "unit": "flat", "claimed": null, "packHint": "火绳的伤害基础值" },
+        { "key": "ropeRatio", "what": "火绳伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "火绳伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "ropeTickInterval", "what": "同一敌人受火绳伤害的间隔", "unit": "seconds", "claimed": null, "packHint": "火绳对同一目标的伤害判定间隔" },
+        { "key": "ropeDuration", "what": "火绳存在时间", "unit": "seconds", "claimed": null, "packHint": "火绳的持续时间及其与火种、漩涡生命周期的关系" },
+        { "key": "ropeMaxLength", "what": "火绳最大长度", "unit": "meters", "claimed": null, "packHint": "火绳的最大连接距离及断开规则" },
+        { "key": "ropeMaxHitsPerTarget", "what": "同一敌人最多受火绳伤害次数", "unit": "count", "claimed": null, "packHint": "火绳对同一目标的伤害次数上限（若有）" }
+      ],
+      "ambiguities": [
+        "火绳存在时间未写",
+        "火绳长度和断开规则未写",
+        "火绳伤害、系数、加成属性、伤害类型未写",
+        "同一敌人的伤害间隔和次数上限未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "肆意之火",
+      "text": "大招期间获得50%法术吸血",
+      "reading": "大招持续期间获得50%法术吸血。原文没有写：“大招期间”的时长（大招持续时间，不灭火焰会延长）；50%是否与其他法术吸血相加；对野怪、小兵或范围伤害是否打折。吸血影响生存，不直接改变伤害。",
+      "mechanisms": ["lifesteal", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "大招持续期间",
+      "slots": [
+        { "key": "magicLifestealPct", "what": "法术吸血", "unit": "percent", "claimed": { "value": 50, "quote": "获得50%法术吸血" }, "packHint": "该天赋的法术吸血数值，描述值50%需资源包核对" },
+        { "key": "duration", "what": "法术吸血生效时长（即大招持续时间）", "unit": "seconds", "claimed": null, "packHint": "大招持续时间，及该 buff 是否与大招同步结束" }
+      ],
+      "ambiguities": [
+        "大招持续时间未写",
+        "与其他法术吸血的叠加方式未写",
+        "对非英雄目标或范围伤害是否打折未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "折射棱光",
+      "text": "大招命中敌人后将折射",
+      "reading": "大招命中敌人后会发生折射（按字面理解为射线从被命中的敌人处折向其他方向或其他敌人）。原文没有写：折射几次、每次折射到几个目标；折射方向或索敌规则；折射射线的长度、宽度；折射射线的伤害与主射线是否相同；能否连续折射；同一目标能否同时受主射线和折射射线伤害。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中敌人后",
+      "slots": [
+        { "key": "refractCount", "what": "折射次数", "unit": "count", "claimed": null, "packHint": "大招折射的次数或折射射线数量" },
+        { "key": "refractTargets", "what": "每次折射命中的目标数", "unit": "count", "claimed": null, "packHint": "折射射线的目标数与索敌规则" },
+        { "key": "refractLength", "what": "折射射线长度或索敌半径", "unit": "meters", "claimed": null, "packHint": "折射射线的长度、宽度或索敌范围" },
+        { "key": "refractDamageFactor", "what": "折射射线相对主射线的伤害比例", "unit": "percent", "claimed": null, "packHint": "折射射线的伤害参数，确认是否与主射线相同" }
+      ],
+      "ambiguities": [
+        "折射次数和目标数未写",
+        "折射方向或索敌规则未写",
+        "折射射线长度、宽度未写",
+        "折射射线伤害是否与主射线相同未写",
+        "能否连续折射未写",
+        "同一目标能否同时受主射线和折射射线伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "火焰之沼",
+      "text": "大招命中后，目标移速-50%",
+      "reading": "大招命中目标后，使目标移速降低50%（原文写“-50%”，表示减少）。原文没有写：减速持续时间；是否随时间衰减；持续被大招命中时是否一直维持；与其他减速如何叠加。减速是控制效果，不直接改变伤害。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中后",
+      "slots": [
+        { "key": "slowPct", "what": "目标移速减少的比例（原文“-50%”，是减少）", "unit": "percent", "claimed": { "value": 50, "quote": "目标移速-50%" }, "packHint": "该天赋减速效果的数值，描述值50%需资源包核对" },
+        { "key": "slowDuration", "what": "减速持续时间", "unit": "seconds", "claimed": null, "packHint": "减速 debuff 的持续时间与刷新规则" }
+      ],
+      "ambiguities": [
+        "减速持续时间未写",
+        "是否衰减未写",
+        "与其他减速的叠加方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "请勿靠近",
+      "text": "大招护盾存在期间，被攻击时向周围敌人召唤火球反击",
+      "reading": "大招提供的护盾存在期间，安琪拉每次被攻击时，向周围的敌人召唤火球进行反击。原文提到“大招护盾”，说明大招带有护盾，但护盾数值和持续时间不在本条范围。原文没有写：每次反击召唤几颗火球、打几个目标；反击的作用半径；火球伤害基础值、系数、加成属性和伤害类型；是否有内置冷却；“被攻击”是否包括技能伤害和持续伤害；反击火球是否算“火球”从而触发一技能火球类小天赋；能否暴击。",
+      "mechanisms": ["proc", "shield"],
+      "damageRelevance": "direct",
+      "trigger": "大招护盾存在期间被攻击时",
+      "slots": [
+        { "key": "fireballsPerCounter", "what": "每次反击召唤的火球数量", "unit": "count", "claimed": null, "packHint": "反击时生成的火球子弹数量" },
+        { "key": "counterRadius", "what": "反击的索敌半径", "unit": "meters", "claimed": null, "packHint": "反击火球的索敌范围" },
+        { "key": "maxTargets", "what": "每次反击最多攻击的敌人数量", "unit": "count", "claimed": null, "packHint": "反击火球的目标数上限" },
+        { "key": "counterBaseDamage", "what": "反击火球伤害基础值", "unit": "flat", "claimed": null, "packHint": "反击火球的伤害基础值" },
+        { "key": "counterRatio", "what": "反击火球伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "反击火球伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "internalCooldown", "what": "反击内置冷却", "unit": "seconds", "claimed": null, "packHint": "反击的触发间隔限制（若有）" },
+        { "key": "shieldDuration", "what": "大招护盾存在时间（决定反击窗口）", "unit": "seconds", "claimed": null, "packHint": "大招护盾的持续时间" }
+      ],
+      "ambiguities": [
+        "每次反击火球数量和目标数未写",
+        "反击半径未写",
+        "反击火球伤害、系数、加成属性、伤害类型未写",
+        "内置冷却未写",
+        "“被攻击”是否包括技能和持续伤害未写",
+        "反击火球能否触发火球类小天赋未写",
+        "能否暴击未写",
+        "护盾存在时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "瓦解烈焰",
+      "text": "对挂有10层被动效果的目标，将造成真实伤害",
+      "reading": "对身上挂有10层被动效果的目标，安琪拉将造成真实伤害。原文没有写：是把原有伤害全部转为真实伤害，还是额外附带一部分真实伤害（比例或数值）；是只对大招伤害生效（该天赋在大招分组）还是对所有技能伤害生效；10层是否就是被动满层；目标层数掉到10层以下时是否立即失效。可与噬体旋风、无处可藏的“挂满被动”联动。",
+      "mechanisms": ["true-damage", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "对挂有10层被动的目标造成伤害时",
+      "slots": [
+        { "key": "requiredPassiveStacks", "what": "触发真实伤害所需的被动层数", "unit": "count", "claimed": { "value": 10, "quote": "挂有10层被动效果" }, "packHint": "该天赋的被动层数阈值，描述值10层需资源包核对，并确认是否等于被动满层" },
+        { "key": "trueDamagePct", "what": "转为真实伤害的比例或额外真实伤害比例（转换还是附加未写）", "unit": "percent", "claimed": null, "packHint": "该天赋真实伤害的计算方式：伤害转换比例或额外真伤数值" }
+      ],
+      "ambiguities": [
+        "全部转为真实伤害还是额外附带真实伤害未写",
+        "只对大招生效还是对所有技能生效未写",
+        "10层是否等于被动满层未写",
+        "层数下降后是否立即失效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "无处可藏",
+      "text": "施法时获得周围所有敌人视野，并挂满被动",
+      "reading": "释放大招时，获得周围所有敌人的视野，并给这些敌人挂满被动层数。视野本身不影响伤害，挂满被动可与瓦解烈焰联动，因此标为 direct。原文没有写：“周围”的半径；视野持续多久；被动满层层数、被动效果和持续时间。",
+      "mechanisms": ["stacking", "other"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "radius", "what": "“周围”的作用半径", "unit": "meters", "claimed": null, "packHint": "该天赋视野与挂被动的作用范围" },
+        { "key": "visionDuration", "what": "视野持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋提供视野的持续时间" },
+        { "key": "passiveMaxStacks", "what": "挂满被动的层数", "unit": "count", "claimed": null, "packHint": "安琪拉被动标记的最大层数，对照瓦解烈焰的10层核对" }
+      ],
+      "ambiguities": [
+        "作用半径未写",
+        "视野持续时间未写",
+        "被动满层层数和被动效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "不灭火焰",
+      "text": "持续时间+2秒",
+      "reading": "持续时间增加2秒。原文没有写是什么的持续时间，按所在分组理解为大招持续时间。原文也没有写：大招原持续时间；大招伤害周期（延长后多出几跳伤害）；大招护盾、肆意之火吸血是否同步延长。",
+      "mechanisms": ["other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（大招）",
+      "slots": [
+        { "key": "durationBonus", "what": "持续时间增加量", "unit": "seconds", "claimed": { "value": 2, "quote": "持续时间+2秒" }, "packHint": "该天赋对大招持续时间的修正，描述值2秒需资源包核对，并确认作用对象" },
+        { "key": "baseDuration", "what": "大招原持续时间", "unit": "seconds", "claimed": null, "packHint": "大招的基础持续时间" },
+        { "key": "tickInterval", "what": "大招伤害周期", "unit": "seconds", "claimed": null, "packHint": "大招的伤害间隔，用于计算延长后多出的伤害次数" }
+      ],
+      "ambiguities": [
+        "延长的是哪项持续时间未明说",
+        "大招原持续时间未写",
+        "大招伤害周期未写",
+        "护盾、吸血等是否同步延长未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "护体烈火",
+      "text": "施法时护盾+200%",
+      "reading": "释放大招时获得的护盾提高200%。原文没有写：“+200%”是在原护盾上增加两倍（变为原来的3倍）还是其他计算方式；原护盾的基础值、加成属性和系数；护盾持续时间。护盾影响生存，并延长请勿靠近的反击窗口（若护盾因此更久不破），不直接改变伤害。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "shieldBonusPct", "what": "护盾提高的比例", "unit": "percent", "claimed": { "value": 200, "quote": "护盾+200%" }, "packHint": "该天赋对大招护盾的修正，描述值200%需资源包核对，并确认计算方式" },
+        { "key": "baseShield", "what": "大招护盾基础值", "unit": "flat", "claimed": null, "packHint": "大招护盾的基础值" },
+        { "key": "shieldRatio", "what": "大招护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "大招护盾的加成属性与系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "大招护盾的持续时间" }
+      ],
+      "ambiguities": [
+        "“+200%”的计算方式未写",
+        "原护盾数值和加成未写",
+        "护盾持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

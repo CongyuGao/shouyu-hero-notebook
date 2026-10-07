@@ -1,0 +1,779 @@
+{
+  "heroId": "190",
+  "heroName": "诸葛亮",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "算无遗策",
+      "text": "法球在终点被拉回自身，拉回对路径敌人造成伤害",
+      "reading": "一技能核心。一技能发出的法球飞到终点后会被拉回诸葛亮自身，拉回途中对路径上的敌人造成伤害。仓库里没有本模式诸葛亮的基础技能原文，“一技能发出多颗法球”是从「东星破空」的“中间的法球”和「妙算回天」的“每颗法球”推断的。原文没有写拉回伤害的数值、系数、加成属性和伤害类型，没有写拉回伤害与去程伤害是否相同、同一敌人能否被去程和回程都命中、多颗法球回程能否重复命中同一敌人，也没有写拉回速度、路径宽度、能否暴击、拉回命中是否算作“法球命中”从而触发其他天赋。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能法球到达终点后被拉回时",
+      "slots": [
+        { "key": "returnBaseDamage", "what": "每颗法球拉回伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c1 法球回程伤害的基础值" },
+        { "key": "returnDamageRatio", "what": "每颗法球拉回伤害的加成系数（加成属性未写，推测为法术攻击但需核对）", "unit": "ratio", "claimed": null, "packHint": "核心 c1 回程伤害系数、加成属性和伤害类型，确认是否与去程伤害相同" },
+        { "key": "returnHitsPerTarget", "what": "一次一技能中同一敌人最多被回程法球命中的次数", "unit": "count", "claimed": null, "packHint": "回程伤害对同一目标的判定次数限制，以及多颗法球是否分别判定" },
+        { "key": "returnTravelTime", "what": "法球从终点被拉回到自身所需时间", "unit": "seconds", "claimed": null, "packHint": "回程飞行速度或回程时长（秒或帧），决定回程伤害结算的时间点" },
+        { "key": "returnPathWidth", "what": "回程路径的判定宽度", "unit": "meters", "claimed": null, "packHint": "回程法球碰撞判定宽度或半径" },
+        { "key": "cooldown", "what": "选此核心后一技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c1 下一技能冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "拉回伤害的数值、系数、加成属性和伤害类型没有写",
+        "拉回伤害与去程伤害是否相同没有写",
+        "同一敌人能否同时吃到去程和回程伤害、多颗法球回程能否重复命中同一敌人没有写",
+        "拉回速度、路径宽度没有写",
+        "能否暴击没有写",
+        "回程命中是否算“法球命中”，从而触发「妙算回天」减冷却等效果没有写",
+        "仓库里没有本模式一技能的基础原文，一技能发出几颗法球、射程多远都要从资源包确认"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "东星破空",
+      "text": "中间的法球会在终点（或命中英雄处）创造一个被动炮台自动攻击附近敌人",
+      "reading": "一技能核心。一技能发出的几颗法球中，位于中间的那一颗在到达终点时（如果中途命中英雄，则在命中英雄的位置）创造一个被动炮台（“一个”是汉字数字），炮台自动攻击附近的敌人。“被动炮台”按字面理解为会打出被动攻击的炮台，但它的攻击是否等同于被动的法球攻击、是否吃到被动相关小天赋（「明德洞真」真伤、「连弩天机」射速、「七星续命」持续时间）原文没有写。原文没有写炮台持续时间、攻击间隔、攻击范围、每次攻击伤害、每次攻击几个目标、多个炮台能否同时存在，也没有写命中非英雄敌人时是否也会提前创建炮台。",
+      "mechanisms": ["summon", "proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "一技能中间的法球到达终点或命中英雄时",
+      "slots": [
+        { "key": "turretsPerCast", "what": "每次一技能创造的炮台数量（原文写汉字“一个”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "核心 c2 每次一技能生成炮台的数量，核对原文的一个，需以资源包为准" },
+        { "key": "turretDuration", "what": "炮台存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c2 炮台的持续时间，确认「七星续命」是否延长它" },
+        { "key": "turretAttackInterval", "what": "炮台两次攻击之间的间隔", "unit": "seconds", "claimed": null, "packHint": "炮台攻击间隔（秒或帧），确认「连弩天机」是否缩短它" },
+        { "key": "turretAttackRange", "what": "炮台索敌和攻击的范围（原文“附近”）", "unit": "meters", "claimed": null, "packHint": "炮台的索敌半径" },
+        { "key": "turretTargetsPerAttack", "what": "炮台每次攻击的目标数", "unit": "count", "claimed": null, "packHint": "炮台每次攻击打几个目标、是单体弹道还是范围伤害" },
+        { "key": "turretBaseDamage", "what": "炮台每次攻击的基础伤害", "unit": "flat", "claimed": null, "packHint": "炮台攻击伤害的基础值，确认是否直接引用被动法球伤害" },
+        { "key": "turretDamageRatio", "what": "炮台每次攻击的伤害系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "炮台攻击伤害系数、加成属性和伤害类型" },
+        { "key": "maxTurretsCoexisting", "what": "同时存在的炮台数量上限", "unit": "count", "claimed": null, "packHint": "炮台数量上限，以及超过上限时是否替换最早的炮台" }
+      ],
+      "ambiguities": [
+        "“中间的法球”指哪一颗：一技能有几颗法球没有写；选了「锦囊妙计」额外多1颗后如果变成偶数颗，哪一颗算中间没有写",
+        "“命中英雄处”只写了英雄，命中非英雄敌人时是否也在命中处创建炮台没有写",
+        "炮台持续时间、攻击间隔、攻击范围、伤害数值和系数没有写",
+        "炮台攻击是否等同于被动攻击、是否受被动相关小天赋影响没有写",
+        "多个炮台能否同时存在、数量上限没有写",
+        "炮台攻击能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "草船借箭",
+      "text": "释放二技能会召唤三个假人，此时受到攻击会获得护盾",
+      "reading": "二技能核心。释放二技能时召唤三个假人（“三个”是汉字数字），“此时”受到攻击会获得护盾。原文主语不清楚：可能是假人存在期间诸葛亮本体受到攻击时获得护盾，也可能是假人被攻击时诸葛亮获得护盾。原文没有写假人存在多久、放在哪里、有多少生命、会不会吸引敌人攻击、会不会造成伤害，也没有写护盾量、护盾持续时间、护盾能否叠加、触发间隔和次数上限。护盾和假人主要影响生存，所以按间接影响输出处理。",
+      "mechanisms": ["summon", "shield", "skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能后，假人存在期间受到攻击",
+      "slots": [
+        { "key": "decoyCount", "what": "每次召唤的假人数量（原文写汉字“三个”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "核心 c3 假人数量，核对原文的三个，需以资源包为准" },
+        { "key": "decoyDuration", "what": "假人存在时间（也就是“此时”的时长）", "unit": "seconds", "claimed": null, "packHint": "假人的持续时间" },
+        { "key": "decoyHp", "what": "假人的生命值（如果假人可以被打掉）", "unit": "flat", "claimed": null, "packHint": "假人生命值及其是否继承诸葛亮属性" },
+        { "key": "shieldBase", "what": "每次获得护盾的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c3 护盾量的固定值部分" },
+        { "key": "shieldRatio", "what": "护盾量的加成系数（加成属性未写，可能是法术攻击、最大生命或受到的伤害）", "unit": "ratio", "claimed": null, "packHint": "护盾量的加成系数和加成属性" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾存在时间" },
+        { "key": "shieldTriggerCooldown", "what": "受到攻击获得护盾的触发间隔", "unit": "seconds", "claimed": null, "packHint": "护盾触发的内置冷却" },
+        { "key": "shieldMaxTriggers", "what": "一次假人存在期间护盾最多触发的次数", "unit": "count", "claimed": null, "packHint": "护盾触发次数上限，以及护盾是叠加还是刷新" }
+      ],
+      "ambiguities": [
+        "“受到攻击会获得护盾”的主语不清楚：本体受击还是假人受击",
+        "假人持续时间、生命值、摆放位置没有写",
+        "假人是否吸引敌人攻击、是否造成伤害没有写",
+        "护盾量、加成属性、持续时间没有写",
+        "护盾能否叠加、触发间隔和次数上限没有写",
+        "是否保留二技能原有的位移和伤害没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "策星流火",
+      "text": "在位移终点创造一个被动法球炮台自动攻击附近敌人，且位移结束获得3秒加速",
+      "reading": "二技能核心。二技能位移结束时在终点创造一个被动法球炮台（“一个”是汉字数字），炮台自动攻击附近的敌人；同时位移结束后诸葛亮获得持续3秒的加速。“被动法球炮台”按字面理解为发射被动法球的炮台，它的攻击是否等同于被动攻击、是否受被动相关小天赋影响原文没有写。原文没有写炮台持续时间、攻击间隔、攻击范围、伤害，也没有写加速是多少、是否衰减。",
+      "mechanisms": ["summon", "proc", "area", "buff", "mobility", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "二技能位移结束时",
+      "slots": [
+        { "key": "turretsPerCast", "what": "每次位移创造的炮台数量（原文写汉字“一个”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "核心 c4 每次二技能生成炮台的数量，核对原文的一个，需以资源包为准" },
+        { "key": "turretDuration", "what": "炮台存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c4 炮台的持续时间，确认「七星续命」是否延长它" },
+        { "key": "turretAttackInterval", "what": "炮台两次攻击之间的间隔", "unit": "seconds", "claimed": null, "packHint": "炮台攻击间隔（秒或帧），确认「连弩天机」是否缩短它" },
+        { "key": "turretAttackRange", "what": "炮台索敌和攻击的范围（原文“附近”）", "unit": "meters", "claimed": null, "packHint": "炮台的索敌半径" },
+        { "key": "turretTargetsPerAttack", "what": "炮台每次攻击的目标数", "unit": "count", "claimed": null, "packHint": "炮台每次攻击打几个目标、是单体弹道还是范围伤害" },
+        { "key": "turretBaseDamage", "what": "炮台每次攻击的基础伤害", "unit": "flat", "claimed": null, "packHint": "炮台攻击伤害的基础值，确认是否直接引用被动法球伤害" },
+        { "key": "turretDamageRatio", "what": "炮台每次攻击的伤害系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "炮台攻击伤害系数、加成属性和伤害类型" },
+        { "key": "maxTurretsCoexisting", "what": "同时存在的炮台数量上限", "unit": "count", "claimed": null, "packHint": "炮台数量上限，以及与一技能核心「东星破空」的炮台是否共用上限" },
+        { "key": "moveSpeedBonus", "what": "位移结束后获得的移速加成", "unit": "percent", "claimed": null, "packHint": "核心 c4 加速 buff 的移速数值，确认是否随时间衰减" },
+        { "key": "moveSpeedDuration", "what": "加速持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "位移结束获得3秒加速" }, "packHint": "加速 buff 的持续时间，核对描述的3秒，需以资源包为准" }
+      ],
+      "ambiguities": [
+        "炮台持续时间、攻击间隔、攻击范围、伤害数值和系数没有写",
+        "炮台攻击是否等同于被动攻击、是否受被动相关小天赋影响没有写",
+        "多个炮台能否同时存在、数量上限没有写",
+        "加速的移速数值没有写，是否衰减没有写",
+        "炮台攻击能否暴击没有写",
+        "是否保留二技能原有的位移伤害没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "二星连珠",
+      "text": "连发两颗元气弹",
+      "reading": "大招核心。大招改为连续发射两颗元气弹（“两颗”是汉字数字）。原文没有写两颗之间的间隔、第二颗伤害是否与第一颗相同、两颗能否打同一个目标，也没有写这个核心是否改变大招的冷却或伤害系数。如果两颗都能命中，等于大招伤害段数翻倍，所以直接影响伤害。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "boltCount", "what": "每次大招发射的元气弹数量（原文写汉字“两颗”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "核心 c5 元气弹数量，核对原文的两颗，需以资源包为准" },
+        { "key": "boltInterval", "what": "两颗元气弹之间的发射间隔", "unit": "seconds", "claimed": null, "packHint": "两颗元气弹的出手时间点（秒或帧）" },
+        { "key": "boltBaseDamage", "what": "每颗元气弹的基础伤害", "unit": "flat", "claimed": null, "packHint": "核心 c5 下每颗元气弹伤害的基础值" },
+        { "key": "boltDamageRatio", "what": "每颗元气弹的伤害系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c5 下每颗元气弹的伤害系数、加成属性和伤害类型" },
+        { "key": "secondBoltDamageScale", "what": "第二颗元气弹相对第一颗的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "确认第二颗伤害是否衰减或与第一颗相同" },
+        { "key": "cooldown", "what": "选此核心后大招的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c5 下大招冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "两颗元气弹之间的间隔没有写",
+        "第二颗伤害是否与第一颗相同没有写",
+        "两颗能否命中同一目标、是否锁定同一目标没有写",
+        "每颗元气弹的伤害数值和系数没有写",
+        "是否改变大招冷却没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "阴阳两仪",
+      "text": "在尽头召唤诸葛亮虚影，本体和虚影对路径释放元气弹，命中敌人减少冷却",
+      "reading": "大招核心。在“尽头”召唤一个诸葛亮虚影，本体和虚影都向路径释放元气弹，元气弹命中敌人会减少冷却。原文没有写“尽头”指什么（推测是大招施放方向的射程尽头），“对路径释放”按字面理解为本体和虚影之间的路径被元气弹覆盖，可能是两端相向发射。原文没有写虚影距离本体多远、存在多久，元气弹伤害、路径宽度，本体和虚影的元气弹伤害是否相同、同一敌人能否被两颗都命中，也没有写减少哪个技能的冷却、每次减少多少、是否有上限。",
+      "mechanisms": ["skill-change", "summon", "proc", "area", "cooldown"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时；元气弹命中敌人时减少冷却",
+      "slots": [
+        { "key": "phantomDistance", "what": "虚影出现位置距离本体的距离（原文“尽头”）", "unit": "meters", "claimed": null, "packHint": "核心 c6 虚影召唤距离，或大招射程" },
+        { "key": "phantomDuration", "what": "虚影存在时间", "unit": "seconds", "claimed": null, "packHint": "虚影持续时间，确认是否只释放一次元气弹" },
+        { "key": "boltBaseDamage", "what": "本体元气弹的基础伤害", "unit": "flat", "claimed": null, "packHint": "核心 c6 下本体元气弹伤害的基础值" },
+        { "key": "boltDamageRatio", "what": "本体元气弹的伤害系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c6 下元气弹的伤害系数、加成属性和伤害类型" },
+        { "key": "phantomDamageScale", "what": "虚影元气弹相对本体元气弹的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "虚影元气弹伤害是否与本体相同或按比例继承" },
+        { "key": "pathWidth", "what": "元气弹路径的判定宽度", "unit": "meters", "claimed": null, "packHint": "元气弹路径碰撞宽度" },
+        { "key": "hitsPerTarget", "what": "同一敌人最多被本体和虚影元气弹命中的次数", "unit": "count", "claimed": null, "packHint": "同一目标能否被本体和虚影的元气弹各命中一次" },
+        { "key": "cdReductionPerHit", "what": "每次命中敌人减少的冷却", "unit": "seconds", "claimed": null, "packHint": "命中减冷却的数值，确认是固定秒数还是按百分比，以及减少哪个技能的冷却" },
+        { "key": "cdReductionMaxPerCast", "what": "一次大招最多减少的冷却总量", "unit": "seconds", "claimed": null, "packHint": "减冷却的单次施放上限或计数目标数上限" },
+        { "key": "cooldown", "what": "选此核心后大招的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c6 下大招冷却时间" }
+      ],
+      "ambiguities": [
+        "“尽头”指什么、虚影距离本体多远没有写",
+        "“对路径释放元气弹”的发射方向（相向、同向）没有写",
+        "元气弹伤害数值、系数、路径宽度没有写",
+        "本体和虚影的元气弹伤害是否相同、同一敌人能否被两颗都命中没有写",
+        "“减少冷却”减少的是大招还是所有技能、每次减多少、有没有上限没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "巧借东风",
+      "text": "呼唤东风，己方加速，敌方减速",
+      "reading": "一技能小天赋。呼唤东风，让己方单位加速、敌方单位减速。原文没有写触发时机（列在一技能下，推测是释放一技能时），没有写东风的作用范围（全场、一技能路径还是某个区域）和持续时间，没有写“己方”是否包括友军、加速和减速各是多少。减速可以让敌人在伤害区域停留更久，按间接影响输出处理。",
+      "mechanisms": ["mobility", "control", "team", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "未写，推测为释放一技能时",
+      "slots": [
+        { "key": "allyMoveSpeedBonus", "what": "己方获得的移速加成", "unit": "percent", "claimed": null, "packHint": "该天赋给己方的加速数值" },
+        { "key": "allyBuffDuration", "what": "己方加速持续时间", "unit": "seconds", "claimed": null, "packHint": "加速 buff 持续时间" },
+        { "key": "enemySlowPercent", "what": "敌方受到的减速比例", "unit": "percent", "claimed": null, "packHint": "该天赋对敌方的减速数值" },
+        { "key": "enemySlowDuration", "what": "敌方减速持续时间", "unit": "seconds", "claimed": null, "packHint": "减速 debuff 持续时间" },
+        { "key": "windRadius", "what": "东风的作用范围", "unit": "meters", "claimed": null, "packHint": "东风影响的区域大小或判定方式（全场、路径、圆形区域）" },
+        { "key": "windDuration", "what": "东风区域存在时间（如果是持续区域）", "unit": "seconds", "claimed": null, "packHint": "东风是一次性施加效果还是持续存在的区域，存在多久" }
+      ],
+      "ambiguities": [
+        "触发时机没有写",
+        "作用范围和持续时间没有写",
+        "加速和减速的数值没有写",
+        "“己方”是否包括友军没有写",
+        "减速是否随时间衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "星流霆击",
+      "text": "一技能弹道变快",
+      "reading": "一技能小天赋。一技能的弹道（法球飞行速度）变快。原文没有写快多少、是按比例还是固定值，也没有写是否同时影响「算无遗策」的回程速度。弹道变快会让伤害更早结算、更容易命中移动目标，按间接影响输出处理。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能法球飞行时）",
+      "slots": [
+        { "key": "projectileSpeedBonus", "what": "一技能弹道速度提升幅度（原文没写是百分比还是固定速度值，资源包若给固定值需改单位）", "unit": "percent", "claimed": null, "packHint": "该天赋对一技能法球飞行速度的提升值" },
+        { "key": "baseProjectileSpeed", "what": "一技能法球原本的飞行速度", "unit": "meters", "claimed": null, "packHint": "一技能法球基础飞行速度（米每秒），用于计算命中时间点" }
+      ],
+      "ambiguities": [
+        "弹道变快多少没有写",
+        "是否影响「算无遗策」的回程速度没有写",
+        "是否同时改变射程没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "锦囊妙计",
+      "text": "额外发射1颗法球",
+      "reading": "一技能小天赋（原文没写主语，按所在技能理解为一技能）。一技能额外多发射1颗法球。原文没有写额外法球的方向和夹角、伤害是否与原有法球相同、同一敌人能否被多颗法球重复命中。多一颗法球会增加命中次数，也会让「妙算回天」按“每颗法球”计算的减冷却多触发，所以直接影响伤害。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "extraOrbCount", "what": "额外发射的法球数量", "unit": "count", "claimed": { "value": 1, "quote": "额外发射1颗法球" }, "packHint": "该天赋增加的法球数量，核对描述的1颗，需以资源包为准" },
+        { "key": "baseOrbCount", "what": "一技能原本发射的法球数量", "unit": "count", "claimed": null, "packHint": "一技能基础法球数量，用于确定加1颗后总数和「东星破空」的中间法球" },
+        { "key": "extraOrbDamageScale", "what": "额外法球相对普通法球的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "额外法球伤害是否与普通法球相同" },
+        { "key": "sameTargetMaxHits", "what": "同一敌人最多被几颗法球命中", "unit": "count", "claimed": null, "packHint": "多颗法球对同一目标是否分别判定伤害，或有伤害衰减" }
+      ],
+      "ambiguities": [
+        "原文没写是哪个技能发射法球，按所在技能理解为一技能",
+        "额外法球的方向和夹角没有写",
+        "额外法球伤害是否与普通法球相同没有写",
+        "同一敌人能否被多颗法球重复命中没有写",
+        "加1颗后若总数变成偶数，「东星破空」的“中间的法球”指哪一颗没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "八阵拓疆",
+      "text": "技能射程增加",
+      "reading": "列在一技能下的小天赋。技能射程增加。原文只写“技能”，没有写是一技能还是所有技能，也没有写增加多少、是固定距离还是百分比。射程变远可以从更远处命中敌人或让路径覆盖更多敌人，按间接影响输出处理。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "rangeBonus", "what": "射程增加量（原文没写是固定距离还是百分比，资源包若给百分比需改单位）", "unit": "meters", "claimed": null, "packHint": "该天赋增加的射程数值，以及作用于哪些技能" },
+        { "key": "baseRange", "what": "受影响技能原本的射程", "unit": "meters", "claimed": null, "packHint": "一技能（或受影响技能）的基础射程" }
+      ],
+      "ambiguities": [
+        "“技能”指一技能还是所有技能没有写",
+        "射程增加多少、是固定距离还是百分比没有写",
+        "是否同时影响「东星破空」炮台的生成位置（终点）没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "明德洞真",
+      "text": "被动附带额外真伤",
+      "reading": "列在一技能下的小天赋。被动的攻击附带一段额外的真实伤害。原文没有写真伤数值、按什么属性加成，没有写是每颗被动法球命中都附带还是每轮被动附带一次，也没有写炮台（「东星破空」「策星流火」）和「定军之志」「天命召唤」召唤出的被动攻击是否也附带。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "被动攻击命中敌人时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "每次附带真伤的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋真伤的固定值部分" },
+        { "key": "trueDamageRatio", "what": "附带真伤的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋真伤的加成系数和加成属性（法术攻击、等级等）" },
+        { "key": "trueDamagePctOfPassive", "what": "如果真伤按被动伤害的比例计算，比例是多少", "unit": "percent", "claimed": null, "packHint": "确认真伤是独立数值还是按被动伤害的比例附加" },
+        { "key": "internalCooldown", "what": "附带真伤的触发间隔（如果有）", "unit": "seconds", "claimed": null, "packHint": "真伤触发的内置冷却，或每轮被动触发次数限制" }
+      ],
+      "ambiguities": [
+        "真伤数值、加成属性没有写",
+        "每颗被动法球都附带还是每轮附带一次没有写",
+        "炮台和其他天赋召唤的被动攻击是否也附带没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "连弩天机",
+      "text": "被动射速增加",
+      "reading": "列在一技能下的小天赋。被动的“射速”增加。“射速”可能指发射频率（单位时间发射更多法球），也可能指法球飞行速度，原文没有区分；按发射频率理解时会提高单位时间伤害。原文没有写增加多少，也没有写炮台的攻击频率是否一同提高。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（被动攻击时）",
+      "slots": [
+        { "key": "fireRateBonus", "what": "被动射速提升幅度（按发射频率理解；资源包若是间隔缩短的秒数或帧数需改单位）", "unit": "percent", "claimed": null, "packHint": "该天赋对被动发射间隔或频率的修改值" },
+        { "key": "baseFireInterval", "what": "被动原本的发射间隔", "unit": "seconds", "claimed": null, "packHint": "被动法球的基础发射间隔（秒或帧）" }
+      ],
+      "ambiguities": [
+        "“射速”是发射频率还是弹道速度没有写",
+        "提升多少没有写",
+        "是否影响炮台的攻击频率没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "妙算回天",
+      "text": "每颗法球命中敌人减少一技能冷却",
+      "reading": "一技能小天赋。每颗法球命中敌人时减少一技能的冷却。原文没有写“法球”只算一技能的法球，还是被动法球、炮台法球也算；没有写每次减少多少、单次施放是否有上限、同一敌人被多颗法球命中是否分别计算、命中小兵和英雄是否相同。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "法球命中敌人时",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每颗法球命中减少的一技能冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋每次命中减少的冷却，确认是固定秒数还是百分比" },
+        { "key": "cdReductionMaxPerCast", "what": "一次一技能最多减少的冷却总量", "unit": "seconds", "claimed": null, "packHint": "减冷却的单次施放上限" },
+        { "key": "maxCountedHitsPerCast", "what": "一次一技能最多计算几次命中", "unit": "count", "claimed": null, "packHint": "同一目标被多颗法球命中是否分别计算，计数上限多少" }
+      ],
+      "ambiguities": [
+        "“法球”是否包括被动法球和炮台法球没有写",
+        "每次减少多少没有写",
+        "单次施放上限没有写",
+        "同一敌人被多颗法球命中是否分别计算没有写",
+        "「算无遗策」回程命中是否也算一次没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "明德泽世",
+      "text": "释放获得可叠层吸血",
+      "reading": "一技能小天赋。释放（按所在技能理解为释放一技能）时获得一层吸血效果，可以叠加多层。原文没有写每层吸血多少、层数上限、持续时间、重复释放是刷新还是每层独立计时，也没有写吸血对哪些伤害生效。吸血影响生存，按间接影响输出处理。",
+      "mechanisms": ["buff", "stacking", "lifesteal"],
+      "damageRelevance": "indirect",
+      "trigger": "释放一技能时（原文只写“释放”）",
+      "slots": [
+        { "key": "lifestealPerStack", "what": "每层吸血比例", "unit": "percent", "claimed": null, "packHint": "该天赋每层的吸血数值，确认是法术吸血还是全伤害吸血" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": null, "packHint": "吸血 buff 最大层数" },
+        { "key": "stackDuration", "what": "吸血 buff 持续时间", "unit": "seconds", "claimed": null, "packHint": "吸血 buff 的持续时间，以及刷新规则" },
+        { "key": "stacksPerCast", "what": "每次释放获得的层数", "unit": "count", "claimed": null, "packHint": "每次释放叠几层" }
+      ],
+      "ambiguities": [
+        "“释放”指释放哪个技能没有写，按所在技能理解为一技能",
+        "每层吸血数值、层数上限、持续时间没有写",
+        "重复释放的刷新规则没有写",
+        "吸血对哪些伤害生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "天罚之梏",
+      "text": "该技能可暴击，位移伤害命中英雄获得可叠加暴击率",
+      "reading": "二技能小天赋。二技能（“该技能”）的伤害可以暴击；二技能位移造成的伤害命中英雄时获得暴击率，可以叠加。原文没有写每层暴击率、层数上限、持续时间、每次命中多个英雄是否叠多层，也没有写暴击率是只对二技能生效还是对所有伤害生效、暴击伤害是否用诸葛亮自身的暴击效果。原文只写命中英雄，命中非英雄敌人是否叠层没有写。",
+      "mechanisms": ["crit", "buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "二技能伤害结算时可暴击；二技能位移伤害命中英雄后叠加暴击率",
+      "slots": [
+        { "key": "critRatePerStack", "what": "每层暴击率", "unit": "percent", "claimed": null, "packHint": "该天赋每层暴击率数值" },
+        { "key": "maxStacks", "what": "暴击率层数上限", "unit": "count", "claimed": null, "packHint": "暴击率 buff 最大层数" },
+        { "key": "stackDuration", "what": "暴击率 buff 持续时间", "unit": "seconds", "claimed": null, "packHint": "暴击率 buff 持续时间和刷新规则" },
+        { "key": "stacksPerHit", "what": "每次命中获得的层数（命中多个英雄时是否多叠）", "unit": "count", "claimed": null, "packHint": "单次位移命中多个英雄时的叠层规则" },
+        { "key": "skillCritDamageRatio", "what": "二技能暴击时的伤害倍率（如果不用自身暴击效果）", "unit": "ratio", "claimed": null, "packHint": "二技能暴击伤害倍率，确认是否使用诸葛亮自身暴击效果属性" }
+      ],
+      "ambiguities": [
+        "每层暴击率、层数上限、持续时间没有写",
+        "暴击率是只对二技能生效还是对所有伤害生效没有写",
+        "命中非英雄敌人是否叠层没有写",
+        "命中多个英雄时叠几层没有写",
+        "二技能暴击伤害倍率没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "鞠躬尽瘁",
+      "text": "在位移起点终点额外造成1次力场伤害",
+      "reading": "二技能小天赋。二技能位移时，在起点和终点额外造成1次力场伤害。原文没有说清楚是起点和终点各1次还是总共1次，按字面更接近起点、终点各额外1次。原文没有写力场伤害数值、系数、范围，也没有写额外伤害与原有位移伤害之间的时间间隔、能否暴击（选「天罚之梏」后二技能可暴击，是否包括这段额外伤害没有写）。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能位移的起点和终点",
+      "slots": [
+        { "key": "extraHitsPerPoint", "what": "起点、终点每处额外造成的力场伤害次数", "unit": "count", "claimed": { "value": 1, "quote": "额外造成1次力场伤害" }, "packHint": "额外力场伤害次数，核对描述的1次，并确认是起点终点各1次还是共1次，需以资源包为准" },
+        { "key": "fieldBaseDamage", "what": "每次力场伤害的基础值", "unit": "flat", "claimed": null, "packHint": "额外力场伤害的基础值，确认是否与二技能原有伤害相同" },
+        { "key": "fieldDamageRatio", "what": "每次力场伤害的系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外力场伤害的系数、加成属性和伤害类型" },
+        { "key": "fieldRadius", "what": "力场伤害范围", "unit": "meters", "claimed": null, "packHint": "额外力场伤害的判定半径" },
+        { "key": "extraHitDelay", "what": "额外力场伤害相对原有伤害的延迟", "unit": "seconds", "claimed": null, "packHint": "额外力场伤害生效的时间点（秒或帧）" }
+      ],
+      "ambiguities": [
+        "起点终点各1次还是总共1次没有写清楚",
+        "力场伤害数值、系数、范围没有写",
+        "额外伤害的生效时间点没有写",
+        "能否暴击、是否触发「天罚之梏」「羽扇纶巾」等位移命中效果没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "羽扇纶巾",
+      "text": "位移命中敌人获得可叠加双抗",
+      "reading": "二技能小天赋。二技能位移命中敌人时获得物理防御和法术防御（双抗），可以叠加。原文没有写每层双抗多少、层数上限、持续时间、命中多个敌人是否叠多层。双抗只影响生存，按间接影响输出处理。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能位移命中敌人后",
+      "slots": [
+        { "key": "physDefPerStack", "what": "每层物理防御", "unit": "flat", "claimed": null, "packHint": "该天赋每层物理防御数值" },
+        { "key": "magicDefPerStack", "what": "每层法术防御", "unit": "flat", "claimed": null, "packHint": "该天赋每层法术防御数值" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": null, "packHint": "双抗 buff 最大层数" },
+        { "key": "stackDuration", "what": "双抗 buff 持续时间", "unit": "seconds", "claimed": null, "packHint": "双抗 buff 持续时间和刷新规则" },
+        { "key": "stacksPerHit", "what": "每次位移命中获得的层数（命中多个敌人时是否多叠）", "unit": "count", "claimed": null, "packHint": "单次位移命中多个敌人时的叠层规则" }
+      ],
+      "ambiguities": [
+        "每层双抗数值、层数上限、持续时间没有写",
+        "命中多个敌人时叠几层没有写",
+        "双抗是固定值还是百分比没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "韬略叠光",
+      "text": "被动法球命中目标回血回蓝",
+      "reading": "列在二技能下的小天赋。被动法球命中目标时为诸葛亮回复生命和法力。原文没有写每次回复多少、按什么计算、有没有触发间隔，也没有写炮台发出的法球是否也算被动法球。回血回蓝影响生存和技能续航，按间接影响输出处理。",
+      "mechanisms": ["heal", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "被动法球命中目标时",
+      "slots": [
+        { "key": "healPerHit", "what": "每次命中回复的生命（固定值部分）", "unit": "flat", "claimed": null, "packHint": "该天赋每次回血的固定值" },
+        { "key": "healRatio", "what": "每次命中回复生命的加成系数或比例（基准未写）", "unit": "ratio", "claimed": null, "packHint": "回血的加成系数及基准（法术攻击、最大生命、造成的伤害）" },
+        { "key": "manaPerHit", "what": "每次命中回复的法力", "unit": "flat", "claimed": null, "packHint": "该天赋每次回蓝数值，以及本模式是否有法力消耗" },
+        { "key": "internalCooldown", "what": "回血回蓝的触发间隔（如果有）", "unit": "seconds", "claimed": null, "packHint": "回复效果的内置冷却或每轮被动触发次数限制" }
+      ],
+      "ambiguities": [
+        "回血回蓝数值和计算基准没有写",
+        "触发间隔没有写",
+        "炮台法球、召唤出的被动攻击是否也算被动法球没有写",
+        "命中非英雄目标是否同样回复没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "七星续命",
+      "text": "被动炮塔/被动法球持续时间增加",
+      "reading": "列在二技能下的小天赋。被动炮塔和被动法球的持续时间增加（原文用“/”连接，按两者都延长理解，也可能指二者择一）。“被动炮塔”按字面理解为核心「东星破空」「策星流火」创造的炮台。炮台存在更久可以多打几次攻击，所以直接影响伤害。原文没有写增加多少、是固定秒数还是百分比。",
+      "mechanisms": ["summon", "other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "turretDurationBonus", "what": "被动炮塔持续时间增加量（原文没写是秒数还是百分比）", "unit": "seconds", "claimed": null, "packHint": "该天赋对炮台持续时间的增加值" },
+        { "key": "orbDurationBonus", "what": "被动法球持续时间增加量（原文没写是秒数还是百分比）", "unit": "seconds", "claimed": null, "packHint": "该天赋对被动法球持续时间的增加值" },
+        { "key": "baseOrbDuration", "what": "被动法球原本的持续时间", "unit": "seconds", "claimed": null, "packHint": "被动法球基础持续时间，用于理解延长的效果" }
+      ],
+      "ambiguities": [
+        "“/”表示两者都延长还是二者择一没有写",
+        "“被动炮塔”是否就是核心创造的炮台没有写",
+        "增加多少、是固定秒数还是百分比没有写",
+        "被动法球“持续时间”具体指什么（环绕存在时间还是飞行时间）没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "龙盘虎踞",
+      "text": "位移距离增加",
+      "reading": "二技能小天赋。二技能位移距离增加。原文没有写增加多少、是固定距离还是百分比。位移更远可能让位移路径覆盖更多敌人，也会改变「策星流火」炮台和「鞠躬尽瘁」力场的位置，按间接影响输出处理。",
+      "mechanisms": ["mobility", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放二技能时）",
+      "slots": [
+        { "key": "distanceBonus", "what": "位移距离增加量（原文没写是固定距离还是百分比，资源包若给百分比需改单位）", "unit": "meters", "claimed": null, "packHint": "该天赋增加的二技能位移距离" },
+        { "key": "baseDistance", "what": "二技能原本的位移距离", "unit": "meters", "claimed": null, "packHint": "二技能基础位移距离" }
+      ],
+      "ambiguities": [
+        "增加多少、是固定距离还是百分比没有写",
+        "位移路径是否造成伤害（影响覆盖敌人数）原文没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "星移斗转",
+      "text": "该技能技能命中敌人减少二技能冷却时间",
+      "reading": "二技能小天赋。原文“该技能技能”重复了“技能”二字，按语义理解为二技能命中敌人时减少二技能的冷却时间。原文没有写每次减少多少、单次施放的上限、命中多个敌人是否分别计算，也没有写「鞠躬尽瘁」的额外力场伤害命中是否也算。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中敌人时",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每次命中减少的二技能冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋每次命中减少的冷却，确认是固定秒数还是百分比" },
+        { "key": "cdReductionMaxPerCast", "what": "一次二技能最多减少的冷却总量", "unit": "seconds", "claimed": null, "packHint": "减冷却的单次施放上限" },
+        { "key": "maxCountedHitsPerCast", "what": "一次二技能最多计算几次命中", "unit": "count", "claimed": null, "packHint": "命中多个敌人、多段伤害是否分别计算，计数上限多少" }
+      ],
+      "ambiguities": [
+        "原文“该技能技能”有重复字，按二技能理解",
+        "每次减少多少没有写",
+        "单次施放上限没有写",
+        "命中多个敌人是否分别计算没有写",
+        "「鞠躬尽瘁」的额外力场伤害、「策星流火」炮台攻击是否算“该技能命中”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "风雷瞬步",
+      "text": "位移结束获得2秒高额韧性",
+      "reading": "二技能小天赋。二技能位移结束后获得持续2秒的韧性，韧性数值只写了“高额”，没有具体数值。韧性减少受到的控制时长，按间接影响输出处理。",
+      "mechanisms": ["buff", "control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能位移结束时",
+      "slots": [
+        { "key": "tenacityBonus", "what": "获得的韧性数值（原文“高额”）", "unit": "percent", "claimed": null, "packHint": "该天赋韧性 buff 的数值" },
+        { "key": "duration", "what": "韧性持续时间", "unit": "seconds", "claimed": { "value": 2, "quote": "位移结束获得2秒高额韧性" }, "packHint": "韧性 buff 持续时间，核对描述的2秒，需以资源包为准" }
+      ],
+      "ambiguities": [
+        "“高额”韧性的具体数值没有写",
+        "韧性是否随时间衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "玄机护盾",
+      "text": "释放大招时获得真伤护盾",
+      "reading": "大招小天赋。释放大招时获得一个“真伤护盾”。“真伤护盾”的含义原文没有解释：可能是能抵挡真实伤害的护盾，也可能是护盾存在期间或破裂时造成真实伤害。原文没有写护盾量、加成属性、持续时间。按护盾理解时只影响生存，按间接影响输出处理；如果实际会造成真实伤害，需要改为直接影响。",
+      "mechanisms": ["shield", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾量的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾量的固定值部分" },
+        { "key": "shieldRatio", "what": "护盾量的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾量的加成系数和加成属性" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾存在时间" },
+        { "key": "possibleTrueDamage", "what": "如果“真伤护盾”会造成真实伤害，每次伤害的数值（是否存在未确定）", "unit": "flat", "claimed": null, "packHint": "确认“真伤护盾”的实际效果：只吸收伤害，还是存在期间或破裂时造成真实伤害；如造成伤害则找数值和系数" }
+      ],
+      "ambiguities": [
+        "“真伤护盾”是吸收真实伤害的护盾，还是会造成真实伤害的护盾，原文没有解释",
+        "护盾量、加成属性、持续时间没有写",
+        "护盾能否与其他护盾叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "多谋其事",
+      "text": "击退效果对英雄也生效",
+      "reading": "大招小天赋。大招的击退效果对英雄也生效，言下之意是原本的击退只对非英雄单位生效（仓库里没有本模式大招基础原文，这是从“也”字推断的）。原文没有写击退距离、击退造成的控制时长。击退属于控制，按间接影响输出处理。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中英雄时",
+      "slots": [
+        { "key": "knockbackDistance", "what": "对英雄的击退距离", "unit": "meters", "claimed": null, "packHint": "大招击退距离，确认对英雄和非英雄是否相同" },
+        { "key": "knockbackDuration", "what": "击退造成的控制时长", "unit": "seconds", "claimed": null, "packHint": "击退位移时长（秒或帧）" }
+      ],
+      "ambiguities": [
+        "击退距离和控制时长没有写",
+        "对英雄的击退是否与对非英雄的击退相同没有写",
+        "大招原本带击退是从“也”字推断的，需资源包确认"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "风索连环",
+      "text": "命中英雄后，对附近的英雄锁定发射小元气弹",
+      "reading": "大招小天赋。大招命中英雄后，对附近的其他英雄锁定发射小元气弹。原文没有写搜索范围、最多发射几颗、小元气弹伤害多少（是否按大招伤害的比例），也没有写小元气弹命中后能否继续连锁、是否会打回已命中的英雄。只写了英雄，非英雄敌人是否作为触发者或目标没有写。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中英雄后",
+      "slots": [
+        { "key": "searchRadius", "what": "寻找附近英雄的范围", "unit": "meters", "claimed": null, "packHint": "小元气弹的索敌半径" },
+        { "key": "maxTargets", "what": "最多发射的小元气弹数量或目标数", "unit": "count", "claimed": null, "packHint": "每次触发发射几颗小元气弹、最多锁定几个目标" },
+        { "key": "smallBoltBaseDamage", "what": "每颗小元气弹的基础伤害", "unit": "flat", "claimed": null, "packHint": "小元气弹伤害的基础值" },
+        { "key": "smallBoltDamageRatio", "what": "每颗小元气弹的伤害系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "小元气弹伤害系数、加成属性和伤害类型，确认是否按大招伤害的比例计算" },
+        { "key": "chainDepth", "what": "小元气弹能否继续连锁触发及最多连锁次数", "unit": "count", "claimed": null, "packHint": "小元气弹命中英雄后是否再次触发该天赋" }
+      ],
+      "ambiguities": [
+        "搜索范围、小元气弹数量没有写",
+        "小元气弹伤害数值和系数没有写",
+        "能否连锁、能否打回已命中的英雄没有写",
+        "非英雄敌人是否作为触发者或目标没有写",
+        "选「二星连珠」或「阴阳两仪」后每颗元气弹是否都能触发没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "定军之志",
+      "text": "蓄力期间持续召唤被动攻击",
+      "reading": "大招小天赋。大招蓄力期间持续召唤被动攻击（“蓄力”说明本模式大招有蓄力过程，这是从原文推断的）。原文没有写召唤间隔、每次召唤几颗被动法球、被动攻击伤害是否与正常被动相同、攻击目标怎样选择，也没有写大招最长蓄力多久。",
+      "mechanisms": ["proc", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "大招蓄力期间",
+      "slots": [
+        { "key": "summonInterval", "what": "蓄力期间召唤被动攻击的间隔", "unit": "seconds", "claimed": null, "packHint": "蓄力期间被动攻击的触发间隔（秒或帧）" },
+        { "key": "attacksPerSummon", "what": "每次召唤的被动攻击数量（法球数）", "unit": "count", "claimed": null, "packHint": "每次召唤几颗被动法球，确认「拂风添星」+2是否生效" },
+        { "key": "maxChargeTime", "what": "大招最长蓄力时间", "unit": "seconds", "claimed": null, "packHint": "大招蓄力时长上限，决定最多召唤几次" },
+        { "key": "passiveDamageScale", "what": "召唤的被动攻击相对正常被动的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "召唤被动攻击伤害是否与正常被动相同" },
+        { "key": "targetSearchRadius", "what": "被动攻击的索敌范围", "unit": "meters", "claimed": null, "packHint": "召唤的被动攻击怎样选目标、索敌半径多大" }
+      ],
+      "ambiguities": [
+        "召唤间隔和每次数量没有写",
+        "大招蓄力时长没有写",
+        "召唤的被动攻击伤害是否与正常被动相同没有写",
+        "是否吃到「明德洞真」「连弩天机」「拂风添星」等被动相关天赋没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "七星定盘",
+      "text": "连线区域极限减速",
+      "reading": "大招小天赋。“连线区域”内的敌人受到“极限”减速。原文没有写“连线”指什么（可能是大招施放路径，也可能是「阴阳两仪」本体与虚影之间的连线），也没有写区域宽度、存在时间、减速具体数值（“极限”没有量化）和减速持续时间。减速属于控制，按间接影响输出处理。",
+      "mechanisms": ["control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "未写，推测为释放大招后形成连线区域时",
+      "slots": [
+        { "key": "slowPercent", "what": "减速比例（原文“极限”）", "unit": "percent", "claimed": null, "packHint": "该天赋减速数值" },
+        { "key": "slowDuration", "what": "减速持续时间（离开区域后是否保留）", "unit": "seconds", "claimed": null, "packHint": "减速 debuff 持续时间" },
+        { "key": "areaWidth", "what": "连线区域宽度", "unit": "meters", "claimed": null, "packHint": "连线区域的判定宽度" },
+        { "key": "areaDuration", "what": "连线区域存在时间", "unit": "seconds", "claimed": null, "packHint": "连线区域持续时间" }
+      ],
+      "ambiguities": [
+        "“连线”指什么没有写",
+        "“极限”减速的具体数值没有写",
+        "区域宽度、存在时间、减速持续时间没有写",
+        "减速是否衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "天机遁影",
+      "text": "释放大招获得爆发衰减移速",
+      "reading": "大招小天赋。释放大招时获得一段爆发性的移速加成，随后逐渐衰减。原文没有写初始移速加成多少、衰减持续多久。只影响移动，按不影响伤害处理。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "initialMoveSpeedBonus", "what": "初始移速加成", "unit": "percent", "claimed": null, "packHint": "该天赋移速 buff 的初始数值" },
+        { "key": "decayDuration", "what": "移速衰减到零所需时间", "unit": "seconds", "claimed": null, "packHint": "移速 buff 持续时间和衰减方式" }
+      ],
+      "ambiguities": [
+        "初始移速数值没有写",
+        "衰减持续时间和衰减方式（线性或分段）没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "天命召唤",
+      "text": "大招击杀后额外触发一轮被动",
+      "reading": "大招小天赋。大招击杀敌人后额外触发一轮被动（“一轮”是汉字数字）。原文没有写“一轮被动”包含几颗法球或几次攻击、伤害是否与正常被动相同、一次大招击杀多个敌人是否触发多轮、有没有触发间隔，也没有写击杀非英雄单位是否触发。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招击杀敌人后",
+      "slots": [
+        { "key": "roundsPerKill", "what": "每次击杀额外触发的被动轮数（原文写汉字“一轮”，校验器只识别阿拉伯数字，所以 claimed 留空）", "unit": "count", "claimed": null, "packHint": "击杀后触发被动的轮数，核对原文的一轮，需以资源包为准" },
+        { "key": "orbsPerRound", "what": "一轮被动包含的法球或攻击次数", "unit": "count", "claimed": null, "packHint": "一轮被动发射几颗法球，确认「拂风添星」+2是否生效" },
+        { "key": "passiveDamageScale", "what": "额外一轮被动相对正常被动的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "额外触发的被动伤害是否与正常被动相同" },
+        { "key": "maxRoundsPerCast", "what": "一次大招最多额外触发的轮数", "unit": "count", "claimed": null, "packHint": "一次大招击杀多个敌人时触发次数上限" },
+        { "key": "internalCooldown", "what": "额外触发的内置冷却（如果有）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发间隔" }
+      ],
+      "ambiguities": [
+        "“一轮被动”包含几颗法球或几次攻击没有写",
+        "伤害是否与正常被动相同没有写",
+        "击杀多个敌人是否触发多轮没有写",
+        "击杀非英雄单位是否触发没有写",
+        "「风索连环」小元气弹击杀是否算“大招击杀”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "拂风添星",
+      "text": "被动召唤法球数量+2",
+      "reading": "列在大招下的小天赋。被动召唤的法球数量增加2颗（原文“+2”，按数量理解）。原文没有写被动原本召唤几颗、增加的法球伤害是否与原有法球相同，也没有写炮台、「定军之志」「天命召唤」触发的被动是否也增加2颗。多发法球会增加被动伤害段数，所以直接影响伤害。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（被动召唤法球时）",
+      "slots": [
+        { "key": "extraOrbCount", "what": "被动召唤法球增加的数量（原文“+2”，表示多2颗）", "unit": "count", "claimed": { "value": 2, "quote": "被动召唤法球数量+2" }, "packHint": "该天赋增加的被动法球数量，核对描述的+2，需以资源包为准" },
+        { "key": "baseOrbCount", "what": "被动原本召唤的法球数量", "unit": "count", "claimed": null, "packHint": "被动基础法球数量，用于计算加成后的总数" },
+        { "key": "extraOrbDamageScale", "what": "增加的法球相对原有法球的伤害倍率", "unit": "ratio", "claimed": null, "packHint": "增加的法球伤害是否与原有法球相同" }
+      ],
+      "ambiguities": [
+        "被动原本召唤几颗法球没有写",
+        "增加的法球伤害是否与原有法球相同没有写",
+        "炮台和其他天赋触发的被动是否也增加法球没有写",
+        "同一目标能否被多颗被动法球重复命中没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

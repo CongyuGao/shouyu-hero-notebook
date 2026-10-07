@@ -1,0 +1,782 @@
+{
+  "heroId": "151",
+  "heroName": "孙权",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "掌箭",
+      "text": "施法距离增加，并且造成伤害时孙权辅助射击",
+      "reading": "一技能核心，两部分效果：一是一技能施法距离增加；二是“造成伤害时”孙权进行一次辅助射击，即额外打出一段射击伤害。原文“造成伤害时”没有主语，按所在技能组推断是一技能（从其他天赋原文看一技能与军旗有关）造成伤害时触发，但也可能指孙权任何伤害。原文没有写施法距离增加多少，没有写辅助射击的伤害、加成属性、伤害类型、射击目标（受击目标还是最近敌人）、每次触发射几箭、触发间隔或内置冷却，也没有写辅助射击是否视为普攻（能否暴击、能否触发攻击特效）。",
+      "mechanisms": ["area", "proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（施法距离）；一技能造成伤害时（辅助射击，主语按技能组推断）",
+      "slots": [
+        { "key": "castRangeIncrease", "what": "一技能施法距离增加量（原文没写是固定距离还是百分比，先按米记录）", "unit": "meters", "claimed": null, "packHint": "核心 c1 一技能施法距离的增加值，确认是固定距离还是百分比，需以资源包为准" },
+        { "key": "baseCastRange", "what": "一技能原施法距离", "unit": "meters", "claimed": null, "packHint": "一技能未选核心时的施法距离，用于计算增加后的距离" },
+        { "key": "assistShotBaseDamage", "what": "每次辅助射击的基础伤害", "unit": "flat", "claimed": null, "packHint": "核心 c1 辅助射击伤害的基础值" },
+        { "key": "assistShotDamageRatio", "what": "每次辅助射击的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "辅助射击伤害系数，以及它按哪项属性（物理攻击等）加成、伤害类型" },
+        { "key": "shotsPerTrigger", "what": "每次触发射出的箭数", "unit": "count", "claimed": null, "packHint": "辅助射击每次触发的射击次数或箭矢数量" },
+        { "key": "maxTargets", "what": "每次辅助射击可命中的目标数", "unit": "count", "claimed": null, "packHint": "辅助射击是单体还是可穿透或溅射，最多命中几个目标" },
+        { "key": "internalCooldown", "what": "辅助射击的触发间隔或内置冷却", "unit": "seconds", "claimed": null, "packHint": "辅助射击两次触发之间的最短间隔（秒或帧），确认是否每次造成伤害都触发" },
+        { "key": "canCrit", "what": "辅助射击能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "辅助射击伤害的可暴击标记，以及是否视为普攻、能否触发攻击特效" }
+      ],
+      "ambiguities": [
+        "“造成伤害时”的主语没有写，是一技能伤害还是孙权所有伤害都触发不确定",
+        "施法距离增加多少、按固定值还是百分比都没有写",
+        "辅助射击的伤害数值、加成属性、伤害类型没有写",
+        "辅助射击的目标选择、每次射几箭、内置冷却没有写",
+        "辅助射击能否暴击、是否视为普攻没有写",
+        "选择大招核心 c5（失去远程能力）后辅助射击是否仍然生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "执旗",
+      "text": "位移至目标地点，且军旗跟随自身",
+      "reading": "一技能核心，两部分效果：释放一技能时孙权位移到目标地点；军旗不再固定在地面，而是跟随孙权移动。原文没有写位移距离和位移耗时，没有写位移本身是否造成伤害，没有写军旗跟随后原有的军旗伤害与军旗范围是否不变、军旗存在时间是否改变、一技能冷却是否改变。由于其他小天赋（如护阵、如虹、吴将何在）以“在军旗范围内”为条件，军旗跟随自身会影响这些条件能否持续满足，但这一点是推断，原文没有直接说明。",
+      "mechanisms": ["mobility", "skill-change", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "dashDistance", "what": "位移的最大距离", "unit": "meters", "claimed": null, "packHint": "核心 c2 一技能位移距离或施法距离" },
+        { "key": "dashDuration", "what": "位移过程耗时", "unit": "seconds", "claimed": null, "packHint": "位移动作时长（秒或帧），模拟时用于计算这段时间不能普攻" },
+        { "key": "dashBaseDamage", "what": "位移或落点伤害的基础值（原文没写位移是否造成伤害，没有则为 0）", "unit": "flat", "claimed": null, "packHint": "确认核心 c2 的位移或落点是否有伤害判定；如有，伤害基础值" },
+        { "key": "dashDamageRatio", "what": "位移或落点伤害的加成系数（如有）", "unit": "ratio", "claimed": null, "packHint": "位移或落点伤害系数及加成属性（如有）" },
+        { "key": "flagRadius", "what": "跟随自身的军旗作用半径", "unit": "meters", "claimed": null, "packHint": "核心 c2 下军旗范围半径，确认与普通军旗是否相同" },
+        { "key": "flagDuration", "what": "军旗跟随自身的持续时间", "unit": "seconds", "claimed": null, "packHint": "核心 c2 下军旗存在时间，确认与普通军旗是否相同" },
+        { "key": "cooldown", "what": "选此核心后一技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c2 下一技能冷却，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "位移距离和位移耗时没有写",
+        "位移或落点是否造成伤害没有写",
+        "军旗跟随后其伤害、范围、存在时间是否改变没有写",
+        "军旗是以孙权为中心还是有偏移没有写",
+        "一技能冷却是否改变没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "离弦",
+      "text": "远程：对主目标发射额外箭矢\n近战：攻击间隔缩减提升",
+      "reading": "二技能核心，按远程和近战两种状态分别生效：远程状态下对主目标额外发射箭矢，即攻击时多一段箭矢伤害；近战状态下攻击间隔缩减提升，即普攻间隔变短、出手更快。原文没有解释近战状态从何而来，从大招核心 c5“永久【破阵】……但失去远程能力”推断近战状态与【破阵】有关，原文没有直接说明。原文没有写这个核心是常驻生效还是只在二技能【疾弦】状态下生效，没有写额外箭矢的数量、每支伤害、加成属性、能否暴击、能否触发攻击特效，没有写“主目标”如何确定，也没有写近战攻击间隔缩减提升多少、是提升缩减数值还是提升缩减上限。",
+      "mechanisms": ["skill-change", "proc", "stat"],
+      "damageRelevance": "direct",
+      "trigger": "远程状态下攻击主目标时（额外箭矢）；近战状态下攻击时（攻击间隔缩减）；是否限于【疾弦】状态未写",
+      "slots": [
+        { "key": "extraArrowCount", "what": "远程状态每次攻击额外发射的箭矢数量", "unit": "count", "claimed": null, "packHint": "核心 c3 远程分支额外箭矢的数量" },
+        { "key": "extraArrowBaseDamage", "what": "每支额外箭矢的基础伤害", "unit": "flat", "claimed": null, "packHint": "额外箭矢伤害的基础值" },
+        { "key": "extraArrowDamageRatio", "what": "每支额外箭矢的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外箭矢伤害系数、加成属性和伤害类型，确认是否等同于一次普攻伤害" },
+        { "key": "extraArrowCanCrit", "what": "额外箭矢能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "额外箭矢的可暴击标记，以及能否触发攻击特效" },
+        { "key": "meleeAttackIntervalReduction", "what": "近战状态攻击间隔缩减的提升量", "unit": "percent", "claimed": null, "packHint": "核心 c3 近战分支提升的攻击间隔缩减数值" },
+        { "key": "meleeIntervalReductionCapIncrease", "what": "近战状态攻击间隔缩减上限的提升量（如果“提升”指提高上限）", "unit": "percent", "claimed": null, "packHint": "确认核心 c3 近战分支是否改变攻击间隔缩减上限；如有，提升多少" }
+      ],
+      "ambiguities": [
+        "近战状态的来源没有写，与【破阵】的关系是推断",
+        "是常驻生效还是只在二技能【疾弦】状态下生效没有写",
+        "额外箭矢的数量、伤害、加成属性、能否暴击没有写",
+        "“主目标”如何确定没有写",
+        "近战攻击间隔缩减提升多少、提升的是数值还是上限没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "万箭",
+      "text": "每8次普攻行为后，射出巨量箭矢",
+      "reading": "二技能核心。孙权每进行8次普攻行为后，射出一次巨量箭矢，即额外打出一轮多箭矢伤害。原文用的是“普攻行为”，没有写未命中或空放的普攻是否计数，没有写【疾弦】状态下的攻击是否计数、是否只在二技能期间计数，没有写“巨量”具体是多少支箭、箭矢的方向和范围、每支伤害和加成属性、同一目标最多被几支命中、能否暴击，也没有写计数在一段时间不攻击后是否清零。",
+      "mechanisms": ["proc", "stacking", "area"],
+      "damageRelevance": "direct",
+      "trigger": "累计普攻行为达到阈值后",
+      "slots": [
+        { "key": "attacksPerVolley", "what": "触发一次巨量箭矢所需的普攻行为次数", "unit": "count", "claimed": { "value": 8, "quote": "每8次普攻行为后" }, "packHint": "核心 c4 触发所需普攻次数，核对描述的8次，需以资源包为准" },
+        { "key": "volleyArrowCount", "what": "每次射出的箭矢数量（原文只写“巨量”）", "unit": "count", "claimed": null, "packHint": "核心 c4 每轮射出的箭矢数量" },
+        { "key": "arrowBaseDamage", "what": "每支箭矢的基础伤害", "unit": "flat", "claimed": null, "packHint": "巨量箭矢每支伤害的基础值" },
+        { "key": "arrowDamageRatio", "what": "每支箭矢的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "巨量箭矢每支伤害系数、加成属性和伤害类型" },
+        { "key": "volleyRadius", "what": "箭矢覆盖的范围半径或射程", "unit": "meters", "claimed": null, "packHint": "巨量箭矢的射程、扇形角度或落点范围" },
+        { "key": "volleyDuration", "what": "一轮箭矢从射出到全部命中的时长", "unit": "seconds", "claimed": null, "packHint": "巨量箭矢的发射持续时间或各支箭的出手间隔（秒或帧）" },
+        { "key": "maxHitsPerTarget", "what": "同一目标每轮最多被命中的箭数", "unit": "count", "claimed": null, "packHint": "同一目标能否被多支箭重复命中，最多几支" },
+        { "key": "canCrit", "what": "箭矢能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "巨量箭矢的可暴击标记，以及能否触发攻击特效" },
+        { "key": "counterResetTime", "what": "不攻击多久后计数清零（如果会清零）", "unit": "seconds", "claimed": null, "packHint": "确认普攻计数是否会过期清零；如会，清零时间" }
+      ],
+      "ambiguities": [
+        "“普攻行为”是否包括未命中或空放的普攻没有写",
+        "【疾弦】状态的攻击是否计数、是否只在二技能期间计数没有写",
+        "“巨量”箭矢的具体数量没有写",
+        "箭矢的伤害、加成属性、伤害类型、范围没有写",
+        "同一目标被多支箭命中的规则没有写",
+        "能否暴击没有写",
+        "计数是否会过期清零没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "陷阵",
+      "text": "永久【破阵】并解禁大招，大幅度提升免伤和近战伤害，但失去远程能力",
+      "reading": "大招核心。孙权永久处于【破阵】状态，同时“解禁大招”；免伤和近战伤害大幅度提升；代价是失去远程能力。从“失去远程能力”和“近战伤害”推断【破阵】是近战状态，原文没有解释【破阵】本身的效果。“解禁大招”的含义原文没有说明，可能是原本【破阵】期间大招不可用，选此核心后在永久破阵下仍可释放大招，这只是推断。原文没有写免伤和近战伤害“大幅度”提升的具体数值，没有写免伤针对所有伤害还是某类伤害，没有写近战伤害提升是否包括技能伤害，也没有写失去远程能力后远程相关效果（如二技能核心 c3 的远程分支、一技能核心 c1 的辅助射击）是否失效。",
+      "mechanisms": ["skill-change", "damage-amp", "damage-reduction"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选择该核心后）",
+      "slots": [
+        { "key": "damageReductionBonus", "what": "免伤提升量（原文只写“大幅度”）", "unit": "percent", "claimed": null, "packHint": "核心 c5 提供的免伤百分比，以及作用于哪些伤害类型" },
+        { "key": "meleeDamageBonus", "what": "近战伤害提升量（原文只写“大幅度”）", "unit": "percent", "claimed": null, "packHint": "核心 c5 近战伤害加成百分比，确认是否包括技能伤害" },
+        { "key": "meleeAttackRange", "what": "【破阵】状态下普攻的攻击距离", "unit": "meters", "claimed": null, "packHint": "【破阵】近战普攻的攻击距离或范围" },
+        { "key": "meleeAttackBaseDamage", "what": "【破阵】状态下普攻的基础伤害", "unit": "flat", "claimed": null, "packHint": "【破阵】近战普攻伤害的基础值" },
+        { "key": "meleeAttackDamageRatio", "what": "【破阵】状态下普攻的伤害加成系数", "unit": "ratio", "claimed": null, "packHint": "【破阵】近战普攻伤害系数及加成属性，确认与远程普攻是否不同" },
+        { "key": "meleeAttackInterval", "what": "【破阵】状态下普攻的基础攻击间隔", "unit": "seconds", "claimed": null, "packHint": "【破阵】近战普攻的攻击间隔或动作时长（秒或帧）" },
+        { "key": "ultCooldown", "what": "“解禁”后大招的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c5 下大招的冷却时间，确认与原大招是否不同" }
+      ],
+      "ambiguities": [
+        "【破阵】状态本身的效果原文没有解释",
+        "“解禁大招”的含义没有写",
+        "免伤和近战伤害“大幅度”提升的具体数值没有写",
+        "免伤针对的伤害类型、近战伤害是否包括技能伤害没有写",
+        "失去远程能力后哪些远程相关效果失效没有写",
+        "近战普攻的攻击距离、伤害和攻击间隔没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "旗舞",
+      "text": "印记额外叠加，且该技能追击半径和挥舞次数大幅提升",
+      "reading": "大招核心，两部分效果：一是印记额外叠加，结合小天赋穿心“被动印记触发易伤”，这里的印记应是被动技能的印记，叠加时会多叠层数；二是大招的追击半径和挥舞次数大幅提升，说明大招包含追击目标和多次挥舞攻击的动作。原文没有写印记每次额外叠几层、是只有大招命中时额外叠加还是所有来源都额外叠加、印记上限是否改变，没有写追击半径和挥舞次数“大幅”提升的具体数值，也没有写每次挥舞的伤害是否不变、大招持续时间是否随挥舞次数延长。",
+      "mechanisms": ["stacking", "area", "skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "叠加被动印记时（额外叠加）；释放大招时（追击半径与挥舞次数）",
+      "slots": [
+        { "key": "extraMarkStacks", "what": "每次叠加印记时额外多叠的层数", "unit": "count", "claimed": null, "packHint": "核心 c6 印记额外叠加的层数，以及哪些来源会额外叠加" },
+        { "key": "markMaxStacks", "what": "印记层数上限", "unit": "count", "claimed": null, "packHint": "被动印记的层数上限，确认选此核心后是否改变" },
+        { "key": "basePursuitRadius", "what": "大招原追击半径", "unit": "meters", "claimed": null, "packHint": "大招追击目标的搜索半径原值" },
+        { "key": "pursuitRadiusIncrease", "what": "追击半径提升量（原文只写“大幅”，是固定值还是比例未写，先按米记录）", "unit": "meters", "claimed": null, "packHint": "核心 c6 追击半径的提升值，确认是固定值还是比例" },
+        { "key": "baseSwingCount", "what": "大招原挥舞次数", "unit": "count", "claimed": null, "packHint": "大招原本的挥舞段数" },
+        { "key": "swingCountIncrease", "what": "挥舞次数增加量（原文只写“大幅”）", "unit": "count", "claimed": null, "packHint": "核心 c6 增加的挥舞段数" },
+        { "key": "swingBaseDamage", "what": "每次挥舞的基础伤害", "unit": "flat", "claimed": null, "packHint": "大招每段挥舞伤害的基础值，确认选此核心后是否改变" },
+        { "key": "swingDamageRatio", "what": "每次挥舞的伤害加成系数", "unit": "ratio", "claimed": null, "packHint": "大招每段挥舞伤害系数及加成属性" },
+        { "key": "swingInterval", "what": "相邻两次挥舞的间隔", "unit": "seconds", "claimed": null, "packHint": "大招各段挥舞的出手时间点（秒或帧），用于确定大招总时长" },
+        { "key": "swingRadius", "what": "每次挥舞的伤害范围", "unit": "meters", "claimed": null, "packHint": "大招挥舞伤害判定半径和可命中目标数" }
+      ],
+      "ambiguities": [
+        "印记每次额外叠几层、哪些来源额外叠加没有写",
+        "印记上限是否改变没有写",
+        "追击半径和挥舞次数“大幅”提升的具体数值没有写",
+        "每次挥舞的伤害是否改变没有写",
+        "大招总时长是否随挥舞次数延长没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "重箭",
+      "text": "造成最大生命百分比伤害",
+      "reading": "一技能小天赋。造成按最大生命百分比计算的伤害。原文没有主语，按所在技能组推断是一技能的伤害附带或改为最大生命百分比伤害；天赋名“重箭”也可能指与箭矢有关的攻击，原文没有说明。原文没有写是按目标还是按自身最大生命计算（通常指目标最大生命，但原文没写明），没有写百分比多少、是额外附加一段还是替换原伤害、伤害类型、每次打击都触发还是有内置冷却，也没有写对守御模式怪物或首领是否有伤害上限。",
+      "mechanisms": ["max-hp-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能造成伤害时（主语按技能组推断）",
+      "slots": [
+        { "key": "maxHpPercent", "what": "每次伤害的最大生命百分比", "unit": "percent", "claimed": null, "packHint": "该天赋最大生命百分比伤害的比例，确认基于目标还是自身最大生命" },
+        { "key": "damageCapVsMonsters", "what": "对怪物或首领的伤害上限（如有）", "unit": "flat", "claimed": null, "packHint": "最大生命百分比伤害对非英雄单位的上限值（如有）" },
+        { "key": "internalCooldown", "what": "同一目标两次触发的最短间隔（如有）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发的内置冷却（如有）" },
+        { "key": "canCrit", "what": "该伤害能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "最大生命百分比伤害的可暴击标记" }
+      ],
+      "ambiguities": [
+        "主语没有写，作用于哪一种伤害是按技能组推断",
+        "基于目标还是自身最大生命没有写",
+        "百分比数值没有写",
+        "额外附加还是替换原伤害没有写",
+        "伤害类型没有写",
+        "对怪物或首领是否有上限、是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "穿心",
+      "text": "被动印记触发易伤",
+      "reading": "被动技能的印记在触发时对目标施加易伤，使目标受到的伤害提高。说明被动技能会给目标叠加印记，并且印记有“触发”时机。原文没有写印记如何触发（叠满若干层、被特定技能引爆还是每次叠加都算），没有写易伤幅度和持续时间、能否叠加，也没有写易伤是对所有来源（包括队友）生效还是只对孙权的伤害生效。这个天赋放在一技能组，与一技能的关系原文没有写。",
+      "mechanisms": ["damage-amp", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "被动印记触发时",
+      "slots": [
+        { "key": "vulnerabilityPercent", "what": "易伤幅度（目标受到伤害提高的比例）", "unit": "percent", "claimed": null, "packHint": "该天赋易伤效果的伤害提高比例" },
+        { "key": "vulnerabilityDuration", "what": "易伤持续时间", "unit": "seconds", "claimed": null, "packHint": "易伤效果的持续时间" },
+        { "key": "markStacksToTrigger", "what": "触发所需的印记层数", "unit": "count", "claimed": null, "packHint": "被动印记的触发条件：叠满几层或其他条件" },
+        { "key": "maxVulnerabilityStacks", "what": "易伤可叠加的层数上限（如可叠加）", "unit": "count", "claimed": null, "packHint": "确认易伤能否叠加；如能，层数上限" },
+        { "key": "internalCooldown", "what": "同一目标两次触发易伤的最短间隔（如有）", "unit": "seconds", "claimed": null, "packHint": "印记触发或易伤施加的内置冷却（如有）" }
+      ],
+      "ambiguities": [
+        "印记的触发条件没有写",
+        "易伤幅度和持续时间没有写",
+        "易伤能否叠加没有写",
+        "易伤对所有来源生效还是只对孙权生效没有写",
+        "与一技能的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "护旗",
+      "text": "大招不收回军旗",
+      "reading": "原文间接说明：正常情况下释放大招会收回一技能放下的军旗。选此天赋后释放大招时军旗不被收回，继续留在原处生效，因此军旗的伤害和“军旗范围内”类效果在大招期间仍可存在。原文没有写军旗本来的存在时间、大招后军旗剩余时间是否照常计算，没有写大招在不收回军旗时是否少了与军旗有关的部分，也没有写能否同时存在多面军旗。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "flagDuration", "what": "军旗的存在时间", "unit": "seconds", "claimed": null, "packHint": "一技能军旗的持续时间，用于计算大招后军旗还能存在多久" },
+        { "key": "maxActiveFlags", "what": "同时存在的军旗数量上限", "unit": "count", "claimed": null, "packHint": "确认大招不收回军旗时，再次释放一技能是否会替换旧军旗" }
+      ],
+      "ambiguities": [
+        "军旗本来的存在时间没有写",
+        "大招不收回军旗后，大招自身效果是否改变没有写",
+        "能否同时存在多面军旗没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "如虹",
+      "text": "孙权在军旗范围内获得伤害输出率",
+      "reading": "孙权处在一技能军旗的范围内时，获得伤害输出率加成，即造成的伤害提高。原文没有写加成多少，没有写“伤害输出率”是否涵盖所有伤害类型，没有写军旗范围半径，也没有写离开范围后加成是立即消失还是保留一段时间、多面军旗时能否叠加。",
+      "mechanisms": ["damage-amp", "buff", "area"],
+      "damageRelevance": "direct",
+      "trigger": "孙权处于军旗范围内时",
+      "slots": [
+        { "key": "damageOutputBonus", "what": "伤害输出率加成", "unit": "percent", "claimed": null, "packHint": "该天赋伤害输出率的加成百分比，以及作用于哪些伤害" },
+        { "key": "flagRadius", "what": "军旗范围半径", "unit": "meters", "claimed": null, "packHint": "军旗范围判定半径" },
+        { "key": "lingerDuration", "what": "离开军旗范围后加成保留的时间（如有）", "unit": "seconds", "claimed": null, "packHint": "离开范围后 buff 的残留时间（如有）" }
+      ],
+      "ambiguities": [
+        "伤害输出率加成数值没有写",
+        "是否涵盖所有伤害类型没有写",
+        "军旗范围半径没有写",
+        "离开范围后是否保留、多面军旗能否叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "护阵",
+      "text": "孙权在军旗范围内持续获得护盾",
+      "reading": "孙权处在一技能军旗的范围内时持续获得护盾，即在范围内会不断获得或补充护盾值。原文没有写护盾值和计算基准，没有写是按固定间隔给予还是持续增长、给予间隔多少，没有写护盾上限和护盾持续时间，也没有写离开范围后护盾是否消失。",
+      "mechanisms": ["shield", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "孙权处于军旗范围内时（持续）",
+      "slots": [
+        { "key": "shieldBase", "what": "每次获得护盾的固定值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾的基础值" },
+        { "key": "shieldRatio", "what": "每次获得护盾的加成系数（基准属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾系数及其按哪项属性（最大生命、攻击力等）计算" },
+        { "key": "tickInterval", "what": "护盾给予或补充的间隔", "unit": "seconds", "claimed": null, "packHint": "护盾每次给予的间隔（秒或帧）" },
+        { "key": "shieldCap", "what": "护盾叠加上限", "unit": "flat", "claimed": null, "packHint": "护盾可叠加的上限值（固定值或按属性计算）" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾的持续时间，以及离开范围后是否立即消失" },
+        { "key": "flagRadius", "what": "军旗范围半径", "unit": "meters", "claimed": null, "packHint": "军旗范围判定半径" }
+      ],
+      "ambiguities": [
+        "护盾值和计算基准没有写",
+        "给予方式和间隔没有写",
+        "护盾上限和持续时间没有写",
+        "离开范围后护盾是否消失没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "铿风",
+      "text": "该技能打击频率加快",
+      "reading": "一技能的打击频率加快。从“打击频率”推断一技能（军旗）在存在期间会周期性地多次打击，此天赋缩短打击间隔。原文没有写原打击间隔、加快多少（缩短固定秒数还是按比例），没有写每次打击的伤害是否不变，也没有写技能总持续时间是否不变（即总打击次数是否随之增加）。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能生效期间",
+      "slots": [
+        { "key": "baseStrikeInterval", "what": "一技能原打击间隔", "unit": "seconds", "claimed": null, "packHint": "一技能周期性打击的原间隔（秒或帧）" },
+        { "key": "strikeFrequencyIncrease", "what": "打击频率提升比例（也可能是间隔缩短固定秒数，原文未写）", "unit": "percent", "claimed": null, "packHint": "该天赋对打击间隔的修改方式和数值" },
+        { "key": "strikeBaseDamage", "what": "每次打击的基础伤害", "unit": "flat", "claimed": null, "packHint": "一技能每次打击伤害的基础值，确认选此天赋后是否改变" },
+        { "key": "strikeDamageRatio", "what": "每次打击的伤害加成系数", "unit": "ratio", "claimed": null, "packHint": "一技能每次打击伤害系数及加成属性" },
+        { "key": "skillDuration", "what": "一技能打击持续的总时长", "unit": "seconds", "claimed": null, "packHint": "一技能（军旗）存在或打击持续时间，确认选此天赋后是否改变" }
+      ],
+      "ambiguities": [
+        "一技能原打击间隔没有写",
+        "频率加快的方式和幅度没有写",
+        "每次打击伤害是否改变没有写",
+        "总持续时间和总打击次数是否改变没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "吴将何在",
+      "text": "吴将在军旗范围内辅助攻击",
+      "reading": "出现“吴将”单位，在一技能军旗范围内辅助攻击敌人。原文没有写吴将是什么单位、有几个、何时出现（插旗时出现还是常驻）、存在多久，没有写攻击频率、每次伤害、加成属性、可命中目标数、能否暴击，也没有写吴将能否被敌人攻击、是否只攻击军旗范围内的敌人。",
+      "mechanisms": ["summon", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "军旗存在期间，有敌人在军旗范围内时",
+      "slots": [
+        { "key": "generalCount", "what": "吴将数量", "unit": "count", "claimed": null, "packHint": "该天赋召出的吴将数量" },
+        { "key": "generalDuration", "what": "吴将存在时间", "unit": "seconds", "claimed": null, "packHint": "吴将的持续时间，确认是否与军旗存在时间一致" },
+        { "key": "attackInterval", "what": "吴将攻击间隔", "unit": "seconds", "claimed": null, "packHint": "吴将每次攻击的间隔（秒或帧）" },
+        { "key": "baseDamage", "what": "吴将每次攻击的基础伤害", "unit": "flat", "claimed": null, "packHint": "吴将攻击伤害的基础值" },
+        { "key": "damageRatio", "what": "吴将每次攻击的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "吴将攻击伤害系数、加成属性和伤害类型" },
+        { "key": "maxTargets", "what": "吴将每次攻击可命中的目标数", "unit": "count", "claimed": null, "packHint": "吴将攻击是单体还是范围，最多命中几个目标" },
+        { "key": "flagRadius", "what": "军旗范围半径", "unit": "meters", "claimed": null, "packHint": "军旗范围判定半径，即吴将可攻击的范围" },
+        { "key": "canCrit", "what": "吴将攻击能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "吴将伤害的可暴击标记，以及是否继承孙权属性" }
+      ],
+      "ambiguities": [
+        "吴将的数量、出现时机、存在时间没有写",
+        "攻击频率、伤害、加成属性没有写",
+        "可命中目标数、能否暴击没有写",
+        "吴将能否被攻击、是否继承孙权属性没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "裂帛",
+      "text": "周期性地朝周围发射箭雨",
+      "reading": "周期性地朝周围发射箭雨。原文没有写发射者是孙权还是军旗（放在一技能组，可能与军旗有关，但原文没写），没有写是否需要军旗存在才生效，没有写周期多长、每轮箭数、每支伤害、加成属性、覆盖范围、可命中目标数、同一目标最多被命中几次，也没有写能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "周期性（发射者和生效条件未写）",
+      "slots": [
+        { "key": "period", "what": "两轮箭雨之间的间隔", "unit": "seconds", "claimed": null, "packHint": "箭雨的触发周期（秒或帧）" },
+        { "key": "arrowCount", "what": "每轮箭雨的箭数或伤害段数", "unit": "count", "claimed": null, "packHint": "每轮箭雨的箭矢数量或判定次数" },
+        { "key": "baseDamage", "what": "每支箭或每段的基础伤害", "unit": "flat", "claimed": null, "packHint": "箭雨伤害的基础值" },
+        { "key": "damageRatio", "what": "每支箭或每段的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "箭雨伤害系数、加成属性和伤害类型" },
+        { "key": "radius", "what": "箭雨覆盖半径", "unit": "meters", "claimed": null, "packHint": "箭雨的作用半径，以及以孙权还是军旗为中心" },
+        { "key": "maxTargets", "what": "每轮箭雨可命中的目标数", "unit": "count", "claimed": null, "packHint": "箭雨每轮最多命中几个目标" },
+        { "key": "maxHitsPerTarget", "what": "同一目标每轮最多被命中的次数", "unit": "count", "claimed": null, "packHint": "同一目标能否被多支箭重复命中，最多几次" },
+        { "key": "canCrit", "what": "箭雨能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "箭雨伤害的可暴击标记" }
+      ],
+      "ambiguities": [
+        "发射者是孙权还是军旗没有写",
+        "是否需要军旗存在才生效没有写",
+        "周期、箭数、伤害、加成属性、范围没有写",
+        "可命中目标数和同一目标命中次数没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "疾驰",
+      "text": "加速效果提升",
+      "reading": "二技能小天赋。原文间接说明二技能带有加速效果，此天赋提升加速的幅度。原文没有写“加速”是移动速度还是攻击速度（天赋名“疾驰”更像移动速度，但原文没写明），没有写原加速值、提升多少，也没有写加速持续时间是否改变。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能加速效果生效期间",
+      "slots": [
+        { "key": "baseSpeedBonus", "what": "二技能原加速幅度", "unit": "percent", "claimed": null, "packHint": "二技能加速效果的原数值，确认是移速还是攻速" },
+        { "key": "speedBonusIncrease", "what": "加速幅度提升量", "unit": "percent", "claimed": null, "packHint": "该天赋对加速效果的提升值，确认是加算还是乘算" },
+        { "key": "speedDuration", "what": "加速持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能加速效果的持续时间，确认选此天赋后是否改变" }
+      ],
+      "ambiguities": [
+        "加速是移动速度还是攻击速度没有写",
+        "原加速值和提升量没有写",
+        "持续时间是否改变没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "节饷",
+      "text": "【疾弦】状态能量消耗减少",
+      "reading": "原文间接说明二技能的【疾弦】状态会消耗能量。此天赋减少【疾弦】状态的能量消耗，使同样的能量可以维持更久的疾弦状态或打出更多次疾弦攻击。原文没有写能量是开启时一次性消耗、按时间持续消耗还是按每次攻击消耗，没有写原消耗量和减少多少，也没有写能量上限。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "【疾弦】状态期间",
+      "slots": [
+        { "key": "baseEnergyCost", "what": "【疾弦】状态原能量消耗（每次攻击、每秒或开启时一次，原文未写）", "unit": "flat", "claimed": null, "packHint": "【疾弦】状态的能量消耗方式和数值" },
+        { "key": "energyCostReduction", "what": "能量消耗减少的比例（也可能是固定值，原文未写）", "unit": "percent", "claimed": null, "packHint": "该天赋减少能量消耗的数值，确认是比例还是固定值" },
+        { "key": "maxEnergy", "what": "能量上限", "unit": "flat", "claimed": null, "packHint": "孙权能量的上限值" }
+      ],
+      "ambiguities": [
+        "能量的消耗方式没有写",
+        "原消耗量和减少量没有写",
+        "能量上限没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "殛电",
+      "text": "【疾弦】状态的攻击叠加攻速",
+      "reading": "【疾弦】状态下的攻击会叠加攻速加成，攻击越多攻速越高。原文没有写每次攻击叠几层、每层攻速多少、层数上限、每层持续多久（重复叠加时刷新还是独立计时），也没有写退出【疾弦】状态后攻速加成是否保留。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "【疾弦】状态下攻击时",
+      "slots": [
+        { "key": "attackSpeedPerStack", "what": "每层攻速加成", "unit": "percent", "claimed": null, "packHint": "该天赋 buff 每层的攻速加成数值" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": null, "packHint": "攻速 buff 的最大层数" },
+        { "key": "stacksPerHit", "what": "每次攻击叠加的层数", "unit": "count", "claimed": null, "packHint": "每次攻击叠几层，确认是否需要命中才叠加" },
+        { "key": "stackDuration", "what": "每层或整体 buff 的持续时间", "unit": "seconds", "claimed": null, "packHint": "攻速 buff 的持续时间，以及退出【疾弦】后是否保留" }
+      ],
+      "ambiguities": [
+        "每层攻速数值没有写",
+        "每次攻击叠几层、层数上限没有写",
+        "持续时间和刷新规则没有写",
+        "退出【疾弦】后是否保留没有写",
+        "是否需要命中才叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "川流",
+      "text": "能量回复提升",
+      "reading": "二技能小天赋。能量回复速度提升，能量应是二技能【疾弦】状态消耗的资源（从同组的节饷推断）。原文没有写能量原本怎样回复（随时间、攻击还是其他方式）、原回复速度和提升多少。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "baseEnergyRegen", "what": "原能量回复速度（每秒或每次触发，原文未写）", "unit": "flat", "claimed": null, "packHint": "孙权能量的回复方式和原回复量" },
+        { "key": "energyRegenIncrease", "what": "能量回复提升比例（也可能是固定值，原文未写）", "unit": "percent", "claimed": null, "packHint": "该天赋对能量回复的提升值，确认是比例还是固定值" },
+        { "key": "maxEnergy", "what": "能量上限", "unit": "flat", "claimed": null, "packHint": "孙权能量的上限值" }
+      ],
+      "ambiguities": [
+        "能量原本的回复方式和速度没有写",
+        "提升量没有写",
+        "能量与【疾弦】状态的关系是从同组天赋推断"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "破竹",
+      "text": "【疾弦】状态下攻击必定暴击",
+      "reading": "【疾弦】状态下的攻击必定暴击，即这些攻击的暴击率视为满。原文没有写“攻击”是否包括额外箭矢、万箭箭矢等附加伤害，也没有写必定暴击时暴击伤害是否按正常暴击效果计算、是否另有修正。",
+      "mechanisms": ["crit"],
+      "damageRelevance": "direct",
+      "trigger": "【疾弦】状态下攻击时",
+      "slots": [
+        { "key": "forcedCritDamageScale", "what": "必定暴击时的暴击伤害倍率修正（如与普通暴击相同则为无修正）", "unit": "ratio", "claimed": null, "packHint": "确认该天赋的必定暴击是否另有暴击伤害系数修正" }
+      ],
+      "ambiguities": [
+        "“攻击”是否包括额外箭矢等附加伤害没有写",
+        "必定暴击时暴击伤害是否另有修正没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "惊鸿",
+      "text": "【疾弦】状态下的攻击附带真实伤害",
+      "reading": "【疾弦】状态下的攻击附带真实伤害。原文没有写真实伤害数值和加成属性，没有写是额外附加一段还是把部分伤害转为真实伤害，也没有写这段真实伤害能否暴击（与破竹同选时是否受必定暴击影响）。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "【疾弦】状态下攻击时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "每次附带真实伤害的固定值", "unit": "flat", "claimed": null, "packHint": "该天赋真实伤害的基础值" },
+        { "key": "trueDamageRatio", "what": "每次附带真实伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "真实伤害系数及其加成属性" },
+        { "key": "trueDamageShare", "what": "如果是把部分伤害转为真实伤害，转换的比例", "unit": "percent", "claimed": null, "packHint": "确认真实伤害是额外附加还是由原伤害转换；如为转换，转换比例" },
+        { "key": "canCrit", "what": "附带真实伤害能否暴击（资源包里的开关，按 1 可暴击、0 不可暴击记录）", "unit": "count", "claimed": null, "packHint": "该天赋真实伤害的可暴击标记" }
+      ],
+      "ambiguities": [
+        "真实伤害数值和加成属性没有写",
+        "额外附加还是转换部分伤害没有写",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "不竭",
+      "text": "【疾弦】状态下攻击回血",
+      "reading": "【疾弦】状态下攻击时回复生命。原文没有写是每次攻击回复固定量、按造成伤害的比例吸血，还是按最大生命比例回复，回复量没有写，也没有写是否需要命中、是否有内置冷却。",
+      "mechanisms": ["heal", "lifesteal"],
+      "damageRelevance": "indirect",
+      "trigger": "【疾弦】状态下攻击时",
+      "slots": [
+        { "key": "healBase", "what": "每次攻击回复的固定值（如按固定值回复）", "unit": "flat", "claimed": null, "packHint": "该天赋每次攻击回血的基础值" },
+        { "key": "healRatio", "what": "每次攻击回复的加成系数（基准属性未写）", "unit": "ratio", "claimed": null, "packHint": "回血系数及其按哪项属性（攻击力、最大生命、已损生命等）计算" },
+        { "key": "lifestealPercent", "what": "如按造成伤害吸血，吸血比例", "unit": "percent", "claimed": null, "packHint": "确认回血是否按造成伤害的比例计算；如是，比例" },
+        { "key": "internalCooldown", "what": "回血触发的最短间隔（如有）", "unit": "seconds", "claimed": null, "packHint": "该天赋回血的内置冷却（如有）" }
+      ],
+      "ambiguities": [
+        "回血方式（固定值、吸血比例、最大生命比例）没有写",
+        "回复量没有写",
+        "是否需要命中、是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "严阵",
+      "text": "【疾弦】状态下格挡伤害",
+      "reading": "【疾弦】状态下可以格挡受到的伤害。原文没有写格挡是按概率触发、按固定次数抵挡还是按比例减少伤害，也没有写格挡的数值、对哪些伤害类型生效、是否有冷却。",
+      "mechanisms": ["damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "【疾弦】状态下受到伤害时",
+      "slots": [
+        { "key": "blockChance", "what": "格挡触发概率（如按概率格挡）", "unit": "percent", "claimed": null, "packHint": "格挡的触发概率（如有）" },
+        { "key": "blockAmountPercent", "what": "每次格挡减少的伤害比例", "unit": "percent", "claimed": null, "packHint": "格挡时减免的伤害比例，确认是完全抵挡还是部分减免" },
+        { "key": "blockCount", "what": "每次【疾弦】状态可格挡的次数（如按次数）", "unit": "count", "claimed": null, "packHint": "格挡次数上限（如有）" },
+        { "key": "blockCooldown", "what": "两次格挡之间的最短间隔（如有）", "unit": "seconds", "claimed": null, "packHint": "格挡的内置冷却（如有）" }
+      ],
+      "ambiguities": [
+        "格挡方式（概率、次数、比例）没有写",
+        "格挡数值没有写",
+        "对哪些伤害类型生效没有写",
+        "是否有冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "无懈",
+      "text": "该技能期间抵挡一次控制，抵挡后获得护盾",
+      "reading": "大招期间可以抵挡一次控制效果，抵挡后获得护盾。“一次”是汉字数字，校验器只识别阿拉伯数字，因此抵挡次数的 claimed 留空。原文没有写大招持续多久（即“该技能期间”有多长）、哪些控制类型可被抵挡，没有写护盾值、计算基准和护盾持续时间。",
+      "mechanisms": ["control-immunity", "shield"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间受到控制时",
+      "slots": [
+        { "key": "blockCount", "what": "大招期间可抵挡控制的次数（原文写汉字“一次”，claimed 留空）", "unit": "count", "claimed": null, "packHint": "可抵挡控制的次数，核对原文的一次，需以资源包为准" },
+        { "key": "ultDuration", "what": "大招持续时间（“该技能期间”的长度）", "unit": "seconds", "claimed": null, "packHint": "大招的持续时间" },
+        { "key": "shieldBase", "what": "抵挡后获得护盾的固定值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾的基础值" },
+        { "key": "shieldRatio", "what": "抵挡后获得护盾的加成系数（基准属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾系数及其按哪项属性计算" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾的持续时间" }
+      ],
+      "ambiguities": [
+        "大招期间的时长没有写",
+        "可抵挡的控制类型没有写",
+        "护盾值、计算基准和持续时间没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "养战",
+      "text": "该技能和【破阵】期间获得吸血",
+      "reading": "大招期间以及【破阵】状态期间获得吸血。原文把“该技能”和“【破阵】”并列，说明两者是不同时段，可能是大招释放后进入【破阵】状态，但原文没有写两者关系。原文没有写吸血比例，没有写吸血对哪些伤害生效，也没有写大招和【破阵】各持续多久。",
+      "mechanisms": ["lifesteal", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间和【破阵】状态期间",
+      "slots": [
+        { "key": "lifestealPercent", "what": "吸血比例", "unit": "percent", "claimed": null, "packHint": "该天赋提供的吸血百分比，以及对哪些伤害生效" },
+        { "key": "ultDuration", "what": "大招持续时间", "unit": "seconds", "claimed": null, "packHint": "大招的持续时间" },
+        { "key": "breakFormationDuration", "what": "【破阵】状态持续时间", "unit": "seconds", "claimed": null, "packHint": "【破阵】状态的持续时间，以及与大招的先后关系" }
+      ],
+      "ambiguities": [
+        "吸血比例没有写",
+        "吸血对哪些伤害生效没有写",
+        "大招与【破阵】的关系和各自时长没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "猛虎",
+      "text": "该技能造成伤害获得可叠加攻击力",
+      "reading": "大招造成伤害时获得攻击力加成，并且可以叠加。原文没有写每层攻击力多少（固定值还是百分比）、每次伤害叠几层、层数上限、持续时间和刷新规则，也没有写多段伤害是否每段都叠加、是否有内置冷却。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "大招造成伤害时",
+      "slots": [
+        { "key": "attackPerStack", "what": "每层攻击力加成（固定值还是百分比未写，先按固定值记录）", "unit": "flat", "claimed": null, "packHint": "该天赋每层攻击力加成数值，确认是固定值还是百分比" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": null, "packHint": "攻击力 buff 的最大层数" },
+        { "key": "stacksPerHit", "what": "每次造成伤害叠加的层数", "unit": "count", "claimed": null, "packHint": "每次伤害叠几层，多段伤害是否每段都叠" },
+        { "key": "stackDuration", "what": "每层或整体 buff 的持续时间", "unit": "seconds", "claimed": null, "packHint": "攻击力 buff 的持续时间和刷新规则" },
+        { "key": "internalCooldown", "what": "两次叠层之间的最短间隔（如有）", "unit": "seconds", "claimed": null, "packHint": "叠层的内置冷却（如有）" }
+      ],
+      "ambiguities": [
+        "每层攻击力数值和形式没有写",
+        "每次叠几层、层数上限没有写",
+        "持续时间和刷新规则没有写",
+        "多段伤害是否每段都叠、是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "斩首",
+      "text": "该技能附带斩杀伤害",
+      "reading": "大招附带斩杀伤害。原文没有写斩杀是指低于某个生命阈值时直接击杀，还是附带一段按已损生命计算的额外伤害；生命阈值、伤害数值、加成属性都没有写；也没有写对守御模式首领是否生效、多段伤害是否每段都附带。",
+      "mechanisms": ["execute", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招造成伤害时",
+      "slots": [
+        { "key": "executeHpThreshold", "what": "斩杀生效的目标生命阈值（如按阈值斩杀）", "unit": "percent", "claimed": null, "packHint": "斩杀的生命百分比阈值（如有）" },
+        { "key": "executeBaseDamage", "what": "斩杀伤害的固定值", "unit": "flat", "claimed": null, "packHint": "斩杀伤害的基础值" },
+        { "key": "missingHpPercent", "what": "按目标已损生命计算的伤害比例（如按已损生命）", "unit": "percent", "claimed": null, "packHint": "确认斩杀伤害是否按已损生命计算；如是，比例" },
+        { "key": "executeDamageRatio", "what": "斩杀伤害的属性加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "斩杀伤害系数及加成属性、伤害类型" },
+        { "key": "damageCapVsMonsters", "what": "对怪物或首领的伤害上限（如有）", "unit": "flat", "claimed": null, "packHint": "斩杀伤害对非英雄单位的上限值，或是否对首领生效" }
+      ],
+      "ambiguities": [
+        "斩杀方式（阈值斩杀或按已损生命加伤）没有写",
+        "阈值、伤害数值、加成属性没有写",
+        "对首领是否生效没有写",
+        "多段伤害是否每段都附带没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "岿然",
+      "text": "该技能和【破阵】期间获得双抗",
+      "reading": "大招期间以及【破阵】状态期间获得双抗，即物理防御和法术防御同时提高。原文没有写双抗加成数值（固定值还是百分比），也没有写大招和【破阵】各持续多久、两者的关系。",
+      "mechanisms": ["buff", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间和【破阵】状态期间",
+      "slots": [
+        { "key": "physDefBonus", "what": "物理防御加成", "unit": "flat", "claimed": null, "packHint": "该天赋提供的物理防御数值，确认是固定值还是百分比" },
+        { "key": "magicDefBonus", "what": "法术防御加成", "unit": "flat", "claimed": null, "packHint": "该天赋提供的法术防御数值，确认是固定值还是百分比" },
+        { "key": "ultDuration", "what": "大招持续时间", "unit": "seconds", "claimed": null, "packHint": "大招的持续时间" },
+        { "key": "breakFormationDuration", "what": "【破阵】状态持续时间", "unit": "seconds", "claimed": null, "packHint": "【破阵】状态的持续时间，以及与大招的先后关系" }
+      ],
+      "ambiguities": [
+        "双抗加成数值和形式没有写",
+        "大招与【破阵】的关系和各自时长没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "破势",
+      "text": "被动伤害降低效果提升",
+      "reading": "原文间接说明被动技能带有“伤害降低”效果，此天赋提升这个效果。原文没有写这个伤害降低是降低敌人造成的伤害（对敌人施加的减益）还是降低孙权受到的伤害，没有写原降低幅度和提升多少，也没有写持续时间、触发条件，以及与印记的关系。放在大招组，与大招的关系原文没有写。",
+      "mechanisms": ["damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "被动技能伤害降低效果生效时",
+      "slots": [
+        { "key": "baseReduction", "what": "被动原伤害降低幅度", "unit": "percent", "claimed": null, "packHint": "被动技能伤害降低效果的原数值，确认作用对象是敌人还是孙权" },
+        { "key": "reductionIncrease", "what": "伤害降低幅度提升量", "unit": "percent", "claimed": null, "packHint": "该天赋对伤害降低效果的提升值，确认是加算还是乘算" },
+        { "key": "duration", "what": "伤害降低效果持续时间", "unit": "seconds", "claimed": null, "packHint": "被动伤害降低效果的持续时间，确认选此天赋后是否改变" }
+      ],
+      "ambiguities": [
+        "伤害降低的作用对象（敌人或孙权）没有写",
+        "原幅度和提升量没有写",
+        "持续时间和触发条件没有写",
+        "与大招、印记的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "千里",
+      "text": "施法距离增加",
+      "reading": "大招小天赋。大招的施法距离增加。原文没有主语，按所在技能组推断是大招，没有写原施法距离和增加多少（固定值还是比例）。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "baseCastRange", "what": "大招原施法距离", "unit": "meters", "claimed": null, "packHint": "大招未选此天赋时的施法距离" },
+        { "key": "rangeIncrease", "what": "施法距离增加量（固定值还是比例未写，先按米记录）", "unit": "meters", "claimed": null, "packHint": "该天赋对施法距离的增加值，确认是固定值还是比例" }
+      ],
+      "ambiguities": [
+        "主语没有写，作用于大招是按技能组推断",
+        "原施法距离和增加量没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "意气风发",
+      "text": "该技能造成击杀后，获得永久攻击力提升",
+      "reading": "大招造成击杀后，孙权获得永久的攻击力提升，可以随击杀不断累积。原文没有写每次击杀提升多少攻击力（固定值还是百分比），没有写是否有累积上限，没有写击杀守御模式的小怪是否计入、一次大招击杀多个目标是否分别计算。",
+      "mechanisms": ["stacking", "stat"],
+      "damageRelevance": "direct",
+      "trigger": "大招造成击杀后",
+      "slots": [
+        { "key": "attackPerKill", "what": "每次击杀提升的攻击力（固定值还是百分比未写，先按固定值记录）", "unit": "flat", "claimed": null, "packHint": "该天赋每次击杀的攻击力提升数值，确认是固定值还是百分比" },
+        { "key": "maxStacks", "what": "累积次数上限（如有）", "unit": "count", "claimed": null, "packHint": "永久攻击力提升的累积上限（如有）" },
+        { "key": "maxTriggersPerCast", "what": "一次大招中最多计入的击杀数", "unit": "count", "claimed": null, "packHint": "一次大招击杀多个目标是否分别计入，上限多少" }
+      ],
+      "ambiguities": [
+        "每次击杀提升的攻击力数值和形式没有写",
+        "累积上限没有写",
+        "击杀小怪是否计入没有写",
+        "一次大招多次击杀是否分别计算没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}
