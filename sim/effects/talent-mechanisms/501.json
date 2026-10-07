@@ -1,0 +1,769 @@
+{
+  "heroId": "501",
+  "heroName": "明世隐",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "光芒万丈",
+      "text": "向指定方向位移，自动连接3名队友",
+      "reading": "一技能核心。选此核心后，一技能改为向指定方向位移，并自动连接3名队友。仓库里没有本模式明世隐的基础技能原文（data/official.json 只有名称），从一技能其他天赋原文只能推断：一技能本来是“投掷”后“连接”友方的技能（c2“投掷距离”、t01“成功连接友方时”、t07“连接队友后”），连接存续期间有持续效果（t02、t04），目标离得太远会中断连接（t08“连接中断距离”）。原文没有写：位移距离；自动连接的搜索范围、选取哪3名队友、队友不足3名时怎么办；是否保留原来的投掷连接；同时连接3名队友时每条连接的效果是否与单条连接相同；与 t01「庇护」、t07「灵盾」等“连接友方/队友”时触发的天赋叠加时，是否每连接一名队友各触发一次。本模式里“队友”指其他玩家还是也包括召唤单位，原文没有交代。核心自身只涉及位移和给队友的连接，按间接影响记录。",
+      "mechanisms": ["skill-change", "mobility", "team", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "dashDistance", "what": "向指定方向位移的距离", "unit": "meters", "claimed": null, "packHint": "核心 c1 一技能位移距离" },
+        { "key": "linkTargetCount", "what": "自动连接的队友数量", "unit": "count", "claimed": { "value": 3, "quote": "自动连接3名队友" }, "packHint": "核心 c1 自动连接的队友数量，核对描述的3名（描述值不可靠，需资源包核对），并确认队友不足时的处理" },
+        { "key": "linkSearchRange", "what": "自动连接队友的搜索范围", "unit": "meters", "claimed": null, "packHint": "核心 c1 自动连接的索敌（索友）半径与选取规则" },
+        { "key": "linkDuration", "what": "连接持续时间（是否有固定时限未写）", "unit": "seconds", "claimed": null, "packHint": "一技能连接的持续时间或维持条件，以及 c1 是否改变它" },
+        { "key": "perLinkEffectScale", "what": "同时连接多名队友时每条连接效果相对单条连接的比例（是否衰减未写）", "unit": "percent", "claimed": null, "packHint": "核心 c1 多条连接时连接增益是否打折及比例" }
+      ],
+      "ambiguities": [
+        "位移距离没有写",
+        "自动连接的搜索范围、选取规则、队友不足3名时的处理没有写",
+        "是否保留原来的投掷连接没有写",
+        "多条连接时每条连接效果是否与单条相同没有写",
+        "与 t01、t07 等连接触发类天赋叠加时是否每名队友各触发一次没有写",
+        "本模式“队友”的来源没有交代",
+        "仓库里没有本模式一技能的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "天命指引",
+      "text": "投掷距离变为无限长，命中队友可瞬移到其身边并向敌人发射大招（18%效果）",
+      "reading": "一技能核心。选此核心后，一技能的投掷距离变为无限长；投掷物命中队友时，明世隐可以瞬移到该队友身边，并向敌人发射一个“18%效果”的大招。“18%效果”按原文理解为效果只有完整大招18%的大招（同样写法见 t01、t03、t09、t14、t17；c5 把它称为“非完整”大招），具体是伤害、回复都按完整大招的18%计算，还是另有独立数值，原文没有写。原文没有写：投掷物飞行速度（距离无限长时飞行时间影响命中时机）；“可瞬移”是自动瞬移还是需要再次操作，瞬移有无时限；发射几个大招（原文只写“发射大招”，没写数量）；“向敌人”是向哪个敌人（最近、目标方向还是随机）以及索敌范围；该大招命中是否算作 c5「神谕降临」的“非完整”大招命中、能否触发 t17「天命」额外大招和 t24「财成」分裂。",
+      "mechanisms": ["skill-change", "area", "mobility", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能投掷物命中队友后",
+      "slots": [
+        { "key": "projectileSpeed", "what": "投掷物飞行速度（单位按资源包记录，原文未写）", "unit": "flat", "claimed": null, "packHint": "核心 c2 一技能投掷物飞行速度，用于计算无限距离下的命中时机" },
+        { "key": "teleportWindow", "what": "命中队友后可瞬移的时限或瞬移前摇（是否需要再次操作未写）", "unit": "seconds", "claimed": null, "packHint": "核心 c2 瞬移的触发方式、时限与前摇" },
+        { "key": "miniUltCount", "what": "瞬移后向敌人发射的大招数量（原文只写“发射大招”，没写数量）", "unit": "count", "claimed": null, "packHint": "核心 c2 每次触发发射的大招数量" },
+        { "key": "miniUltEffectPct", "what": "发射的大招相对完整大招的效果比例", "unit": "percent", "claimed": { "value": 18, "quote": "18%效果" }, "packHint": "核心 c2 发射大招的效果比例，核对描述的18%（描述值不可靠，需资源包核对），并确认18%作用于伤害、回复还是全部数值；完整大招的伤害与回复属于基础技能数据，另行从资源包读取" },
+        { "key": "targetSearchRange", "what": "选取敌人发射大招的索敌范围", "unit": "meters", "claimed": null, "packHint": "核心 c2 发射大招时选取敌人的范围与规则" }
+      ],
+      "ambiguities": [
+        "投掷物飞行速度没有写",
+        "瞬移是自动还是需要再次操作、有无时限没有写",
+        "发射的大招数量没有写",
+        "“向敌人”选哪个敌人、索敌范围没有写",
+        "“18%效果”是伤害、回复都按18%还是另有数值没有写",
+        "该大招是否计入 c5 的非完整大招命中、能否触发 t17、t24 没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "无穷逆转",
+      "text": "向指定方向位移，自动连接3名敌人",
+      "reading": "二技能核心。选此核心后，二技能改为向指定方向位移，并自动连接3名敌人。从二技能其他天赋原文只能推断：二技能本来是“连接敌人”的技能（t09“成功连接敌人时”、t10“连接敌人后”），连线会造成伤害（t13“连线造成伤害的频率”），可能还有减少双抗的效果（t11，原文没有直接说是二技能的效果），目标离得太远会中断连接（t16）。原文没有写：位移距离；自动连接的搜索范围和选取规则（最近、血量最低等）、敌人不足3名时怎么办；同时连接3名敌人时每条连线的伤害和减双抗是否与单条连线相同；是否保留原来的连接方式；与 t09「天罚」、t15「乾象」等“连接敌人”时触发的天赋叠加时，是否每连接一名敌人各触发一次。",
+      "mechanisms": ["skill-change", "mobility", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "dashDistance", "what": "向指定方向位移的距离", "unit": "meters", "claimed": null, "packHint": "核心 c3 二技能位移距离" },
+        { "key": "linkTargetCount", "what": "自动连接的敌人数量", "unit": "count", "claimed": { "value": 3, "quote": "自动连接3名敌人" }, "packHint": "核心 c3 自动连接的敌人数量，核对描述的3名（描述值不可靠，需资源包核对）" },
+        { "key": "linkSearchRange", "what": "自动连接敌人的搜索范围", "unit": "meters", "claimed": null, "packHint": "核心 c3 自动连接的索敌半径与选取规则" },
+        { "key": "linkDuration", "what": "连线持续时间（是否有固定时限未写）", "unit": "seconds", "claimed": null, "packHint": "二技能连线的持续时间或维持条件，以及 c3 是否改变它" },
+        { "key": "perLinkDamageScale", "what": "同时连接多名敌人时每条连线伤害相对单条连线的比例（是否衰减未写）", "unit": "percent", "claimed": null, "packHint": "核心 c3 多条连线时每条连线的伤害与减双抗是否打折及比例" }
+      ],
+      "ambiguities": [
+        "位移距离没有写",
+        "自动连接的搜索范围、选取规则、敌人不足3名时的处理没有写",
+        "多条连线时每条连线的伤害、减双抗是否与单条相同没有写",
+        "是否保留原来的连接方式没有写",
+        "与 t09、t15 等连接触发类天赋叠加时是否每名敌人各触发一次没有写",
+        "仓库里没有本模式二技能的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "命定契约",
+      "text": "连接敌人后额外生成一个法器，2.5秒后再生成一个",
+      "reading": "二技能核心。选此核心后，二技能连接敌人后会额外生成一个法器，2.5秒后再生成一个（“一个”是汉字数字，没有作为 claimed）。原文没有写“法器”是什么、做什么：从“额外”二字看，二技能本身可能就是用法器连接敌人，额外的法器可能各自再连接或攻击敌人，但原文没有说明法器是否会连接敌人、是否造成伤害、伤害多少、持续多久、作用范围多大。也没有写：“2.5秒后”从连接敌人时算还是从第一个法器生成时算；法器总数是否就是这两个；每次连接敌人都会生成还是有冷却；法器的伤害或连线是否受 t13「命符」频率翻倍、t11「灵视」减双抗翻倍、t15「乾象」印记影响。按“法器造成伤害”的可能性记为直接影响，资源包确认法器不造成伤害时需改为间接或无影响。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能连接敌人后",
+      "slots": [
+        { "key": "firstDeviceCount", "what": "连接敌人后立即额外生成的法器数量（原文写“一个”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "核心 c4 首次额外生成的法器数量，核对“一个”" },
+        { "key": "secondSpawnDelay", "what": "再生成一个法器的延迟", "unit": "seconds", "claimed": { "value": 2.5, "quote": "2.5秒后再生成一个" }, "packHint": "核心 c4 第二个法器的生成延迟，核对描述的2.5秒（描述值不可靠，需资源包核对），并确认计时起点" },
+        { "key": "secondDeviceCount", "what": "延迟后再生成的法器数量（原文写“一个”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "核心 c4 第二次生成的法器数量，核对“一个”" },
+        { "key": "deviceDuration", "what": "法器存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c4 法器的存在或连接持续时间" },
+        { "key": "deviceDamageBase", "what": "法器伤害的基础值（是否造成伤害未写）", "unit": "flat", "claimed": null, "packHint": "核心 c4 法器伤害基础值，确认法器是否造成伤害" },
+        { "key": "deviceDamageRatio", "what": "法器伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "法器伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "deviceTickInterval", "what": "法器造成伤害的间隔", "unit": "seconds", "claimed": null, "packHint": "核心 c4 法器伤害间隔，以及 t13 频率翻倍是否作用于它" },
+        { "key": "deviceRange", "what": "法器的作用或连接范围", "unit": "meters", "claimed": null, "packHint": "核心 c4 法器的索敌、连接或作用半径" },
+        { "key": "spawnCooldown", "what": "生成法器的冷却（每次连接都生成还是有限制未写）", "unit": "seconds", "claimed": null, "packHint": "核心 c4 生成法器的内置冷却或次数限制" }
+      ],
+      "ambiguities": [
+        "“法器”是什么、做什么没有写",
+        "法器是否连接敌人、是否造成伤害、伤害多少没有写",
+        "法器持续时间、作用范围没有写",
+        "“2.5秒后”的计时起点没有写",
+        "法器总数、生成冷却没有写",
+        "法器是否受 t11、t13、t15 影响没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "神谕降临",
+      "text": "完整大招命中汲取3个血球（非完整1个）血球提供永久属性（选取前也持续记录）",
+      "reading": "大招（三技能）核心。选此核心后：完整的大招命中时汲取3个血球，非完整的大招（按其他天赋原文，指各天赋放出的“18%效果”大招）命中时汲取1个；血球提供永久属性；选取此核心之前获得的血球也一直在记录，选取后一并计入。原文没有写：血球按每个被命中的目标计算还是按每次施放计算；对友方放出的大招（t01）命中友方是否也汲取血球；每个血球提供什么属性、提供多少；血球数量有无上限；其他途径获得的血球（被动强化普攻、t04、t05、t10、t21、t22）是否也提供永久属性（原文“血球提供永久属性”没有限定来源）；“选取前也持续记录”从对局何时开始记录；未选此核心时血球本身有什么作用。属性种类未写，若包含攻击类属性则直接影响伤害，这里按直接影响记录以免遗漏。",
+      "mechanisms": ["stacking", "stat"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中时（完整与非完整分别计数）",
+      "slots": [
+        { "key": "orbsPerFullUltHit", "what": "完整大招命中时汲取的血球数", "unit": "count", "claimed": { "value": 3, "quote": "完整大招命中汲取3个血球" }, "packHint": "核心 c5 完整大招命中的血球汲取数，核对描述的3个（描述值不可靠，需资源包核对），并确认按目标数还是按施放次数计算" },
+        { "key": "orbsPerPartialUltHit", "what": "非完整大招命中时汲取的血球数", "unit": "count", "claimed": { "value": 1, "quote": "非完整1个" }, "packHint": "核心 c5 非完整大招命中的血球汲取数，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "statPerOrb", "what": "每个血球提供的永久属性数值（属性种类、固定值还是百分比都未写；若提供多种属性需拆分）", "unit": "flat", "claimed": null, "packHint": "核心 c5 每个血球提供的属性种类和数值" },
+        { "key": "maxOrbs", "what": "血球计数上限（是否存在未写）", "unit": "count", "claimed": null, "packHint": "核心 c5 血球记录的上限" }
+      ],
+      "ambiguities": [
+        "血球按目标数还是按施放次数计算没有写",
+        "命中友方的大招是否汲取血球没有写",
+        "每个血球提供什么属性、多少没有写",
+        "血球数量上限没有写",
+        "其他来源的血球是否也提供永久属性没有写",
+        "“选取前也持续记录”的起始时刻没有写",
+        "未选此核心时血球的作用没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "命运锁链",
+      "text": "大招解除禁用，施法时短暂浮空，自动连接并控制周围最多3名敌人",
+      "reading": "大招（三技能）核心。原文“大招解除禁用”最直接的读法是：本模式中大招默认处于禁用状态（不能手动释放），选此核心后可以释放；也可以读作大招能解除身上的禁用（控制）效果，原文没有进一步说明。施法时明世隐短暂浮空，并自动连接周围最多3名敌人、对其施加控制。原文没有写：浮空持续多久，浮空期间能否被选中或受到伤害；连接和控制的搜索范围；控制类型（眩晕、击飞、禁锢等）和时长；这种连接是否造成伤害，是否算作二技能式的“连接敌人”从而触发 t09「天罚」、t10「供奉」、t15「乾象」等；施法后大招本身的伤害、回复是否保留；大招冷却多久。若按第一种读法，选 c5（与 c6 同为三技能核心，二选一）时“完整大招”从何而来、t18「星运」是否只在 c6 下有意义，原文都没有交代。",
+      "mechanisms": ["skill-change", "control", "area", "other"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "floatDuration", "what": "施法时浮空的持续时间（原文写“短暂”）", "unit": "seconds", "claimed": null, "packHint": "核心 c6 浮空状态的持续时间，以及期间是否不可选中" },
+        { "key": "maxLinkTargets", "what": "自动连接并控制的敌人数量上限", "unit": "count", "claimed": { "value": 3, "quote": "最多3名敌人" }, "packHint": "核心 c6 连接目标上限，核对描述的3名（描述值不可靠，需资源包核对）" },
+        { "key": "linkSearchRadius", "what": "自动连接敌人的搜索范围（“周围”）", "unit": "meters", "claimed": null, "packHint": "核心 c6 自动连接的索敌半径" },
+        { "key": "controlDuration", "what": "对被连接敌人的控制时长（控制类型未写）", "unit": "seconds", "claimed": null, "packHint": "核心 c6 控制效果的类型与持续时间" },
+        { "key": "linkDuration", "what": "大招连接的持续时间", "unit": "seconds", "claimed": null, "packHint": "核心 c6 连接存续时间或断开条件" },
+        { "key": "linkDamageBase", "what": "该连接造成伤害的基础值（是否造成伤害未写）", "unit": "flat", "claimed": null, "packHint": "核心 c6 连接是否造成伤害及基础值" },
+        { "key": "linkDamageRatio", "what": "该连接伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c6 连接伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "ultCooldown", "what": "大招冷却时间", "unit": "seconds", "claimed": null, "packHint": "本模式大招冷却，以及“禁用”的具体含义" }
+      ],
+      "ambiguities": [
+        "“大招解除禁用”是大招可以释放，还是大招能解除禁用类控制，没有写清",
+        "浮空持续时间、浮空期间能否被选中没有写",
+        "连接和控制的搜索范围没有写",
+        "控制类型和时长没有写",
+        "该连接是否造成伤害、是否触发连接敌人类天赋没有写",
+        "大招本身的伤害、回复是否保留没有写",
+        "若大招默认禁用，选 c5 时完整大招从何而来没有交代"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "庇护",
+      "text": "成功连接友方时，对其放出1个大招（18%效果）",
+      "reading": "一技能小天赋。一技能成功连接友方时，对该友方放出1个“18%效果”的大招。原文没有写：对友方放出的大招对友方有什么作用（t20「玄击」写有“回复效果”，可推测大招带回复，但原文没有直接说明对友方是回复）；大招飞向友方途中能否命中敌人造成伤害；是否只在“成功连接”那一刻触发一次；c1「光芒万丈」自动连接3名队友时是否每名队友各触发一次；有无内置冷却；命中友方是否算作 c5 的“非完整”大招命中。按“对友方放出”记为间接影响。",
+      "mechanisms": ["proc", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能成功连接友方时",
+      "slots": [
+        { "key": "miniUltCount", "what": "每次触发放出的大招数量", "unit": "count", "claimed": { "value": 1, "quote": "放出1个大招" }, "packHint": "该天赋每次触发放出的大招数量，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "miniUltEffectPct", "what": "放出的大招相对完整大招的效果比例", "unit": "percent", "claimed": { "value": 18, "quote": "18%效果" }, "packHint": "该天赋大招的效果比例，核对描述的18%（描述值不可靠，需资源包核对），并确认对友方的效果内容（回复或其他）" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（是否存在未写）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发的内置冷却或次数限制" }
+      ],
+      "ambiguities": [
+        "大招对友方的作用没有写",
+        "大招途中能否命中敌人没有写",
+        "是否只在连接成功瞬间触发一次没有写",
+        "多条连接时是否各触发一次没有写",
+        "内置冷却没有写",
+        "命中友方是否计入 c5 非完整大招命中没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "心谕",
+      "text": "向被连接的队友持续供给血球",
+      "reading": "一技能小天赋。一技能连接队友期间，持续向被连接的队友供给血球。原文没有写：血球对队友有什么作用（回复、属性还是其他）；供给间隔和每次供给数量；血球从哪里来（凭空生成，还是转移明世隐已有的血球）；选 c5「神谕降临」时，供给给队友的血球是否还计入明世隐的永久属性。只作用于队友，按间接影响记录。",
+      "mechanisms": ["team", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能连接队友期间",
+      "slots": [
+        { "key": "supplyInterval", "what": "供给血球的间隔", "unit": "seconds", "claimed": null, "packHint": "该天赋向队友供给血球的间隔" },
+        { "key": "orbsPerSupply", "what": "每次供给的血球数量", "unit": "count", "claimed": null, "packHint": "该天赋每次供给的血球数量" },
+        { "key": "orbEffectValue", "what": "每个血球对队友的效果数值（作用种类未写）", "unit": "flat", "claimed": null, "packHint": "血球对队友的效果种类与数值（回复量或属性）" }
+      ],
+      "ambiguities": [
+        "血球对队友的作用没有写",
+        "供给间隔和数量没有写",
+        "血球的来源没有写",
+        "与 c5 的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "护符",
+      "text": "对触碰到连线的敌人，放出1个大招（18%效果）",
+      "reading": "一技能小天赋。敌人触碰到一技能的连线（明世隐与被连接友方之间的线）时，对该敌人放出1个“18%效果”的大招。原文没有写：同一个敌人多次或持续触碰连线时多久触发一次（内置冷却）；同时触碰的多个敌人是否各触发一次；有无触发总次数上限；连线的触碰判定宽度；c1 同时连接3名队友时是否每条连线都有此效果。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "敌人触碰一技能连线时",
+      "slots": [
+        { "key": "miniUltCount", "what": "每次触发放出的大招数量", "unit": "count", "claimed": { "value": 1, "quote": "放出1个大招" }, "packHint": "该天赋每次触发放出的大招数量，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "miniUltEffectPct", "what": "放出的大招相对完整大招的效果比例", "unit": "percent", "claimed": { "value": 18, "quote": "18%效果" }, "packHint": "该天赋大招的效果比例，核对描述的18%（描述值不可靠，需资源包核对）；完整大招伤害属于基础技能数据，另行读取" },
+        { "key": "perEnemyCooldown", "what": "同一敌人再次触发的间隔", "unit": "seconds", "claimed": null, "packHint": "该天赋对同一目标的触发冷却" },
+        { "key": "maxTriggersPerLink", "what": "单条连线存续期间的触发次数上限（是否存在未写）", "unit": "count", "claimed": null, "packHint": "该天赋的触发次数限制" },
+        { "key": "lineHitWidth", "what": "连线的触碰判定宽度", "unit": "meters", "claimed": null, "packHint": "一技能连线的碰撞判定宽度" }
+      ],
+      "ambiguities": [
+        "同一敌人的触发间隔没有写",
+        "多个敌人同时触碰是否各触发一次没有写",
+        "触发次数上限没有写",
+        "连线判定宽度没有写",
+        "多条连线时是否都有此效果没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "玄光",
+      "text": "连接后，自身攻速+20%，且每次普攻都能获得血球",
+      "reading": "一技能小天赋。一技能连接后，明世隐自身攻速提高20%，并且每次普攻都能获得血球。“连接后”按字面理解为连接存续期间生效，断开是否移除、是否另有固定持续时间，原文没有写。原文也没有写：每次普攻获得几个血球；是否需要普攻命中目标；血球的作用（选 c5 时提供永久属性）；攻速加成是否受攻速上限限制。",
+      "mechanisms": ["buff", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能连接后",
+      "slots": [
+        { "key": "attackSpeedPct", "what": "自身攻速加成", "unit": "percent", "claimed": { "value": 20, "quote": "自身攻速+20%" }, "packHint": "该天赋攻速加成，核对描述的20%（描述值不可靠，需资源包核对）" },
+        { "key": "buffDuration", "what": "攻速加成持续时间（连接存续期间还是固定时长未写）", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 的持续时间或移除条件" },
+        { "key": "orbsPerAttack", "what": "每次普攻获得的血球数量", "unit": "count", "claimed": null, "packHint": "该天赋每次普攻获得的血球数，及是否需要命中" },
+        { "key": "attackSpeedCap", "what": "攻速上限（是否限制该加成）", "unit": "percent", "claimed": null, "packHint": "无尽守御模式的攻速上限，以及该加成是否计入上限" }
+      ],
+      "ambiguities": [
+        "攻速加成持续时间、断开连接是否移除没有写",
+        "每次普攻获得几个血球、是否需要命中没有写",
+        "血球作用没有写",
+        "是否受攻速上限限制没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "卦愈",
+      "text": "释放一技能时，附近敌人将被抽取血球",
+      "reading": "一技能小天赋。释放一技能时，从明世隐附近的敌人身上抽取血球。原文没有写：“附近”的范围；影响的敌人数量上限；每个敌人被抽取几个血球；抽取血球是否同时对敌人造成伤害；血球的作用（选 c5 时提供永久属性）。原文没有说抽取会造成伤害，按间接影响记录；若资源包显示抽取带伤害，需改为直接影响。",
+      "mechanisms": ["area", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "drawRadius", "what": "抽取血球的范围（“附近”）", "unit": "meters", "claimed": null, "packHint": "该天赋抽取血球的作用半径" },
+        { "key": "maxTargets", "what": "被抽取血球的敌人数量上限", "unit": "count", "claimed": null, "packHint": "该天赋影响的目标数上限" },
+        { "key": "orbsPerEnemy", "what": "每个敌人被抽取的血球数量", "unit": "count", "claimed": null, "packHint": "该天赋每个目标抽取的血球数" },
+        { "key": "drawDamageBase", "what": "抽取时对敌人造成伤害的基础值（是否造成伤害未写）", "unit": "flat", "claimed": null, "packHint": "抽取血球是否附带伤害及其基础值" },
+        { "key": "drawDamageRatio", "what": "抽取伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "抽取伤害系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "“附近”的范围没有写",
+        "目标数上限没有写",
+        "每个敌人抽取几个血球没有写",
+        "抽取是否造成伤害没有写",
+        "血球作用没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "天启",
+      "text": "成功连接后，自身移速+20%",
+      "reading": "一技能小天赋。一技能成功连接后，明世隐自身移速提高20%。原文没有写持续时间（只在连接期间还是固定时长）、是否衰减。只影响移动，不影响伤害。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "一技能成功连接后",
+      "slots": [
+        { "key": "moveSpeedPct", "what": "自身移速加成", "unit": "percent", "claimed": { "value": 20, "quote": "自身移速+20%" }, "packHint": "该天赋移速加成，核对描述的20%（描述值不可靠，需资源包核对）" },
+        { "key": "duration", "what": "移速加成持续时间（连接期间还是固定时长未写）", "unit": "seconds", "claimed": null, "packHint": "该天赋移速 buff 的持续时间或移除条件，及是否衰减" }
+      ],
+      "ambiguities": [
+        "持续时间没有写",
+        "是否衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "灵盾",
+      "text": "连接队友后，队友和自身均受护盾加持",
+      "reading": "一技能小天赋。一技能连接队友后，被连接的队友和明世隐自身都获得护盾。原文没有写：护盾吸收量（固定值还是按某项属性加成）；护盾持续时间；连接期间是否周期性刷新护盾，还是只在连接时给一次；c1「光芒万丈」连接3名队友时自身是否获得多份护盾。",
+      "mechanisms": ["shield", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能连接队友后",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾吸收量基础值", "unit": "flat", "claimed": null, "packHint": "该天赋护盾吸收量基础值" },
+        { "key": "shieldRatio", "what": "护盾吸收量的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋护盾加成系数及加成属性" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋护盾 buff 的持续时间" },
+        { "key": "shieldRefreshInterval", "what": "连接期间护盾刷新间隔（是否刷新未写）", "unit": "seconds", "claimed": null, "packHint": "该天赋护盾是否在连接期间周期性刷新及间隔" }
+      ],
+      "ambiguities": [
+        "护盾吸收量及其计算基准没有写",
+        "护盾持续时间没有写",
+        "是否周期性刷新没有写",
+        "多条连接时自身护盾是否叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "无疆",
+      "text": "一技能连接中断距离+250",
+      "reading": "一技能小天赋。一技能连接的中断距离增加250，也就是被连接目标要离得更远才会断开连接。“+250”原文没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位，不一定是米，需要与资源包里的原始中断距离对照换算。原文没有写原始中断距离。连接维持得更久，可延长 t04、t06 等依赖连接的效果，按间接影响记录。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能连接期间）",
+      "slots": [
+        { "key": "breakDistanceBonus", "what": "连接中断距离增加量（原文“+250”没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位）", "unit": "flat", "claimed": { "value": 250, "quote": "连接中断距离+250" }, "packHint": "该天赋对一技能连接中断距离的加成数值与单位，核对描述的+250（描述值不可靠，需资源包核对，注意距离单位换算）" },
+        { "key": "baseBreakDistance", "what": "一技能原本的连接中断距离", "unit": "meters", "claimed": null, "packHint": "一技能默认连接中断距离及其单位，用于换算+250的实际效果" }
+      ],
+      "ambiguities": [
+        "“+250”的单位没有写",
+        "原始中断距离没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "天罚",
+      "text": "成功连接敌人时，对其放出1个大招（18%效果）",
+      "reading": "二技能小天赋。二技能成功连接敌人时，对该敌人放出1个“18%效果”的大招。原文没有写：是否只在“成功连接”那一刻触发一次；c3「无穷逆转」自动连接3名敌人、c4「命定契约」法器（若会连接）、c6「命运锁链」大招连接时是否每连接一名敌人各触发一次；有无内置冷却；该大招能否触发 t17「天命」额外大招、t24「财成」分裂。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能成功连接敌人时",
+      "slots": [
+        { "key": "miniUltCount", "what": "每次触发放出的大招数量", "unit": "count", "claimed": { "value": 1, "quote": "放出1个大招" }, "packHint": "该天赋每次触发放出的大招数量，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "miniUltEffectPct", "what": "放出的大招相对完整大招的效果比例", "unit": "percent", "claimed": { "value": 18, "quote": "18%效果" }, "packHint": "该天赋大招的效果比例，核对描述的18%（描述值不可靠，需资源包核对）；完整大招伤害属于基础技能数据，另行读取" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（是否存在未写）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发的内置冷却或次数限制" }
+      ],
+      "ambiguities": [
+        "是否只在连接成功瞬间触发一次没有写",
+        "c3、c4、c6 的连接是否各触发一次没有写",
+        "内置冷却没有写",
+        "能否触发 t17、t24 没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "供奉",
+      "text": "连接敌人后，向目标持续汲取血球",
+      "reading": "二技能小天赋。二技能连接敌人后，在连接期间持续从目标身上汲取血球。原文没有写：汲取间隔、每次汲取数量、有无上限；汲取是否同时造成伤害；血球的作用（选 c5 时提供永久属性）。原文没有说汲取会造成伤害，按间接影响记录；若资源包显示汲取带伤害，需改为直接影响。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能连接敌人期间",
+      "slots": [
+        { "key": "drawInterval", "what": "汲取血球的间隔", "unit": "seconds", "claimed": null, "packHint": "该天赋汲取血球的间隔，以及 t13 频率翻倍是否作用于它" },
+        { "key": "orbsPerDraw", "what": "每次汲取的血球数量", "unit": "count", "claimed": null, "packHint": "该天赋每次汲取的血球数" },
+        { "key": "maxOrbsPerLink", "what": "单次连接最多汲取的血球数（是否存在未写）", "unit": "count", "claimed": null, "packHint": "该天赋汲取上限" },
+        { "key": "drawDamageBase", "what": "汲取时对目标造成伤害的基础值（是否造成伤害未写）", "unit": "flat", "claimed": null, "packHint": "汲取血球是否附带伤害及其基础值" }
+      ],
+      "ambiguities": [
+        "汲取间隔、数量、上限没有写",
+        "汲取是否造成伤害没有写",
+        "血球作用没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "灵视",
+      "text": "减少双抗的效果翻倍，且自身双抗+100点",
+      "reading": "二技能小天赋。“减少双抗”的效果翻倍，并且明世隐自身双抗（物理防御和法术防御）增加100点。原文没有写“减少双抗”是哪个效果；按天赋所在位置推测是二技能连接敌人时减少敌人双抗的效果，但原文没有直接写出。原文也没有写：原本减少多少双抗（固定值还是百分比）；翻倍后是否有上限；“双抗+100点”是两项各加100还是合计100（这里按两项各加100理解，需核对）。“翻倍”字面为2倍，没有阿拉伯数字，不作为 claimed。减敌人双抗会提高对其造成的伤害，按直接影响记录。",
+      "mechanisms": ["damage-amp", "stat"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（减双抗部分在二技能连接敌人期间生效）",
+      "slots": [
+        { "key": "defShredMultiplier", "what": "减双抗效果的倍数（原文写“翻倍”，字面为2倍，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该天赋对减双抗效果的倍率，核对“翻倍”" },
+        { "key": "baseDefShred", "what": "原本减少的敌人双抗数值（固定值还是百分比未写，若为百分比改为 percent）", "unit": "flat", "claimed": null, "packHint": "二技能连线减少敌人物理、法术防御的原始数值与形式" },
+        { "key": "defShredCap", "what": "翻倍后减双抗的上限（是否存在未写）", "unit": "flat", "claimed": null, "packHint": "减双抗效果是否有上限" },
+        { "key": "selfDefBonus", "what": "自身物理防御和法术防御的增加量（按两项各+100理解，需核对）", "unit": "flat", "claimed": { "value": 100, "quote": "自身双抗+100点" }, "packHint": "该天赋自身双抗加成，核对描述的+100点（描述值不可靠，需资源包核对），并确认是两项各加还是合计" }
+      ],
+      "ambiguities": [
+        "“减少双抗”指哪个效果没有写",
+        "原本减少多少双抗、固定值还是百分比没有写",
+        "翻倍后是否有上限没有写",
+        "“双抗+100点”是各加100还是合计100没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "坤护",
+      "text": "连接后，自身获得高额韧性，断开则移除",
+      "reading": "二技能小天赋。二技能连接后，明世隐自身获得高额韧性，连接断开时移除。“高额”的具体数值原文没有写；韧性的具体作用（减少受到控制时长的比例等）原文也没有写。影响生存与受控，按间接影响记录。",
+      "mechanisms": ["control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能连接期间",
+      "slots": [
+        { "key": "tenacityPct", "what": "获得的韧性数值（原文写“高额”）", "unit": "percent", "claimed": null, "packHint": "该天赋韧性加成数值及其作用方式" }
+      ],
+      "ambiguities": [
+        "“高额韧性”的具体数值没有写",
+        "韧性的具体作用没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "命符",
+      "text": "连线造成伤害的频率翻倍",
+      "reading": "二技能小天赋。连线造成伤害的频率翻倍，即同样时间内连线伤害次数变为两倍。原文没有写：每次伤害的数值是否不变（总伤害翻倍）还是总伤害不变；“连线”是否只指二技能连接敌人的连线，还是也包括 c4「命定契约」的法器、c6「命运锁链」的大招连接；是否也加快 t10「供奉」汲取血球；伤害次数增多是否让 t15「乾象」更快达到3次伤害引爆。“翻倍”字面为2倍，没有阿拉伯数字，不作为 claimed。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（连线造成伤害期间）",
+      "slots": [
+        { "key": "frequencyMultiplier", "what": "连线伤害频率倍数（原文写“翻倍”，字面为2倍，没有作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "该天赋对连线伤害频率的倍率，核对“翻倍”" },
+        { "key": "baseTickInterval", "what": "连线原本的伤害间隔", "unit": "seconds", "claimed": null, "packHint": "二技能连线默认伤害间隔" },
+        { "key": "perTickDamageScale", "what": "频率翻倍后每次伤害相对原来的比例（是否不变未写）", "unit": "percent", "claimed": null, "packHint": "该天赋是否同时调整每跳伤害" }
+      ],
+      "ambiguities": [
+        "每跳伤害是否不变没有写",
+        "“连线”的范围（是否含 c4、c6）没有写",
+        "是否加快 t10 汲取没有写",
+        "与 t15 引爆计数的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "命卦",
+      "text": "释放二技能时，朝前发射1个可弹射且会自动连接的大招（18%效果）",
+      "reading": "二技能小天赋。释放二技能时，朝前方发射1个“18%效果”的大招，这个大招可以弹射，并会自动连接（命中的目标）。原文没有写：飞行距离；弹射次数、弹射距离和目标选择；每次弹射伤害是否衰减；“自动连接”连接的是敌人还是也包括友方，连接后是否等同二技能连线（造成伤害、减双抗、触发 t09「天罚」等）；与 c3「无穷逆转」改为位移时的方向关系。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "miniUltCount", "what": "发射的大招数量", "unit": "count", "claimed": { "value": 1, "quote": "朝前发射1个" }, "packHint": "该天赋发射的大招数量，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "miniUltEffectPct", "what": "发射的大招相对完整大招的效果比例", "unit": "percent", "claimed": { "value": 18, "quote": "18%效果" }, "packHint": "该天赋大招的效果比例，核对描述的18%（描述值不可靠，需资源包核对）；完整大招伤害属于基础技能数据，另行读取" },
+        { "key": "travelRange", "what": "向前飞行的距离", "unit": "meters", "claimed": null, "packHint": "该天赋大招的飞行距离" },
+        { "key": "bounceCount", "what": "弹射次数", "unit": "count", "claimed": null, "packHint": "该天赋大招的弹射次数，确认是否包含首次命中" },
+        { "key": "bounceRange", "what": "弹射寻找下一个目标的距离", "unit": "meters", "claimed": null, "packHint": "该天赋弹射的索敌半径与目标选择规则" },
+        { "key": "bounceDamageFalloff", "what": "每次弹射后伤害的衰减幅度（是否存在未写）", "unit": "percent", "claimed": null, "packHint": "该天赋弹射伤害是否逐次变化及比例" }
+      ],
+      "ambiguities": [
+        "飞行距离没有写",
+        "弹射次数、距离、目标选择没有写",
+        "弹射伤害是否衰减没有写",
+        "“自动连接”连接谁、连接效果是否等同二技能连线没有写",
+        "与 c3 位移方向的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "乾象",
+      "text": "连接英雄附加印记，3次伤害后引爆，并扩散印记",
+      "reading": "二技能小天赋。连接英雄时给对方附加印记，带印记的目标受到3次伤害后印记引爆，并把印记扩散出去。原文写的是“连接英雄”：本模式的敌人是否算“英雄”、是否包括被连接的友方英雄，原文没有说明；按天赋所在的二技能推测指二技能连接的敌人。原文没有写：“3次伤害”只算明世隐的伤害还是任何来源、是否只算连线伤害；引爆伤害多少、伤害类型、能否暴击；扩散的范围和目标数；扩散出去的印记能否再次引爆和扩散（可能连锁）；印记持续时间。",
+      "mechanisms": ["proc", "stacking", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能连接英雄后，目标受到3次伤害时引爆",
+      "slots": [
+        { "key": "hitsToDetonate", "what": "引爆所需的伤害次数", "unit": "count", "claimed": { "value": 3, "quote": "3次伤害后引爆" }, "packHint": "该天赋印记引爆所需次数，核对描述的3次（描述值不可靠，需资源包核对），并确认哪些伤害计数" },
+        { "key": "detonateDamageBase", "what": "引爆伤害的基础值", "unit": "flat", "claimed": null, "packHint": "该天赋引爆伤害基础值" },
+        { "key": "detonateDamageRatio", "what": "引爆伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "引爆伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "spreadRadius", "what": "印记扩散范围", "unit": "meters", "claimed": null, "packHint": "该天赋印记扩散半径" },
+        { "key": "spreadTargets", "what": "印记扩散的目标数", "unit": "count", "claimed": null, "packHint": "该天赋扩散目标数上限，及扩散印记能否再次扩散" },
+        { "key": "markDuration", "what": "印记持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋印记的存在时间" }
+      ],
+      "ambiguities": [
+        "“英雄”是否包括本模式敌人、是否包括友方没有写",
+        "哪些伤害计入3次没有写",
+        "引爆伤害数值、类型、能否暴击没有写",
+        "扩散范围、目标数没有写",
+        "扩散印记能否连锁没有写",
+        "印记持续时间没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "无疆",
+      "text": "2技能连接中断距离+250",
+      "reading": "二技能小天赋。二技能连接的中断距离增加250，也就是被连接的敌人要离得更远才会断开连接。“+250”原文没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位，不一定是米，需要与资源包里的原始中断距离对照换算。原文没有写原始中断距离。连线维持更久可延长连线伤害、减双抗等效果，按间接影响记录。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（二技能连接期间）",
+      "slots": [
+        { "key": "breakDistanceBonus", "what": "连接中断距离增加量（原文“+250”没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位）", "unit": "flat", "claimed": { "value": 250, "quote": "连接中断距离+250" }, "packHint": "该天赋对二技能连接中断距离的加成数值与单位，核对描述的+250（描述值不可靠，需资源包核对，注意距离单位换算）" },
+        { "key": "baseBreakDistance", "what": "二技能原本的连接中断距离", "unit": "meters", "claimed": null, "packHint": "二技能默认连接中断距离及其单位，用于换算+250的实际效果" }
+      ],
+      "ambiguities": [
+        "“+250”的单位没有写",
+        "原始中断距离没有写"
+      ],
+      "unusedNumbers": [
+        { "quote": "2技能", "reason": "技能编号，表示二技能，不是数值" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "天命",
+      "text": "额外放出2个大招（18%效果）",
+      "reading": "大招（三技能）小天赋。额外放出2个“18%效果”的大招。原文只写“额外放出”，没有写触发时机：是每次手动施放大招时，还是任何大招（包括各天赋放出的18%大招）都会触发（后者可能连锁）；也没有写额外大招的方向或目标；与 c6「命运锁链」“大招解除禁用”的关系（若大招默认禁用，未选 c6 时此天赋何时触发）。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时（原文未写，按天赋所在技能推测）",
+      "slots": [
+        { "key": "extraUltCount", "what": "额外放出的大招数量", "unit": "count", "claimed": { "value": 2, "quote": "额外放出2个大招" }, "packHint": "该天赋额外大招数量，核对描述的2个（描述值不可靠，需资源包核对），并确认触发时机" },
+        { "key": "miniUltEffectPct", "what": "额外大招相对完整大招的效果比例", "unit": "percent", "claimed": { "value": 18, "quote": "18%效果" }, "packHint": "该天赋大招的效果比例，核对描述的18%（描述值不可靠，需资源包核对）；完整大招伤害属于基础技能数据，另行读取" },
+        { "key": "extraUltTargetRange", "what": "额外大招的索敌或散射范围", "unit": "meters", "claimed": null, "packHint": "该天赋额外大招的方向、目标选择与范围" }
+      ],
+      "ambiguities": [
+        "触发时机没有写",
+        "18%大招能否再触发（连锁）没有写",
+        "额外大招的方向或目标没有写",
+        "与 c6 “大招解除禁用”的关系没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "星运",
+      "text": "完整效果的大招命中时，减少大招4秒冷却",
+      "reading": "大招小天赋。完整效果的大招命中时，大招冷却减少4秒。原文没有写：命中多个目标时是否每个目标各减少一次，还是同一次大招只结算一次；“完整效果”是否只指手动施放的大招（与各天赋放出的18%大招区分）；大招原本冷却时间。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "完整效果的大招命中时",
+      "slots": [
+        { "key": "cooldownReduction", "what": "每次触发减少的大招冷却", "unit": "seconds", "claimed": { "value": 4, "quote": "减少大招4秒冷却" }, "packHint": "该天赋冷却减少量，核对描述的4秒（描述值不可靠，需资源包核对）" },
+        { "key": "maxTriggersPerCast", "what": "同一次大招最多触发次数（按目标数还是只算一次未写）", "unit": "count", "claimed": null, "packHint": "该天赋每次施放的触发上限" },
+        { "key": "baseUltCooldown", "what": "大招原本冷却时间", "unit": "seconds", "claimed": null, "packHint": "本模式大招基础冷却" }
+      ],
+      "ambiguities": [
+        "多目标命中是否多次触发没有写",
+        "“完整效果”的范围没有写",
+        "大招原本冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "预言",
+      "text": "施法后，获得100%爆发移速",
+      "reading": "大招小天赋。施法后获得100%的爆发移速。原文没有写“施法”是只指释放大招还是释放任意技能；持续时间；“爆发”是否表示加速随后衰减。只影响移动，不影响伤害。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "施法后（原文未写是否限于大招）",
+      "slots": [
+        { "key": "moveSpeedPct", "what": "爆发移速加成", "unit": "percent", "claimed": { "value": 100, "quote": "获得100%爆发移速" }, "packHint": "该天赋移速加成，核对描述的100%（描述值不可靠，需资源包核对），并确认是否衰减、是否受移速上限限制" },
+        { "key": "duration", "what": "移速加成持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋移速 buff 的持续时间与衰减方式" }
+      ],
+      "ambiguities": [
+        "“施法”指哪些技能没有写",
+        "持续时间没有写",
+        "是否衰减没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "玄击",
+      "text": "伤害和回复效果+20%",
+      "reading": "大招小天赋。伤害和回复效果提高20%。原文没有写作用范围：只作用于大招（包括各天赋放出的18%大招），还是明世隐所有技能、连线、普攻的伤害和回复；是乘算增伤还是加到某个加成项里；回复效果是否包括护盾（t07）、血球。",
+      "mechanisms": ["damage-amp", "heal"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "damageBonusPct", "what": "伤害提升幅度", "unit": "percent", "claimed": { "value": 20, "quote": "伤害和回复效果+20%" }, "packHint": "该天赋增伤数值，核对描述的20%（描述值不可靠，需资源包核对），并确认作用范围与乘算方式" },
+        { "key": "healBonusPct", "what": "回复效果提升幅度", "unit": "percent", "claimed": { "value": 20, "quote": "伤害和回复效果+20%" }, "packHint": "该天赋回复加成数值，核对描述的20%（描述值不可靠，需资源包核对），并确认作用范围" }
+      ],
+      "ambiguities": [
+        "作用范围（仅大招还是全部）没有写",
+        "乘算还是加算没有写",
+        "回复效果是否包括护盾、血球没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "卜算",
+      "text": "被动强普变为范围伤害，向普攻范围内的所有目标抽取血球",
+      "reading": "列在三技能下、内容是被动的小天赋。被动的强化普攻改为范围伤害，并从普攻范围内的所有目标身上抽取血球。从原文只能看出明世隐的被动有“强化普攻”，会对目标造成伤害（t22 还说它有冷却）并能抽取血球。原文没有写：“普攻范围”是以普攻攻击距离为半径的范围，还是强化普攻命中点周围的范围；范围内每个目标的伤害是否与单体时相同；有无目标数上限；每个目标抽取几个血球；t23「占星」普攻距离+200 是否会扩大这个范围。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "被动强化普攻时",
+      "slots": [
+        { "key": "aoeRadius", "what": "强化普攻范围伤害的半径", "unit": "meters", "claimed": null, "packHint": "该天赋强化普攻的作用半径，确认是否等于普攻距离" },
+        { "key": "perTargetDamageScale", "what": "范围内每个目标受到的伤害相对单体强普的比例（是否不变未写）", "unit": "percent", "claimed": null, "packHint": "该天赋范围伤害是否打折及比例" },
+        { "key": "maxTargets", "what": "范围伤害的目标数上限（原文写“所有目标”）", "unit": "count", "claimed": null, "packHint": "该天赋是否有目标数上限" },
+        { "key": "orbsPerTarget", "what": "每个目标被抽取的血球数", "unit": "count", "claimed": null, "packHint": "该天赋每个目标抽取的血球数" }
+      ],
+      "ambiguities": [
+        "“普攻范围”的含义没有写",
+        "每个目标伤害是否与单体相同没有写",
+        "目标数上限没有写",
+        "每个目标抽取几个血球没有写",
+        "是否受 t23 影响没有写",
+        "仓库里没有本模式被动的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "玄冥",
+      "text": "强化普攻冷却-50%，额外抽取1个血球并发出1个大招",
+      "reading": "列在三技能下、内容是被动强化普攻的小天赋。强化普攻的冷却减少50%；每次强化普攻额外抽取1个血球，并发出1个大招。原文没有写：强化普攻原本冷却多久；“冷却-50%”是否与其他冷却缩减叠加、是否受上限限制；发出的大招是完整效果还是18%效果（原文没有像其他天赋那样注明“18%效果”）；大招发向哪里（强普目标还是其他方向）；与 t21「卜算」同时选择时，额外的1个血球是对每个目标都额外抽取还是只抽一次。",
+      "mechanisms": ["cooldown", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "被动强化普攻时",
+      "slots": [
+        { "key": "enhancedAttackCdReductionPct", "what": "强化普攻冷却减少比例（原文“-50%”，是减少）", "unit": "percent", "claimed": { "value": 50, "quote": "强化普攻冷却-50%" }, "packHint": "该天赋强化普攻冷却减少比例，核对描述的-50%（描述值不可靠，需资源包核对），并确认叠加方式" },
+        { "key": "baseEnhancedAttackCooldown", "what": "强化普攻原本的冷却时间", "unit": "seconds", "claimed": null, "packHint": "被动强化普攻的基础冷却" },
+        { "key": "extraOrbs", "what": "每次强化普攻额外抽取的血球数", "unit": "count", "claimed": { "value": 1, "quote": "额外抽取1个血球" }, "packHint": "该天赋额外血球数，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "ultCount", "what": "每次强化普攻发出的大招数量", "unit": "count", "claimed": { "value": 1, "quote": "发出1个大招" }, "packHint": "该天赋发出的大招数量，核对描述的1个（描述值不可靠，需资源包核对）" },
+        { "key": "ultEffectPct", "what": "发出的大招相对完整大招的效果比例（原文没有注明，未写是否为18%）", "unit": "percent", "claimed": null, "packHint": "该天赋发出大招的效果比例，确认是完整效果还是18%效果" }
+      ],
+      "ambiguities": [
+        "强化普攻原本冷却没有写",
+        "冷却减少与其他冷却缩减的叠加方式没有写",
+        "发出的大招是完整效果还是18%效果没有写",
+        "大招发向哪里没有写",
+        "与 t21 同时生效时额外血球怎么计算没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "占星",
+      "text": "普攻攻击距离+200",
+      "reading": "列在三技能下、内容是普攻的小天赋。普攻攻击距离增加200。“+200”原文没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位，不一定是米，需要与原始普攻距离对照换算。原文没有写是否也作用于强化普攻，是否扩大 t21「卜算」的“普攻范围”。攻击距离不改变单次伤害，按间接影响记录。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "attackRangeBonus", "what": "普攻攻击距离增加量（原文“+200”没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位）", "unit": "flat", "claimed": { "value": 200, "quote": "普攻攻击距离+200" }, "packHint": "该天赋普攻距离加成数值与单位，核对描述的+200（描述值不可靠，需资源包核对，注意距离单位换算）" },
+        { "key": "baseAttackRange", "what": "原本的普攻攻击距离", "unit": "meters", "claimed": null, "packHint": "明世隐默认普攻距离及其单位，用于换算+200的实际效果" }
+      ],
+      "ambiguities": [
+        "“+200”的单位没有写",
+        "是否作用于强化普攻没有写",
+        "是否扩大 t21 的范围没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "财成",
+      "text": "大招命中时会分裂攻击目标周围的敌人",
+      "reading": "大招小天赋。大招命中时会分裂出攻击，打击被命中目标周围的敌人。原文没有写：分裂的范围和目标数；分裂伤害相对原大招的比例；是否包括各天赋放出的18%效果大招；分裂攻击能否再次分裂；分裂命中是否也算大招命中（影响 c5「神谕降临」汲取血球和 t18「星运」减冷却）。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中时",
+      "slots": [
+        { "key": "splitRadius", "what": "分裂攻击的范围", "unit": "meters", "claimed": null, "packHint": "该天赋分裂的索敌半径" },
+        { "key": "splitTargets", "what": "分裂攻击的目标数", "unit": "count", "claimed": null, "packHint": "该天赋分裂目标数上限" },
+        { "key": "splitDamagePct", "what": "分裂伤害相对原大招伤害的比例", "unit": "percent", "claimed": null, "packHint": "该天赋分裂伤害比例、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "分裂范围、目标数没有写",
+        "分裂伤害比例没有写",
+        "18%效果大招能否分裂没有写",
+        "分裂能否再次分裂没有写",
+        "分裂命中是否算大招命中没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

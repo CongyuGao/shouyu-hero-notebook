@@ -1,0 +1,786 @@
+{
+  "heroId": "169",
+  "heroName": "后羿",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "五羽叠弦",
+      "text": "被动可额外叠加2层，且箭矢数量增多",
+      "reading": "一技能核心，但原文写的是被动：被动的层数上限在原有基础上再多2层，同时“箭矢数量增多”。原文没有写：被动是什么效果、每层提供什么（本条和听弦 t02 都提到被动有“层”，但都没写每层效果）；被动原本最多几层；新增的2层每层效果是否与原有层相同；层数怎样获得、持续多久、怎样衰减；“箭矢数量增多”是哪种箭（普攻主箭、分裂箭还是其他）、增加几支、是固定增加还是随层数增加、增加的箭矢伤害是多少、能否暴击、能否触发普攻命中类效果。因为写了箭矢数量增多（多出伤害段），列为直接影响。",
+      "mechanisms": ["stacking", "skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（被动叠层时）",
+      "slots": [
+        { "key": "extraMaxStacks", "what": "被动层数上限额外增加的层数", "unit": "count", "claimed": { "value": 2, "quote": "额外叠加2层" }, "packHint": "该核心对被动层数上限的加成，核对描述的2层（描述值不可靠，需资源包核对）" },
+        { "key": "baseMaxStacks", "what": "被动原本的层数上限", "unit": "count", "claimed": null, "packHint": "后羿被动 buff 的原始最大层数" },
+        { "key": "perStackEffect", "what": "被动每层提供的效果数值（被动效果本条未写，单位暂记为百分比）", "unit": "percent", "claimed": null, "packHint": "后羿被动每层的效果类型和数值，并确认新增2层是否与原有层相同" },
+        { "key": "stackDuration", "what": "被动层数持续时间", "unit": "seconds", "claimed": null, "packHint": "被动 buff 的持续时间、刷新规则和衰减方式" },
+        { "key": "extraArrowCount", "what": "增多的箭矢数量（是否随层数变化未写）", "unit": "count", "claimed": null, "packHint": "该核心增加的箭矢数量、箭矢种类，以及是否随被动层数变化" },
+        { "key": "extraArrowDamagePct", "what": "增多箭矢的伤害占普攻主箭伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "额外箭矢是否引用普攻伤害公式及其比例" },
+        { "key": "extraArrowBaseDamage", "what": "增多箭矢的伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "额外箭矢伤害基础值" },
+        { "key": "extraArrowRatio", "what": "增多箭矢的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外箭矢的伤害系数、加成属性、伤害类型及能否暴击" }
+      ],
+      "ambiguities": [
+        "被动效果和每层数值未写",
+        "被动原本层数上限未写",
+        "层数获得方式、持续时间、衰减规则未写",
+        "“箭矢数量增多”指哪种箭、增加几支、是否随层数增加未写",
+        "增多箭矢的伤害、伤害类型、能否暴击、能否触发普攻命中类效果未写",
+        "一技能核心为何改的是被动，原文没有说明与一技能的关系"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "万里穿云",
+      "text": "接下来5秒内，召唤朱雀弓协助攻击，并且箭矢可穿透目标",
+      "reading": "一技能核心。“接下来5秒内”从什么时候起算原文没写（按所属一技能理解，可能是使用一技能后）。这5秒内召唤朱雀弓协助后羿攻击，并且箭矢可以穿透目标。原文没有写：朱雀弓怎样攻击（跟随后羿普攻同步射击还是独立按间隔攻击）、攻击频率、每次几支箭、伤害数值或比例、伤害类型和加成属性；“箭矢可穿透目标”是朱雀弓的箭、后羿自身的箭还是两者都可以；穿透的距离或最多穿透几个目标、穿透后伤害是否衰减；朱雀弓的箭能否暴击、能否触发此箭 t05 的真实伤害、万箭 t06 的溅射、分裂箭等普攻类效果；与“开启一技能后”类小天赋（万箭、齐发、血弓）的生效时长是否一致。",
+      "mechanisms": ["summon", "proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "起算时机未写（按所属一技能理解，可能为使用一技能后），持续5秒",
+      "slots": [
+        { "key": "duration", "what": "朱雀弓协助和箭矢穿透的持续时间", "unit": "seconds", "claimed": { "value": 5, "quote": "接下来5秒内" }, "packHint": "该核心效果的持续时间，核对描述的5秒（描述值不可靠，需资源包核对），并确认起算时机" },
+        { "key": "bowAttackInterval", "what": "朱雀弓攻击间隔（或是否与后羿普攻同步）", "unit": "seconds", "claimed": null, "packHint": "朱雀弓的攻击触发方式和攻击间隔（帧数）" },
+        { "key": "bowArrowsPerAttack", "what": "朱雀弓每次攻击射出的箭数", "unit": "count", "claimed": null, "packHint": "朱雀弓每次攻击的箭矢数量" },
+        { "key": "bowDamagePct", "what": "朱雀弓箭矢伤害占后羿普攻伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "朱雀弓箭矢是否引用后羿普攻伤害公式及其比例" },
+        { "key": "bowBaseDamage", "what": "朱雀弓箭矢伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "朱雀弓箭矢伤害基础值" },
+        { "key": "bowRatio", "what": "朱雀弓箭矢伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "朱雀弓箭矢的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "pierceMaxTargets", "what": "箭矢最多穿透的目标数", "unit": "count", "claimed": null, "packHint": "穿透箭矢的最大命中目标数，并确认穿透作用于朱雀弓箭、后羿自身箭还是两者" },
+        { "key": "pierceRange", "what": "穿透箭矢的飞行距离", "unit": "meters", "claimed": null, "packHint": "穿透箭矢的最大飞行距离" },
+        { "key": "pierceDamageFalloffPct", "what": "穿透后对后续目标的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "穿透箭矢对后续目标的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "5秒的起算时机未写",
+        "朱雀弓攻击方式、频率、每次箭数未写",
+        "朱雀弓伤害数值或比例、伤害类型、能否暴击未写",
+        "“箭矢可穿透目标”作用于朱雀弓箭、后羿自身箭还是两者未写",
+        "穿透距离、穿透目标数上限、穿透后伤害是否衰减未写",
+        "朱雀弓箭矢能否触发此箭、万箭、分裂箭等普攻类效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "日落影坠",
+      "text": "再次点击二技能可以瞬移到技能选中位置",
+      "reading": "二技能核心。释放二技能后再次点击二技能，后羿瞬移到二技能选中的位置。原文没有写：再次点击的有效时限；瞬移有没有延迟或前摇；最远能瞬移多远（按字面等于二技能的施法位置，施法距离未写）；再次点击是否另有冷却；瞬移本身是否造成伤害、是否带无敌或免控；与无影 t16“二技能可以额外使用1次”同时选择时，再次点击是瞬移还是第二次施放。只改变位置，不改变伤害。",
+      "mechanisms": ["mobility", "skill-change"],
+      "damageRelevance": "none",
+      "trigger": "释放二技能后再次点击二技能",
+      "slots": [
+        { "key": "recastWindow", "what": "释放二技能后可再次点击瞬移的时限", "unit": "seconds", "claimed": null, "packHint": "二技能再次点击瞬移的有效时间" },
+        { "key": "teleportDelay", "what": "再次点击到瞬移完成的延迟", "unit": "seconds", "claimed": null, "packHint": "瞬移的前摇或延迟（帧数）" },
+        { "key": "castRange", "what": "二技能施法距离（即最远瞬移距离）", "unit": "meters", "claimed": null, "packHint": "二技能施法距离，确认瞬移是否受同一距离限制" }
+      ],
+      "ambiguities": [
+        "再次点击的有效时限未写",
+        "瞬移延迟、最远距离未写",
+        "瞬移是否有伤害、无敌或免控未写",
+        "与无影 t16 额外使用1次的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "箭出余晖",
+      "text": "对目标附加印记，普攻可触发印记持续轰炸",
+      "reading": "二技能核心。对目标附加印记（附加时机原文没写，按所属二技能理解可能是二技能命中的目标），后羿普攻带印记的目标时可以触发印记，在一段时间内持续轰炸。原文没有写：哪些目标会被附加印记、最多几个；印记持续时间；“普攻可触发”是每次普攻都触发、只触发一次还是有内置冷却，触发后印记是否消失；“持续轰炸”的持续时间、频率、每次伤害（是否引用二技能伤害）、伤害类型、加成属性、轰炸范围；重复触发是刷新还是叠加；轰炸是否算二技能伤害、能否触发风啸 t11、登月 t14 等二技能命中效果，是否受炫日 t13 范围加成；能否暴击。",
+      "mechanisms": ["proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "目标带印记时，后羿普攻该目标",
+      "slots": [
+        { "key": "markDuration", "what": "印记持续时间", "unit": "seconds", "claimed": null, "packHint": "印记 buff 的持续时间，并确认触发后是否消失" },
+        { "key": "maxMarkedTargets", "what": "同时可被附加印记的目标数", "unit": "count", "claimed": null, "packHint": "印记附加的目标选择规则和数量" },
+        { "key": "bombardDuration", "what": "一次触发后持续轰炸的时长", "unit": "seconds", "claimed": null, "packHint": "印记轰炸的持续时间" },
+        { "key": "bombardInterval", "what": "持续轰炸的每次间隔", "unit": "seconds", "claimed": null, "packHint": "印记轰炸的伤害间隔（帧数）或总次数" },
+        { "key": "bombardDamagePct", "what": "每次轰炸伤害占二技能伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "印记轰炸是否引用二技能伤害公式及其比例" },
+        { "key": "bombardBaseDamage", "what": "每次轰炸伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "印记轰炸伤害基础值" },
+        { "key": "bombardRatio", "what": "每次轰炸伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "印记轰炸的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "bombardRadius", "what": "每次轰炸的范围", "unit": "meters", "claimed": null, "packHint": "印记轰炸的伤害范围，并确认是否受炫日加成" },
+        { "key": "triggerInternalCooldown", "what": "普攻触发印记轰炸的内置冷却", "unit": "seconds", "claimed": null, "packHint": "印记触发的冷却或次数限制，以及重复触发时刷新还是叠加" }
+      ],
+      "ambiguities": [
+        "印记附加时机、目标选择、数量和持续时间未写",
+        "普攻触发频率、内置冷却、触发后印记是否消失未写",
+        "持续轰炸的时长、频率、伤害数值或比例、伤害类型、范围未写",
+        "重复触发时刷新还是叠加未写",
+        "轰炸是否算二技能伤害、能否触发风啸和登月、是否受炫日加成未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "巡回烈焰",
+      "text": "大招未命中时，将来回穿梭，直至命中",
+      "reading": "大招核心。大招没有命中时，会来回穿梭，直到命中为止（三技能小天赋里多次提到“火焰箭”，大招应为火焰箭，但本条没写）。原文没有写：“未命中”怎样判定（飞到最大距离仍没碰到目标时）；来回穿梭的路线（原路折返还是转向敌人）；是否有最大往返次数或最长持续时间；命中小兵、野怪是否算命中；穿梭后命中的伤害和爆炸是否与正常命中相同、是否衰减；双箭 t17 额外释放的大招、折羽 t18 生成的火焰箭是否也会来回穿梭；穿梭期间急焰 t23“任意火焰箭存在时”的移速是否一直生效。不改变单次命中的伤害，只提高命中的可靠性，列为间接影响。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "大招未命中时",
+      "slots": [
+        { "key": "maxPasses", "what": "最多来回穿梭的趟数", "unit": "count", "claimed": null, "packHint": "大招未命中后往返次数上限（若有）" },
+        { "key": "maxTravelTime", "what": "来回穿梭的最长持续时间", "unit": "seconds", "claimed": null, "packHint": "大招火焰箭的最长存在时间（若有）" },
+        { "key": "passLength", "what": "每一趟的飞行距离", "unit": "meters", "claimed": null, "packHint": "大招飞行距离及往返路线规则" },
+        { "key": "lateHitDamagePct", "what": "穿梭后命中时的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "往返后命中的伤害是否与正常命中相同" }
+      ],
+      "ambiguities": [
+        "“未命中”的判定方式未写",
+        "往返路线、最大次数或最长时间未写",
+        "命中小兵或野怪是否算命中未写",
+        "穿梭后命中伤害是否衰减未写",
+        "对双箭、折羽生成的火焰箭是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "制导业火",
+      "text": "大招期间点划三技能，可改变火焰箭飞行方向",
+      "reading": "大招核心。大招期间（火焰箭飞行时）点划三技能按钮，可以改变火焰箭的飞行方向。原文没有写：“大招期间”有多长（火焰箭飞行时长或距离）；可以改变方向几次；每次能转多大角度；改向后飞行距离是否延长；双箭 t17 额外释放的大招、折羽 t18 生成的火焰箭能否一起操控。不改变伤害数值，只提高命中可靠性，列为间接影响。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "大招火焰箭飞行期间点划三技能",
+      "slots": [
+        { "key": "controlWindow", "what": "可以操控火焰箭方向的时长（大招期间）", "unit": "seconds", "claimed": null, "packHint": "大招火焰箭的飞行时长（帧数）" },
+        { "key": "maxRedirects", "what": "最多可改变方向的次数", "unit": "count", "claimed": null, "packHint": "改向次数上限（若有）" },
+        { "key": "maxTurnAngle", "what": "每次改向允许的最大角度（单位是度，可选单位里没有，按 flat 记）", "unit": "flat", "claimed": null, "packHint": "改向的角度限制（若有）" }
+      ],
+      "ambiguities": [
+        "“大招期间”的时长未写",
+        "改向次数、角度限制未写",
+        "改向后飞行距离是否延长未写",
+        "能否操控双箭、折羽生成的火焰箭未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "应弦",
+      "text": "分裂箭寻敌范围大大增加",
+      "reading": "一技能小天赋。分裂箭寻找目标的范围大大增加。原文没有写：分裂箭原本的寻敌范围；“大大增加”增加多少，是百分比还是固定值；分裂箭在什么情况下出现（齐发 t07 写“开启一技能后，分裂箭目标+2”，分裂箭可能与一技能有关，本条没说）。扩大范围能让更远的敌人被分裂箭命中，单个目标时不改变伤害，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（分裂箭寻找目标时）",
+      "slots": [
+        { "key": "baseSearchRange", "what": "分裂箭原本的寻敌范围", "unit": "meters", "claimed": null, "packHint": "分裂箭的原始寻敌半径" },
+        { "key": "searchRangeIncreasePct", "what": "寻敌范围增加量（原文只写“大大增加”，没写数值，也没写是百分比还是固定值，暂记为百分比）", "unit": "percent", "claimed": null, "packHint": "该天赋对分裂箭寻敌范围的加成数值和计算方式" }
+      ],
+      "ambiguities": [
+        "“大大增加”的具体数值未写",
+        "加成是百分比还是固定值未写",
+        "分裂箭原本的寻敌范围未写",
+        "分裂箭的出现条件本条未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "听弦",
+      "text": "使用1技能后，立刻获得满层被动",
+      "reading": "一技能小天赋。使用一技能后，立刻把被动叠到满层。原文没有写：被动每层是什么效果、数值多少；满层是几层（五羽叠弦 c1 写被动可额外叠加2层，选 c1 时“满层”是否包括额外的2层，原文没写）；被动层数能保持多久。被动效果未写，无法判断是直接增加伤害还是通过攻速等间接影响，暂按间接影响记录，资源包确认被动效果后再改。",
+      "mechanisms": ["stacking", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "使用一技能后",
+      "slots": [
+        { "key": "passiveMaxStacks", "what": "被动满层的层数", "unit": "count", "claimed": null, "packHint": "后羿被动 buff 的最大层数，并确认选五羽叠弦时是否加2层" },
+        { "key": "passivePerStackEffect", "what": "被动每层提供的效果数值（被动效果原文未写，单位暂记为百分比）", "unit": "percent", "claimed": null, "packHint": "后羿被动每层的效果类型和数值" },
+        { "key": "passiveStackDuration", "what": "被动层数持续时间", "unit": "seconds", "claimed": null, "packHint": "被动 buff 的持续时间和衰减方式" }
+      ],
+      "ambiguities": [
+        "被动效果和每层数值未写",
+        "满层层数未写，与五羽叠弦额外2层的关系未写",
+        "被动层数持续时间未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "1技能", "reason": "技能编号，指一技能，不是数值" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "惊弓",
+      "text": "惩戒射击状态下，攻击距离+150",
+      "reading": "一技能小天赋。处于惩戒射击状态时，攻击距离增加150（惩戒射击按所属一技能理解为一技能开启后的状态，原文没明说）。“+150”没写单位，可能是游戏内部的距离数值，不是米。原文没有写：惩戒射击状态持续多久；后羿原本的攻击距离。射程本身不改变伤害，列为间接影响。",
+      "mechanisms": ["area", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "惩戒射击状态下",
+      "slots": [
+        { "key": "attackRangeBonus", "what": "攻击距离增加量（原文“+150”没写单位，按原文记为无单位的 flat 值，可能是游戏内部距离单位，与米的换算待确认）", "unit": "flat", "claimed": { "value": 150, "quote": "攻击距离+150" }, "packHint": "该天赋的攻击距离加成数值和单位，核对描述的+150（描述值不可靠，需资源包核对）" },
+        { "key": "baseAttackRange", "what": "后羿原本的攻击距离", "unit": "meters", "claimed": null, "packHint": "后羿普攻原始射程，以及与游戏内部距离单位的换算" },
+        { "key": "stateDuration", "what": "惩戒射击状态持续时间", "unit": "seconds", "claimed": null, "packHint": "惩戒射击状态（一技能开启状态）的持续时间" }
+      ],
+      "ambiguities": [
+        "“+150”的单位未写",
+        "惩戒射击状态是否就是一技能开启状态未写，持续时间未写",
+        "后羿原本攻击距离未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "回羽",
+      "text": "击杀野怪或敌方英雄时，一技能立即刷新",
+      "reading": "一技能小天赋。后羿击杀野怪或敌方英雄时，一技能冷却立即刷新。原文没有写：无尽守御里哪些单位算“野怪”或“敌方英雄”（守御波次怪、挑战怪是否算）；是否必须由后羿最后一击，助攻是否算；有没有内置冷却；“刷新”只是冷却清零，还是也会重置正在持续的一技能状态。刷新冷却让一技能更频繁，列为间接影响。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "击杀野怪或敌方英雄时",
+      "slots": [
+        { "key": "skill1Cooldown", "what": "一技能原本的冷却时间（用于计算刷新收益）", "unit": "seconds", "claimed": null, "packHint": "一技能基础冷却" },
+        { "key": "refreshInternalCooldown", "what": "刷新效果的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋刷新一技能的触发间隔限制，以及哪些单位的击杀可触发" }
+      ],
+      "ambiguities": [
+        "无尽守御中哪些单位算“野怪”或“敌方英雄”未写",
+        "是否必须最后一击、助攻是否算未写",
+        "内置冷却未写",
+        "刷新是否重置正在持续的一技能状态未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "此箭",
+      "text": "3秒内的普攻，将附带真实伤害",
+      "reading": "一技能小天赋。3秒内的普攻附带真实伤害。3秒从什么时候起算原文没写（按所属一技能理解，可能是使用一技能后）。原文没有写：附带的真实伤害是多少，是固定值、按普攻伤害的比例还是按某项属性的系数；是额外加一段真实伤害，还是把普攻的一部分伤害转成真实伤害；对分裂箭、朱雀弓箭矢、万箭溅射是否生效；能否暴击；多久能再次触发。",
+      "mechanisms": ["true-damage", "buff", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "起算时机未写（按所属一技能理解，可能为使用一技能后），之后3秒内的普攻",
+      "slots": [
+        { "key": "duration", "what": "普攻附带真实伤害的持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "3秒内的普攻" }, "packHint": "该天赋 buff 的持续时间，核对描述的3秒（描述值不可靠，需资源包核对），并确认起算时机" },
+        { "key": "trueDamagePct", "what": "附带真实伤害占普攻伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "附带真实伤害是否按普攻伤害比例及其数值" },
+        { "key": "trueDamageBase", "what": "附带真实伤害的基础值（若为固定值）", "unit": "flat", "claimed": null, "packHint": "附带真实伤害的基础值" },
+        { "key": "trueDamageRatio", "what": "附带真实伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "附带真实伤害的系数、加成属性及能否暴击" },
+        { "key": "retriggerCooldown", "what": "效果再次生效的间隔（若与一技能冷却一致则取一技能冷却）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发来源和冷却" }
+      ],
+      "ambiguities": [
+        "3秒的起算时机未写",
+        "真实伤害数值、计算方式未写",
+        "是额外附加还是转换部分伤害未写",
+        "对分裂箭、朱雀弓箭矢、溅射是否生效未写",
+        "能否暴击未写",
+        "再次触发的间隔未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "万箭",
+      "text": "开启一技能后，普攻主箭命中目标会产生溅射伤害",
+      "reading": "一技能小天赋。开启一技能后（“开启”说明一技能可能是一段持续状态，持续时间原文没写），普攻的主箭（区别于分裂箭）命中目标时，会对周围产生溅射伤害。原文没有写：溅射半径；溅射伤害是占主箭伤害的比例还是独立数值，伤害类型和加成属性；最多溅射几个目标；主目标本身是否也吃到溅射；溅射能否暴击、能否触发普攻命中效果；效果持续多久。单个目标时可能没有收益。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "开启一技能后，普攻主箭命中目标时",
+      "slots": [
+        { "key": "activeDuration", "what": "开启一技能后效果持续时间", "unit": "seconds", "claimed": null, "packHint": "一技能开启状态的持续时间" },
+        { "key": "splashRadius", "what": "溅射半径", "unit": "meters", "claimed": null, "packHint": "溅射伤害的作用范围" },
+        { "key": "splashDamagePct", "what": "溅射伤害占主箭伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "溅射是否引用主箭伤害及其比例" },
+        { "key": "splashBaseDamage", "what": "溅射伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "溅射伤害基础值" },
+        { "key": "splashRatio", "what": "溅射伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "溅射的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "splashMaxTargets", "what": "溅射最多命中的目标数", "unit": "count", "claimed": null, "packHint": "溅射目标数上限，并确认主目标是否也受溅射伤害" }
+      ],
+      "ambiguities": [
+        "一技能开启状态的持续时间未写",
+        "溅射半径、目标数上限未写",
+        "溅射伤害数值或比例、伤害类型未写",
+        "主目标是否也受溅射伤害未写",
+        "能否暴击、能否触发普攻命中效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "齐发",
+      "text": "开启一技能后，分裂箭目标+2",
+      "reading": "一技能小天赋。开启一技能后，分裂箭能攻击的目标数增加2个。原文没有写：分裂箭原本几个目标；分裂箭伤害多少；开启后持续多久；是否也作用于风啸 t11、烟花 t22 的分裂箭。多出的目标只在敌人较多时产生额外伤害，单个目标时没有收益。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "开启一技能后",
+      "slots": [
+        { "key": "extraSplitTargets", "what": "分裂箭增加的目标数", "unit": "count", "claimed": { "value": 2, "quote": "分裂箭目标+2" }, "packHint": "该天赋对分裂箭目标数的加成，核对描述的+2（描述值不可靠，需资源包核对）" },
+        { "key": "baseSplitTargets", "what": "分裂箭原本的目标数", "unit": "count", "claimed": null, "packHint": "分裂箭的原始目标数" },
+        { "key": "splitArrowDamagePct", "what": "每支分裂箭伤害占普攻伤害的比例", "unit": "percent", "claimed": null, "packHint": "分裂箭的伤害比例、伤害类型及能否暴击" },
+        { "key": "activeDuration", "what": "开启一技能后效果持续时间", "unit": "seconds", "claimed": null, "packHint": "一技能开启状态的持续时间" }
+      ],
+      "ambiguities": [
+        "分裂箭原本目标数未写",
+        "分裂箭伤害未写",
+        "一技能开启状态持续时间未写",
+        "是否作用于风啸、烟花的分裂箭未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "血弓",
+      "text": "开启一技能后，全能吸血+30%",
+      "reading": "一技能小天赋。开启一技能后，全能吸血增加30%（“全能吸血”原文没解释，字面上指对各类伤害都生效的吸血）。原文没有写：持续多久；+30% 是直接加30个百分点还是相对提升；对真实伤害是否生效。吸血只影响生存，列为间接影响。",
+      "mechanisms": ["lifesteal", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "开启一技能后",
+      "slots": [
+        { "key": "omnivampPct", "what": "全能吸血增加量", "unit": "percent", "claimed": { "value": 30, "quote": "全能吸血+30%" }, "packHint": "该天赋的全能吸血数值，核对描述的30%（描述值不可靠，需资源包核对），并确认加法还是乘法" },
+        { "key": "activeDuration", "what": "开启一技能后效果持续时间", "unit": "seconds", "claimed": null, "packHint": "一技能开启状态的持续时间" }
+      ],
+      "ambiguities": [
+        "持续时间未写",
+        "+30%是加百分点还是相对提升未写",
+        "“全能吸血”覆盖哪些伤害类型未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "弓藏",
+      "text": "使用二技能后，进入3秒的伪装状态",
+      "reading": "二技能小天赋。使用二技能后进入伪装状态，持续3秒。原文没有写“伪装状态”具体是什么：是否隐身、是否不可被选中、敌人是否不再攻击后羿；攻击或受到伤害是否会解除伪装；有没有附加移速等效果。效果不明；若伪装能让敌人不攻击后羿，则通过生存间接影响输出，暂列为间接影响。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "使用二技能后",
+      "slots": [
+        { "key": "duration", "what": "伪装状态持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "3秒的伪装状态" }, "packHint": "伪装 buff 的持续时间，核对描述的3秒（描述值不可靠，需资源包核对），并确认伪装的实际效果和解除条件" }
+      ],
+      "ambiguities": [
+        "“伪装状态”的效果未写",
+        "攻击或受伤是否解除伪装未写",
+        "是否有附加效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "天明",
+      "text": "对周围敌方英雄发射减速箭矢，若命中则获取其视野",
+      "reading": "二技能小天赋。对周围的敌方英雄发射减速箭矢，箭矢命中后获取该英雄的视野。原文没有写：触发时机（按所属二技能理解，可能为释放二技能时）；“周围”的范围；发射几支、最多几个目标；减速幅度和持续时间；视野持续时间；箭矢是否造成伤害；无尽守御里敌方单位多为野怪、挑战怪，哪些算“英雄”不明，没有敌方英雄时是否还会发射。减速属于控制，列为间接影响；视野不影响伤害。",
+      "mechanisms": ["control", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "触发时机未写（按所属二技能理解，可能为释放二技能时）",
+      "slots": [
+        { "key": "searchRadius", "what": "检测周围敌方英雄的范围", "unit": "meters", "claimed": null, "packHint": "减速箭矢的索敌范围" },
+        { "key": "maxTargets", "what": "最多发射的箭矢数或目标数", "unit": "count", "claimed": null, "packHint": "减速箭矢数量和目标数上限" },
+        { "key": "slowPct", "what": "减速幅度", "unit": "percent", "claimed": null, "packHint": "减速效果数值，以及是否衰减" },
+        { "key": "slowDuration", "what": "减速持续时间", "unit": "seconds", "claimed": null, "packHint": "减速效果的持续时间" },
+        { "key": "visionDuration", "what": "获取视野的持续时间", "unit": "seconds", "claimed": null, "packHint": "视野效果的持续时间" },
+        { "key": "arrowBaseDamage", "what": "减速箭矢伤害基础值（原文没写是否有伤害；若有）", "unit": "flat", "claimed": null, "packHint": "减速箭矢是否造成伤害，若有则查伤害数值、系数和类型" }
+      ],
+      "ambiguities": [
+        "触发时机未写",
+        "“周围”范围、箭矢数量、目标数上限未写",
+        "减速幅度和持续时间未写",
+        "视野持续时间未写",
+        "箭矢是否有伤害未写",
+        "无尽守御中哪些单位算“敌方英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "风啸",
+      "text": "二技能命中时，对目标附加多段分裂箭",
+      "reading": "二技能小天赋。二技能命中目标时，对该目标追加多段分裂箭攻击。原文没有写：“多段”是几段；每段间隔；每段伤害（是否引用分裂箭或二技能伤害）、伤害类型、加成属性；能否暴击；一次二技能命中多个目标时是否每个目标都追加；内置冷却；是否受齐发 t07“分裂箭目标+2”影响；天照 t12 的额外轰炸、箭出余晖 c4 的轰炸命中是否也触发。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中时",
+      "slots": [
+        { "key": "arrowHitCount", "what": "附加的分裂箭段数", "unit": "count", "claimed": null, "packHint": "该天赋附加分裂箭的段数" },
+        { "key": "arrowInterval", "what": "每段分裂箭的间隔", "unit": "seconds", "claimed": null, "packHint": "多段分裂箭的伤害间隔（帧数）" },
+        { "key": "arrowDamagePct", "what": "每段分裂箭伤害占普攻或分裂箭伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "附加分裂箭是否引用分裂箭或二技能伤害公式及其比例" },
+        { "key": "arrowBaseDamage", "what": "每段分裂箭伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "附加分裂箭伤害基础值" },
+        { "key": "arrowRatio", "what": "每段分裂箭伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "附加分裂箭的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "internalCooldown", "what": "触发内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却，以及多目标命中时是否每个目标都触发" }
+      ],
+      "ambiguities": [
+        "“多段”的段数和间隔未写",
+        "每段伤害数值或比例、伤害类型未写",
+        "多目标命中时是否每个目标都触发未写",
+        "内置冷却未写",
+        "与齐发、天照、箭出余晖的交互未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "天照",
+      "text": "1秒后，向目标方向额外轰炸3次",
+      "reading": "二技能小天赋。1秒后向目标方向再额外轰炸3次。“1秒后”从什么时候起算原文没写（按所属二技能理解，可能是释放二技能后）；“目标方向”是二技能选中的方向还是某个敌人的方向也没写。原文没有写：3次轰炸是同时还是依次，间隔多少；每次落点与原轰炸点的距离；每次伤害（是否引用二技能伤害）、伤害类型、范围；是否算二技能命中，能否触发风啸 t11、登月 t14、箭出余晖 c4 的印记；是否受炫日 t13 范围加成；能否暴击。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "起算时机未写（按所属二技能理解，可能为释放二技能后），延迟1秒",
+      "slots": [
+        { "key": "delay", "what": "额外轰炸开始前的延迟", "unit": "seconds", "claimed": { "value": 1, "quote": "1秒后" }, "packHint": "额外轰炸的延迟，核对描述的1秒（描述值不可靠，需资源包核对），并确认起算时机" },
+        { "key": "extraBombardCount", "what": "额外轰炸次数", "unit": "count", "claimed": { "value": 3, "quote": "额外轰炸3次" }, "packHint": "额外轰炸的次数，核对描述的3次（描述值不可靠，需资源包核对）" },
+        { "key": "bombardInterval", "what": "相邻两次额外轰炸的间隔", "unit": "seconds", "claimed": null, "packHint": "额外轰炸是同时还是依次及其间隔（帧数）" },
+        { "key": "bombardOffset", "what": "每次额外轰炸落点与原轰炸点的距离", "unit": "meters", "claimed": null, "packHint": "额外轰炸的落点规则" },
+        { "key": "bombardRadius", "what": "每次额外轰炸的范围", "unit": "meters", "claimed": null, "packHint": "额外轰炸的伤害范围，并确认是否受炫日加成" },
+        { "key": "bombardDamagePct", "what": "每次额外轰炸伤害占二技能伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "额外轰炸是否引用二技能伤害公式及其比例" },
+        { "key": "bombardBaseDamage", "what": "每次额外轰炸伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "额外轰炸伤害基础值" },
+        { "key": "bombardRatio", "what": "每次额外轰炸伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外轰炸的伤害系数、加成属性、伤害类型及能否暴击" }
+      ],
+      "ambiguities": [
+        "1秒的起算时机未写",
+        "“目标方向”指什么未写",
+        "3次轰炸的间隔和落点未写",
+        "每次伤害数值或比例、伤害类型、范围未写",
+        "是否算二技能命中、能否触发风啸、登月、箭出余晖未写",
+        "是否受炫日加成未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "炫日",
+      "text": "二技能打击范围+30%",
+      "reading": "二技能小天赋。二技能的打击范围增加30%。原文没有写：“打击范围”是半径还是面积增加30%；是加法还是乘法；二技能原本范围多大；是否也作用于天照 t12 的额外轰炸、箭出余晖 c4 的轰炸。范围本身不改变单次伤害，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "areaIncreasePct", "what": "二技能打击范围增加比例", "unit": "percent", "claimed": { "value": 30, "quote": "打击范围+30%" }, "packHint": "该天赋的范围加成，核对描述的30%（描述值不可靠，需资源包核对），并确认是半径还是面积、加法还是乘法" },
+        { "key": "baseRadius", "what": "二技能原本的打击半径", "unit": "meters", "claimed": null, "packHint": "二技能的原始伤害范围" }
+      ],
+      "ambiguities": [
+        "加成是半径还是面积未写",
+        "加法还是乘法未写",
+        "二技能原本范围未写",
+        "是否作用于天照、箭出余晖的轰炸未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "登月",
+      "text": "敌人被二技能命中时，嫦娥将协助后羿攻击",
+      "reading": "二技能小天赋。敌人被二技能命中时，嫦娥出现协助后羿攻击。原文没有写：嫦娥攻击哪个目标（被命中的敌人还是自由选择）；存在多久、攻击几次、攻击间隔；每次伤害数值或比例、伤害类型、加成属性；能否暴击；一次二技能命中多个敌人时是否召唤多次；内置冷却；天照 t12 额外轰炸、箭出余晖 c4 轰炸命中是否也触发。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "敌人被二技能命中时",
+      "slots": [
+        { "key": "assistDuration", "what": "嫦娥协助攻击的持续时间", "unit": "seconds", "claimed": null, "packHint": "嫦娥召唤物的存在时间" },
+        { "key": "attackCount", "what": "嫦娥每次出现的攻击次数", "unit": "count", "claimed": null, "packHint": "嫦娥的攻击次数" },
+        { "key": "attackInterval", "what": "嫦娥攻击间隔", "unit": "seconds", "claimed": null, "packHint": "嫦娥的攻击间隔（帧数）" },
+        { "key": "attackDamagePct", "what": "嫦娥每次攻击伤害占后羿某项伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "嫦娥攻击是否引用后羿伤害公式及其比例" },
+        { "key": "attackBaseDamage", "what": "嫦娥每次攻击伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "嫦娥攻击伤害基础值" },
+        { "key": "attackRatio", "what": "嫦娥每次攻击伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "嫦娥攻击的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "internalCooldown", "what": "召唤嫦娥的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却，以及多目标命中时是否多次召唤" }
+      ],
+      "ambiguities": [
+        "嫦娥攻击目标的选择规则未写",
+        "存在时间、攻击次数、攻击间隔未写",
+        "伤害数值或比例、伤害类型未写",
+        "多目标命中时是否多次召唤、内置冷却未写",
+        "天照、箭出余晖的轰炸命中是否触发未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "疾行",
+      "text": "释放二技能后，获得40%爆发移速",
+      "reading": "二技能小天赋。释放二技能后获得40%的爆发移速。原文没有写持续时间；“爆发移速”是否随时间衰减、怎样衰减也没写。移速不直接改变伤害，列为间接影响。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能后",
+      "slots": [
+        { "key": "moveSpeedPct", "what": "移速加成（初始值）", "unit": "percent", "claimed": { "value": 40, "quote": "40%爆发移速" }, "packHint": "该天赋的移速加成，核对描述的40%（描述值不可靠，需资源包核对），并确认是否衰减" },
+        { "key": "duration", "what": "移速加成持续时间", "unit": "seconds", "claimed": null, "packHint": "移速 buff 的持续时间和衰减方式" }
+      ],
+      "ambiguities": [
+        "持续时间未写",
+        "是否衰减、衰减方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "无影",
+      "text": "二技能可以额外使用1次",
+      "reading": "二技能小天赋。二技能可以额外再使用1次。原文没有写：额外的1次是充能（两次各自冷却），还是一次施放后的短时再次施放；再次施放的时限或充能时间；第二次的伤害是否与第一次相同；与日落影坠 c3“再次点击二技能瞬移”同时选择时怎样区分。多一次二技能伤害，列为直接影响。",
+      "mechanisms": ["charges"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（二技能施放次数）",
+      "slots": [
+        { "key": "extraUses", "what": "二技能额外可用次数", "unit": "count", "claimed": { "value": 1, "quote": "额外使用1次" }, "packHint": "该天赋增加的二技能使用次数，核对描述的1次（描述值不可靠，需资源包核对），并确认是充能还是再次施放" },
+        { "key": "recastWindow", "what": "再次施放的时限（若为再次施放）", "unit": "seconds", "claimed": null, "packHint": "二技能再次施放的有效时间" },
+        { "key": "chargeRecharge", "what": "每次充能的恢复时间（若为充能）", "unit": "seconds", "claimed": null, "packHint": "二技能充能时间与原冷却的关系" },
+        { "key": "extraCastDamagePct", "what": "额外一次二技能的伤害比例（若与第一次不同）", "unit": "percent", "claimed": null, "packHint": "额外施放的伤害是否衰减" }
+      ],
+      "ambiguities": [
+        "额外次数是充能还是再次施放未写",
+        "再次施放时限或充能时间未写",
+        "第二次伤害是否与第一次相同未写",
+        "与日落影坠再次点击瞬移的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "双箭",
+      "text": "朝随机偏角额外释放1次大招",
+      "reading": "大招小天赋。释放大招时（原文没写时机，按所属三技能理解），朝一个随机偏离的角度额外释放1次大招。原文没有写：偏角范围；额外大招与原大招之间的间隔；额外大招伤害是否与原大招相同；能否触发折羽 t18、长翼 t19、冥炎 t20、净火 t24、烟花 t22 等大招效果；是否受烈火 t21 增幅；巡回烈焰 c5、制导业火 c6 是否作用于额外大招。方向随机，对单个目标可能打不中。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时（时机未写）",
+      "slots": [
+        { "key": "extraCasts", "what": "额外释放的大招次数", "unit": "count", "claimed": { "value": 1, "quote": "额外释放1次大招" }, "packHint": "该天赋额外释放大招的次数，核对描述的1次（描述值不可靠，需资源包核对）" },
+        { "key": "offsetAngleRange", "what": "随机偏角的范围（单位是度，可选单位里没有，按 flat 记）", "unit": "flat", "claimed": null, "packHint": "额外大招方向的随机偏角范围" },
+        { "key": "extraCastDelay", "what": "额外大招相对原大招的延迟", "unit": "seconds", "claimed": null, "packHint": "额外大招的释放时机（帧数）" },
+        { "key": "extraCastDamagePct", "what": "额外大招伤害占原大招伤害的比例", "unit": "percent", "claimed": null, "packHint": "额外大招是否引用原大招伤害公式及其比例" }
+      ],
+      "ambiguities": [
+        "触发时机未写",
+        "偏角范围未写",
+        "额外大招的延迟、伤害比例未写",
+        "额外大招能否触发其他大招小天赋、是否受烈火增幅未写",
+        "巡回烈焰、制导业火是否作用于额外大招未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "折羽",
+      "text": "大招命中时，往随机方向生成2支火焰箭",
+      "reading": "大招小天赋。大招命中时，往随机方向生成2支火焰箭。原文没有写：这些火焰箭的伤害（是否与大招相同或按比例）、伤害类型；飞行距离；命中后是否爆炸、眩晕（冥炎 t20）；命中后能否再次触发折羽形成连锁；双箭 t17 的额外大招命中是否也触发；是否受烈火 t21 增幅；能否暴击。方向随机，对单个目标可能打不中。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中时",
+      "slots": [
+        { "key": "arrowCount", "what": "每次生成的火焰箭数量", "unit": "count", "claimed": { "value": 2, "quote": "生成2支火焰箭" }, "packHint": "该天赋生成火焰箭的数量，核对描述的2支（描述值不可靠，需资源包核对）" },
+        { "key": "arrowDamagePct", "what": "生成火焰箭伤害占大招伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "生成的火焰箭是否引用大招伤害公式及其比例" },
+        { "key": "arrowBaseDamage", "what": "生成火焰箭伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "生成火焰箭伤害基础值" },
+        { "key": "arrowRatio", "what": "生成火焰箭伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "生成火焰箭的伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "arrowRange", "what": "生成火焰箭的飞行距离", "unit": "meters", "claimed": null, "packHint": "生成火焰箭的飞行距离和是否爆炸" },
+        { "key": "internalCooldown", "what": "触发内置冷却或连锁限制（若有）", "unit": "seconds", "claimed": null, "packHint": "生成的火焰箭命中能否再次触发本天赋，以及触发限制" }
+      ],
+      "ambiguities": [
+        "生成火焰箭的伤害、伤害类型、飞行距离未写",
+        "是否爆炸、眩晕未写",
+        "能否连锁触发未写",
+        "双箭额外大招命中是否触发、是否受烈火增幅未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "长翼",
+      "text": "大招命中敌方英雄时，冷却-8秒",
+      "reading": "大招小天赋。大招命中敌方英雄时，冷却减少8秒（“冷却”按所属三技能理解为大招冷却，原文没明说）。原文没有写：无尽守御里敌方单位多为野怪、挑战怪，哪些算“英雄”不明；双箭 t17 额外大招、折羽 t18 火焰箭命中是否也触发；一次大招最多触发几次；是减剩余冷却还是减总冷却；大招原本冷却多少。冷却缩短让大招更频繁，列为间接影响。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中敌方英雄时",
+      "slots": [
+        { "key": "cooldownReduction", "what": "大招冷却减少秒数（原文“-8秒”，表示减少8秒）", "unit": "seconds", "claimed": { "value": 8, "quote": "冷却-8秒" }, "packHint": "该天赋的冷却减少数值，核对描述的8秒（描述值不可靠，需资源包核对），并确认减剩余冷却还是总冷却" },
+        { "key": "ultBaseCooldown", "what": "大招原本的冷却时间", "unit": "seconds", "claimed": null, "packHint": "大招基础冷却" },
+        { "key": "maxTriggersPerCast", "what": "一次大招最多触发冷却减少的次数", "unit": "count", "claimed": null, "packHint": "该天赋的触发次数限制，以及双箭、折羽命中是否计入" }
+      ],
+      "ambiguities": [
+        "“冷却”是否指大招冷却未明说",
+        "无尽守御中哪些单位算“敌方英雄”未写",
+        "双箭、折羽命中是否触发未写",
+        "一次大招最多触发几次未写",
+        "减剩余冷却还是总冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "冥炎",
+      "text": "爆炸范围内的敌人会被眩晕1秒",
+      "reading": "大招小天赋。爆炸范围内的敌人被眩晕1秒（“爆炸”按所属三技能理解为大招的爆炸，原文没明说）。原文没有写：爆炸范围多大；双箭 t17 额外大招、折羽 t18 火焰箭是否也有爆炸并眩晕；对首领、挑战怪是否生效；同一目标重复眩晕是否递减。眩晕属于控制，列为间接影响。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招爆炸时",
+      "slots": [
+        { "key": "stunDuration", "what": "眩晕持续时间", "unit": "seconds", "claimed": { "value": 1, "quote": "眩晕1秒" }, "packHint": "该天赋的眩晕时长，核对描述的1秒（描述值不可靠，需资源包核对）" },
+        { "key": "explosionRadius", "what": "爆炸范围半径", "unit": "meters", "claimed": null, "packHint": "大招爆炸的作用范围" }
+      ],
+      "ambiguities": [
+        "“爆炸”是否指大招爆炸未明说",
+        "爆炸范围未写",
+        "双箭、折羽的火焰箭是否也眩晕未写",
+        "对首领、挑战怪是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "烈火",
+      "text": "发出更大的火焰箭，大招伤害增幅50%",
+      "reading": "大招小天赋。大招发出的火焰箭变大，同时大招伤害增幅50%。原文没有写：火焰箭变大多少（碰撞体积还是爆炸范围）；“伤害增幅50%”与其他增幅是相加还是相乘；是否作用于双箭 t17 额外大招、折羽 t18 火焰箭、烟花 t22 分裂箭；是否作用于真实伤害。",
+      "mechanisms": ["damage-amp", "area"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（大招）",
+      "slots": [
+        { "key": "ultDamageAmpPct", "what": "大招伤害增幅", "unit": "percent", "claimed": { "value": 50, "quote": "大招伤害增幅50%" }, "packHint": "该天赋的大招伤害增幅，核对描述的50%（描述值不可靠，需资源包核对），并确认与其他增幅的叠加方式" },
+        { "key": "arrowSizeIncreasePct", "what": "火焰箭变大的比例（原文只写“更大”，没写数值）", "unit": "percent", "claimed": null, "packHint": "火焰箭碰撞体积或爆炸范围的放大比例" }
+      ],
+      "ambiguities": [
+        "火焰箭变大多少、变大的是碰撞还是爆炸范围未写",
+        "增幅与其他增幅的叠加方式未写",
+        "是否作用于双箭、折羽、烟花产生的伤害未写",
+        "是否作用于真实伤害未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "烟花",
+      "text": "大招会对周围敌人自动释放分裂箭",
+      "reading": "大招小天赋。大招会对周围的敌人自动释放分裂箭。原文没有写：“周围”是后羿周围还是火焰箭周围，范围多大；在什么时候释放（飞行途中持续释放，还是命中或爆炸时释放一次）；释放频率、次数；每次几支、几个目标；每支伤害（是否与一技能分裂箭相同）、伤害类型；能否暴击；是否受齐发 t07“分裂箭目标+2”影响。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招期间（释放时机未写）",
+      "slots": [
+        { "key": "searchRadius", "what": "检测周围敌人的范围", "unit": "meters", "claimed": null, "packHint": "分裂箭的检测范围及中心点（后羿还是火焰箭）" },
+        { "key": "releaseInterval", "what": "自动释放分裂箭的间隔", "unit": "seconds", "claimed": null, "packHint": "分裂箭释放时机和间隔（帧数）" },
+        { "key": "releaseCount", "what": "一次大招自动释放分裂箭的总次数", "unit": "count", "claimed": null, "packHint": "分裂箭释放次数上限" },
+        { "key": "targetsPerRelease", "what": "每次释放的分裂箭目标数", "unit": "count", "claimed": null, "packHint": "每次分裂箭的目标数，并确认是否受齐发加成" },
+        { "key": "arrowDamagePct", "what": "每支分裂箭伤害占某项基础伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "大招分裂箭是否引用一技能分裂箭或大招伤害公式及其比例" },
+        { "key": "arrowBaseDamage", "what": "每支分裂箭伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "大招分裂箭伤害基础值" },
+        { "key": "arrowRatio", "what": "每支分裂箭伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "大招分裂箭的伤害系数、加成属性、伤害类型及能否暴击" }
+      ],
+      "ambiguities": [
+        "“周围”的中心和范围未写",
+        "释放时机、频率、次数未写",
+        "每次目标数、伤害数值或比例、伤害类型未写",
+        "是否受齐发加成、是否受烈火增幅未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "急焰",
+      "text": "任意火焰箭存在时，增加后羿30%移动速度",
+      "reading": "大招小天赋。场上存在任意火焰箭时（按字面包括大招火焰箭，也可能包括双箭 t17、折羽 t18 产生的火焰箭），后羿移动速度增加30%。原文没有写：30%是加百分点还是相对提升；火焰箭消失后移速是否保留一段时间；多支火焰箭同时存在时是否叠加。移速不直接改变伤害，列为间接影响。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "任意火焰箭存在时",
+      "slots": [
+        { "key": "moveSpeedPct", "what": "移速加成", "unit": "percent", "claimed": { "value": 30, "quote": "增加后羿30%移动速度" }, "packHint": "该天赋的移速加成，核对描述的30%（描述值不可靠，需资源包核对），并确认多支火焰箭是否叠加" },
+        { "key": "lingerDuration", "what": "火焰箭消失后移速保留的时间（若有）", "unit": "seconds", "claimed": null, "packHint": "移速 buff 在火焰箭消失后的持续时间" }
+      ],
+      "ambiguities": [
+        "“任意火焰箭”是否包括双箭、折羽产生的火焰箭未写",
+        "加法还是乘法未写",
+        "火焰箭消失后是否保留未写",
+        "多支火焰箭是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "净火",
+      "text": "释放大招和大招命中，可以在1.5秒内抵抗一次控制，成功获得护盾",
+      "reading": "大招小天赋。释放大招时和大招命中时，后羿在1.5秒内可以抵抗一次控制；成功抵抗后获得护盾。原文没有写：释放和命中是各给一次抵抗机会，还是共用同一个窗口（命中时刷新）；护盾数值、加成属性、持续时间；有没有冷却。抵抗控制和护盾都属于生存，列为间接影响。",
+      "mechanisms": ["control-immunity", "shield"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招时；大招命中时",
+      "slots": [
+        { "key": "resistWindow", "what": "可抵抗控制的时间窗口", "unit": "seconds", "claimed": { "value": 1.5, "quote": "1.5秒内" }, "packHint": "抵抗控制效果的持续时间，核对描述的1.5秒（描述值不可靠，需资源包核对），并确认释放和命中是否各自触发" },
+        { "key": "resistCount", "what": "窗口内可抵抗的控制次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "抵抗控制的次数" },
+        { "key": "shieldBase", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "成功抵抗后获得护盾的基础值" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾的加成系数和加成属性" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾的持续时间" },
+        { "key": "internalCooldown", "what": "效果内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却" }
+      ],
+      "ambiguities": [
+        "释放和命中是否各自给一次抵抗机会未写",
+        "护盾数值、加成属性、持续时间未写",
+        "冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}
