@@ -1,0 +1,740 @@
+{
+  "heroId": "126",
+  "heroName": "夏侯惇",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "霸极星陨坠",
+      "text": "对英雄造成15次伤害后，自动释放豪气斩二段",
+      "reading": "选择该核心后，夏侯惇对英雄累计造成15次伤害，就会自动释放一次豪气斩的二段。原文同时说明豪气斩（一技能）分为一段和二段。原文没有写：15次计数是只算一技能伤害还是任何来源的伤害（普攻、强普、二三技能、雕文等）；是否只对“英雄”类目标计数（无尽守御里敌人多为野怪、挑战怪，是否算英雄不明）；计数是否跨目标累积、是否有时间窗口；自动释放后计数是否清零；自动释放的二段伤害、范围、是否带击飞是否与手动二段相同；自动释放是否受一技能冷却限制或有内置冷却。",
+      "mechanisms": ["proc", "stacking"],
+      "damageRelevance": "direct",
+      "trigger": "对英雄累计造成15次伤害后",
+      "slots": [
+        { "key": "hitsRequired", "what": "触发自动释放所需的伤害次数", "unit": "count", "claimed": { "value": 15, "quote": "对英雄造成15次伤害后" }, "packHint": "该核心的计数阈值，核对描述的15次，并确认哪些伤害来源计入、是否只对英雄类目标计数" },
+        { "key": "countWindow", "what": "计数有效时间窗口（超时是否重置计数）", "unit": "seconds", "claimed": null, "packHint": "该核心计数 buff 的持续时间或重置时间（若有）" },
+        { "key": "autoCastBaseDamage", "what": "自动释放的豪气斩二段每段伤害基础值", "unit": "flat", "claimed": null, "packHint": "自动二段的伤害基础值，确认是否直接复用一技能二段的伤害配置" },
+        { "key": "autoCastRatio", "what": "自动释放的豪气斩二段伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "自动二段的伤害系数及其加成属性（物攻/法强/生命等），以及伤害类型和能否暴击" },
+        { "key": "autoCastHitCount", "what": "自动释放的二段包含的伤害段数", "unit": "count", "claimed": null, "packHint": "自动二段的命中段数，确认是否与手动二段一致" },
+        { "key": "autoCastRadius", "what": "自动释放的二段作用范围", "unit": "meters", "claimed": null, "packHint": "自动二段的伤害范围半径或判定框尺寸" },
+        { "key": "internalCooldown", "what": "自动释放的内置冷却", "unit": "seconds", "claimed": null, "packHint": "该核心自动释放的内置冷却或与一技能冷却的关系" }
+      ],
+      "ambiguities": [
+        "计入15次的伤害来源未写",
+        "无尽守御中敌方单位是否算“英雄”未写，若不算则该核心可能无法触发",
+        "计数是否跨目标累积、是否有时间窗口未写",
+        "触发后计数是否清零未写",
+        "自动二段的伤害、范围、击飞效果是否与手动二段相同未写",
+        "是否受一技能冷却限制、是否有内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "狂岚断狱斩",
+      "text": "一段：快速斩出多段刃风\n二段：连续快速下砸，最后一段造成击飞",
+      "reading": "选择该核心后，一技能分为两段：一段快速斩出多段刃风；二段连续快速下砸多次，最后一次下砸造成击飞。原文没有写：刃风的段数、每段伤害、飞行距离和宽度；下砸次数、每次伤害、最后一段伤害是否不同、作用范围；击飞时长；一段与二段之间的释放窗口；一技能冷却是否因此改变；伤害类型和能否暴击。",
+      "mechanisms": ["skill-change", "control", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能一段、二段时",
+      "slots": [
+        { "key": "windBladeCount", "what": "一段斩出的刃风段数", "unit": "count", "claimed": null, "packHint": "该核心一段的刃风数量或伤害段数" },
+        { "key": "windBladeBaseDamage", "what": "每段刃风伤害基础值", "unit": "flat", "claimed": null, "packHint": "刃风子弹的伤害基础值" },
+        { "key": "windBladeRatio", "what": "每段刃风伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "刃风伤害系数及加成属性、伤害类型、能否暴击" },
+        { "key": "windBladeRange", "what": "刃风飞行距离", "unit": "meters", "claimed": null, "packHint": "刃风子弹的飞行距离与判定宽度" },
+        { "key": "firstStageDuration", "what": "一段施法持续时间", "unit": "seconds", "claimed": null, "packHint": "一段动作总时长及各段刃风出手帧" },
+        { "key": "slamHitCount", "what": "二段下砸次数（含最后击飞一段）", "unit": "count", "claimed": null, "packHint": "二段下砸的伤害段数" },
+        { "key": "slamBaseDamage", "what": "二段每次下砸伤害基础值", "unit": "flat", "claimed": null, "packHint": "二段普通下砸的伤害基础值" },
+        { "key": "slamRatio", "what": "二段每次下砸伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "二段下砸伤害系数及加成属性、伤害类型、能否暴击" },
+        { "key": "finalSlamBaseDamage", "what": "最后一段（击飞段）伤害基础值，可能与普通下砸不同", "unit": "flat", "claimed": null, "packHint": "二段最后一击的伤害基础值" },
+        { "key": "finalSlamRatio", "what": "最后一段（击飞段）伤害加成系数", "unit": "ratio", "claimed": null, "packHint": "二段最后一击的伤害系数及加成属性" },
+        { "key": "slamRadius", "what": "二段下砸作用范围", "unit": "meters", "claimed": null, "packHint": "二段下砸的伤害范围半径" },
+        { "key": "secondStageDuration", "what": "二段连续下砸的施法持续时间", "unit": "seconds", "claimed": null, "packHint": "二段动作总时长及各次下砸出手帧" },
+        { "key": "knockupDuration", "what": "最后一段击飞时长", "unit": "seconds", "claimed": null, "packHint": "击飞控制的持续时间" },
+        { "key": "secondStageWindow", "what": "一段释放后可释放二段的时间窗口", "unit": "seconds", "claimed": null, "packHint": "一技能二段的可释放时间窗口" },
+        { "key": "cooldown", "what": "选择该核心后一技能冷却", "unit": "seconds", "claimed": null, "packHint": "该核心下一技能的冷却时间，确认是否与默认一技能不同" }
+      ],
+      "ambiguities": [
+        "刃风段数、伤害、距离未写",
+        "下砸次数、每次伤害、范围未写",
+        "最后一段伤害是否与其他下砸不同未写",
+        "击飞时长未写",
+        "一段与二段间的释放窗口、冷却未写",
+        "伤害类型与能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "游龙罡气诀",
+      "text": "施法后每秒会自动释放二技能",
+      "reading": "选择该核心后，施法后每秒自动释放一次二技能。“施法”未明确指哪个技能，按该核心所属位置推测为释放二技能后。“每秒”字面意思是间隔1秒，但原文没有阿拉伯数字，间隔仍需核对。原文没有写：自动释放持续多久或最多几次（是否永久持续）；自动释放是否无视二技能冷却；自动释放的二技能是否包含二技能全部效果（伤害、强普、护盾、攻速、移速等）；护盾是否叠加或刷新；自动释放的伤害是否与手动释放相同。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "施法后（推测为释放二技能后）每秒",
+      "slots": [
+        { "key": "autoCastInterval", "what": "自动释放间隔（原文写“每秒”，字面为1秒）", "unit": "seconds", "claimed": null, "packHint": "自动释放的触发间隔，核对“每秒”是否确为1秒" },
+        { "key": "autoCastDuration", "what": "自动释放持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心效果 buff 的持续时间，确认是否永久" },
+        { "key": "autoCastMaxCount", "what": "单次施法后自动释放的次数上限", "unit": "count", "claimed": null, "packHint": "自动释放次数上限（若有）" },
+        { "key": "autoCastBaseDamage", "what": "每次自动释放二技能的伤害基础值", "unit": "flat", "claimed": null, "packHint": "自动二技能的伤害基础值，确认是否复用手动二技能配置" },
+        { "key": "autoCastRatio", "what": "每次自动释放二技能的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "自动二技能的伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "autoCastRadius", "what": "自动释放二技能的作用范围", "unit": "meters", "claimed": null, "packHint": "自动二技能的伤害范围半径" },
+        { "key": "autoCastShield", "what": "每次自动释放是否提供护盾及护盾量", "unit": "flat", "claimed": null, "packHint": "自动二技能是否附带护盾及护盾数值，护盾是否叠加或刷新" }
+      ],
+      "ambiguities": [
+        "“施法后”指哪个技能未明确",
+        "“每秒”无阿拉伯数字，自动释放间隔需核对",
+        "自动释放持续时间或次数上限未写",
+        "是否无视二技能冷却未写",
+        "自动释放是否包含强普、护盾、攻速、移速等全部二技能效果未写",
+        "自动释放伤害是否与手动相同未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "血战十方劲",
+      "text": "普攻永久变为远程强普",
+      "reading": "选择该核心后，夏侯惇的普攻永久变成远程的强化普攻。原文“永久”表示不再有持续时间限制；推测不再需要释放二技能来获得强普，但原文没有明说。原文没有写：远程强普射程；伤害基础值与系数、是否与二技能原本的强普相同；是否保留强普附带的真伤（透骨灭写有“强普附带真伤”）；是单体还是范围或穿透；攻击间隔是否改变；能否暴击；二技能本身是否仍可释放、释放后有什么效果。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（选择该核心后）",
+      "slots": [
+        { "key": "range", "what": "远程强普射程", "unit": "meters", "claimed": null, "packHint": "远程强普的攻击距离" },
+        { "key": "baseDamage", "what": "远程强普伤害基础值", "unit": "flat", "claimed": null, "packHint": "远程强普的伤害基础值，确认是否与二技能强普相同" },
+        { "key": "ratio", "what": "远程强普伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "远程强普的伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "trueDamageBase", "what": "远程强普附带的真伤基础值（若保留）", "unit": "flat", "claimed": null, "packHint": "远程强普是否附带真伤及其数值" },
+        { "key": "trueDamageRatio", "what": "远程强普附带真伤的加成系数（若保留）", "unit": "ratio", "claimed": null, "packHint": "远程强普真伤部分的系数与加成属性" },
+        { "key": "hitRadius", "what": "远程强普的范围或穿透判定宽度（若非单体）", "unit": "meters", "claimed": null, "packHint": "远程强普子弹的判定范围、是否穿透、最大命中目标数" },
+        { "key": "attackFrames", "what": "远程强普的攻击动作帧数", "unit": "frames", "claimed": null, "packHint": "远程强普的攻击动作时长与出手帧，确认攻击间隔是否改变" }
+      ],
+      "ambiguities": [
+        "是否不再需要二技能触发强普未明说",
+        "射程、伤害、系数未写",
+        "是否保留强普附带真伤未写",
+        "单体还是范围/穿透未写",
+        "攻击间隔、能否暴击未写",
+        "二技能本身释放后的效果是否改变未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "百锻缚魂索",
+      "text": "对终点附近英雄发射链刃，将其缓慢拉向自己，成功拉回触发伤害眩晕和被动",
+      "reading": "选择该核心后，三技能在终点处对附近的英雄发射链刃，把对方缓慢拉向夏侯惇；成功拉回后对其造成伤害和眩晕，并触发夏侯惇的被动。原文没有写：“终点”是三技能位移还是链刃的终点；“附近”的搜索范围与目标数；拉拽速度或时长；“成功拉回”的判定（目标被打断、免控、死亡时如何处理）；伤害基础值与系数；眩晕时长；被动的具体内容（其他天赋显示被动有持续时间、触发时回血）；只写了“英雄”，无尽守御里的野怪、挑战怪是否能被拉。",
+      "mechanisms": ["skill-change", "control", "area"],
+      "damageRelevance": "direct",
+      "trigger": "三技能到达终点时对附近英雄，成功拉回后",
+      "slots": [
+        { "key": "searchRadius", "what": "终点附近寻找英雄的范围", "unit": "meters", "claimed": null, "packHint": "链刃索敌范围半径" },
+        { "key": "maxTargets", "what": "可同时拉拽的目标数", "unit": "count", "claimed": null, "packHint": "链刃最大目标数" },
+        { "key": "pullDuration", "what": "拉回所需时间（缓慢拉向自己）", "unit": "seconds", "claimed": null, "packHint": "拉拽过程时长或拉拽速度" },
+        { "key": "pullBaseDamage", "what": "成功拉回后伤害基础值", "unit": "flat", "claimed": null, "packHint": "拉回伤害的基础值" },
+        { "key": "pullRatio", "what": "成功拉回后伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "拉回伤害的系数、加成属性、伤害类型、能否暴击" },
+        { "key": "stunDuration", "what": "成功拉回后的眩晕时长", "unit": "seconds", "claimed": null, "packHint": "拉回眩晕的持续时间" }
+      ],
+      "ambiguities": [
+        "“终点”指什么未写",
+        "搜索范围与目标数未写",
+        "拉拽时长或速度未写",
+        "“成功拉回”的判定条件未写",
+        "伤害与眩晕时长未写",
+        "被动的内容未在本资料中说明",
+        "原文只写“英雄”，对野怪、挑战怪是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "孤刃随影诀",
+      "text": "拖拽链刃，辅助攻击",
+      "reading": "选择该核心后，三技能变为拖拽链刃，链刃会辅助攻击。原文极简，没有写：链刃存在或拖拽多久；“辅助攻击”是跟随夏侯惇的普攻或技能触发，还是按固定频率自动攻击；每次攻击的伤害、系数、范围、目标数；三技能是否仍有位移；是否会触发被动。",
+      "mechanisms": ["skill-change", "summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能后，链刃存在期间",
+      "slots": [
+        { "key": "duration", "what": "链刃拖拽持续时间", "unit": "seconds", "claimed": null, "packHint": "链刃召唤物或 buff 的持续时间" },
+        { "key": "attackInterval", "what": "辅助攻击的触发间隔（若按频率自动攻击）", "unit": "seconds", "claimed": null, "packHint": "辅助攻击的触发方式与间隔，确认是跟随普攻/技能还是自动攻击" },
+        { "key": "baseDamage", "what": "每次辅助攻击伤害基础值", "unit": "flat", "claimed": null, "packHint": "链刃辅助攻击的伤害基础值" },
+        { "key": "ratio", "what": "每次辅助攻击伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "辅助攻击的系数、加成属性、伤害类型、能否暴击" },
+        { "key": "attackRadius", "what": "辅助攻击的作用范围", "unit": "meters", "claimed": null, "packHint": "链刃攻击的判定范围" },
+        { "key": "maxTargets", "what": "每次辅助攻击的最大目标数", "unit": "count", "claimed": null, "packHint": "链刃攻击可命中的目标数" },
+        { "key": "cooldown", "what": "选择该核心后三技能冷却", "unit": "seconds", "claimed": null, "packHint": "该核心下三技能冷却，确认是否与默认三技能不同" }
+      ],
+      "ambiguities": [
+        "链刃持续时间未写",
+        "辅助攻击的触发方式与频率未写",
+        "伤害、范围、目标数未写",
+        "三技能是否仍有位移、是否触发被动未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "游龙徊",
+      "text": "豪气斩也会带出刃风",
+      "reading": "豪气斩（一技能）释放时也会带出刃风。“也会”说明刃风本是另一形态里的效果（狂岚断狱斩的一段写有“斩出多段刃风”），本天赋让豪气斩额外附带刃风。原文没有写：刃风数量、伤害、距离；一段和二段是否都带出；与狂岚断狱斩同时选择时是否叠加或无效。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放豪气斩（一技能）时",
+      "slots": [
+        { "key": "windBladeCount", "what": "每次带出的刃风数量", "unit": "count", "claimed": null, "packHint": "该天赋刃风子弹数量" },
+        { "key": "windBladeBaseDamage", "what": "每道刃风伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋刃风伤害基础值，确认是否与狂岚断狱斩的刃风相同" },
+        { "key": "windBladeRatio", "what": "每道刃风伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "刃风伤害系数、加成属性、伤害类型、能否暴击" },
+        { "key": "windBladeRange", "what": "刃风飞行距离", "unit": "meters", "claimed": null, "packHint": "刃风子弹飞行距离与判定宽度" }
+      ],
+      "ambiguities": [
+        "刃风数量、伤害、距离未写",
+        "一段、二段是否都带出刃风未写",
+        "与狂岚断狱斩同时选择时的效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "烽烟啸",
+      "text": "该技能造成伤害减少三技能冷却",
+      "reading": "一技能每次造成伤害，都会减少三技能的剩余冷却。原文没有写：每次减少多少（固定秒数还是百分比）；同一次施放命中多个目标是否各算一次；是否有触发上限或内置冷却。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能造成伤害时",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每次造成伤害减少的三技能冷却（原文未写是秒数还是百分比，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋每次触发减少的三技能冷却量及其形式" },
+        { "key": "maxTriggersPerCast", "what": "每次施放一技能最多触发次数", "unit": "count", "claimed": null, "packHint": "该天赋单次施放的触发上限（若有）" },
+        { "key": "internalCooldown", "what": "触发的内置冷却", "unit": "seconds", "claimed": null, "packHint": "该天赋触发的内置冷却（若有）" }
+      ],
+      "ambiguities": [
+        "每次减少的冷却量与形式未写",
+        "多目标是否分别触发未写",
+        "触发上限、内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "裂兵诀",
+      "text": "二段击飞会在范围中心留下破损刀刃，拾取获得加速和攻击力",
+      "reading": "一技能二段的击飞会在其作用范围中心留下一把破损刀刃，夏侯惇拾取后获得加速和攻击力加成。原文没有写：“加速”指移速还是攻速（字面通常指移速，待核对）；加速和攻击力的数值以及是固定值还是百分比；buff 持续时间；刀刃存在多久、拾取范围；多把刀刃能否叠加；未选狂岚断狱斩时默认二段是否也有击飞、本天赋是否生效。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "direct",
+      "trigger": "一技能二段击飞后，拾取破损刀刃时",
+      "slots": [
+        { "key": "speedBonus", "what": "拾取后获得的加速（原文未写是移速还是攻速）", "unit": "percent", "claimed": null, "packHint": "该天赋 buff 的加速类型与数值" },
+        { "key": "attackBonus", "what": "拾取后获得的攻击力（原文未写是固定值还是百分比，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋 buff 的攻击力加成数值与形式" },
+        { "key": "buffDuration", "what": "加速和攻击力 buff 持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋 buff 持续时间" },
+        { "key": "maxStacks", "what": "buff 层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "多次拾取是否叠层及上限，或仅刷新" },
+        { "key": "bladeLifetime", "what": "破损刀刃在地面存在时间", "unit": "seconds", "claimed": null, "packHint": "刀刃场景物件的存在时长" },
+        { "key": "pickupRadius", "what": "拾取判定范围", "unit": "meters", "claimed": null, "packHint": "刀刃拾取半径" }
+      ],
+      "ambiguities": [
+        "“加速”指移速还是攻速未写",
+        "加速、攻击力数值与形式未写",
+        "buff 持续时间、能否叠加未写",
+        "刀刃存在时间、拾取范围未写",
+        "默认二段是否有击飞、未选狂岚断狱斩时是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "绝命刃",
+      "text": "造成斩杀伤害",
+      "reading": "一技能造成斩杀伤害。原文没有写斩杀的方式：目标生命低于某个比例时直接斩杀，还是按目标已损生命造成额外伤害；也没写阈值、比例、伤害类型、对首领或挑战怪是否生效或有上限。",
+      "mechanisms": ["execute"],
+      "damageRelevance": "direct",
+      "trigger": "一技能造成伤害时",
+      "slots": [
+        { "key": "executeHpThreshold", "what": "斩杀生效的目标生命比例阈值（若为阈值斩杀）", "unit": "percent", "claimed": null, "packHint": "斩杀判定的目标生命百分比阈值" },
+        { "key": "missingHpDamagePct", "what": "按目标已损生命计算的额外伤害比例（若为此类斩杀）", "unit": "percent", "claimed": null, "packHint": "斩杀伤害的计算方式与比例" },
+        { "key": "executeDamageCap", "what": "对首领、挑战怪的斩杀伤害上限（若有）", "unit": "flat", "claimed": null, "packHint": "斩杀对首领类单位的限制或上限" }
+      ],
+      "ambiguities": [
+        "斩杀方式（阈值直接斩杀或按已损生命加伤）未写",
+        "阈值、比例未写",
+        "伤害类型未写",
+        "对首领、挑战怪是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "战骨罡",
+      "text": "施法期间获得免伤",
+      "reading": "释放一技能的施法期间获得伤害减免。原文没有写免伤比例，也没写“施法期间”是否包含两段之间的间隔、结束后是否有延续。",
+      "mechanisms": ["damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能施法期间",
+      "slots": [
+        { "key": "damageReduction", "what": "免伤比例", "unit": "percent", "claimed": null, "packHint": "该天赋免伤 buff 的数值" },
+        { "key": "duration", "what": "免伤持续时间（施法期间长度或额外延续）", "unit": "seconds", "claimed": null, "packHint": "免伤 buff 的持续时间，确认是否与施法动作绑定" }
+      ],
+      "ambiguities": [
+        "免伤比例未写",
+        "“施法期间”的具体时长、是否有延续未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "叠浪斩",
+      "text": "造成伤害回复",
+      "reading": "一技能造成伤害时回复夏侯惇的生命。原文没有写：回复量按造成伤害、最大生命还是固定值计算；每次命中都回复还是每次施放回复一次；多目标是否叠加。",
+      "mechanisms": ["heal", "lifesteal"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能造成伤害时",
+      "slots": [
+        { "key": "healAmount", "what": "回复量（原文未写按伤害、最大生命还是固定值计算，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋回复的数值与计算基准" },
+        { "key": "maxTriggersPerCast", "what": "每次施放最多触发回复的次数", "unit": "count", "claimed": null, "packHint": "回复的触发上限（若有）" }
+      ],
+      "ambiguities": [
+        "回复量与计算基准未写",
+        "每次命中还是每次施放触发未写",
+        "多目标是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "贯真刃",
+      "text": "附带真伤",
+      "reading": "一技能伤害附带真实伤害。原文没有写：真伤是额外附加一段，还是把原伤害的一部分转为真伤；数值、系数和加成属性；每段伤害都附带还是每次施放一次；能否暴击。",
+      "mechanisms": ["true-damage"],
+      "damageRelevance": "direct",
+      "trigger": "一技能造成伤害时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "附带真伤基础值（若为额外附加）", "unit": "flat", "claimed": null, "packHint": "该天赋真伤的基础值" },
+        { "key": "trueDamageRatio", "what": "附带真伤加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋真伤的系数与加成属性" },
+        { "key": "conversionPct", "what": "原伤害转为真伤的比例（若为转化）", "unit": "percent", "claimed": null, "packHint": "确认真伤是额外附加还是伤害转化，及转化比例" }
+      ],
+      "ambiguities": [
+        "额外附加还是伤害转化未写",
+        "真伤数值、系数未写",
+        "每段附带还是每次施放附带未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "弑意叠",
+      "text": "该技能每次造成伤害，叠加增伤",
+      "reading": "一技能每次造成伤害都会叠加一层增伤。原文没有写：每层增伤多少；层数上限；持续时间与刷新规则；增伤作用于一技能还是所有伤害；同一次命中多个目标叠几层；层数是否按目标独立计算。",
+      "mechanisms": ["damage-amp", "stacking", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "一技能每次造成伤害时",
+      "slots": [
+        { "key": "ampPerStack", "what": "每层增伤", "unit": "percent", "claimed": null, "packHint": "该天赋增伤 buff 每层数值" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": null, "packHint": "增伤 buff 最大层数" },
+        { "key": "stackDuration", "what": "层数持续时间", "unit": "seconds", "claimed": null, "packHint": "增伤 buff 持续时间与刷新规则" },
+        { "key": "stacksPerHit", "what": "每次造成伤害叠加的层数（命中多目标时）", "unit": "count", "claimed": null, "packHint": "多目标命中时的叠层规则" }
+      ],
+      "ambiguities": [
+        "每层增伤、层数上限、持续时间未写",
+        "增伤作用范围（仅一技能或所有伤害）未写",
+        "多目标叠层与按目标独立计算未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "无疆域",
+      "text": "增加技能范围",
+      "reading": "二技能的范围增加。原文没有写是二技能的哪个范围（技能伤害范围、强普范围等），也没写增加多少、是固定距离还是百分比。范围增大不改变单次伤害，但可能命中更多目标。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（二技能）",
+      "slots": [
+        { "key": "rangeIncrease", "what": "范围增加量（原文未写是百分比还是固定距离，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对二技能范围的加成数值与形式" },
+        { "key": "baseRange", "what": "二技能原始范围", "unit": "meters", "claimed": null, "packHint": "二技能默认作用范围" }
+      ],
+      "ambiguities": [
+        "增加的是哪个范围未写",
+        "增加量与形式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "力破劲",
+      "text": "二技能造成伤害会弱化目标",
+      "reading": "二技能造成伤害时使目标进入“弱化”状态。原文没有定义弱化：可能是降低目标输出、降低防御或其他效果；也没写数值、持续时间、能否叠加。若弱化是降低防御则属于直接增伤，此处按间接影响暂记。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能造成伤害时",
+      "slots": [
+        { "key": "weakenAmount", "what": "弱化效果数值（原文未写弱化内容）", "unit": "percent", "claimed": null, "packHint": "该天赋弱化 debuff 的具体效果（降输出/降防御/其他）与数值" },
+        { "key": "weakenDuration", "what": "弱化持续时间", "unit": "seconds", "claimed": null, "packHint": "弱化 debuff 持续时间" },
+        { "key": "maxStacks", "what": "弱化层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "弱化 debuff 是否叠层及上限" }
+      ],
+      "ambiguities": [
+        "“弱化”的具体效果未写",
+        "数值、持续时间、叠加规则未写",
+        "damageRelevance 需按弱化内容确定"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "透骨灭",
+      "text": "强普附带真伤增加",
+      "reading": "强化普攻附带的真实伤害提高。原文说明强普本身就附带真伤，本天赋增加这部分。原文没有写增加量及其形式（固定值、百分比或系数），也没写强普原有真伤数值。",
+      "mechanisms": ["true-damage", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "强化普攻命中时",
+      "slots": [
+        { "key": "trueDamageIncrease", "what": "真伤增加量（原文未写形式，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对强普真伤的加成数值与形式" },
+        { "key": "baseTrueDamage", "what": "强普原有真伤基础值", "unit": "flat", "claimed": null, "packHint": "二技能强普附带真伤的基础值" },
+        { "key": "baseTrueDamageRatio", "what": "强普原有真伤加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "强普真伤的系数与加成属性" }
+      ],
+      "ambiguities": [
+        "增加量与形式未写",
+        "强普原有真伤数值未写",
+        "对血战十方劲的远程强普是否同样生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "追锋刃",
+      "text": "强普期间会额外攻击1次",
+      "reading": "强化普攻期间会额外攻击1次。原文没有写：是每次强普后额外1次，还是整个强普期间总共1次；额外攻击的伤害是否与强普相同、是否附带强普真伤、能否暴击、能否触发其他普攻效果；额外攻击的出手时机。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "强普期间",
+      "slots": [
+        { "key": "extraAttackCount", "what": "额外攻击次数", "unit": "count", "claimed": { "value": 1, "quote": "额外攻击1次" }, "packHint": "额外攻击次数，核对描述的1次，并确认是每次强普1次还是整个强普期间1次" },
+        { "key": "extraAttackRatio", "what": "额外攻击伤害相对强普的倍率或自身系数", "unit": "ratio", "claimed": null, "packHint": "额外攻击的伤害配置，确认是否完整复制强普（含真伤）" },
+        { "key": "extraAttackDelay", "what": "额外攻击相对强普的出手延迟", "unit": "frames", "claimed": null, "packHint": "额外攻击的出手帧" }
+      ],
+      "ambiguities": [
+        "每次强普额外1次还是整个期间1次未写",
+        "额外攻击伤害、是否附带真伤、能否暴击未写",
+        "出手时机未写",
+        "对血战十方劲的永久远程强普是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "狂岚诀",
+      "text": "技能期间提升攻速",
+      "reading": "二技能生效期间攻速提升。原文没有写攻速数值，也没写“技能期间”持续多久。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能生效期间",
+      "slots": [
+        { "key": "attackSpeedBonus", "what": "攻速加成", "unit": "percent", "claimed": null, "packHint": "该天赋攻速 buff 数值" },
+        { "key": "duration", "what": "持续时间（二技能生效期间长度）", "unit": "seconds", "claimed": null, "packHint": "攻速 buff 持续时间或二技能状态时长" }
+      ],
+      "ambiguities": [
+        "攻速数值未写",
+        "“技能期间”时长未写",
+        "选择血战十方劲（永久强普）时“技能期间”如何界定未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "飞沙步",
+      "text": "技能期间概率免疫普攻",
+      "reading": "二技能生效期间，受到普攻时有一定概率免疫这次普攻。原文没有写概率、“技能期间”时长、免疫是否包含普攻附带效果、对怪物的普攻是否有效。只影响生存。",
+      "mechanisms": ["invulnerable"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能生效期间受到普攻时",
+      "slots": [
+        { "key": "dodgeChance", "what": "免疫普攻的概率", "unit": "percent", "claimed": null, "packHint": "该天赋免疫普攻的概率" },
+        { "key": "duration", "what": "持续时间（二技能生效期间长度）", "unit": "seconds", "claimed": null, "packHint": "免疫 buff 持续时间或二技能状态时长" }
+      ],
+      "ambiguities": [
+        "概率未写",
+        "“技能期间”时长未写",
+        "对怪物普攻是否有效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "不破壁",
+      "text": "提升护盾量",
+      "reading": "二技能提供的护盾量提升。原文说明二技能本身带护盾。原文没有写提升多少及其形式，也没写原护盾数值、加成属性和持续时间。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能获得护盾时",
+      "slots": [
+        { "key": "shieldIncrease", "what": "护盾量提升（原文未写形式，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对护盾的加成数值与形式" },
+        { "key": "baseShield", "what": "二技能原护盾基础值", "unit": "flat", "claimed": null, "packHint": "二技能护盾基础值" },
+        { "key": "baseShieldRatio", "what": "二技能原护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "二技能护盾的系数与加成属性" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "二技能护盾持续时间" }
+      ],
+      "ambiguities": [
+        "提升量与形式未写",
+        "原护盾数值、加成属性、持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "御刃行",
+      "text": "技能期间获得移动速度",
+      "reading": "二技能生效期间获得移动速度加成。只影响移动，不直接改变伤害；模拟伤害时一般不需要，除非模拟走位。原文没有写移速数值和持续时间。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "二技能生效期间",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "移速加成", "unit": "percent", "claimed": null, "packHint": "该天赋移速 buff 数值" },
+        { "key": "duration", "what": "持续时间（二技能生效期间长度）", "unit": "seconds", "claimed": null, "packHint": "移速 buff 持续时间" }
+      ],
+      "ambiguities": [
+        "移速数值未写",
+        "“技能期间”时长未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "无疆体",
+      "text": "被动触发期间提升最大生命值",
+      "reading": "被动触发后、持续期间提升夏侯惇的最大生命值。本资料没有定义被动；从其他条目看，被动可由三技能相关效果触发（百锻缚魂索写“成功拉回触发……被动”），有持续时间（延息诀），触发时会回血（生生诀）。原文没有写提升量及其形式，也没写被动触发条件和持续时间。若夏侯惇的伤害或护盾按最大生命加成，则会间接影响输出。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "被动触发期间",
+      "slots": [
+        { "key": "maxHpBonus", "what": "最大生命提升（原文未写是百分比还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋最大生命 buff 数值与形式" },
+        { "key": "passiveDuration", "what": "被动持续时间", "unit": "seconds", "claimed": null, "packHint": "夏侯惇被动 buff 的持续时间" }
+      ],
+      "ambiguities": [
+        "提升量与形式未写",
+        "被动的触发条件与持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "摧城式",
+      "text": "链刃造成敌人百分比伤害",
+      "reading": "三技能的链刃造成按敌人生命百分比计算的伤害。原文没有写是最大生命、当前生命还是已损生命的百分比，也没写比例、伤害类型、每次链刃对同一目标触发几次、对首领或挑战怪是否有上限。",
+      "mechanisms": ["max-hp-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "链刃造成伤害时",
+      "slots": [
+        { "key": "hpPctDamage", "what": "按敌人生命计算的伤害比例（原文未写是最大、当前还是已损生命）", "unit": "percent", "claimed": null, "packHint": "该天赋百分比伤害数值及计算基准" },
+        { "key": "damageCap", "what": "百分比伤害上限（对首领、挑战怪，若有）", "unit": "flat", "claimed": null, "packHint": "百分比伤害对非英雄单位的上限" },
+        { "key": "hitsPerTarget", "what": "每次链刃对同一目标触发百分比伤害的次数", "unit": "count", "claimed": null, "packHint": "链刃百分比伤害的触发次数或内置冷却" }
+      ],
+      "ambiguities": [
+        "百分比的计算基准未写",
+        "比例、伤害类型未写",
+        "对同一目标触发次数未写",
+        "对首领、挑战怪是否有上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "殒星坠",
+      "text": "链刃停止时，与夏侯惇飞抵目标区域时会对范围内单位造成眩晕效果",
+      "reading": "三技能的链刃停止时、以及夏侯惇飞抵目标区域时，对范围内单位造成眩晕。字面上可读成两个时机各眩晕一次，也可能“与”只是连接一次触发的两个条件，原文不明确。原文没有写眩晕时长、范围、是否附带伤害、同一目标能否被眩晕两次。",
+      "mechanisms": ["control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "链刃停止时、夏侯惇飞抵目标区域时",
+      "slots": [
+        { "key": "stunDuration", "what": "眩晕时长", "unit": "seconds", "claimed": null, "packHint": "该天赋眩晕控制的持续时间" },
+        { "key": "stunRadius", "what": "眩晕作用范围", "unit": "meters", "claimed": null, "packHint": "眩晕判定的范围半径" },
+        { "key": "triggerCount", "what": "每次三技能触发眩晕的次数（链刃停止与飞抵是否各一次）", "unit": "count", "claimed": null, "packHint": "眩晕触发时机与次数" }
+      ],
+      "ambiguities": [
+        "两个时机各触发一次还是合为一次未写",
+        "眩晕时长、范围未写",
+        "是否附带伤害未写",
+        "同一目标能否被眩晕两次未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "延息诀",
+      "text": "提升被动持续时间",
+      "reading": "被动的持续时间延长。原文没有写延长多少、是秒数还是百分比，也没写被动原本持续时间。被动期间的效果（如无疆体、小周天）会随之延长。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "被动触发时",
+      "slots": [
+        { "key": "durationIncrease", "what": "被动持续时间延长量（原文未写是秒数还是百分比，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋对被动持续时间的加成数值与形式" },
+        { "key": "basePassiveDuration", "what": "被动原本持续时间", "unit": "seconds", "claimed": null, "packHint": "夏侯惇被动 buff 的基础持续时间" }
+      ],
+      "ambiguities": [
+        "延长量与形式未写",
+        "被动原本持续时间与内容未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "小周天",
+      "text": "被动期间获得双抗",
+      "reading": "被动持续期间获得物理防御和法术防御（双抗）。原文没有写数值、是固定值还是百分比、两者是否相同。只影响生存。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "indirect",
+      "trigger": "被动期间",
+      "slots": [
+        { "key": "physDefBonus", "what": "物理防御加成（原文未写形式，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋物理防御 buff 数值与形式" },
+        { "key": "magicDefBonus", "what": "法术防御加成（原文未写形式，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋法术防御 buff 数值与形式" },
+        { "key": "passiveDuration", "what": "被动持续时间", "unit": "seconds", "claimed": null, "packHint": "夏侯惇被动 buff 的持续时间" }
+      ],
+      "ambiguities": [
+        "双抗数值与形式未写",
+        "被动持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "破军突",
+      "text": "提升位移距离",
+      "reading": "三技能的位移距离提升。只影响移动，不直接改变伤害。原文没有写提升多少、是固定距离还是百分比；也没写链刃射程是否随之变化（若随之变化，会影响链刃能命中的目标）。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "常驻（三技能）",
+      "slots": [
+        { "key": "distanceIncrease", "what": "位移距离增加量（原文未写形式，暂按米建槽）", "unit": "meters", "claimed": null, "packHint": "该天赋对三技能位移距离的加成数值与形式" },
+        { "key": "baseDistance", "what": "三技能原位移距离", "unit": "meters", "claimed": null, "packHint": "三技能默认位移距离" }
+      ],
+      "ambiguities": [
+        "增加量与形式未写",
+        "链刃射程是否随之变化未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "延势诀",
+      "text": "提升碰撞范围",
+      "reading": "三技能的碰撞范围提升，推测是链刃或位移时与敌人碰撞判定的宽度或半径。范围增大不改变单次伤害，但可能命中更多目标。原文没有写提升多少及其形式，也没写碰撞指哪个部分。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（三技能）",
+      "slots": [
+        { "key": "collisionRangeIncrease", "what": "碰撞范围增加量（原文未写形式，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对三技能碰撞判定的加成数值与形式" },
+        { "key": "baseCollisionRange", "what": "三技能原碰撞判定半径或宽度", "unit": "meters", "claimed": null, "packHint": "三技能默认碰撞判定尺寸" }
+      ],
+      "ambiguities": [
+        "“碰撞”指链刃还是位移未写",
+        "增加量与形式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "生生诀",
+      "text": "触发被动回血永久增加生命值",
+      "reading": "每次触发被动回血时，永久增加生命值（推测为最大生命）。原文没有写每次增加多少、是否有累计上限、“永久”是整局有效还是有其他限制，也没写被动回血本身的数值和触发条件。若伤害或护盾按最大生命加成，则会间接影响输出。",
+      "mechanisms": ["stacking", "stat", "heal"],
+      "damageRelevance": "indirect",
+      "trigger": "每次触发被动回血时",
+      "slots": [
+        { "key": "hpGainPerTrigger", "what": "每次触发永久增加的生命值", "unit": "flat", "claimed": null, "packHint": "该天赋每次触发的生命成长数值" },
+        { "key": "maxTotalGain", "what": "永久生命成长的累计上限（若有）", "unit": "flat", "claimed": null, "packHint": "生命成长的上限或层数上限" },
+        { "key": "internalCooldown", "what": "被动回血触发的内置冷却", "unit": "seconds", "claimed": null, "packHint": "被动回血触发的冷却，决定成长速度" }
+      ],
+      "ambiguities": [
+        "每次增加量未写",
+        "是否有累计上限未写",
+        "“生命值”是否指最大生命未写",
+        "被动回血的触发条件与冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

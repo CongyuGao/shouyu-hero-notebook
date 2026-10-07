@@ -1,0 +1,821 @@
+{
+  "heroId": "109",
+  "heroName": "妲己",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "幻心共鸣",
+      "text": "光波到达终点后，将基于当前朝向，分裂2道光波",
+      "reading": "一技能核心。一技能的光波飞到终点后，按“当前朝向”再分裂出2道光波。“当前朝向”指妲己此刻的朝向还是光波原本的飞行方向，原文不能确定。原文没有写：分裂光波的伤害是与原光波相同、按原光波的一定比例，还是有独立的基础值和系数；分裂光波的飞行距离、宽度、两道之间的夹角；分裂光波能否再次分裂；同一目标被原光波和分裂光波先后命中时伤害是否衰减；分裂光波命中能否触发炎灵舞、波光回溯等一技能命中类效果；能否暴击。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能光波到达终点后",
+      "slots": [
+        { "key": "splitCount", "what": "到达终点后分裂出的光波数量", "unit": "count", "claimed": { "value": 2, "quote": "分裂2道光波" }, "packHint": "该核心分裂光波的数量，原文写2道，描述值不可靠，需资源包核对" },
+        { "key": "splitDamagePct", "what": "分裂光波伤害占原光波伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "分裂光波是否引用原光波伤害公式及其比例" },
+        { "key": "splitBaseDamage", "what": "分裂光波伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "分裂光波伤害基础值" },
+        { "key": "splitRatio", "what": "分裂光波伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "分裂光波伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "splitRange", "what": "分裂光波的飞行距离", "unit": "meters", "claimed": null, "packHint": "分裂光波子弹的飞行距离" },
+        { "key": "splitWidth", "what": "分裂光波的判定宽度", "unit": "meters", "claimed": null, "packHint": "分裂光波子弹的碰撞宽度" },
+        { "key": "splitAngle", "what": "两道分裂光波相对朝向的夹角（单位为角度，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "分裂光波的发射角度，并确认“当前朝向”取妲己朝向还是光波方向" },
+        { "key": "sameTargetDamagePct", "what": "同一目标再次被分裂光波命中时的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "同一目标重复命中的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "“当前朝向”取妲己朝向还是光波飞行方向未写",
+        "分裂光波的伤害数值或比例、伤害类型未写",
+        "分裂光波的飞行距离、宽度、夹角未写",
+        "分裂光波能否再次分裂未写",
+        "同一目标重复命中是否衰减未写",
+        "分裂光波能否触发一技能命中类小天赋未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "光波涟漪",
+      "text": "施法时，额外分裂2道光波",
+      "reading": "一技能核心。释放一技能时，除原本的光波外，额外分裂出2道光波一起发射。原文没有写：额外光波的方向和夹角；伤害是与原光波相同、按一定比例，还是独立数值；飞行距离和宽度是否与原光波相同；同一目标被多道光波命中时伤害是否衰减；额外光波命中能否触发炎灵舞、波光回溯等一技能命中类效果；能否暴击。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能时",
+      "slots": [
+        { "key": "extraWaveCount", "what": "施法时额外分裂的光波数量", "unit": "count", "claimed": { "value": 2, "quote": "额外分裂2道光波" }, "packHint": "该核心额外光波的数量，原文写2道，描述值不可靠，需资源包核对" },
+        { "key": "extraWaveDamagePct", "what": "额外光波伤害占原光波伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "额外光波是否引用原光波伤害公式及其比例" },
+        { "key": "extraWaveBaseDamage", "what": "额外光波伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "额外光波伤害基础值" },
+        { "key": "extraWaveRatio", "what": "额外光波伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "额外光波伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "extraWaveAngle", "what": "额外光波与原光波的夹角（单位为角度，暂记为 flat）", "unit": "flat", "claimed": null, "packHint": "额外光波的发射角度" },
+        { "key": "extraWaveRange", "what": "额外光波的飞行距离", "unit": "meters", "claimed": null, "packHint": "额外光波子弹的飞行距离，确认是否与原光波相同" },
+        { "key": "extraWaveWidth", "what": "额外光波的判定宽度", "unit": "meters", "claimed": null, "packHint": "额外光波子弹的碰撞宽度" },
+        { "key": "sameTargetDamagePct", "what": "同一目标被多道光波命中时后续命中的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "多道光波命中同一目标的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "额外光波的方向、夹角未写",
+        "额外光波的伤害数值或比例、伤害类型未写",
+        "飞行距离、宽度是否与原光波相同未写",
+        "同一目标被多道光波命中是否衰减未写",
+        "额外光波能否触发一技能命中类小天赋未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "无限魅力",
+      "text": "二技能施法距离翻1.5倍",
+      "reading": "二技能核心。二技能的施法距离变大。“翻1.5倍”有两种理解：变为原来的1.5倍，或在原来基础上增加1.5倍（即2.5倍），原文不能确定。施法距离不改变单次伤害，但能更早、更远地命中目标，列为间接影响。原文没有写二技能原本的施法距离。“二技能”里的“二”是汉字，不计入数字。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（二技能）",
+      "slots": [
+        { "key": "castRangeMultiplier", "what": "二技能施法距离倍率（“翻1.5倍”是变为1.5倍还是增加1.5倍未写）", "unit": "ratio", "claimed": { "value": 1.5, "quote": "翻1.5倍" }, "packHint": "该核心对二技能施法距离的修正，原文写1.5倍，描述值不可靠，需资源包核对，并确认是乘以1.5还是增加150%" },
+        { "key": "baseCastRange", "what": "二技能原本的施法距离", "unit": "meters", "claimed": null, "packHint": "二技能原始施法距离，用于换算修正后的距离" }
+      ],
+      "ambiguities": [
+        "“翻1.5倍”是变为1.5倍还是增加1.5倍未写",
+        "二技能原始施法距离未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "魅力陷阱",
+      "text": "对范围内所有敌人发射2颗爱心",
+      "reading": "二技能核心。按核心所属位置理解为释放二技能时，对一定范围内的所有敌人各发射2颗爱心（原文“对范围内所有敌人发射2颗爱心”，是每个敌人各2颗还是总共2颗，按字面倾向每个敌人各2颗，但不能确定）。原文没有写：范围半径；最多目标数；每颗爱心的伤害、系数和加成属性；爱心是否带眩晕（二技能小天赋多处提到“眩晕敌人后”，但本核心原文没写）、眩晕时长；同一目标被2颗爱心命中时伤害或眩晕是否衰减、是否重复触发眩晕类效果；是替换原二技能还是在原二技能之外额外发射；能否暴击。",
+      "mechanisms": ["skill-change", "area", "proc", "control"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时（原文未写时机，按所属二技能理解）",
+      "slots": [
+        { "key": "heartsPerTarget", "what": "每个敌人被发射的爱心数量（是每人2颗还是总共2颗未写）", "unit": "count", "claimed": { "value": 2, "quote": "发射2颗爱心" }, "packHint": "该核心发射的爱心数量，原文写2颗，描述值不可靠，需资源包核对，并确认是每个目标2颗还是总数" },
+        { "key": "searchRadius", "what": "索敌范围半径", "unit": "meters", "claimed": null, "packHint": "该核心的索敌范围" },
+        { "key": "maxTargets", "what": "最多锁定的敌人数", "unit": "count", "claimed": null, "packHint": "该核心最多同时锁定的目标数（若有上限）" },
+        { "key": "heartBaseDamage", "what": "每颗爱心伤害基础值", "unit": "flat", "claimed": null, "packHint": "爱心子弹伤害基础值，确认是否引用原二技能伤害" },
+        { "key": "heartRatio", "what": "每颗爱心伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "爱心伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "secondHeartDamagePct", "what": "同一目标第二颗爱心的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "同一目标多颗爱心的伤害衰减规则" },
+        { "key": "stunDuration", "what": "爱心眩晕时长（若带眩晕）", "unit": "seconds", "claimed": null, "packHint": "爱心是否眩晕及眩晕时长，确认多颗爱心是否刷新或叠加眩晕" }
+      ],
+      "ambiguities": [
+        "每个敌人各2颗还是总共2颗未写",
+        "范围半径、最多目标数未写",
+        "爱心伤害数值、伤害类型未写",
+        "爱心是否带眩晕、眩晕时长未写",
+        "同一目标多颗爱心是否衰减未写",
+        "是替换原二技能还是额外发射未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "狐舞天下",
+      "text": "施法后，间歇性释出3轮狐火",
+      "reading": "三技能核心。释放三技能后，间歇性地再释放3轮狐火（是否包含三技能本身那一轮，原文不能确定）。原文没有写：每轮间隔；每轮狐火数量；狐火的索敌范围和目标选择方式；每颗狐火的伤害、系数和加成属性；同一目标被多颗狐火命中时伤害是否衰减；每轮狐火数量是否受狐灵洪流（狐火数量增加60%）影响，能否触发狐火燎原的弹射；能否暴击。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能后",
+      "slots": [
+        { "key": "rounds", "what": "释出狐火的轮数（是否包含三技能本身一轮未写）", "unit": "count", "claimed": { "value": 3, "quote": "释出3轮狐火" }, "packHint": "该核心狐火轮数，原文写3轮，描述值不可靠，需资源包核对，并确认是否含三技能本身" },
+        { "key": "roundInterval", "what": "每轮狐火之间的间隔（原文写“间歇性”）", "unit": "seconds", "claimed": null, "packHint": "每轮狐火的释放间隔或出手帧" },
+        { "key": "firstRoundDelay", "what": "第一轮狐火相对施法的延迟", "unit": "seconds", "claimed": null, "packHint": "第一轮狐火的出手时间点" },
+        { "key": "firesPerRound", "what": "每轮狐火数量", "unit": "count", "claimed": null, "packHint": "每轮狐火的子弹数量，确认是否受狐灵洪流加成" },
+        { "key": "searchRadius", "what": "狐火索敌范围", "unit": "meters", "claimed": null, "packHint": "狐火的索敌半径，确认是否受灵域加成" },
+        { "key": "fireBaseDamage", "what": "每颗狐火伤害基础值", "unit": "flat", "claimed": null, "packHint": "该核心狐火伤害基础值，确认是否引用三技能狐火伤害" },
+        { "key": "fireRatio", "what": "每颗狐火伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "狐火伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "sameTargetDamagePct", "what": "同一目标被后续狐火命中的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "同一目标多颗狐火的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "3轮是否包含三技能本身一轮未写",
+        "每轮间隔、首轮延迟未写",
+        "每轮狐火数量未写",
+        "狐火索敌范围和目标选择方式未写",
+        "狐火伤害数值、伤害类型未写",
+        "同一目标多颗狐火是否衰减未写",
+        "与狐灵洪流、狐火燎原、灵域的交互未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "狐灵真身",
+      "text": "施法后狐灵加持4秒：获得高额法强和冷却加快100%效果",
+      "reading": "三技能核心。释放三技能后获得“狐灵加持”状态，持续4秒，期间获得高额法强（法术攻击），并获得“冷却加快100%”效果。“冷却加快100%”有两种理解：冷却计时速度变为2倍，或冷却缩减100%（技能几乎无冷却），原文不能确定。原文没有写：“高额法强”的具体数值，是固定值还是百分比；冷却加快作用于哪些技能（是否包括三技能本身）；是否受冷却缩减上限限制；再次释放三技能时加持是刷新、叠加还是不能叠加。",
+      "mechanisms": ["buff", "stat", "cooldown"],
+      "damageRelevance": "direct",
+      "trigger": "释放三技能后",
+      "slots": [
+        { "key": "duration", "what": "狐灵加持持续时间", "unit": "seconds", "claimed": { "value": 4, "quote": "狐灵加持4秒" }, "packHint": "狐灵加持 buff 的持续时间，原文写4秒，描述值不可靠，需资源包核对" },
+        { "key": "magicAtkBonus", "what": "加持期间获得的法强（原文写“高额”，未写是固定值还是百分比，若为百分比需改单位）", "unit": "flat", "claimed": null, "packHint": "狐灵加持 buff 的法术攻击加成数值及类型" },
+        { "key": "cooldownSpeedUpPct", "what": "冷却加快幅度（是冷却计时加速还是冷却缩减未写）", "unit": "percent", "claimed": { "value": 100, "quote": "冷却加快100%" }, "packHint": "狐灵加持的冷却修正，原文写100%，描述值不可靠，需资源包核对，并确认是冷却流逝速度翻倍还是冷却缩减，以及作用于哪些技能、是否受冷却缩减上限限制" }
+      ],
+      "ambiguities": [
+        "“高额法强”的具体数值未写，是固定值还是百分比未写",
+        "“冷却加快100%”是冷却计时翻倍还是冷却缩减100%未写",
+        "冷却加快作用于哪些技能、是否包括三技能未写",
+        "是否受冷却缩减上限限制未写",
+        "再次释放三技能时加持刷新还是叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "破魂冲击",
+      "text": "飞行速度加快，飞行距离+150",
+      "reading": "一技能小天赋。一技能光波的飞行速度加快，飞行距离增加150。“+150”没有写单位，按数值大小不像是米，可能是游戏内部距离单位，按原文记为无单位的 flat 值。原文没有写飞行速度加快多少、是固定值还是百分比；一技能原本的飞行距离和速度。飞行距离变长会让光波到达终点更远，可能影响核心幻心共鸣的分裂位置。不改变单次伤害，但影响命中范围和命中时机，列为间接影响。",
+      "mechanisms": ["area", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能）",
+      "slots": [
+        { "key": "flightSpeedBonus", "what": "光波飞行速度加快幅度（原文未写数值，也未写是固定值还是百分比，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对一技能光波飞行速度的加成数值与类型" },
+        { "key": "flightRangeBonus", "what": "光波飞行距离增加量（原文“+150”没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位）", "unit": "flat", "claimed": { "value": 150, "quote": "飞行距离+150" }, "packHint": "该天赋对一技能飞行距离的加成数值和单位，原文写+150，描述值不可靠，需资源包核对" },
+        { "key": "baseFlightRange", "what": "一技能光波原本的飞行距离", "unit": "meters", "claimed": null, "packHint": "一技能光波原始飞行距离，用于换算加成后的距离" },
+        { "key": "baseFlightSpeed", "what": "一技能光波原本的飞行速度", "unit": "flat", "claimed": null, "packHint": "一技能光波原始飞行速度，用于计算命中时机" }
+      ],
+      "ambiguities": [
+        "飞行速度加快多少未写",
+        "“+150”的单位未写",
+        "一技能原始飞行距离和速度未写",
+        "是否作用于核心分裂出的光波、小光波未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "炎灵舞",
+      "text": "每对一个单位造成伤害或治疗，即可获得1颗绕身狐火，最多9颗",
+      "reading": "一技能小天赋。每对一个单位造成伤害或进行治疗，就获得1颗绕在身边的狐火，最多存在9颗。原文没有限定是一技能造成的伤害/治疗还是任何来源，按所属一技能理解为一技能（光波）命中时，但不能确定。治疗也算触发，可与生命回廊（一技能治疗队友）配合。原文没有写：绕身狐火有什么作用（自动攻击附近敌人，还是在某个时机发射）；狐火伤害、系数和加成属性；攻击间隔或发射时机；狐火持续时间；同一单位在一次施法中被多次命中（如去程和回程）是否各算一次；“每对一个单位”的“一”是汉字，单次施法最多获得几颗未写；能否暴击。",
+      "mechanisms": ["summon", "stacking", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "一技能对单位造成伤害或治疗时（原文未限定技能，按所属一技能理解）",
+      "slots": [
+        { "key": "firesPerUnit", "what": "每对一个单位造成伤害或治疗获得的狐火数量", "unit": "count", "claimed": { "value": 1, "quote": "即可获得1颗绕身狐火" }, "packHint": "每次触发获得的绕身狐火数，原文写1颗，描述值不可靠，需资源包核对" },
+        { "key": "maxFires", "what": "绕身狐火数量上限", "unit": "count", "claimed": { "value": 9, "quote": "最多9颗" }, "packHint": "绕身狐火上限，原文写9颗，描述值不可靠，需资源包核对" },
+        { "key": "fireDuration", "what": "绕身狐火持续时间", "unit": "seconds", "claimed": null, "packHint": "绕身狐火存在时间，确认是否各自独立计时" },
+        { "key": "fireAttackInterval", "what": "狐火攻击间隔或发射时机", "unit": "seconds", "claimed": null, "packHint": "绕身狐火自动攻击的间隔或发射条件" },
+        { "key": "fireSearchRadius", "what": "狐火攻击的索敌范围", "unit": "meters", "claimed": null, "packHint": "绕身狐火的索敌半径" },
+        { "key": "fireBaseDamage", "what": "每颗狐火伤害基础值", "unit": "flat", "claimed": null, "packHint": "绕身狐火伤害基础值" },
+        { "key": "fireRatio", "what": "每颗狐火伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "绕身狐火伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "maxFiresPerCast", "what": "单次施法最多获得的狐火数（若有限制）", "unit": "count", "claimed": null, "packHint": "确认同一单位多次命中是否重复计数，以及单次施法有无获得上限" }
+      ],
+      "ambiguities": [
+        "触发来源是仅一技能还是任意伤害/治疗未写",
+        "绕身狐火的作用方式（自动攻击还是发射）未写",
+        "狐火伤害数值、伤害类型未写",
+        "狐火持续时间、攻击间隔未写",
+        "同一单位多次命中是否重复计数未写",
+        "是否受狐灵洪流、狐火燎原影响未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "心心相印",
+      "text": "施法后获得远距离的强化普攻，可发射3颗狐火",
+      "reading": "一技能小天赋。释放一技能后，获得远距离的强化普攻，强化普攻可以发射3颗狐火。原文没有写：获得几次强化普攻；强化普攻的保留时间；“远距离”的射程是多少；3颗狐火是全部打向同一目标还是分散索敌；每颗狐火的伤害、系数和加成属性；强化普攻是否保留原本的普攻伤害；同一目标被多颗狐火命中是否衰减；是否受狐灵洪流、狐火燎原影响；能否暴击。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能后的下一次普攻",
+      "slots": [
+        { "key": "enhancedAttackCount", "what": "每次施法获得的强化普攻次数", "unit": "count", "claimed": null, "packHint": "该天赋强化普攻的次数" },
+        { "key": "enhancedWindow", "what": "强化普攻的保留时间", "unit": "seconds", "claimed": null, "packHint": "强化普攻 buff 的持续时间" },
+        { "key": "enhancedRange", "what": "强化普攻射程（原文写“远距离”）", "unit": "meters", "claimed": null, "packHint": "强化普攻的攻击距离" },
+        { "key": "firesPerAttack", "what": "每次强化普攻发射的狐火数量", "unit": "count", "claimed": { "value": 3, "quote": "可发射3颗狐火" }, "packHint": "强化普攻的狐火数量，原文写3颗，描述值不可靠，需资源包核对" },
+        { "key": "fireBaseDamage", "what": "每颗狐火伤害基础值", "unit": "flat", "claimed": null, "packHint": "强化普攻狐火伤害基础值" },
+        { "key": "fireRatio", "what": "每颗狐火伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "强化普攻狐火伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "basicDamageRatio", "what": "强化普攻本身保留的普攻伤害倍率（若保留）", "unit": "ratio", "claimed": null, "packHint": "确认强化普攻是否仍造成原普攻伤害及其倍率" },
+        { "key": "sameTargetDamagePct", "what": "同一目标被后续狐火命中的伤害比例（若有衰减）", "unit": "percent", "claimed": null, "packHint": "多颗狐火命中同一目标的伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "强化普攻次数、保留时间未写",
+        "“远距离”射程未写",
+        "3颗狐火的目标分配方式未写",
+        "狐火伤害数值、伤害类型未写",
+        "强化普攻是否保留原普攻伤害未写",
+        "同一目标是否衰减未写",
+        "是否受狐灵洪流、狐火燎原影响未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "灵狐之心",
+      "text": "一技能可额外储存一次",
+      "reading": "一技能小天赋。一技能可以多储存一次（充能），即可以连续释放。“一次”是汉字数字，字面为额外1次，次数仍需核对。原文没有写：每次充能的恢复时间是否等于原冷却；两次释放之间的最小间隔；与核心狐灵真身的冷却加快如何叠加。增加一技能的释放频率，间接提高输出。",
+      "mechanisms": ["charges", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能）",
+      "slots": [
+        { "key": "extraCharges", "what": "额外储存次数（原文写“一次”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "一技能充能上限的增加量，核对“一次”" },
+        { "key": "chargeRechargeTime", "what": "每次充能的恢复时间", "unit": "seconds", "claimed": null, "packHint": "一技能单次充能恢复时间，确认是否与原冷却相同" },
+        { "key": "chargeCastInterval", "what": "两次释放之间的最小间隔", "unit": "seconds", "claimed": null, "packHint": "充能技能连续释放的最小间隔（若有）" }
+      ],
+      "ambiguities": [
+        "“一次”没有阿拉伯数字，次数需核对",
+        "充能恢复时间未写",
+        "连续释放最小间隔未写",
+        "与冷却加快效果的交互未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "波光回溯",
+      "text": "一技能命中敌人后，生成1个回归自身的小光波",
+      "reading": "一技能小天赋。一技能命中敌人后，生成1个小光波，小光波飞回妲己自身。原文没有明说小光波造成伤害，按“光波”理解可能沿回程路径造成伤害，暂列为直接影响；如果资源包显示不造成伤害，应改为不影响。原文没有写：是每命中一个敌人生成1个，还是每次施法只生成1个；小光波的伤害或比例、系数和加成属性；飞行速度和宽度；小光波能否再次触发炎灵舞等命中类效果；能否暴击。“一技能”的“一”是汉字，不计入数字。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能命中敌人后",
+      "slots": [
+        { "key": "smallWaveCount", "what": "每次触发生成的小光波数量", "unit": "count", "claimed": { "value": 1, "quote": "生成1个回归自身的小光波" }, "packHint": "该天赋每次触发生成的小光波数量，原文写1个，描述值不可靠，需资源包核对" },
+        { "key": "maxWavesPerCast", "what": "单次施法最多生成的小光波数（按命中敌人数计算时）", "unit": "count", "claimed": null, "packHint": "确认按每个被命中敌人生成还是每次施法生成，以及单次上限" },
+        { "key": "smallWaveDamagePct", "what": "小光波伤害占原光波伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "小光波是否造成伤害，是否引用原光波伤害公式及比例" },
+        { "key": "smallWaveBaseDamage", "what": "小光波伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "小光波伤害基础值" },
+        { "key": "smallWaveRatio", "what": "小光波伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "小光波伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "smallWaveWidth", "what": "小光波判定宽度", "unit": "meters", "claimed": null, "packHint": "小光波子弹的碰撞宽度" },
+        { "key": "smallWaveSpeed", "what": "小光波飞行速度", "unit": "flat", "claimed": null, "packHint": "小光波飞行速度，用于计算回程命中时机" }
+      ],
+      "ambiguities": [
+        "小光波是否造成伤害未明说",
+        "按命中敌人数生成还是每次施法生成未写",
+        "小光波伤害数值或比例、伤害类型未写",
+        "宽度、飞行速度未写",
+        "小光波能否触发其他命中类效果未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "光波蔓延",
+      "text": "二三技能命中目标后，朝目标方向发射小光波",
+      "reading": "一技能位置的小天赋，但触发条件是二技能或三技能命中目标后，朝目标方向发射小光波。原文没有明说小光波造成伤害，按“光波”理解应会造成伤害，暂列为直接影响。原文没有写：每次触发发射几道小光波；小光波伤害或比例、系数和加成属性；飞行距离、宽度；三技能多颗狐火命中时是否每颗都触发；有无内置冷却；小光波能否触发一技能命中类效果（炎灵舞、波光回溯）；能否暴击。“二三技能”是汉字，不计入数字。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "二技能或三技能命中目标后",
+      "slots": [
+        { "key": "wavesPerTrigger", "what": "每次触发发射的小光波数量", "unit": "count", "claimed": null, "packHint": "该天赋每次触发发射的小光波数量" },
+        { "key": "smallWaveDamagePct", "what": "小光波伤害占一技能光波伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "小光波是否造成伤害，是否引用一技能光波伤害公式及比例" },
+        { "key": "smallWaveBaseDamage", "what": "小光波伤害基础值（若有独立伤害）", "unit": "flat", "claimed": null, "packHint": "小光波伤害基础值" },
+        { "key": "smallWaveRatio", "what": "小光波伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "小光波伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "smallWaveRange", "what": "小光波飞行距离", "unit": "meters", "claimed": null, "packHint": "小光波子弹的飞行距离" },
+        { "key": "smallWaveWidth", "what": "小光波判定宽度", "unit": "meters", "claimed": null, "packHint": "小光波子弹的碰撞宽度" },
+        { "key": "internalCooldown", "what": "触发内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发的内置冷却" },
+        { "key": "maxTriggersPerCast", "what": "单次二/三技能最多触发次数（若有）", "unit": "count", "claimed": null, "packHint": "三技能多颗狐火命中时的触发次数限制" }
+      ],
+      "ambiguities": [
+        "小光波是否造成伤害未明说",
+        "每次触发几道小光波未写",
+        "小光波伤害数值或比例、伤害类型未写",
+        "飞行距离、宽度未写",
+        "三技能每颗狐火是否都能触发、有无内置冷却未写",
+        "小光波能否触发一技能命中类效果未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "生命回廊",
+      "text": "一技能可治疗自身和队友",
+      "reading": "一技能小天赋。一技能可以为妲己自身和队友回复生命（推测光波经过队友时治疗队友，治疗自身的方式原文没写）。原文没有写：治疗量、按什么属性计算；同一单位一次施法能否被多次治疗；治疗自身的触发方式。治疗本身不造成伤害，列为间接影响；但炎灵舞写明“造成伤害或治疗”都能获得狐火，与本天赋搭配时会增加狐火获取。“一技能”的“一”是汉字，不计入数字。",
+      "mechanisms": ["heal", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能经过或命中自身、队友时（原文未写具体方式）",
+      "slots": [
+        { "key": "healBase", "what": "治疗量基础值", "unit": "flat", "claimed": null, "packHint": "该天赋治疗基础值" },
+        { "key": "healRatio", "what": "治疗量加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "治疗按什么属性加成及系数" },
+        { "key": "maxHealsPerTarget", "what": "同一单位单次施法最多被治疗次数", "unit": "count", "claimed": null, "packHint": "确认光波去程、回程或多道光波能否重复治疗同一单位" }
+      ],
+      "ambiguities": [
+        "治疗量及计算方式未写",
+        "治疗自身的触发方式未写",
+        "同一单位能否被重复治疗未写",
+        "治疗是否计入炎灵舞的狐火获取（原文炎灵舞写“治疗”也算，但未写本天赋的治疗是否计入）"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "心灵之镜",
+      "text": "召唤分身帮助妲己释放一技能",
+      "reading": "一技能小天赋。召唤一个分身（原文没写数量），分身帮助妲己释放一技能。原文没有写：分身何时召唤、持续多久；分身是在妲己释放一技能时同步释放，还是独立按冷却释放；分身释放的一技能伤害是与妲己相同还是按一定比例；分身的位置和朝向；分身释放的一技能能否触发妲己的一技能核心和小天赋（分裂光波、炎灵舞、波光回溯等）；能否暴击。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "原文未写召唤时机（按所属一技能理解为释放一技能时）",
+      "slots": [
+        { "key": "cloneCount", "what": "分身数量", "unit": "count", "claimed": null, "packHint": "该天赋召唤的分身数量" },
+        { "key": "cloneDuration", "what": "分身存在时间", "unit": "seconds", "claimed": null, "packHint": "分身召唤物的持续时间" },
+        { "key": "cloneCastDelay", "what": "分身释放一技能相对妲己的延迟", "unit": "seconds", "claimed": null, "packHint": "分身出手时间点" },
+        { "key": "cloneCastsPerTrigger", "what": "妲己每次释放一技能时分身释放的次数", "unit": "count", "claimed": null, "packHint": "分身释放一技能的次数和条件" },
+        { "key": "cloneDamagePct", "what": "分身一技能伤害占妲己一技能伤害的比例", "unit": "percent", "claimed": null, "packHint": "分身技能伤害比例，确认能否暴击、能否触发妲己的天赋效果" },
+        { "key": "summonCooldown", "what": "召唤分身的冷却（若独立计时）", "unit": "seconds", "claimed": null, "packHint": "分身召唤的冷却或触发条件" }
+      ],
+      "ambiguities": [
+        "分身数量、召唤时机、持续时间未写",
+        "分身释放一技能的时机和次数未写",
+        "分身伤害比例未写",
+        "分身位置和朝向未写",
+        "分身释放的一技能能否触发核心和小天赋未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "狐灵回响",
+      "text": "命中敌人后进入魅力时刻，敌方英雄攻击自身将受到狐火反弹伤害",
+      "reading": "二技能小天赋。二技能命中敌人后，妲己进入“魅力时刻”状态；期间敌方英雄攻击妲己，会受到狐火反弹的伤害。“自身”按字面理解为妲己。只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能不触发。原文没有写：魅力时刻持续多久；反弹伤害是固定的狐火伤害还是按受到伤害的比例计算；伤害系数和加成属性；有无内置冷却或次数上限；能否暴击。",
+      "mechanisms": ["buff", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中敌人后；魅力时刻期间敌方英雄攻击妲己时",
+      "slots": [
+        { "key": "charmDuration", "what": "魅力时刻持续时间", "unit": "seconds", "claimed": null, "packHint": "魅力时刻 buff 的持续时间" },
+        { "key": "reflectBaseDamage", "what": "狐火反弹伤害基础值（若为固定伤害）", "unit": "flat", "claimed": null, "packHint": "反弹狐火的伤害基础值" },
+        { "key": "reflectRatio", "what": "狐火反弹伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "反弹狐火伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "reflectPctOfDamageTaken", "what": "反弹伤害占所受伤害的比例（若按比例计算）", "unit": "percent", "claimed": null, "packHint": "确认反弹是否按所受伤害比例计算" },
+        { "key": "internalCooldown", "what": "反弹内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "反弹触发间隔" },
+        { "key": "maxReflects", "what": "每次魅力时刻最多反弹次数（若有）", "unit": "count", "claimed": null, "packHint": "反弹次数上限" }
+      ],
+      "ambiguities": [
+        "魅力时刻持续时间未写",
+        "反弹伤害数值及计算方式、伤害类型未写",
+        "内置冷却、次数上限未写",
+        "无尽守御中敌方单位是否算“英雄”未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "逆灵",
+      "text": "眩晕敌人后，其将陷入反向移动状态1秒",
+      "reading": "二技能小天赋。二技能眩晕敌人后，被眩晕的敌人陷入反向移动状态1秒。原文没有写反向移动是从眩晕结束后开始还是与眩晕同时开始；其他来源的眩晕（如爱心旋风、碎心、魅力陷阱）是否也触发；对首领是否生效。纯控制效果，不直接造成伤害，列为间接影响。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能眩晕敌人后",
+      "slots": [
+        { "key": "reverseDuration", "what": "反向移动状态持续时间", "unit": "seconds", "claimed": { "value": 1, "quote": "反向移动状态1秒" }, "packHint": "反向移动控制的持续时间，原文写1秒，描述值不可靠，需资源包核对" },
+        { "key": "startDelay", "what": "反向移动相对眩晕开始的起算时间（是否在眩晕结束后开始）", "unit": "seconds", "claimed": null, "packHint": "反向移动状态的施加时机" }
+      ],
+      "ambiguities": [
+        "反向移动与眩晕的先后关系未写",
+        "其他来源的眩晕是否触发未写",
+        "对首领是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "狐影迷踪",
+      "text": "眩晕敌人后，获得50%爆发移速",
+      "reading": "二技能小天赋。二技能眩晕敌人后，妲己获得50%爆发移速（“爆发”一般指随时间衰减的移速，原文没明说）。原文没有写持续时间、衰减方式、有无内置冷却、眩晕多个敌人是否重复触发。只影响移动，不影响伤害。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "二技能眩晕敌人后",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "爆发移速加成", "unit": "percent", "claimed": { "value": 50, "quote": "获得50%爆发移速" }, "packHint": "爆发移速数值，原文写50%，描述值不可靠，需资源包核对" },
+        { "key": "duration", "what": "爆发移速持续时间", "unit": "seconds", "claimed": null, "packHint": "移速 buff 的持续时间及衰减方式" },
+        { "key": "internalCooldown", "what": "触发内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋触发间隔" }
+      ],
+      "ambiguities": [
+        "持续时间、衰减方式未写",
+        "内置冷却未写",
+        "眩晕多个敌人是否重复触发或叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "心魄",
+      "text": "目标会额外受到眩晕时间内累积伤害的15%",
+      "reading": "二技能小天赋。被二技能眩晕的目标，会额外受到相当于眩晕期间累积所受伤害15%的伤害（按字面理解，原文没写“被眩晕的目标”，按所属二技能和“眩晕时间”理解）。原文没有写：累积的是只算妲己造成的伤害还是全队；额外伤害的伤害类型（真实、法术还是其他）；结算时机（眩晕结束时一次结算，还是期间持续结算）；有无上限；其他来源的眩晕（爱心旋风、碎心、魅力陷阱）是否适用；这部分额外伤害能否被增伤效果再次放大。",
+      "mechanisms": ["proc", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "二技能眩晕结束时（原文未写结算时机）",
+      "slots": [
+        { "key": "accumulatedDamagePct", "what": "额外伤害占眩晕期间累积伤害的比例", "unit": "percent", "claimed": { "value": 15, "quote": "累积伤害的15%" }, "packHint": "该天赋的累积伤害比例，原文写15%，描述值不可靠，需资源包核对，并确认累积来源和伤害类型" },
+        { "key": "settleDelay", "what": "额外伤害的结算时间点（相对眩晕开始或结束）", "unit": "seconds", "claimed": null, "packHint": "额外伤害的结算时机" },
+        { "key": "damageCap", "what": "额外伤害上限（若有）", "unit": "flat", "claimed": null, "packHint": "额外伤害是否有上限，对首领是否有限制" }
+      ],
+      "ambiguities": [
+        "累积的伤害来源（只算妲己还是全队）未写",
+        "额外伤害的伤害类型未写",
+        "结算时机未写",
+        "有无上限未写",
+        "其他来源的眩晕是否适用未写",
+        "额外伤害能否再被增伤效果放大未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "爱心旋风",
+      "text": "额外召唤2个爱心在身边旋转，碰到的英雄会被眩晕",
+      "reading": "二技能小天赋。额外召唤2个爱心在妲己身边旋转，碰到的英雄会被眩晕。原文没写召唤时机，按所属二技能理解为释放二技能时。原文只写了眩晕，没写爱心是否造成伤害；只写了“英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明。原文没有写：爱心存在多久；旋转半径；眩晕时长；爱心碰到目标后是否消失；同一目标能否被反复眩晕。按原文只列为控制（间接影响）；眩晕会触发心魄、逆灵、狐影迷踪等“眩晕敌人后”效果（是否触发原文未写）；如果资源包显示爱心造成伤害，应改为直接影响。",
+      "mechanisms": ["summon", "control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时（原文未写召唤时机）；爱心碰到英雄时",
+      "slots": [
+        { "key": "heartCount", "what": "额外召唤的旋转爱心数量", "unit": "count", "claimed": { "value": 2, "quote": "额外召唤2个爱心" }, "packHint": "旋转爱心数量，原文写2个，描述值不可靠，需资源包核对" },
+        { "key": "heartDuration", "what": "旋转爱心存在时间", "unit": "seconds", "claimed": null, "packHint": "旋转爱心召唤物的持续时间" },
+        { "key": "orbitRadius", "what": "旋转半径", "unit": "meters", "claimed": null, "packHint": "爱心围绕妲己旋转的半径与碰撞大小" },
+        { "key": "stunDuration", "what": "眩晕时长", "unit": "seconds", "claimed": null, "packHint": "旋转爱心造成的眩晕时长" },
+        { "key": "restunCooldown", "what": "同一目标再次被眩晕的间隔（若有）", "unit": "seconds", "claimed": null, "packHint": "同一目标重复眩晕的保护时间，确认爱心碰撞后是否消失" },
+        { "key": "heartBaseDamage", "what": "爱心碰撞伤害基础值（若造成伤害）", "unit": "flat", "claimed": null, "packHint": "确认旋转爱心是否造成伤害及基础值" },
+        { "key": "heartRatio", "what": "爱心碰撞伤害加成系数（若造成伤害，加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "旋转爱心伤害系数、加成属性、伤害类型及能否暴击" }
+      ],
+      "ambiguities": [
+        "召唤时机未写",
+        "爱心是否造成伤害未写",
+        "爱心存在时间、旋转半径未写",
+        "眩晕时长未写",
+        "碰撞后爱心是否消失、同一目标能否反复眩晕未写",
+        "无尽守御中敌方单位是否算“英雄”未写",
+        "是否触发“眩晕敌人后”类小天赋未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "灵动",
+      "text": "二技能可移动施法",
+      "reading": "二技能小天赋。释放二技能时可以移动。原文没有写施法过程中移速是否降低。纯操作性效果，不改变伤害；如果资源包显示二技能施法动作的锁定时间因此改变，模拟时间轴需要调整。“二技能”的“二”是汉字，不计入数字。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "castMoveSpeedPct", "what": "施法过程中的移速比例", "unit": "percent", "claimed": null, "packHint": "二技能施法过程中是否保留全部移速，以及施法动作锁定时间是否改变" }
+      ],
+      "ambiguities": [
+        "施法过程中移速是否降低未写",
+        "施法动作锁定时间是否改变未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "碎心",
+      "text": "命中后向四周释出小爱心，眩晕敌人",
+      "reading": "二技能小天赋。二技能命中后，从命中位置（原文没明说是目标位置还是妲己位置）向四周释出小爱心，小爱心会眩晕敌人。原文只写了眩晕，没写小爱心是否造成伤害。原文没有写：小爱心数量；扩散范围；眩晕时长；同一目标被多颗小爱心命中是否重复眩晕；被二技能本体命中的目标是否也会被小爱心再次命中。按原文列为控制（间接影响）；如果资源包显示小爱心造成伤害，应改为直接影响。",
+      "mechanisms": ["area", "control", "proc"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中后",
+      "slots": [
+        { "key": "smallHeartCount", "what": "释出的小爱心数量", "unit": "count", "claimed": null, "packHint": "该天赋小爱心数量" },
+        { "key": "spreadRadius", "what": "小爱心扩散范围", "unit": "meters", "claimed": null, "packHint": "小爱心的飞行距离或扩散半径，确认释放中心" },
+        { "key": "stunDuration", "what": "小爱心眩晕时长", "unit": "seconds", "claimed": null, "packHint": "小爱心造成的眩晕时长" },
+        { "key": "smallHeartBaseDamage", "what": "小爱心伤害基础值（若造成伤害）", "unit": "flat", "claimed": null, "packHint": "确认小爱心是否造成伤害及基础值" },
+        { "key": "smallHeartRatio", "what": "小爱心伤害加成系数（若造成伤害，加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "小爱心伤害系数、加成属性、伤害类型及能否暴击" }
+      ],
+      "ambiguities": [
+        "释放中心（目标位置还是妲己位置）未写",
+        "小爱心是否造成伤害未写",
+        "小爱心数量、扩散范围未写",
+        "眩晕时长未写",
+        "同一目标能否被多颗小爱心重复眩晕未写",
+        "被本体命中的目标是否也会被小爱心命中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "灵魂枷锁",
+      "text": "命中英雄将抽取其灵魂，灵魂会攻击附近的敌人",
+      "reading": "二技能小天赋。二技能命中英雄后，抽取该英雄的灵魂，灵魂会攻击附近的敌人。只写了“英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能不触发。原文没有写：灵魂存在多久；攻击间隔和次数；伤害按妲己属性还是被抽取英雄的属性计算，基础值、系数和加成属性；“附近”的范围；同时存在的灵魂数量上限；被抽取的英雄本身是否受影响；能否暴击。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能命中英雄后",
+      "slots": [
+        { "key": "soulDuration", "what": "灵魂存在时间", "unit": "seconds", "claimed": null, "packHint": "灵魂召唤物的持续时间" },
+        { "key": "soulAttackInterval", "what": "灵魂攻击间隔", "unit": "seconds", "claimed": null, "packHint": "灵魂的攻击间隔或攻击次数" },
+        { "key": "soulSearchRadius", "what": "灵魂攻击的索敌范围（原文写“附近”）", "unit": "meters", "claimed": null, "packHint": "灵魂的索敌半径" },
+        { "key": "soulBaseDamage", "what": "灵魂每次攻击伤害基础值", "unit": "flat", "claimed": null, "packHint": "灵魂攻击伤害基础值" },
+        { "key": "soulRatio", "what": "灵魂攻击伤害加成系数（按妲己还是被抽取英雄的属性未写）", "unit": "ratio", "claimed": null, "packHint": "灵魂伤害系数、加成属性及其所属单位、伤害类型、能否暴击" },
+        { "key": "maxSouls", "what": "同时存在的灵魂数量上限", "unit": "count", "claimed": null, "packHint": "灵魂数量上限（若有）" }
+      ],
+      "ambiguities": [
+        "灵魂持续时间、攻击间隔未写",
+        "灵魂伤害按谁的属性计算、数值、伤害类型未写",
+        "“附近”范围未写",
+        "灵魂数量上限未写",
+        "被抽取的英雄本身是否受影响未写",
+        "无尽守御中敌方单位是否算“英雄”未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "心之纱",
+      "text": "施法后获得高额韧性并持续恢复生命值",
+      "reading": "三技能小天赋。释放三技能后，获得高额韧性，并在一段时间内持续回复生命值。原文没有写：韧性数值（“高额”）和持续时间；回复量、按什么计算（固定值、最大生命百分比或属性加成）、回复间隔和持续时间；韧性和回复的持续时间是否相同。提升生存，列为间接影响。",
+      "mechanisms": ["buff", "control-immunity", "heal"],
+      "damageRelevance": "indirect",
+      "trigger": "释放三技能后",
+      "slots": [
+        { "key": "tenacity", "what": "获得的韧性（原文写“高额”）", "unit": "percent", "claimed": null, "packHint": "该天赋韧性 buff 的数值" },
+        { "key": "tenacityDuration", "what": "韧性持续时间", "unit": "seconds", "claimed": null, "packHint": "韧性 buff 的持续时间" },
+        { "key": "regenPerTick", "what": "每次回复量基础值", "unit": "flat", "claimed": null, "packHint": "持续回复的每跳基础值" },
+        { "key": "regenRatio", "what": "回复量加成系数（按什么计算未写）", "unit": "ratio", "claimed": null, "packHint": "回复按什么属性或最大生命比例计算及系数" },
+        { "key": "regenInterval", "what": "回复间隔", "unit": "seconds", "claimed": null, "packHint": "持续回复的结算间隔" },
+        { "key": "regenDuration", "what": "回复持续时间", "unit": "seconds", "claimed": null, "packHint": "持续回复 buff 的持续时间" }
+      ],
+      "ambiguities": [
+        "韧性数值、持续时间未写",
+        "回复量、计算方式、间隔、持续时间未写",
+        "韧性和回复是否同时结束未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "蔓延崇拜",
+      "text": "助攻或击杀敌方英雄将获得30点法强，死亡将减少30%，上限400点",
+      "reading": "三技能位置的小天赋。每次助攻或击杀敌方英雄获得30点法强（法术攻击），可累积，上限400点；妲己死亡时，已累积的法强减少30%（按字面理解为减少已累积部分的30%，原文没写是按当前累积值还是按上限计算，也没写取整方式）。只写了“敌方英雄”，无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能无法叠加。原文没有写“助攻”的判定条件（伤害或控制后多少秒内）。",
+      "mechanisms": ["stacking", "stat"],
+      "damageRelevance": "direct",
+      "trigger": "助攻或击杀敌方英雄时；妲己死亡时",
+      "slots": [
+        { "key": "magicAtkPerTakedown", "what": "每次助攻或击杀获得的法强", "unit": "flat", "claimed": { "value": 30, "quote": "获得30点法强" }, "packHint": "每次触发的法术攻击加成，原文写30点，描述值不可靠，需资源包核对" },
+        { "key": "deathLossPct", "what": "死亡时减少的比例（减少，按字面理解为减少已累积法强的30%）", "unit": "percent", "claimed": { "value": 30, "quote": "死亡将减少30%" }, "packHint": "死亡时累积法强的扣减比例，原文写30%，描述值不可靠，需资源包核对，并确认扣减基数和取整方式" },
+        { "key": "magicAtkCap", "what": "累积法强上限", "unit": "flat", "claimed": { "value": 400, "quote": "上限400点" }, "packHint": "累积法强上限，原文写400点，描述值不可靠，需资源包核对" },
+        { "key": "assistWindow", "what": "助攻判定的时间窗口", "unit": "seconds", "claimed": null, "packHint": "助攻判定条件（对目标造成伤害或控制后多少秒内）" }
+      ],
+      "ambiguities": [
+        "死亡减少30%的基数和取整方式未写",
+        "助攻的判定条件未写",
+        "无尽守御中敌方单位是否算“英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "狐灵洪流",
+      "text": "狐火数量增加60%",
+      "reading": "三技能小天赋。狐火数量增加60%。按所属三技能理解为三技能释放的狐火数量增加，原文没写是否也作用于狐舞天下的每轮狐火、炎灵舞的绕身狐火、心心相印的强化普攻狐火、无心者的反弹狐火。原文没有写三技能原本的狐火数量，也没写增加后的取整方式；同一目标被更多狐火命中时伤害是否衰减。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（三技能及可能的其他狐火来源）",
+      "slots": [
+        { "key": "foxFireCountIncrease", "what": "狐火数量增加比例", "unit": "percent", "claimed": { "value": 60, "quote": "狐火数量增加60%" }, "packHint": "该天赋狐火数量加成，原文写60%，描述值不可靠，需资源包核对，并确认取整方式和作用于哪些狐火来源" },
+        { "key": "baseFoxFireCount", "what": "三技能原本的狐火数量", "unit": "count", "claimed": null, "packHint": "三技能原始狐火数量，用于换算加成后的数量" }
+      ],
+      "ambiguities": [
+        "作用于哪些狐火来源未写",
+        "三技能原始狐火数量未写",
+        "增加后的取整方式未写",
+        "同一目标多颗狐火是否衰减未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "灵狐漫步",
+      "text": "施法后小跳，并获得持续3秒的40%爆发衰减移速",
+      "reading": "三技能小天赋。释放三技能后，妲己进行一次小跳，并获得40%的爆发移速，持续3秒，期间逐渐衰减。原文没有写：小跳的距离和方向（朝向还是摇杆方向）；小跳过程是否不可选中或不可被控制；衰减方式（线性还是分段）。只影响移动，不影响伤害。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "释放三技能后",
+      "slots": [
+        { "key": "hopDistance", "what": "小跳距离", "unit": "meters", "claimed": null, "packHint": "小跳位移距离和方向" },
+        { "key": "hopDuration", "what": "小跳过程时长", "unit": "seconds", "claimed": null, "packHint": "小跳动作时长，确认期间是否不可选中" },
+        { "key": "moveSpeedBonus", "what": "爆发衰减移速的初始加成", "unit": "percent", "claimed": { "value": 40, "quote": "40%爆发衰减移速" }, "packHint": "移速加成初始值，原文写40%，描述值不可靠，需资源包核对" },
+        { "key": "moveSpeedDuration", "what": "移速持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "持续3秒" }, "packHint": "移速 buff 持续时间，原文写3秒，描述值不可靠，需资源包核对，并确认衰减方式" }
+      ],
+      "ambiguities": [
+        "小跳距离、方向未写",
+        "小跳过程是否不可选中未写",
+        "移速衰减方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "无心者",
+      "text": "每5秒隐身并留下假分身，且分身被攻击会反弹一轮狐火",
+      "reading": "三技能位置的小天赋。每5秒，妲己隐身一次并在原地留下一个假分身；假分身被攻击时会反弹一轮狐火。原文没写5秒计时是常驻循环还是与三技能相关；“一轮”是汉字数字，字面为1轮。原文没有写：隐身持续多久，攻击或施法是否打断隐身；假分身存在多久、生命值；一轮狐火有几颗、伤害、系数和加成属性；假分身被攻击多次是否每次都反弹；能否暴击。无尽守御里野怪会攻击假分身，反弹伤害可能经常触发，列为直接影响。",
+      "mechanisms": ["invulnerable", "summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "每5秒（原文未写是否需要条件）；假分身被攻击时",
+      "slots": [
+        { "key": "interval", "what": "隐身并留下分身的周期", "unit": "seconds", "claimed": { "value": 5, "quote": "每5秒隐身" }, "packHint": "该天赋的触发周期，原文写5秒，描述值不可靠，需资源包核对，并确认计时条件" },
+        { "key": "stealthDuration", "what": "隐身持续时间", "unit": "seconds", "claimed": null, "packHint": "隐身 buff 的持续时间及打断条件" },
+        { "key": "decoyDuration", "what": "假分身存在时间", "unit": "seconds", "claimed": null, "packHint": "假分身的持续时间" },
+        { "key": "decoyHp", "what": "假分身生命值", "unit": "flat", "claimed": null, "packHint": "假分身生命值及是否继承妲己属性" },
+        { "key": "roundsPerTrigger", "what": "每次被攻击反弹的狐火轮数（原文写“一轮”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "反弹狐火轮数，核对“一轮”" },
+        { "key": "firesPerRound", "what": "一轮狐火的数量", "unit": "count", "claimed": null, "packHint": "反弹一轮狐火的子弹数量，确认是否受狐灵洪流加成" },
+        { "key": "fireBaseDamage", "what": "每颗反弹狐火伤害基础值", "unit": "flat", "claimed": null, "packHint": "反弹狐火伤害基础值" },
+        { "key": "fireRatio", "what": "每颗反弹狐火伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "反弹狐火伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "maxReflectsPerDecoy", "what": "每个假分身最多反弹次数", "unit": "count", "claimed": null, "packHint": "假分身被多次攻击时的反弹次数上限或间隔" }
+      ],
+      "ambiguities": [
+        "5秒计时是否需要条件未写",
+        "隐身持续时间及打断条件未写",
+        "假分身持续时间、生命值未写",
+        "“一轮”没有阿拉伯数字，轮数需核对；一轮狐火数量未写",
+        "反弹狐火伤害数值、伤害类型未写",
+        "多次被攻击是否每次反弹未写",
+        "能否暴击未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "九尾",
+      "text": "每对英雄释放9次大招，将获得1次复活的效果",
+      "reading": "三技能小天赋。每对英雄释放9次大招（三技能），获得1次复活效果。“对英雄释放”按字面理解为大招作用于英雄目标时才计数，原文没写是命中英雄还是锁定英雄。无尽守御里敌人多为野怪、挑战怪，是否算英雄不明，若不算则本天赋可能无法计数。原文没有写：复活后的生命值、复活延迟、复活位置；复活次数能否储存、储存上限；计数在复活后是否清零。提升生存，列为间接影响。",
+      "mechanisms": ["revive"],
+      "damageRelevance": "indirect",
+      "trigger": "累计对英雄释放9次大招后；死亡时",
+      "slots": [
+        { "key": "castsPerRevive", "what": "获得一次复活所需的大招次数", "unit": "count", "claimed": { "value": 9, "quote": "释放9次大招" }, "packHint": "该天赋的计数阈值，原文写9次，描述值不可靠，需资源包核对，并确认“对英雄释放”的计数条件" },
+        { "key": "revivesGranted", "what": "每次达成获得的复活次数", "unit": "count", "claimed": { "value": 1, "quote": "获得1次复活" }, "packHint": "每次达成获得的复活次数，原文写1次，描述值不可靠，需资源包核对" },
+        { "key": "reviveHpPct", "what": "复活后的生命值比例", "unit": "percent", "claimed": null, "packHint": "复活后的生命值" },
+        { "key": "reviveDelay", "what": "复活延迟", "unit": "seconds", "claimed": null, "packHint": "死亡到复活的时间" },
+        { "key": "maxStoredRevives", "what": "可储存的复活次数上限", "unit": "count", "claimed": null, "packHint": "复活次数储存上限（若有）" }
+      ],
+      "ambiguities": [
+        "“对英雄释放”的计数条件未写",
+        "无尽守御中敌方单位是否算“英雄”未写",
+        "复活生命值、延迟、位置未写",
+        "复活次数能否储存、上限未写",
+        "计数是否在复活后清零未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "狐火燎原",
+      "text": "狐火会在敌人间弹射",
+      "reading": "三技能小天赋。狐火命中敌人后会在敌人之间弹射。按所属三技能理解为三技能狐火，原文没写是否也作用于狐舞天下、炎灵舞、心心相印、无心者的狐火。原文没有写：弹射次数；弹射范围；每次弹射伤害是否衰减、衰减多少；能否弹回已命中过的目标；只有一个敌人时是否会反复命中。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "狐火命中敌人后",
+      "slots": [
+        { "key": "bounceCount", "what": "每颗狐火的弹射次数", "unit": "count", "claimed": null, "packHint": "狐火弹射次数" },
+        { "key": "bounceRange", "what": "弹射索敌范围", "unit": "meters", "claimed": null, "packHint": "弹射到下一个目标的最大距离" },
+        { "key": "bounceDamagePct", "what": "每次弹射伤害占原狐火伤害的比例", "unit": "percent", "claimed": null, "packHint": "弹射伤害比例及是否逐次衰减" }
+      ],
+      "ambiguities": [
+        "作用于哪些狐火来源未写",
+        "弹射次数、范围未写",
+        "弹射伤害是否衰减、衰减多少未写",
+        "能否弹回已命中目标未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "灵域",
+      "text": "大招范围＋200",
+      "reading": "三技能小天赋。大招（三技能）的范围增加200。“＋200”没有写单位，按数值大小不像是米，可能是游戏内部距离单位，按原文记为无单位的 flat 值。原文没写“范围”是狐火的索敌范围还是其他作用范围，也没写大招原本的范围。范围变大可让狐火锁定更远的敌人，不改变单次伤害，列为间接影响。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（三技能）",
+      "slots": [
+        { "key": "rangeIncrease", "what": "大招范围增加量（原文“＋200”没写单位，按原文记为无单位的 flat 值，可能是游戏内距离单位）", "unit": "flat", "claimed": { "value": 200, "quote": "大招范围＋200" }, "packHint": "该天赋对三技能范围的加成数值和单位，原文写＋200，描述值不可靠，需资源包核对，并确认作用于索敌范围还是其他范围" },
+        { "key": "baseRange", "what": "大招原本的范围", "unit": "meters", "claimed": null, "packHint": "三技能原始索敌或作用范围，用于换算加成后的范围" }
+      ],
+      "ambiguities": [
+        "“＋200”的单位未写",
+        "“范围”指哪种范围未写",
+        "大招原始范围未写",
+        "是否作用于狐舞天下等其他狐火来源未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

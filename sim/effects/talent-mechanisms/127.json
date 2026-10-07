@@ -1,0 +1,799 @@
+{
+  "heroId": "127",
+  "heroName": "甄姬",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "冰澌结川",
+      "text": "冰封自己后可以移动以及释放二三技能",
+      "reading": "核心。甄姬冰封自己之后，仍然可以移动，也可以释放二技能和三技能。原文的写法暗示不选此核心时冰封自己期间不能移动、不能释放技能，但原文没有明说默认限制是什么。原文没有写：冰封自己的持续时间；冰封期间移速是否改变；冰封期间能否普攻、能否再次释放一技能；冰封自己本身是否带有免伤、无敌等保护效果；冰封期间释放的二三技能是否与正常释放完全相同。本条不直接改变伤害，但让冰封期间也能继续释放二三技能输出。",
+      "mechanisms": ["skill-change", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "冰封自己后（冰封状态期间）",
+      "slots": [
+        { "key": "selfFreezeDuration", "what": "冰封自己的持续时间（决定可以边冰封边移动、施法的时间窗口）", "unit": "seconds", "claimed": null, "packHint": "甄姬冰封自己状态的持续时间，以及选此核心后是否改变" },
+        { "key": "moveSpeedWhileFrozen", "what": "冰封期间的移速修正（原文只写“可以移动”，没写速度是否受影响；若有）", "unit": "percent", "claimed": null, "packHint": "冰封自己状态下的移速倍率或移速修正" },
+        { "key": "frozenDamageReduction", "what": "冰封自己期间的受伤减免（原文没写冰封自己是否带保护效果；若有）", "unit": "percent", "claimed": null, "packHint": "冰封自己状态是否附带免伤、无敌或不可选中，及其数值" }
+      ],
+      "ambiguities": [
+        "冰封自己的持续时间未写",
+        "不选此核心时冰封期间具体有哪些限制未写（原文只是暗示不能移动和施法）",
+        "冰封期间移速是否改变未写",
+        "冰封期间能否普攻、能否再次释放一技能未写",
+        "冰封自己本身是否带免伤、无敌等保护效果未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二三技能", "reason": "中文数字，表示技能编号（二技能、三技能），不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "渊渟暗涌",
+      "text": "冰柱会持续爆炸产生范围伤害",
+      "reading": "核心。冰柱存在期间会反复爆炸，每次爆炸造成范围伤害。原文没有写：爆炸间隔；每次爆炸的伤害数值、伤害类型、加成属性、能否暴击；爆炸范围；冰柱存在多久（决定一根冰柱总共爆炸几次）；同时最多存在几根冰柱；爆炸是否附带冰冻或减速；命中目标数是否有上限；冰塑、翩若惊鸿等其他来源生成的冰柱是否也会持续爆炸。",
+      "mechanisms": ["proc", "area", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "冰柱存在期间（周期性）",
+      "slots": [
+        { "key": "explosionInterval", "what": "冰柱两次爆炸之间的间隔", "unit": "seconds", "claimed": null, "packHint": "该核心冰柱爆炸的周期" },
+        { "key": "explosionDamageBase", "what": "每次爆炸伤害的基础值", "unit": "flat", "claimed": null, "packHint": "冰柱爆炸的伤害基础值与伤害类型" },
+        { "key": "explosionDamageRatio", "what": "每次爆炸伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "冰柱爆炸伤害的加成属性与系数，以及能否暴击" },
+        { "key": "explosionRadius", "what": "爆炸范围半径", "unit": "meters", "claimed": null, "packHint": "冰柱爆炸的作用范围" },
+        { "key": "pillarDuration", "what": "冰柱存在时长（决定总爆炸次数）", "unit": "seconds", "claimed": null, "packHint": "一技能冰柱的存在时间，选此核心后是否改变" },
+        { "key": "maxPillars", "what": "同时存在的冰柱数量上限（若有）", "unit": "count", "claimed": null, "packHint": "冰柱同时存在的数量上限" },
+        { "key": "maxTargets", "what": "单次爆炸命中目标数上限（若有）", "unit": "count", "claimed": null, "packHint": "冰柱爆炸是否有命中目标数上限" }
+      ],
+      "ambiguities": [
+        "爆炸间隔未写",
+        "爆炸伤害数值、伤害类型、加成属性、能否暴击未写",
+        "爆炸范围未写",
+        "冰柱存在时长和同时存在数量上限未写",
+        "爆炸是否附带冰冻或减速未写",
+        "其他来源（冰塑、翩若惊鸿）生成的冰柱是否也持续爆炸未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "洛川游鳞",
+      "text": "水球无限次数在任意单位间弹射",
+      "reading": "核心。二技能水球的弹射次数不再有限制，并且可以在任意单位之间弹射。“无限次数”说明默认弹射次数有上限；“任意单位”说明默认只能在某些单位间弹射，但原文没写默认规则，也没写“任意单位”是否包括友方英雄、召唤物、小兵或怪物。次数虽然不限，但小天赋萦久提到“可弹射时间”，说明水球的弹射可能受时间窗口限制，实际弹射次数取决于这个时间和弹射间隔。原文没有写：每次弹射伤害、弹射后伤害是否衰减、弹射间隔、弹射搜索距离、弹到非敌方单位时有没有效果、同一敌人能否被连续反复命中。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能后（水球弹射期间）",
+      "slots": [
+        { "key": "bounceDamageBase", "what": "每次弹射命中伤害的基础值", "unit": "flat", "claimed": null, "packHint": "二技能水球每次弹射命中的伤害基础值与伤害类型" },
+        { "key": "bounceDamageRatio", "what": "每次弹射命中伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "水球弹射伤害的加成属性与系数，以及能否暴击" },
+        { "key": "bounceFalloff", "what": "每次弹射后伤害的变化幅度（原文没写是否衰减；若有）", "unit": "percent", "claimed": null, "packHint": "水球弹射伤害是否逐次衰减或递增及其数值" },
+        { "key": "bounceInterval", "what": "相邻两次弹射之间的时间", "unit": "seconds", "claimed": null, "packHint": "水球弹射的间隔，或由飞行速度和弹射距离换算" },
+        { "key": "bounceSearchRange", "what": "水球寻找下一个弹射目标的距离", "unit": "meters", "claimed": null, "packHint": "水球弹射的索敌范围" },
+        { "key": "bounceWindow", "what": "可弹射时间（萦久提到此概念，本条原文未写）", "unit": "seconds", "claimed": null, "packHint": "水球可以弹射的总时长，选此核心后是否改变" },
+        { "key": "baseBounceCount", "what": "不选此核心时的默认弹射次数上限", "unit": "count", "claimed": null, "packHint": "二技能水球默认最大弹射次数" },
+        { "key": "sameTargetHitLimit", "what": "同一目标被连续或重复命中的限制（若有）", "unit": "count", "claimed": null, "packHint": "水球能否连续弹回同一目标、同一目标的命中次数或间隔限制" }
+      ],
+      "ambiguities": [
+        "默认弹射次数上限和默认可弹射的单位类型未写",
+        "“任意单位”是否包括友方英雄、召唤物、小兵或怪物未写",
+        "弹到非敌方单位时是否有效果（伤害、回复等）未写",
+        "每次弹射伤害、是否衰减未写",
+        "弹射间隔、搜索距离、可弹射时间未写",
+        "同一敌人能否被反复命中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "碧落浮沉",
+      "text": "水球仅在释放目标处上下弹跳，持续造成范围伤害",
+      "reading": "核心。二技能水球不再在单位之间弹射，只在释放目标的位置上下弹跳，并在那里持续造成范围伤害。“释放目标处”是指释放时选中的目标单位（是否跟随该单位移动）还是固定在释放时的地点，原文不明确。原文没有写：弹跳持续多久或弹跳几次；每次伤害数值、伤害类型、加成属性、能否暴击；伤害间隔；伤害范围；命中目标数上限；二技能弹射类天赋（济涟、汲露、萦久）是否对上下弹跳生效。",
+      "mechanisms": ["skill-change", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能后（水球在目标处弹跳期间）",
+      "slots": [
+        { "key": "bounceDuration", "what": "水球在目标处弹跳的持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心水球上下弹跳的持续时长" },
+        { "key": "maxBounces", "what": "弹跳次数上限（若按次数结束）", "unit": "count", "claimed": null, "packHint": "该核心水球弹跳次数或结束条件" },
+        { "key": "tickInterval", "what": "两次伤害之间的间隔（每次落地一次还是固定间隔未写）", "unit": "seconds", "claimed": null, "packHint": "上下弹跳造成伤害的间隔" },
+        { "key": "tickDamageBase", "what": "每次范围伤害的基础值", "unit": "flat", "claimed": null, "packHint": "弹跳范围伤害的基础值与伤害类型" },
+        { "key": "tickDamageRatio", "what": "每次范围伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "弹跳范围伤害的加成属性与系数，以及能否暴击" },
+        { "key": "aoeRadius", "what": "每次弹跳伤害的范围半径", "unit": "meters", "claimed": null, "packHint": "弹跳范围伤害的作用半径" },
+        { "key": "maxTargets", "what": "每次伤害命中目标数上限（若有）", "unit": "count", "claimed": null, "packHint": "弹跳范围伤害是否有目标数上限" }
+      ],
+      "ambiguities": [
+        "“释放目标处”是跟随目标单位还是固定地点未写",
+        "弹跳持续时间或次数未写",
+        "伤害数值、类型、加成属性、能否暴击未写",
+        "伤害间隔和范围未写",
+        "济涟、汲露、萦久等弹射相关小天赋是否对上下弹跳生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "婉若游龙",
+      "text": "甄姬化为水流出现在大招中心，大招会跟随甄姬移动，大招逐渐坍塌爆炸",
+      "reading": "核心。释放大招时甄姬化为水流，出现在大招区域的中心；之后大招区域跟随甄姬移动；大招区域会逐渐坍塌并爆炸。“逐渐坍塌爆炸”可以理解为区域逐渐缩小、最后爆炸一次，也可能是在坍塌过程中多次爆炸，原文不明确。原文没有写：化为水流移动的距离或所需时间、水流状态是否可被选中或受伤；大招跟随移动是否有速度限制；坍塌过程持续多久、范围缩小多少；爆炸伤害数值、伤害类型、加成属性、能否暴击；爆炸范围和次数；大招原本的持续伤害、冰冻等效果在此核心下是否保留。",
+      "mechanisms": ["skill-change", "mobility", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时；大招持续期间",
+      "slots": [
+        { "key": "castRange", "what": "大招施法距离（即化为水流后可到达的距离）", "unit": "meters", "claimed": null, "packHint": "大招施法距离，选此核心后是否改变" },
+        { "key": "transitTime", "what": "化为水流到达大招中心所需时间", "unit": "seconds", "claimed": null, "packHint": "化为水流的位移时长或速度，期间是否不可选中" },
+        { "key": "collapseDuration", "what": "大招从释放到坍塌爆炸的时长", "unit": "seconds", "claimed": null, "packHint": "该核心大招的持续时间与坍塌过程时长" },
+        { "key": "initialRadius", "what": "大招区域初始半径", "unit": "meters", "claimed": null, "packHint": "大招区域的初始范围" },
+        { "key": "collapseShrink", "what": "坍塌时区域缩小的幅度（原文没写是否真的缩小、缩小多少，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "坍塌过程中大招范围的变化方式和数值" },
+        { "key": "explosionDamageBase", "what": "坍塌爆炸伤害的基础值", "unit": "flat", "claimed": null, "packHint": "坍塌爆炸的伤害基础值与伤害类型" },
+        { "key": "explosionDamageRatio", "what": "坍塌爆炸伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "坍塌爆炸伤害的加成属性与系数，以及能否暴击" },
+        { "key": "explosionRadius", "what": "爆炸范围半径", "unit": "meters", "claimed": null, "packHint": "坍塌爆炸的作用范围" },
+        { "key": "explosionCount", "what": "爆炸次数（一次还是逐渐多次未写）", "unit": "count", "claimed": null, "packHint": "坍塌过程中爆炸的次数与时机" }
+      ],
+      "ambiguities": [
+        "“逐渐坍塌爆炸”是坍塌后爆炸一次还是坍塌过程中多次爆炸未写",
+        "化为水流的位移距离、时间，以及期间是否不可选中未写",
+        "大招跟随移动是否有速度限制未写",
+        "坍塌时长、范围变化未写",
+        "爆炸伤害、类型、范围、次数、能否暴击未写",
+        "大招原有效果（持续伤害、冰冻等）在此核心下是否保留未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "翩若惊鸿",
+      "text": "大招生成冰柱，吸引周围冰柱碰撞震荡，路径中造成伤害和击退",
+      "reading": "核心。释放大招时生成冰柱，并把周围已有的冰柱吸引过来，冰柱相互碰撞产生震荡；冰柱移动路径上的敌人受到伤害并被击退。原文没有写：大招生成几根冰柱、生成在哪里；吸引的范围和冰柱移动速度；路径伤害数值、伤害类型、加成属性、能否暴击；碰撞震荡本身是否另外造成伤害；击退距离；同一敌人被多根冰柱路径经过时是否重复受伤和击退；被吸引后的冰柱是否保留、是否仍有一技能冰柱的效果（减速区域、渊渟暗涌的爆炸等）；“周围冰柱”是否包括冰塑等其他来源生成的冰柱。",
+      "mechanisms": ["summon", "area", "proc", "control"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招时",
+      "slots": [
+        { "key": "pillarsSpawned", "what": "大招生成的冰柱数量", "unit": "count", "claimed": null, "packHint": "该核心大招生成冰柱的数量和位置" },
+        { "key": "pullRadius", "what": "吸引周围冰柱的范围", "unit": "meters", "claimed": null, "packHint": "大招吸引冰柱的作用半径" },
+        { "key": "pullSpeed", "what": "冰柱被吸引时的移动速度（单位未写）", "unit": "flat", "claimed": null, "packHint": "被吸引冰柱的移动速度及单位，或移动所需时间" },
+        { "key": "pathWidth", "what": "冰柱移动路径的伤害判定宽度", "unit": "meters", "claimed": null, "packHint": "冰柱移动路径的碰撞判定宽度" },
+        { "key": "pathDamageBase", "what": "路径伤害的基础值", "unit": "flat", "claimed": null, "packHint": "冰柱路径伤害的基础值与伤害类型" },
+        { "key": "pathDamageRatio", "what": "路径伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "冰柱路径伤害的加成属性与系数，以及能否暴击" },
+        { "key": "collisionDamageBase", "what": "冰柱碰撞震荡的伤害基础值（原文没写碰撞是否单独造成伤害；若有）", "unit": "flat", "claimed": null, "packHint": "冰柱碰撞震荡是否另有伤害及其数值、范围" },
+        { "key": "knockbackDistance", "what": "击退距离", "unit": "meters", "claimed": null, "packHint": "路径击退的距离或时长" },
+        { "key": "sameTargetHitLimit", "what": "同一敌人被多根冰柱路径命中时的伤害次数上限（若有）", "unit": "count", "claimed": null, "packHint": "同一目标被多根冰柱路径经过时是否重复受伤" }
+      ],
+      "ambiguities": [
+        "大招生成冰柱的数量和位置未写",
+        "吸引范围、冰柱移动速度未写",
+        "路径伤害数值、类型、加成属性、能否暴击未写",
+        "碰撞震荡是否另外造成伤害未写",
+        "击退距离未写",
+        "同一敌人被多根冰柱经过时是否重复受伤和击退未写",
+        "被吸引后的冰柱是否保留、是否仍有一技能冰柱的效果未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "繁霜",
+      "text": "生成冰柱的范围增加",
+      "reading": "一技能生成冰柱的范围增加。“范围”可能指冰柱本身的作用范围（例如周围减速区域或冰冻判定），也可能指生成冰柱的施法范围或冰柱分布范围，原文不明确。原文没有写增加多少、按比例还是固定值，也没写是否作用于其他来源生成的冰柱。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（生成冰柱时生效）",
+      "slots": [
+        { "key": "rangeIncrease", "what": "范围增加幅度（原文没写是比例还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对冰柱范围的加成数值与形式，并确认加在哪一种范围上" },
+        { "key": "baseRange", "what": "冰柱默认范围", "unit": "meters", "claimed": null, "packHint": "一技能冰柱默认的作用范围或生成范围" }
+      ],
+      "ambiguities": [
+        "“范围”指冰柱作用范围还是生成范围未写",
+        "增加多少、按比例还是固定值未写",
+        "是否作用于冰塑、翩若惊鸿等其他来源的冰柱未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "明珠",
+      "text": "冰冻自己时附带一个二技能水球",
+      "reading": "甄姬冰冻自己时，额外附带释放一个二技能水球（原文“一个”为中文数字）。原文没有写：水球朝哪个目标或方向发出；附带的水球是否与正常二技能水球完全相同（伤害、弹射，以及是否受二技能核心和小天赋影响）；是否消耗二技能冷却或充能；是否有内置冷却。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "冰冻自己时",
+      "slots": [
+        { "key": "ballCount", "what": "每次冰冻自己附带的水球数量（原文“一个”，中文数字）", "unit": "count", "claimed": null, "packHint": "该天赋附带的水球数量，核对描述的“一个”" },
+        { "key": "ballDamageScale", "what": "附带水球伤害相对正常二技能水球的比例", "unit": "ratio", "claimed": null, "packHint": "附带水球的伤害配置，是否与正常二技能水球相同" },
+        { "key": "targetSearchRange", "what": "附带水球自动选取目标的范围", "unit": "meters", "claimed": null, "packHint": "附带水球的索敌范围或发射方向规则" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却" }
+      ],
+      "ambiguities": [
+        "水球发射的目标或方向未写",
+        "附带水球是否与正常二技能水球相同、是否受二技能核心和小天赋影响未写",
+        "是否消耗二技能冷却或充能未写",
+        "是否有内置冷却未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一个", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 ballCount 的说明，待资源包核对" },
+        { "quote": "二技能", "reason": "中文数字，表示技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "冰屏",
+      "text": "靠近冰柱可恢复生命值",
+      "reading": "甄姬靠近冰柱时恢复生命值。原文没有写：多近算“靠近”；回复量及形式（固定值还是按最大生命或已损生命比例）；回复频率；多根冰柱时是否叠加；是否只对甄姬生效还是也对友方生效。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "处于冰柱附近时（持续）",
+      "slots": [
+        { "key": "proximityRadius", "what": "“靠近”的判定距离", "unit": "meters", "claimed": null, "packHint": "该天赋判定靠近冰柱的半径" },
+        { "key": "healPerTickBase", "what": "每次回复量的基础值（原文没写形式，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复生命的数值与形式" },
+        { "key": "healPerTickRatio", "what": "每次回复量的加成系数或生命比例（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "回复量的加成属性与系数，或按最大生命、已损生命计算的比例" },
+        { "key": "tickInterval", "what": "回复间隔", "unit": "seconds", "claimed": null, "packHint": "该天赋回复生命的周期" },
+        { "key": "multiPillarStackLimit", "what": "同时靠近多根冰柱时回复的叠加上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "多根冰柱的回复是否叠加及上限" }
+      ],
+      "ambiguities": [
+        "“靠近”的距离未写",
+        "回复量及形式、回复频率未写",
+        "多根冰柱时是否叠加未写",
+        "是否对友方生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "殊观",
+      "text": "冰柱可以主动引爆造成伤害",
+      "reading": "甄姬可以主动引爆冰柱，引爆时造成伤害。原文没有写：如何主动引爆（例如再次按一技能还是另有按键）；一次引爆全部冰柱还是单根；引爆后冰柱是否消失；伤害数值、伤害类型、加成属性、能否暴击；引爆范围；是否附带冰冻或减速；引爆是否有冷却；能否引爆其他来源生成的冰柱。",
+      "mechanisms": ["proc", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "主动引爆冰柱时",
+      "slots": [
+        { "key": "detonateDamageBase", "what": "引爆伤害的基础值", "unit": "flat", "claimed": null, "packHint": "冰柱引爆的伤害基础值与伤害类型" },
+        { "key": "detonateDamageRatio", "what": "引爆伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "冰柱引爆伤害的加成属性与系数，以及能否暴击" },
+        { "key": "detonateRadius", "what": "引爆范围半径", "unit": "meters", "claimed": null, "packHint": "冰柱引爆的作用范围" },
+        { "key": "maxTargets", "what": "引爆命中目标数上限（若有）", "unit": "count", "claimed": null, "packHint": "冰柱引爆是否有目标数上限" },
+        { "key": "pillarsPerDetonate", "what": "一次引爆的冰柱数量（全部还是单根未写）", "unit": "count", "claimed": null, "packHint": "主动引爆时作用的冰柱数量和选择规则" },
+        { "key": "detonateCooldown", "what": "主动引爆的冷却或再次操作的时间限制（若有）", "unit": "seconds", "claimed": null, "packHint": "主动引爆的冷却，或与一技能冷却的关系" }
+      ],
+      "ambiguities": [
+        "主动引爆的操作方式未写",
+        "一次引爆全部还是单根冰柱、引爆后冰柱是否消失未写",
+        "伤害数值、类型、加成属性、能否暴击、范围未写",
+        "是否附带冰冻或减速未写",
+        "是否有冷却、能否引爆其他来源的冰柱未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "凝身",
+      "text": "使用一技能时必定冰冻自己",
+      "reading": "每次使用一技能时一定会冰冻自己。“必定”说明默认情况下使用一技能不一定冰冻自己，但原文没写默认的条件或概率。本条本身不改变伤害，但会让“冰冻自己时”触发的效果（明珠）以及与冰封自己相关的核心（冰澌结川）每次一技能都能生效；冰冻自己期间的行动限制和持续时间原文没写。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "使用一技能时",
+      "slots": [
+        { "key": "baseSelfFreezeChance", "what": "不选此天赋时使用一技能冰冻自己的概率（原文没写默认是概率还是条件触发）", "unit": "percent", "claimed": null, "packHint": "一技能默认冰冻自己的概率或触发条件" },
+        { "key": "selfFreezeDuration", "what": "冰冻自己的持续时间", "unit": "seconds", "claimed": null, "packHint": "冰冻自己状态的持续时间" }
+      ],
+      "ambiguities": [
+        "默认情况下一技能冰冻自己的条件或概率未写",
+        "冰冻自己的持续时间和期间的行动限制未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一技能", "reason": "中文数字，表示技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "回雪",
+      "text": "敌人被冰冻时减少一技能冷却",
+      "reading": "敌人被冰冻时，一技能冷却减少。原文没有写：减少多少（固定秒数还是百分比，减少剩余冷却还是缩短冷却上限）；冰冻来源是否限定（任何冰冻都算还是只限一技能造成的冰冻）；多个敌人同时被冰冻时是否每个都触发；是否有内置冷却；敌人是否限英雄。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "敌人被冰冻时",
+      "slots": [
+        { "key": "cdReduction", "what": "每次减少的一技能冷却（原文没写是秒数还是百分比，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋冷却减少的数值与形式（固定秒数、剩余冷却百分比或总冷却百分比）" },
+        { "key": "maxTriggersPerEvent", "what": "同时冰冻多个敌人时最多触发次数（若有上限）", "unit": "count", "claimed": null, "packHint": "多个敌人同时被冰冻时是否分别触发" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却" }
+      ],
+      "ambiguities": [
+        "减少的冷却量与形式未写",
+        "冰冻来源是否限定未写",
+        "同时冰冻多个敌人是否每个都触发未写",
+        "是否有内置冷却、敌人是否限英雄未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一技能", "reason": "中文数字，表示技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "霜域",
+      "text": "冰柱周围减速区域扩大并持续造成伤害",
+      "reading": "冰柱周围的减速区域扩大，并且该区域持续造成伤害。“扩大”说明冰柱周围原本就有减速区域。原文没有写：扩大多少、默认半径；减速幅度（本天赋是否改变减速值）；区域伤害数值、伤害类型、加成属性、能否暴击；伤害间隔；冰柱存在时长；是否作用于其他来源生成的冰柱。",
+      "mechanisms": ["area", "proc", "control"],
+      "damageRelevance": "direct",
+      "trigger": "冰柱存在期间（周期性）",
+      "slots": [
+        { "key": "areaIncrease", "what": "减速区域扩大幅度（原文没写是比例还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对冰柱减速区域的扩大数值与形式" },
+        { "key": "baseSlowRadius", "what": "冰柱默认减速区域半径", "unit": "meters", "claimed": null, "packHint": "一技能冰柱默认减速区域半径" },
+        { "key": "slowPct", "what": "减速幅度", "unit": "percent", "claimed": null, "packHint": "冰柱减速区域的减速数值，选此天赋后是否改变" },
+        { "key": "tickInterval", "what": "区域伤害间隔", "unit": "seconds", "claimed": null, "packHint": "减速区域持续伤害的周期" },
+        { "key": "tickDamageBase", "what": "每次区域伤害的基础值", "unit": "flat", "claimed": null, "packHint": "减速区域每次伤害的基础值与伤害类型" },
+        { "key": "tickDamageRatio", "what": "每次区域伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "减速区域伤害的加成属性与系数，以及能否暴击" },
+        { "key": "pillarDuration", "what": "冰柱存在时长（决定区域伤害的总时长）", "unit": "seconds", "claimed": null, "packHint": "一技能冰柱的存在时间" }
+      ],
+      "ambiguities": [
+        "扩大幅度、默认半径未写",
+        "减速幅度及本天赋是否改变减速值未写",
+        "伤害数值、类型、加成属性、能否暴击、间隔未写",
+        "冰柱存在时长未写",
+        "是否作用于其他来源生成的冰柱未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "上溯",
+      "text": "冰柱附近增加自身移速",
+      "reading": "甄姬处于冰柱附近时自身移速增加。原文没有写：多近算“附近”；移速加成数值；离开冰柱后加成是否延续；多根冰柱时是否叠加。纯移动效果，不影响伤害计算。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "处于冰柱附近时（持续）",
+      "slots": [
+        { "key": "proximityRadius", "what": "“附近”的判定距离", "unit": "meters", "claimed": null, "packHint": "该天赋判定处于冰柱附近的半径" },
+        { "key": "moveSpeedBonus", "what": "移速加成", "unit": "percent", "claimed": null, "packHint": "该天赋的移速加成数值与形式（百分比或固定值）" },
+        { "key": "lingerDuration", "what": "离开冰柱附近后加成的延续时间（若有）", "unit": "seconds", "claimed": null, "packHint": "离开冰柱范围后移速加成是否延续及时长" }
+      ],
+      "ambiguities": [
+        "“附近”的距离未写",
+        "移速加成数值未写",
+        "离开后是否延续、多根冰柱是否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "济涟",
+      "text": "水球弹射伤害增加",
+      "reading": "二技能水球弹射造成的伤害增加。原文没有写：增加多少、按比例还是固定值；水球首次命中是否也算“弹射伤害”；与碧落浮沉（水球只在目标处上下弹跳）同选时是否生效。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "水球弹射命中时",
+      "slots": [
+        { "key": "bounceDamageIncrease", "what": "弹射伤害提升幅度（原文没写是比例还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对水球弹射伤害的提升数值与形式" },
+        { "key": "baseBounceDamage", "what": "水球默认每次弹射伤害（基础值）", "unit": "flat", "claimed": null, "packHint": "二技能水球默认弹射伤害的基础值、加成系数与伤害类型" }
+      ],
+      "ambiguities": [
+        "提升幅度与形式未写",
+        "首次命中是否算弹射伤害未写",
+        "选碧落浮沉时是否生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "流湍",
+      "text": "水球飞行速度增加",
+      "reading": "二技能水球的飞行速度增加。飞行更快可以缩短弹射之间的时间，在可弹射时间内弹射更多次。原文没有写：增加多少、按比例还是固定值；默认飞行速度；是否同时作用于弹射飞行和首次飞出。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（水球飞行时）",
+      "slots": [
+        { "key": "speedIncrease", "what": "飞行速度提升幅度（原文没写是比例还是固定值，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对水球飞行速度的加成数值与形式" },
+        { "key": "baseSpeed", "what": "水球默认飞行速度（单位未写）", "unit": "flat", "claimed": null, "packHint": "二技能水球默认飞行速度及单位" }
+      ],
+      "ambiguities": [
+        "提升幅度与形式未写",
+        "默认飞行速度未写",
+        "是否同时作用于首次飞出和弹射飞行未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "汲露",
+      "text": "水球每次弹射到敌人会回复自身生命",
+      "reading": "二技能水球每次弹射命中敌人时，甄姬回复生命。原文没有写：每次回复量及形式（固定值还是按伤害、最大生命比例）；首次命中是否也回复；是否有回复次数上限或内置冷却；“敌人”是否包括非英雄单位。与洛川游鳞（无限弹射）同选时可能触发很多次。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "水球每次弹射到敌人时",
+      "slots": [
+        { "key": "healBase", "what": "每次回复量的基础值（原文没写形式，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复生命的数值与形式" },
+        { "key": "healRatio", "what": "每次回复量的加成系数或比例（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "回复量的加成属性与系数，或按伤害、最大生命计算的比例" },
+        { "key": "maxHealsPerCast", "what": "一次二技能最多回复次数（若有上限）", "unit": "count", "claimed": null, "packHint": "单次水球回复次数上限" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却" }
+      ],
+      "ambiguities": [
+        "每次回复量与形式未写",
+        "首次命中是否也回复未写",
+        "回复次数上限或内置冷却未写",
+        "“敌人”是否包括非英雄单位未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "萦久",
+      "text": "可弹射时间增加",
+      "reading": "水球可以弹射的时间增加。原文说明水球的弹射受一个时间窗口限制，本天赋延长这个窗口，从而增加弹射次数和总伤害。原文没有写：默认可弹射时间；增加多少（秒数还是比例）；与洛川游鳞、碧落浮沉同选时是否生效（碧落浮沉下可能延长弹跳时间，原文未说明）。",
+      "mechanisms": ["other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（水球弹射期间）",
+      "slots": [
+        { "key": "windowIncrease", "what": "可弹射时间增加量（原文没写是秒数还是比例，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋对可弹射时间的延长数值与形式" },
+        { "key": "baseWindow", "what": "默认可弹射时间", "unit": "seconds", "claimed": null, "packHint": "二技能水球默认可弹射时长" }
+      ],
+      "ambiguities": [
+        "默认可弹射时间未写",
+        "增加量与形式未写",
+        "与洛川游鳞、碧落浮沉同选时的作用未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "凝珠",
+      "text": "每隔一段时间产生一个水球，自动攻击",
+      "reading": "每隔一段时间自动产生一个水球（原文“一个”为中文数字），水球自动攻击敌人。原文没有写：间隔多久；“自动攻击”是像二技能水球一样弹射还是另一种攻击方式；水球的伤害、伤害类型、加成属性、能否暴击；攻击目标选择范围；是否受二技能核心和小天赋影响；没有敌人时水球是否保留、能否积攒多个。",
+      "mechanisms": ["summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "周期性（每隔一段时间）",
+      "slots": [
+        { "key": "spawnInterval", "what": "产生水球的间隔（原文“一段时间”）", "unit": "seconds", "claimed": null, "packHint": "该天赋产生水球的周期" },
+        { "key": "ballsPerSpawn", "what": "每次产生的水球数量（原文“一个”，中文数字）", "unit": "count", "claimed": null, "packHint": "每次产生的水球数量，核对描述的“一个”" },
+        { "key": "ballDamageBase", "what": "自动水球伤害的基础值", "unit": "flat", "claimed": null, "packHint": "自动水球的伤害基础值与伤害类型，是否与二技能水球相同" },
+        { "key": "ballDamageRatio", "what": "自动水球伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "自动水球伤害的加成属性与系数，以及能否暴击" },
+        { "key": "targetSearchRange", "what": "自动攻击的索敌范围", "unit": "meters", "claimed": null, "packHint": "自动水球选择攻击目标的范围" },
+        { "key": "maxStoredBalls", "what": "没有目标时可积攒的水球上限（若可积攒）", "unit": "count", "claimed": null, "packHint": "没有目标时水球是否保留、最多积攒几个" }
+      ],
+      "ambiguities": [
+        "产生间隔未写（原文只写“一段时间”）",
+        "“自动攻击”的方式（是否弹射）未写",
+        "伤害数值、类型、加成属性、能否暴击未写",
+        "索敌范围未写",
+        "是否受二技能核心和小天赋影响未写",
+        "没有敌人时水球是否保留、能否积攒未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一个", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 ballsPerSpawn 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "遥波",
+      "text": "二技能施法距离增加",
+      "reading": "二技能的施法距离增加。原文没有写：增加多少、按比例还是固定值；默认施法距离；是否同时增加弹射搜索距离。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放二技能时）",
+      "slots": [
+        { "key": "castRangeIncrease", "what": "施法距离增加量（原文没写是比例还是固定距离，暂按百分比建槽）", "unit": "percent", "claimed": null, "packHint": "该天赋对二技能施法距离的加成数值与形式" },
+        { "key": "baseCastRange", "what": "二技能默认施法距离", "unit": "meters", "claimed": null, "packHint": "二技能默认施法距离" }
+      ],
+      "ambiguities": [
+        "增加量与形式未写",
+        "默认施法距离未写",
+        "是否影响弹射搜索距离未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "中文数字，表示技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "霜舞",
+      "text": "冰冻敌人后，会在敌人周围产生高速旋转冰刃造成持续范围伤害",
+      "reading": "冰冻敌人后，在该敌人周围产生高速旋转的冰刃，持续造成范围伤害。原文没有写：冰冻来源是否限定（本条归在二技能组，但原文没说只限二技能造成的冰冻）；冰刃持续多久、是否跟随该敌人移动；冰刃数量、旋转半径；“高速”具体多快（影响伤害频率）；每次伤害数值、伤害类型、加成属性、能否暴击；同一敌人重复被冰冻时是否叠加多组冰刃；是否有内置冷却。",
+      "mechanisms": ["summon", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "冰冻敌人后",
+      "slots": [
+        { "key": "bladeDuration", "what": "冰刃持续时间", "unit": "seconds", "claimed": null, "packHint": "冰刃存在时长" },
+        { "key": "bladeCount", "what": "冰刃数量", "unit": "count", "claimed": null, "packHint": "每次产生的冰刃数量" },
+        { "key": "bladeRadius", "what": "冰刃旋转半径（伤害范围）", "unit": "meters", "claimed": null, "packHint": "冰刃旋转半径或伤害判定范围" },
+        { "key": "tickInterval", "what": "伤害间隔（原文“高速旋转”，具体频率未写）", "unit": "seconds", "claimed": null, "packHint": "冰刃对同一目标造成伤害的间隔或旋转周期" },
+        { "key": "tickDamageBase", "what": "每次伤害的基础值", "unit": "flat", "claimed": null, "packHint": "冰刃每次伤害的基础值与伤害类型" },
+        { "key": "tickDamageRatio", "what": "每次伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "冰刃伤害的加成属性与系数，以及能否暴击" },
+        { "key": "maxConcurrent", "what": "同时存在的冰刃组数上限（若有）", "unit": "count", "claimed": null, "packHint": "多个敌人或同一敌人重复被冰冻时冰刃能否叠加及上限" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却" }
+      ],
+      "ambiguities": [
+        "冰冻来源是否限定未写",
+        "冰刃持续时间、数量、半径、是否跟随敌人未写",
+        "“高速旋转”的伤害频率未写",
+        "伤害数值、类型、加成属性、能否暴击未写",
+        "重复冰冻是否叠加、是否有内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "明珰",
+      "text": "二技能变成可存储两次释放",
+      "reading": "二技能变成充能技能，可以存储两次释放（原文“两次”为中文数字）。原文没有写：每次充能的恢复时间（是否等于原冷却）；两次释放之间的最小间隔；选此天赋后二技能冷却是否改变。",
+      "mechanisms": ["charges"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "maxCharges", "what": "最多存储的释放次数（原文“两次”，中文数字）", "unit": "count", "claimed": null, "packHint": "二技能充能上限，核对描述的“两次”" },
+        { "key": "chargeRechargeTime", "what": "每次充能恢复时间", "unit": "seconds", "claimed": null, "packHint": "二技能每层充能的恢复时间，是否等于原冷却" },
+        { "key": "recastInterval", "what": "连续两次释放之间的最小间隔", "unit": "seconds", "claimed": null, "packHint": "二技能充能释放的间隔限制" }
+      ],
+      "ambiguities": [
+        "充能恢复时间未写",
+        "两次释放的最小间隔未写",
+        "二技能冷却是否改变未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "二技能", "reason": "中文数字，表示技能编号，不是参数" },
+        { "quote": "两次", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 maxCharges 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "冰塑",
+      "text": "大招持续时间内被冰冻敌方英雄会产生一个冰柱",
+      "reading": "大招持续期间，敌方英雄被冰冻时会产生一个冰柱（原文“一个”为中文数字）。冰柱本身的伤害取决于其他选择（渊渟暗涌、殊观、霜域、翩若惊鸿等），单选本条只多出冰柱。原文限定“敌方英雄”，本模式里哪些敌人算英雄原文没写。原文没有写：冰柱产生在哪里（被冰冻英雄的位置）；产生的冰柱是否与一技能冰柱完全相同；同一英雄多次被冰冻是否每次都产生；冰冻来源是否限定；同时存在的冰柱上限。",
+      "mechanisms": ["summon"],
+      "damageRelevance": "indirect",
+      "trigger": "大招持续期间敌方英雄被冰冻时",
+      "slots": [
+        { "key": "pillarsPerFreeze", "what": "每次冰冻产生的冰柱数量（原文“一个”，中文数字）", "unit": "count", "claimed": null, "packHint": "该天赋每次产生的冰柱数量，核对描述的“一个”" },
+        { "key": "pillarDuration", "what": "产生冰柱的存在时长", "unit": "seconds", "claimed": null, "packHint": "该天赋产生冰柱的存在时间，是否与一技能冰柱相同" },
+        { "key": "maxPillars", "what": "同时存在的冰柱上限（若有）", "unit": "count", "claimed": null, "packHint": "冰柱同时存在的数量上限" },
+        { "key": "sameTargetCooldown", "what": "同一英雄再次被冰冻产生冰柱的间隔限制（若有）", "unit": "seconds", "claimed": null, "packHint": "同一目标重复触发的限制或内置冷却" }
+      ],
+      "ambiguities": [
+        "本模式中哪些敌人算“敌方英雄”未写",
+        "冰柱产生位置、是否与一技能冰柱相同未写",
+        "同一英雄多次被冰冻是否每次都产生未写",
+        "冰冻来源是否限定未写",
+        "同时存在冰柱上限未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一个", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 pillarsPerFreeze 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "寒溯",
+      "text": "冰冻英雄减少三技能冷却",
+      "reading": "冰冻英雄时，三技能（大招）冷却减少。原文没有写：减少多少（固定秒数还是百分比，减少剩余冷却还是缩短冷却上限）；冰冻来源是否限定；同时冰冻多个英雄是否每个都触发；是否有内置冷却；本模式里哪些敌人算英雄。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "冰冻英雄时",
+      "slots": [
+        { "key": "cdReduction", "what": "每次减少的三技能冷却（原文没写是秒数还是百分比，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋冷却减少的数值与形式（固定秒数、剩余冷却百分比或总冷却百分比）" },
+        { "key": "maxTriggersPerEvent", "what": "同时冰冻多个英雄时最多触发次数（若有上限）", "unit": "count", "claimed": null, "packHint": "多个英雄同时被冰冻时是否分别触发" },
+        { "key": "internalCooldown", "what": "内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋的触发冷却" }
+      ],
+      "ambiguities": [
+        "减少的冷却量与形式未写",
+        "冰冻来源是否限定未写",
+        "同时冰冻多个英雄是否每个都触发未写",
+        "是否有内置冷却未写",
+        "本模式中哪些敌人算“英雄”未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "三技能", "reason": "中文数字，表示技能编号，不是参数" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "长冬",
+      "text": "大招持续时间增加",
+      "reading": "大招的持续时间增加，大招区域内的持续效果（伤害、冰冻以及璇玑、沐泽、凌波等区域内效果）作用时间相应变长。原文没有写：增加多少（秒数还是比例）；默认持续时间；与婉若游龙同选时是否延长坍塌爆炸前的时间。",
+      "mechanisms": ["other"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（释放大招时）",
+      "slots": [
+        { "key": "durationIncrease", "what": "大招持续时间增加量（原文没写是秒数还是比例，暂按秒建槽）", "unit": "seconds", "claimed": null, "packHint": "该天赋对大招持续时间的延长数值与形式" },
+        { "key": "baseDuration", "what": "大招默认持续时间", "unit": "seconds", "claimed": null, "packHint": "大招默认持续时间，以及在各核心下是否不同" }
+      ],
+      "ambiguities": [
+        "增加量与形式未写",
+        "默认持续时间未写",
+        "与婉若游龙、翩若惊鸿同选时如何作用未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "绽霜",
+      "text": "大招期间被冰冻目标解冻时会产生一次爆炸",
+      "reading": "大招期间，被冰冻的目标解除冰冻时产生一次爆炸（原文“一次”为中文数字）。“大招期间”是限定冰冻发生在大招期间还是解冻发生在大招期间，原文不明确。原文没有写：爆炸伤害数值、伤害类型、加成属性、能否暴击；爆炸范围和目标数；爆炸是否附带冰冻（进而可能连锁）；冰冻持续多久（决定爆炸时机）；冰冻来源是否限定；目标是否限英雄。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招期间被冰冻目标解冻时",
+      "slots": [
+        { "key": "explosionsPerThaw", "what": "每次解冻产生的爆炸次数（原文“一次”，中文数字）", "unit": "count", "claimed": null, "packHint": "每次解冻触发的爆炸次数，核对描述的“一次”" },
+        { "key": "explosionDamageBase", "what": "爆炸伤害的基础值", "unit": "flat", "claimed": null, "packHint": "解冻爆炸的伤害基础值与伤害类型" },
+        { "key": "explosionDamageRatio", "what": "爆炸伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "解冻爆炸伤害的加成属性与系数，以及能否暴击" },
+        { "key": "explosionRadius", "what": "爆炸范围半径", "unit": "meters", "claimed": null, "packHint": "解冻爆炸的作用范围" },
+        { "key": "maxTargets", "what": "爆炸命中目标数上限（若有）", "unit": "count", "claimed": null, "packHint": "解冻爆炸是否有目标数上限" },
+        { "key": "freezeDuration", "what": "冰冻持续时间（决定从冰冻到爆炸的时间）", "unit": "seconds", "claimed": null, "packHint": "大招期间敌人被冰冻的持续时间" }
+      ],
+      "ambiguities": [
+        "“大招期间”限定冰冻时机还是解冻时机未写",
+        "爆炸伤害、类型、加成属性、能否暴击、范围、目标数未写",
+        "爆炸是否附带冰冻未写",
+        "冰冻持续时间、冰冻来源是否限定、目标是否限英雄未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "一次", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 explosionsPerThaw 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "徙倚",
+      "text": "受到大招伤害的敌人，走出大招后脚下会遗留水域进行减速",
+      "reading": "受过大招伤害的敌人离开大招范围后，脚下会留下一片水域，对其减速。原文没有写：水域存在多久、范围多大；减速幅度；水域是固定在离开位置还是跟随该敌人；水域是否造成伤害；是否也减速其他进入水域的敌人；受伤后多久内走出才会触发。",
+      "mechanisms": ["control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "受到大招伤害的敌人走出大招范围后",
+      "slots": [
+        { "key": "waterDuration", "what": "水域存在时长", "unit": "seconds", "claimed": null, "packHint": "遗留水域的持续时间" },
+        { "key": "waterRadius", "what": "水域半径", "unit": "meters", "claimed": null, "packHint": "遗留水域的作用范围" },
+        { "key": "slowPct", "what": "水域减速幅度", "unit": "percent", "claimed": null, "packHint": "水域的减速数值，是否随时间衰减" },
+        { "key": "markWindow", "what": "受大招伤害后多久内走出仍会触发（若有时限）", "unit": "seconds", "claimed": null, "packHint": "受大招伤害标记的有效时间" }
+      ],
+      "ambiguities": [
+        "水域时长、范围、减速幅度未写",
+        "水域固定还是跟随敌人未写",
+        "水域是否造成伤害、是否影响其他敌人未写",
+        "受伤到走出之间的时限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "璇玑",
+      "text": "甄姬在大招范围内会持续发射冰晶子弹",
+      "reading": "甄姬身处大招范围内时，会持续发射冰晶子弹。原文没有写：发射间隔；每次发射几颗；子弹伤害数值、伤害类型、加成属性、能否暴击；子弹射程和目标选择方式（自动瞄准还是朝某方向）；子弹能否穿透或命中多个目标；子弹是否附带冰冻或减速；“大招范围”在婉若游龙下随甄姬移动时是否始终满足条件。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "甄姬处于大招范围内时（周期性）",
+      "slots": [
+        { "key": "fireInterval", "what": "发射间隔", "unit": "seconds", "claimed": null, "packHint": "冰晶子弹的发射周期" },
+        { "key": "bulletsPerVolley", "what": "每次发射的子弹数量", "unit": "count", "claimed": null, "packHint": "每轮发射的冰晶子弹数量" },
+        { "key": "bulletDamageBase", "what": "每颗子弹伤害的基础值", "unit": "flat", "claimed": null, "packHint": "冰晶子弹的伤害基础值与伤害类型" },
+        { "key": "bulletDamageRatio", "what": "每颗子弹伤害的加成系数（原文没写按哪项属性加成）", "unit": "ratio", "claimed": null, "packHint": "冰晶子弹伤害的加成属性与系数，以及能否暴击" },
+        { "key": "bulletRange", "what": "子弹射程或索敌范围", "unit": "meters", "claimed": null, "packHint": "冰晶子弹的射程与目标选择规则" },
+        { "key": "targetsPerBullet", "what": "每颗子弹可命中的目标数（是否穿透）", "unit": "count", "claimed": null, "packHint": "冰晶子弹是否穿透、可命中几个目标" }
+      ],
+      "ambiguities": [
+        "发射间隔和每次发射数量未写",
+        "伤害数值、类型、加成属性、能否暴击未写",
+        "射程、目标选择、能否穿透未写",
+        "子弹是否附带冰冻或减速未写",
+        "与婉若游龙同选时的生效情况未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "凌波",
+      "text": "甄姬在大招范围内会增加自身移速",
+      "reading": "甄姬身处大招范围内时，自身移速增加。原文没有写：移速加成数值；离开大招范围后是否延续。纯移动效果，不影响伤害计算。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "甄姬处于大招范围内时（持续）",
+      "slots": [
+        { "key": "moveSpeedBonus", "what": "移速加成", "unit": "percent", "claimed": null, "packHint": "该天赋的移速加成数值与形式（百分比或固定值）" },
+        { "key": "lingerDuration", "what": "离开大招范围后加成的延续时间（若有）", "unit": "seconds", "claimed": null, "packHint": "离开大招范围后移速加成是否延续及时长" }
+      ],
+      "ambiguities": [
+        "移速加成数值未写",
+        "离开大招范围后是否延续未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "沐泽",
+      "text": "甄姬在大招范围可以持续恢复生命值",
+      "reading": "甄姬身处大招范围内时，持续恢复生命值。原文没有写：回复量及形式（固定值还是按最大生命或已损生命比例）；回复间隔；是否也对友方生效。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "甄姬处于大招范围内时（周期性）",
+      "slots": [
+        { "key": "healPerTickBase", "what": "每次回复量的基础值（原文没写形式，暂按固定值建槽）", "unit": "flat", "claimed": null, "packHint": "该天赋每次回复生命的数值与形式" },
+        { "key": "healPerTickRatio", "what": "每次回复量的加成系数或生命比例（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "回复量的加成属性与系数，或按最大生命、已损生命计算的比例" },
+        { "key": "tickInterval", "what": "回复间隔", "unit": "seconds", "claimed": null, "packHint": "该天赋回复生命的周期" }
+      ],
+      "ambiguities": [
+        "回复量与形式未写",
+        "回复间隔未写",
+        "是否对友方生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

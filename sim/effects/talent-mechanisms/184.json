@@ -1,0 +1,771 @@
+{
+  "heroId": "184",
+  "heroName": "蔡文姬",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "琴瑟和鸣",
+      "text": "范围内友军协奏",
+      "reading": "一技能核心。原文只写“范围内友军协奏”：按字面理解，一技能作用范围内的友军进入“协奏”状态。原文没有解释“协奏”具体是什么效果（共享哪种效果、是否增加友军属性或伤害、是否与蔡文姬的技能联动），也没有写：范围多大、是否以蔡文姬为中心、最多影响几名友军、协奏持续多久、蔡文姬自身是否也算协奏对象、选该核心后一技能原有效果是否保留。由于协奏内容不明，damageRelevance 暂按 indirect 记录，需资源包确认后修正。",
+      "mechanisms": ["team", "area", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能生效期间，友军处于范围内时（原文未写具体时机）",
+      "slots": [
+        { "key": "concertRange", "what": "进入协奏的范围（半径）", "unit": "meters", "claimed": null, "packHint": "「琴瑟和鸣」协奏判定范围，以及是否以蔡文姬为中心" },
+        { "key": "concertDuration", "what": "协奏状态持续时间（是否等于一技能持续时间）", "unit": "seconds", "claimed": null, "packHint": "协奏状态的持续时间与离开范围后的残留规则" },
+        { "key": "maxConcertAllies", "what": "同时进入协奏的友军数量上限（若有）", "unit": "count", "claimed": null, "packHint": "协奏影响的友军数量上限" },
+        { "key": "concertEffectValue", "what": "协奏效果的具体数值（效果类型原文未写，单位待资源包确定）", "unit": "flat", "claimed": null, "packHint": "协奏状态的效果定义：共享/提供了什么效果、数值多少、作用于哪个属性" }
+      ],
+      "ambiguities": [
+        "“协奏”的具体效果原文未解释",
+        "范围大小、是否以蔡文姬为中心未写",
+        "影响友军数量上限未写",
+        "协奏持续时间、离开范围后是否残留未写",
+        "蔡文姬自身是否算协奏对象未写",
+        "选该核心后一技能原有效果是否保留未写",
+        "因效果不明，damageRelevance 只是暂定"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "花开盛夏",
+      "text": "周围随机生成音符，拾取后触发音爆：大范围治疗和伤害，并叠加移速提升",
+      "reading": "一技能核心。原文写“周围随机生成音符”：在蔡文姬周围的随机位置生成音符；“拾取后触发音爆”：音符被拾取后触发一次音爆；音爆效果是“大范围治疗和伤害”，即同时对范围内友军治疗、对敌人造成伤害；“并叠加移速提升”：拾取（或音爆）还会叠加一层移速提升，可叠层。原文没有写：音符在什么时候生成（一技能释放时一次性生成，还是一技能持续期间周期性生成）、每次生成几个、生成范围、音符存在多久、谁可以拾取（仅蔡文姬还是友军也可）、拾取判定距离、“大范围”具体多大、治疗量、伤害基础值与加成系数、伤害类型、能否暴击、移速每层多少、层数上限和持续时间。",
+      "mechanisms": ["summon", "area", "heal", "proc", "stacking", "buff", "mobility", "team"],
+      "damageRelevance": "direct",
+      "trigger": "音符被拾取后（音符生成时机原文未写）",
+      "slots": [
+        { "key": "noteSpawnInterval", "what": "音符生成间隔（若为周期性生成）", "unit": "seconds", "claimed": null, "packHint": "「花开盛夏」音符生成时机与间隔" },
+        { "key": "notesPerSpawn", "what": "每次生成的音符数量", "unit": "count", "claimed": null, "packHint": "每次生成音符的个数" },
+        { "key": "maxNotesOnField", "what": "场上同时存在的音符上限", "unit": "count", "claimed": null, "packHint": "音符同时存在数量上限" },
+        { "key": "noteSpawnRadius", "what": "音符随机生成的范围（距蔡文姬的距离）", "unit": "meters", "claimed": null, "packHint": "音符生成区域半径" },
+        { "key": "noteLifetime", "what": "音符未被拾取时的存在时间", "unit": "seconds", "claimed": null, "packHint": "音符存在时长" },
+        { "key": "pickupRadius", "what": "拾取判定距离", "unit": "meters", "claimed": null, "packHint": "音符拾取判定半径，以及哪些单位可以拾取" },
+        { "key": "burstRadius", "what": "音爆范围（原文“大范围”）", "unit": "meters", "claimed": null, "packHint": "音爆作用半径" },
+        { "key": "burstHealBase", "what": "音爆治疗基础值", "unit": "flat", "claimed": null, "packHint": "音爆治疗量基础值" },
+        { "key": "burstHealRatio", "what": "音爆治疗加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "音爆治疗的法术攻击等属性加成系数" },
+        { "key": "burstDamageBase", "what": "音爆伤害基础值", "unit": "flat", "claimed": null, "packHint": "音爆伤害基础值与伤害类型" },
+        { "key": "burstDamageRatio", "what": "音爆伤害加成系数（及对应属性、伤害类型）", "unit": "ratio", "claimed": null, "packHint": "音爆伤害的法术攻击等属性加成系数，以及能否暴击" },
+        { "key": "moveSpeedPerStack", "what": "每层移速提升", "unit": "percent", "claimed": null, "packHint": "音爆叠加移速每层数值" },
+        { "key": "moveSpeedMaxStacks", "what": "移速层数上限", "unit": "count", "claimed": null, "packHint": "移速 buff 最大层数" },
+        { "key": "moveSpeedDuration", "what": "移速提升持续时间", "unit": "seconds", "claimed": null, "packHint": "移速 buff 持续时间与刷新规则" }
+      ],
+      "ambiguities": [
+        "音符生成时机（一次性还是周期性）、数量、生成范围未写",
+        "音符存在时间未写",
+        "可拾取的单位（仅蔡文姬还是友军也可）和拾取距离未写",
+        "“大范围”具体范围未写",
+        "音爆治疗量、伤害基础值、系数、伤害类型未写",
+        "音爆伤害能否暴击未写",
+        "移速每层数值、层数上限、持续时间未写",
+        "音爆治疗是否算“技能造成治疗”（从而触发「空谷回响」、「萤光度谱」）未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "绮梦漩涡",
+      "text": "每8秒产生一枚自动打击周围敌方英雄的音波",
+      "reading": "二技能核心。原文写每8秒产生一枚音波，这枚音波会自动打击周围的敌方英雄，不需要手动释放。原文没有写：是常驻生效还是需要先释放二技能、8秒是否受冷却缩减影响、周围没有敌方英雄时音波是否保留或累积、“周围”范围多大、音波伤害是否与手动释放的二技能音波相同（伤害、弹射、控制等）、该音波能否被二技能小天赋（如「白鹿叩苔」弹射、「琳琅涟漪」暴击、「浮光掠影」减冷却）强化、无尽守御中的野怪/挑战怪是否算“敌方英雄”。“一枚”是汉字数字，校验只认阿拉伯数字，所以没有作为 claimed。",
+      "mechanisms": ["proc", "summon", "area"],
+      "damageRelevance": "direct",
+      "trigger": "每隔一段时间（原文“每8秒”），是否常驻未写",
+      "slots": [
+        { "key": "spawnInterval", "what": "产生音波的间隔（描述值）", "unit": "seconds", "claimed": { "value": 8, "quote": "每8秒" }, "packHint": "「绮梦漩涡」音波产生间隔，核对描述的8秒，并确认是否受冷却缩减影响（描述值，需资源包核对）" },
+        { "key": "wavesPerSpawn", "what": "每次产生的音波数量（原文“一枚”，汉字数字）", "unit": "count", "claimed": null, "packHint": "每次产生的音波个数，核对原文的“一枚”" },
+        { "key": "maxStoredWaves", "what": "无目标时音波最多保留/累积几枚（若会保留）", "unit": "count", "claimed": null, "packHint": "周围无敌人时音波的保留与累积规则" },
+        { "key": "searchRadius", "what": "自动打击的索敌范围（原文“周围”）", "unit": "meters", "claimed": null, "packHint": "自动音波的索敌半径" },
+        { "key": "waveDamageBase", "what": "自动音波基础伤害", "unit": "flat", "claimed": null, "packHint": "自动音波伤害基础值，确认是否与手动二技能音波相同" },
+        { "key": "waveDamageRatio", "what": "自动音波伤害加成系数（及对应属性、伤害类型）", "unit": "ratio", "claimed": null, "packHint": "自动音波的法术攻击等属性加成系数" },
+        { "key": "waveBounceLimit", "what": "自动音波的弹射次数上限（若会弹射）", "unit": "count", "claimed": null, "packHint": "自动音波是否弹射、弹射上限，以及是否受「白鹿叩苔」影响" }
+      ],
+      "ambiguities": [
+        "是常驻生效还是需要先释放二技能未写",
+        "8秒是否受冷却缩减影响未写",
+        "周围没有敌方英雄时音波是否保留或累积未写",
+        "“周围”范围未写",
+        "自动音波伤害是否与手动二技能音波相同未写",
+        "是否会弹射、是否带二技能原有控制效果未写",
+        "二技能小天赋是否对自动音波生效未写",
+        "无尽守御中野怪、挑战怪是否算“敌方英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "空谷回响",
+      "text": "技能造成治疗时，自动打击周围敌人",
+      "reading": "二技能核心。原文写蔡文姬的技能造成治疗时，会自动打击周围的敌人。原文没有写：打击的形式（是否为二技能音波）、每次打击几个敌人、伤害多少、“周围”范围、是否有内置冷却、周期性治疗每一跳是否都触发、一次治疗多个目标是否按目标数分别触发、被动或核心召唤物（如「溪流潺潺」音符、「花开盛夏」音爆）造成的治疗是否算“技能造成治疗”。由于触发次数取决于治疗次数，与「玲珑清音」（治疗频率提升）等会互相影响。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "技能造成治疗时",
+      "slots": [
+        { "key": "triggerInternalCooldown", "what": "触发自动打击的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "「空谷回响」触发间隔/内置冷却" },
+        { "key": "triggersPerHeal", "what": "一次治疗事件触发的打击次数（一次治疗多个目标时是否分别触发）", "unit": "count", "claimed": null, "packHint": "触发计数规则：按治疗事件还是按被治疗目标数" },
+        { "key": "searchRadius", "what": "自动打击的索敌范围（原文“周围”）", "unit": "meters", "claimed": null, "packHint": "自动打击的索敌半径" },
+        { "key": "targetsPerStrike", "what": "每次打击的敌人数量", "unit": "count", "claimed": null, "packHint": "每次自动打击的目标数，及是否弹射" },
+        { "key": "strikeDamageBase", "what": "自动打击基础伤害", "unit": "flat", "claimed": null, "packHint": "自动打击伤害基础值，确认是否与二技能音波相同" },
+        { "key": "strikeDamageRatio", "what": "自动打击伤害加成系数（及对应属性、伤害类型）", "unit": "ratio", "claimed": null, "packHint": "自动打击的法术攻击等属性加成系数" }
+      ],
+      "ambiguities": [
+        "打击形式（是否为二技能音波）未写",
+        "伤害基础值、系数、伤害类型未写",
+        "“周围”范围与每次打击目标数未写",
+        "内置冷却未写",
+        "周期性治疗每一跳是否都触发、一次治疗多个目标是否分别触发未写",
+        "被动、召唤物、音爆造成的治疗是否算“技能造成治疗”未写",
+        "二技能小天赋是否对自动打击生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "溪流潺潺",
+      "text": "召唤音符，自动治疗附近友军",
+      "reading": "三技能核心。原文写三技能召唤音符，音符会自动治疗附近的友军。原文没有写：召唤几个音符、音符存在多久、音符是固定位置还是跟随、治疗间隔、治疗量、“附近”范围、每次治疗几个友军、是否治疗蔡文姬自身、三技能原有效果是否保留。原文没写音符造成伤害，所以本身按 indirect 记录；但如果音符治疗算“技能造成治疗”，会触发「空谷回响」的自动打击，从而间接带来伤害。",
+      "mechanisms": ["summon", "heal", "team", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "释放三技能后",
+      "slots": [
+        { "key": "noteCount", "what": "召唤的音符数量", "unit": "count", "claimed": null, "packHint": "「溪流潺潺」召唤音符个数" },
+        { "key": "noteDuration", "what": "音符存在时间", "unit": "seconds", "claimed": null, "packHint": "音符持续时间" },
+        { "key": "healInterval", "what": "音符治疗间隔", "unit": "seconds", "claimed": null, "packHint": "音符自动治疗的间隔" },
+        { "key": "healRadius", "what": "音符治疗范围（原文“附近”）", "unit": "meters", "claimed": null, "packHint": "音符治疗的作用半径" },
+        { "key": "targetsPerHeal", "what": "每次治疗的友军数量", "unit": "count", "claimed": null, "packHint": "音符每次治疗的目标数与选取规则" },
+        { "key": "healBase", "what": "音符治疗基础值", "unit": "flat", "claimed": null, "packHint": "音符治疗量基础值" },
+        { "key": "healRatio", "what": "音符治疗加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "音符治疗的法术攻击等属性加成系数" }
+      ],
+      "ambiguities": [
+        "音符数量、存在时间、是否跟随未写",
+        "治疗间隔、治疗量、范围、目标数未写",
+        "是否治疗蔡文姬自身未写",
+        "三技能原有效果是否保留未写",
+        "音符治疗是否算“技能造成治疗”（触发「空谷回响」）未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "坠月收光",
+      "text": "召唤音律聚向自身，点击该技能采集音律，成功采集获得强化并延长该技能",
+      "reading": "三技能核心。原文写释放三技能后召唤“音律”，音律向蔡文姬聚拢；此时再点击三技能按钮可以采集音律；成功采集后蔡文姬获得强化，并延长三技能的持续时间。原文没有写：召唤几个音律、聚拢需要多久、“成功采集”的判定条件（例如需要在音律到达时点击、有没有判定窗口）、每次采集延长多少时间、最多可采集几次、强化的具体内容（治疗、伤害还是属性）和数值、强化是否可叠层及持续多久。强化内容不明，damageRelevance 暂按 indirect 记录。",
+      "mechanisms": ["skill-change", "summon", "buff", "stacking", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放三技能后，再次点击三技能成功采集音律时",
+      "slots": [
+        { "key": "motesPerCast", "what": "每次召唤的音律数量", "unit": "count", "claimed": null, "packHint": "「坠月收光」召唤音律个数与召唤时机" },
+        { "key": "gatherWindow", "what": "可以成功采集的时间窗口", "unit": "seconds", "claimed": null, "packHint": "采集成功的判定条件与时间窗口" },
+        { "key": "maxGathers", "what": "一次三技能内最多可成功采集的次数", "unit": "count", "claimed": null, "packHint": "采集次数上限" },
+        { "key": "extensionPerGather", "what": "每次成功采集延长三技能的时间", "unit": "seconds", "claimed": null, "packHint": "每次采集延长的持续时间，以及延长总量上限" },
+        { "key": "empowerValue", "what": "成功采集获得的强化数值（强化类型原文未写，单位待资源包确定）", "unit": "flat", "claimed": null, "packHint": "采集后强化的效果定义与数值" },
+        { "key": "empowerMaxStacks", "what": "强化层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "强化是否叠层及最大层数" },
+        { "key": "empowerDuration", "what": "强化持续时间（是否随三技能结束而结束）", "unit": "seconds", "claimed": null, "packHint": "强化 buff 持续时间" }
+      ],
+      "ambiguities": [
+        "召唤音律的数量和聚拢时间未写",
+        "“成功采集”的判定条件未写",
+        "每次延长多少时间、可采集几次未写",
+        "强化的具体内容和数值未写",
+        "强化是否叠层、持续多久未写",
+        "因强化内容不明，damageRelevance 只是暂定"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "星河雨露",
+      "text": "该技能提供护盾",
+      "reading": "一技能额外提供护盾。原文没有写：护盾给谁（蔡文姬自身，还是一技能作用到的友军）、护盾量和加成属性、护盾持续时间、是一次性提供还是在一技能持续期间周期性提供。",
+      "mechanisms": ["shield", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能生效时（原文未写具体时机）",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾基础值", "unit": "flat", "claimed": null, "packHint": "「星河雨露」护盾量基础值" },
+        { "key": "shieldRatio", "what": "护盾加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "护盾的法术攻击或生命值等加成系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间" },
+        { "key": "shieldRefreshInterval", "what": "护盾重复提供的间隔（若为周期性提供）", "unit": "seconds", "claimed": null, "packHint": "护盾是一次性还是周期性提供、间隔多少" }
+      ],
+      "ambiguities": [
+        "护盾对象（自身还是友军）未写",
+        "护盾量、加成属性未写",
+        "持续时间未写",
+        "一次性还是周期性提供未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "幻羽声旋",
+      "text": "加速效果对友军生效",
+      "reading": "一技能的加速效果也对友军生效（原文由此可知一技能本身带有加速效果，且默认不作用于友军）。原文没有写：“加速”是移速还是攻速（按通常用法理解为移速，但原文未写明）、哪些友军能获得（范围、数量）、友军获得的加速数值是否与蔡文姬相同、持续多久。按移速理解时不影响伤害，damageRelevance 记为 none；若资源包显示为攻速加成则应改为 indirect。",
+      "mechanisms": ["team", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "一技能生效时",
+      "slots": [
+        { "key": "allySpeedBonus", "what": "友军获得的加速数值", "unit": "percent", "claimed": null, "packHint": "「幻羽声旋」友军加速数值，确认是移速还是攻速、是否与自身相同" },
+        { "key": "allyRange", "what": "友军获得加速的范围", "unit": "meters", "claimed": null, "packHint": "友军加速的作用范围" },
+        { "key": "maxAllies", "what": "获得加速的友军数量上限（若有）", "unit": "count", "claimed": null, "packHint": "友军加速的目标数上限" },
+        { "key": "allySpeedDuration", "what": "友军加速持续时间", "unit": "seconds", "claimed": null, "packHint": "友军加速 buff 持续时间" }
+      ],
+      "ambiguities": [
+        "“加速”指移速还是攻速未写",
+        "友军范围、数量上限未写",
+        "友军加速数值是否与蔡文姬相同未写",
+        "持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "蜜语琴心",
+      "text": "提供30%回复增益效果",
+      "reading": "一技能提供30%的回复增益效果。按字面理解为让目标的回复/治疗效果提高30%。原文没有写：增益对象（蔡文姬自身、一技能作用到的友军，还是两者）；是“受到的治疗提高”还是“造成的治疗提高”；30%是乘算还是与其他治疗加成加算；持续时间；能否叠加。",
+      "mechanisms": ["heal", "buff", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能生效时（原文未写具体时机）",
+      "slots": [
+        { "key": "healingBoost", "what": "回复增益比例（描述值）", "unit": "percent", "claimed": { "value": 30, "quote": "提供30%回复增益效果" }, "packHint": "「蜜语琴心」回复增益数值，核对描述的30%，并确认是受到治疗提高还是造成治疗提高、乘算还是加算（描述值，需资源包核对）" },
+        { "key": "boostDuration", "what": "回复增益持续时间（是否等于一技能持续时间）", "unit": "seconds", "claimed": null, "packHint": "回复增益 buff 持续时间" },
+        { "key": "boostRange", "what": "回复增益的作用范围（若作用于友军）", "unit": "meters", "claimed": null, "packHint": "回复增益作用对象与范围" }
+      ],
+      "ambiguities": [
+        "增益对象未写",
+        "是受到治疗提高还是造成治疗提高未写",
+        "30%与其他治疗加成的叠加方式未写",
+        "持续时间未写",
+        "能否叠加未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "花铃絮语",
+      "text": "叠加法术穿透",
+      "reading": "一技能让蔡文姬叠加法术穿透（可叠层）。原文只有“叠加法术穿透”五个字，没有写：叠层触发条件（一技能释放时、每次治疗时、每秒）、每层是固定值还是百分比穿透及数值、层数上限、每层持续时间、叠层对象是蔡文姬自身还是友军、一技能结束后层数是否保留。",
+      "mechanisms": ["stacking", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "一技能生效期间（叠层条件原文未写）",
+      "slots": [
+        { "key": "magicPenFlatPerStack", "what": "每层法术穿透（若为固定值）", "unit": "flat", "claimed": null, "packHint": "「花铃絮语」每层法术穿透数值，确认是固定值还是百分比" },
+        { "key": "magicPenPctPerStack", "what": "每层法术穿透（若为百分比）", "unit": "percent", "claimed": null, "packHint": "「花铃絮语」每层百分比法术穿透数值" },
+        { "key": "maxStacks", "what": "法术穿透层数上限", "unit": "count", "claimed": null, "packHint": "法术穿透 buff 最大层数" },
+        { "key": "stackDuration", "what": "每层持续时间", "unit": "seconds", "claimed": null, "packHint": "法术穿透 buff 持续时间与刷新规则" },
+        { "key": "stackGainInterval", "what": "叠层间隔（若按时间或治疗跳数叠加）", "unit": "seconds", "claimed": null, "packHint": "叠层触发条件与叠层间隔" }
+      ],
+      "ambiguities": [
+        "叠层触发条件未写",
+        "每层是固定值还是百分比、数值多少未写",
+        "层数上限、持续时间未写",
+        "叠层对象（自身还是友军）未写",
+        "一技能结束后层数是否保留未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "玲珑清音",
+      "text": "治疗频率提升",
+      "reading": "一技能的治疗频率提升，即两次治疗之间的间隔缩短（原文由此可知一技能带有多次/周期性治疗）。原文没有写：一技能原本的治疗间隔、提升幅度、每次治疗量是否随之改变（总治疗量是否增加）。治疗次数增加会让「空谷回响」（技能造成治疗时自动打击）和「萤光度谱」（每次产生治疗时减冷却）触发更多次，因此对伤害有间接影响。",
+      "mechanisms": ["heal", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能生效期间",
+      "slots": [
+        { "key": "baseHealInterval", "what": "一技能原本的治疗间隔", "unit": "seconds", "claimed": null, "packHint": "一技能治疗的默认间隔" },
+        { "key": "healIntervalWithTalent", "what": "选该天赋后的治疗间隔", "unit": "seconds", "claimed": null, "packHint": "「玲珑清音」生效后的治疗间隔" },
+        { "key": "frequencyIncrease", "what": "治疗频率提升比例（若以百分比给出）", "unit": "percent", "claimed": null, "packHint": "治疗频率提升幅度的表示方式与数值" }
+      ],
+      "ambiguities": [
+        "一技能原本治疗间隔未写",
+        "频率提升幅度未写",
+        "单次治疗量是否随之改变未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "萤光度谱",
+      "text": "每次产生治疗时减少该技能冷却",
+      "reading": "每次产生治疗时，减少一技能的冷却。原文没有写：每次减少多少（固定秒数还是百分比）；“产生治疗”是只计一技能的治疗，还是蔡文姬任何来源的治疗；一次治疗多个目标是否按目标数分别计算；是否有内置冷却或单次释放的减少上限；一技能持续期间冷却是否已开始计时。",
+      "mechanisms": ["cooldown", "heal"],
+      "damageRelevance": "indirect",
+      "trigger": "每次产生治疗时",
+      "slots": [
+        { "key": "cdReductionSecondsPerHeal", "what": "每次治疗减少的冷却（若为固定秒数）", "unit": "seconds", "claimed": null, "packHint": "「萤光度谱」每次治疗减少一技能冷却的数值，确认是秒数还是百分比" },
+        { "key": "cdReductionPctPerHeal", "what": "每次治疗减少的冷却（若为百分比）", "unit": "percent", "claimed": null, "packHint": "每次治疗减少冷却的百分比数值，以及按总冷却还是剩余冷却计算" },
+        { "key": "maxReductionPerCast", "what": "单次一技能周期内冷却减少的上限（若有）", "unit": "seconds", "claimed": null, "packHint": "减冷却总量上限" },
+        { "key": "triggerInternalCooldown", "what": "减冷却触发的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "减冷却的触发间隔限制" }
+      ],
+      "ambiguities": [
+        "每次减少多少、是秒数还是百分比未写",
+        "只计一技能治疗还是任何治疗未写",
+        "一次治疗多个目标是否分别计算未写",
+        "内置冷却与减少上限未写",
+        "一技能持续期间冷却是否已开始计时未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "莺啼燕啭",
+      "text": "该技能持续时间+50%",
+      "reading": "一技能的持续时间增加50%。按字面理解为在一技能基础持续时间上增加50%。原文没有写：一技能基础持续时间；这50%与其他持续时间加成是加算还是乘算；延长后治疗、加速等效果是否在整个延长期间都生效。持续时间变长会增加一技能期间的治疗次数，从而通过「空谷回响」等间接影响伤害。",
+      "mechanisms": ["buff", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放一技能时生效）",
+      "slots": [
+        { "key": "durationIncrease", "what": "一技能持续时间增加比例（描述值）", "unit": "percent", "claimed": { "value": 50, "quote": "该技能持续时间+50%" }, "packHint": "「莺啼燕啭」持续时间加成，核对描述的50%，并确认与其他加成的叠加方式（描述值，需资源包核对）" },
+        { "key": "baseDuration", "what": "一技能基础持续时间", "unit": "seconds", "claimed": null, "packHint": "一技能默认持续时间" }
+      ],
+      "ambiguities": [
+        "一技能基础持续时间未写",
+        "50%与其他持续时间加成的叠加方式未写",
+        "延长期间治疗、加速等效果是否都生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "杏花音雨",
+      "text": "该技能范围+50%",
+      "reading": "一技能的作用范围增加50%。原文没有写：一技能基础范围；+50%是指半径增加50%还是面积增加50%；与其他范围加成的叠加方式；是否同时影响核心（如「琴瑟和鸣」的协奏范围、「花开盛夏」的音符生成范围）。范围变大会让一技能影响更多友军/敌人，间接影响输出。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放一技能时生效）",
+      "slots": [
+        { "key": "rangeIncrease", "what": "一技能范围增加比例（描述值）", "unit": "percent", "claimed": { "value": 50, "quote": "该技能范围+50%" }, "packHint": "「杏花音雨」范围加成，核对描述的50%，并确认是半径还是面积加成（描述值，需资源包核对）" },
+        { "key": "baseRange", "what": "一技能基础范围（半径）", "unit": "meters", "claimed": null, "packHint": "一技能默认作用范围" }
+      ],
+      "ambiguities": [
+        "一技能基础范围未写",
+        "+50%是半径还是面积未写",
+        "与其他范围加成的叠加方式未写",
+        "是否影响一技能核心的范围未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "琉璃幻语",
+      "text": "释放二技能子弹时，获得一次被动效果",
+      "reading": "二技能小天赋。释放二技能（发射音波子弹）时，蔡文姬获得一次被动效果，相当于额外触发一次被动。原文没有写：被动效果的具体内容（被动技能原文不在天赋资料里）、是否受被动自身冷却限制、二技能音波弹射时每次弹射是否都算“释放子弹”、「陶笛初响」把普攻变为二技能时是否也触发。由于「空灵之境」「絮雪拂弦」都在“触发被动时”生效，该天赋会增加它们的触发次数。“二技能”“一次”是汉字数字，没有作为 claimed。",
+      "mechanisms": ["proc", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能子弹时",
+      "slots": [
+        { "key": "passiveTriggersPerCast", "what": "每次释放获得的被动触发次数（原文“一次”，汉字数字）", "unit": "count", "claimed": null, "packHint": "「琉璃幻语」每次释放给予的被动次数，核对原文的“一次”" },
+        { "key": "passiveEffectValue", "what": "被动效果的数值（被动内容原文未写，单位待资源包确定）", "unit": "flat", "claimed": null, "packHint": "蔡文姬被动技能的效果定义与数值" },
+        { "key": "passiveCooldown", "what": "被动自身的冷却（该天赋是否绕过）", "unit": "seconds", "claimed": null, "packHint": "被动冷却，以及该天赋触发是否受其限制" }
+      ],
+      "ambiguities": [
+        "被动效果内容未写",
+        "是否受被动冷却限制未写",
+        "弹射是否算再次释放子弹未写",
+        "「陶笛初响」替换出的二技能是否也触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "浮光掠影",
+      "text": "音波每命中一个敌人-10%冷却",
+      "reading": "二技能音波每命中一个敌人，二技能冷却减少10%（原文写“-10%冷却”，即减少）。原文没有写：10%是按总冷却还是剩余冷却计算；弹射重复命中同一敌人是否重复计算；单次释放的减少上限；核心「绮梦漩涡」「空谷回响」产生的自动音波/打击是否也触发。“一个”是汉字数字。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能音波每命中一个敌人时",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每命中一个敌人减少的冷却比例（描述值，原文“-10%”表示减少）", "unit": "percent", "claimed": { "value": 10, "quote": "-10%冷却" }, "packHint": "「浮光掠影」每次命中减少冷却的数值，核对描述的10%，并确认按总冷却还是剩余冷却计算（描述值，需资源包核对）" },
+        { "key": "maxReductionPerCast", "what": "单次释放减少冷却的上限（若有）", "unit": "percent", "claimed": null, "packHint": "单次二技能减冷却总量上限" },
+        { "key": "repeatHitCounted", "what": "同一敌人在一次释放中可计数的次数", "unit": "count", "claimed": null, "packHint": "弹射重复命中同一敌人是否重复减冷却" }
+      ],
+      "ambiguities": [
+        "10%按总冷却还是剩余冷却计算未写",
+        "重复命中同一敌人是否重复计算未写",
+        "单次释放的减少上限未写",
+        "自动音波/自动打击是否触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "空灵之境",
+      "text": "触发被动时产生净化效果",
+      "reading": "蔡文姬触发被动时产生净化效果，按字面理解为解除控制或负面状态。原文没有写：净化对象（自身，还是周围友军）、净化范围、解除哪些状态、是否附带一段免控时间、是否有冷却（受被动冷却限制或单独计算）。不直接造成伤害，但能解除控制让蔡文姬继续输出，记为 indirect。",
+      "mechanisms": ["control-immunity", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "触发被动时",
+      "slots": [
+        { "key": "cleanseRange", "what": "净化范围（若作用于友军）", "unit": "meters", "claimed": null, "packHint": "「空灵之境」净化作用对象与范围" },
+        { "key": "immunityDuration", "what": "净化后的免控时间（若有）", "unit": "seconds", "claimed": null, "packHint": "净化是否附带免控及持续时间" },
+        { "key": "cleanseCooldown", "what": "净化触发冷却（若有，或是否等于被动冷却）", "unit": "seconds", "claimed": null, "packHint": "净化的触发冷却" }
+      ],
+      "ambiguities": [
+        "净化对象和范围未写",
+        "解除的状态种类未写",
+        "是否附带免控未写",
+        "触发冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "陶笛初响",
+      "text": "释放该技能后下次普攻变为二技能",
+      "reading": "释放二技能后，蔡文姬的下一次普攻变为一次二技能（按字面理解为普攻改为发出二技能音波）。原文没有写：替换出的二技能伤害是否与手动释放相同；是否有时限（多久内不普攻则失效）；替换出的二技能能否再次触发本天赋、是否触发「琉璃幻语」「浮光掠影」「琳琅涟漪」等二技能效果；是否会弹射、是否带控制。“二技能”是汉字数字。",
+      "mechanisms": ["skill-change", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能后的下一次普攻",
+      "slots": [
+        { "key": "windowDuration", "what": "下次普攻替换效果的有效时间（若有时限）", "unit": "seconds", "claimed": null, "packHint": "「陶笛初响」强化普攻状态的持续时间" },
+        { "key": "storedCharges", "what": "可储存的替换次数（原文“下次”，即一次）", "unit": "count", "claimed": null, "packHint": "替换普攻的次数与是否可叠加" },
+        { "key": "replacedDamageBase", "what": "替换出的二技能基础伤害", "unit": "flat", "claimed": null, "packHint": "普攻替换的二技能伤害基础值，确认是否与手动释放相同" },
+        { "key": "replacedDamageRatio", "what": "替换出的二技能伤害加成系数（及对应属性、伤害类型）", "unit": "ratio", "claimed": null, "packHint": "普攻替换的二技能法术攻击等属性加成系数" }
+      ],
+      "ambiguities": [
+        "替换出的二技能伤害是否与手动释放相同未写",
+        "替换效果是否有时限未写",
+        "是否会连锁触发自身或其他二技能小天赋未写",
+        "是否弹射、是否带控制未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "幻音蝶舞",
+      "text": "该技能移动施法",
+      "reading": "二技能可以边移动边施法，释放时不打断移动。纯功能性效果，原文没有写施法期间是否有移速惩罚，也没有写施法动作时长是否改变。不改变伤害数值，记为 none。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "castMoveSpeedModifier", "what": "施法期间的移速修正（若有减速）", "unit": "percent", "claimed": null, "packHint": "「幻音蝶舞」移动施法时的移速变化" }
+      ],
+      "ambiguities": [
+        "施法期间是否减速未写",
+        "施法动作时长是否改变未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "絮雪拂弦",
+      "text": "触发被动时获得不屈效果",
+      "reading": "蔡文姬触发被动时获得“不屈”效果。原文没有解释“不屈”的具体含义，也没有写持续时间、是否有冷却（受被动冷却限制或单独计算）。不屈属于生存类效果，不直接造成伤害，记为 indirect。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "触发被动时",
+      "slots": [
+        { "key": "unyieldingDuration", "what": "不屈效果持续时间", "unit": "seconds", "claimed": null, "packHint": "「絮雪拂弦」不屈状态持续时间" },
+        { "key": "unyieldingCooldown", "what": "不屈效果触发冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "不屈触发冷却，或是否等于被动冷却" },
+        { "key": "unyieldingValue", "what": "不屈效果的数值参数（不屈定义原文未写，单位待资源包确定）", "unit": "flat", "claimed": null, "packHint": "不屈状态的效果定义与相关数值" }
+      ],
+      "ambiguities": [
+        "“不屈”的具体含义未写",
+        "持续时间未写",
+        "触发冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "白鹿叩苔",
+      "text": "音波弹射次数上限+2",
+      "reading": "二技能音波的弹射次数上限增加2次（原文由此可知二技能音波会弹射且有次数上限）。原文没有写：基础弹射上限、弹射距离、弹射后伤害是否衰减、能否弹回同一目标、是否对「绮梦漩涡」「空谷回响」的自动音波/打击生效。",
+      "mechanisms": ["area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（二技能音波弹射时）",
+      "slots": [
+        { "key": "extraBounces", "what": "增加的弹射次数上限（描述值）", "unit": "count", "claimed": { "value": 2, "quote": "音波弹射次数上限+2" }, "packHint": "「白鹿叩苔」增加的弹射次数，核对描述的+2（描述值，需资源包核对）" },
+        { "key": "baseBounceLimit", "what": "二技能音波基础弹射次数上限", "unit": "count", "claimed": null, "packHint": "二技能默认弹射上限" },
+        { "key": "bounceRange", "what": "弹射搜索距离", "unit": "meters", "claimed": null, "packHint": "音波弹射的索敌距离" },
+        { "key": "bounceDamageFalloff", "what": "每次弹射的伤害衰减比例（若有）", "unit": "percent", "claimed": null, "packHint": "弹射伤害衰减规则" }
+      ],
+      "ambiguities": [
+        "基础弹射上限未写",
+        "弹射距离未写",
+        "弹射伤害是否衰减未写",
+        "能否弹回同一目标未写",
+        "是否对自动音波/自动打击生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "琳琅涟漪",
+      "text": "该技能可暴击，并且每次命中叠加暴击",
+      "reading": "二技能伤害可以暴击；并且二技能每次命中叠加暴击（可叠层）。原文没有写：叠加的是暴击率还是暴击效果（暴击伤害）；每层数值、层数上限、持续时间；叠加的暴击只作用于二技能还是对所有伤害生效；暴击伤害倍率是否沿用蔡文姬自身暴击效果；弹射每次命中是否都叠层；自动音波是否也能暴击和叠层。",
+      "mechanisms": ["crit", "stacking", "buff"],
+      "damageRelevance": "direct",
+      "trigger": "二技能每次命中时",
+      "slots": [
+        { "key": "critRatePerStack", "what": "每层暴击率（若叠加的是暴击率）", "unit": "percent", "claimed": null, "packHint": "「琳琅涟漪」每层叠加的暴击率" },
+        { "key": "critDamagePerStack", "what": "每层暴击效果（若叠加的是暴击伤害）", "unit": "percent", "claimed": null, "packHint": "确认叠加的是暴击率还是暴击效果，及每层数值" },
+        { "key": "maxStacks", "what": "暴击层数上限", "unit": "count", "claimed": null, "packHint": "暴击 buff 最大层数" },
+        { "key": "stackDuration", "what": "每层持续时间", "unit": "seconds", "claimed": null, "packHint": "暴击 buff 持续时间与刷新规则" },
+        { "key": "skillCritMultiplier", "what": "二技能暴击时的伤害倍率（是否沿用自身暴击效果）", "unit": "ratio", "claimed": null, "packHint": "二技能暴击判定与暴击伤害倍率" }
+      ],
+      "ambiguities": [
+        "叠加的是暴击率还是暴击效果未写",
+        "每层数值、层数上限、持续时间未写",
+        "叠加的暴击作用范围（仅二技能还是全部伤害）未写",
+        "暴击伤害倍率未写",
+        "弹射每次命中是否都叠层未写",
+        "自动音波是否可暴击、叠层未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "梦弦织愈",
+      "text": "该技能治疗效果提升",
+      "reading": "三技能的治疗效果提升。原文没有写：提升幅度、是乘算还是与其他治疗加成加算、是否对三技能核心（如「溪流潺潺」音符）的治疗也生效。",
+      "mechanisms": ["heal", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（三技能治疗时）",
+      "slots": [
+        { "key": "healIncrease", "what": "三技能治疗提升比例", "unit": "percent", "claimed": null, "packHint": "「梦弦织愈」治疗提升数值及叠加方式" }
+      ],
+      "ambiguities": [
+        "提升幅度未写",
+        "与其他治疗加成的叠加方式未写",
+        "是否对三技能核心的治疗生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "仙灵颂歌",
+      "text": "技能效果期间随机打击周围目标",
+      "reading": "三技能效果持续期间，随机打击周围的目标。原文没有写：打击间隔、每次打击几个目标、“周围”范围、“目标”是否只限敌人、伤害基础值与系数、伤害类型、能否暴击、是否会被三技能持续时间延长（如「露珠坠叶」「坠月收光」）而增加次数。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "三技能效果持续期间",
+      "slots": [
+        { "key": "strikeInterval", "what": "随机打击的间隔", "unit": "seconds", "claimed": null, "packHint": "「仙灵颂歌」打击间隔" },
+        { "key": "targetsPerStrike", "what": "每次打击的目标数", "unit": "count", "claimed": null, "packHint": "每次打击目标数量与选取规则" },
+        { "key": "searchRadius", "what": "打击范围（原文“周围”）", "unit": "meters", "claimed": null, "packHint": "随机打击的索敌半径" },
+        { "key": "strikeDamageBase", "what": "每次打击基础伤害", "unit": "flat", "claimed": null, "packHint": "随机打击伤害基础值与伤害类型" },
+        { "key": "strikeDamageRatio", "what": "每次打击伤害加成系数（及对应属性、伤害类型）", "unit": "ratio", "claimed": null, "packHint": "随机打击的法术攻击等属性加成系数，以及能否暴击" }
+      ],
+      "ambiguities": [
+        "打击间隔、目标数、范围未写",
+        "“目标”是否只限敌人未写",
+        "伤害基础值、系数、类型未写",
+        "能否暴击未写",
+        "三技能延长时打击是否随之延长未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "林籁泉韵",
+      "text": "为治疗目标提供物理吸血和法术吸血",
+      "reading": "三技能为其治疗的目标提供物理吸血和法术吸血。原文没有写：两种吸血的数值（是否相同）、持续时间（只在三技能期间还是之后残留）、是否可叠加。蔡文姬自身是否属于治疗目标取决于三技能的选取规则（见「星泉涌奏」）。",
+      "mechanisms": ["lifesteal", "buff", "team"],
+      "damageRelevance": "indirect",
+      "trigger": "三技能治疗目标时",
+      "slots": [
+        { "key": "physLifesteal", "what": "提供的物理吸血", "unit": "percent", "claimed": null, "packHint": "「林籁泉韵」物理吸血数值" },
+        { "key": "magicLifesteal", "what": "提供的法术吸血", "unit": "percent", "claimed": null, "packHint": "「林籁泉韵」法术吸血数值" },
+        { "key": "lifestealDuration", "what": "吸血效果持续时间（是否等于三技能持续时间）", "unit": "seconds", "claimed": null, "packHint": "吸血 buff 持续时间与刷新规则" }
+      ],
+      "ambiguities": [
+        "物理吸血、法术吸血数值未写",
+        "持续时间未写",
+        "能否叠加未写",
+        "蔡文姬自身是否算治疗目标未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "星泉涌奏",
+      "text": "该技能额外选择自身",
+      "reading": "三技能除了原本选择的目标外，额外把蔡文姬自身也作为目标（原文由此可知三技能需要选择目标）。这样三技能对目标的效果（治疗，以及「林籁泉韵」吸血、「松风漱弦」输出率等）也会作用于蔡文姬自身。原文没有写：自身获得的效果是否与原目标完全相同、是否占用原有目标数、原本选择的目标就是自己时会不会重复生效。本身不改变伤害，但与「松风漱弦」等搭配会影响蔡文姬自身输出，记为 indirect。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "释放三技能时",
+      "slots": [
+        { "key": "selfEffectRatio", "what": "自身获得效果相对原目标的比例（若有折算）", "unit": "ratio", "claimed": null, "packHint": "「星泉涌奏」自身作为额外目标时效果是否打折" }
+      ],
+      "ambiguities": [
+        "自身获得的效果是否与原目标完全相同未写",
+        "是否占用原有目标数未写",
+        "原目标就是自己时是否重复生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "月华流音",
+      "text": "开启该技能时获得巨额爆发衰减移速",
+      "reading": "开启三技能时，蔡文姬获得巨额的爆发衰减移速（按字面理解为一开始大幅提升移速，随后随时间衰减）。原文只写“巨额”，没有写具体移速数值、持续时间、衰减方式。纯移动效果，不影响伤害，记为 none。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "开启三技能时",
+      "slots": [
+        { "key": "initialMoveSpeed", "what": "初始移速加成（原文“巨额”）", "unit": "percent", "claimed": null, "packHint": "「月华流音」移速加成初始值" },
+        { "key": "moveSpeedDuration", "what": "移速加成持续（衰减）时间", "unit": "seconds", "claimed": null, "packHint": "爆发衰减移速的持续时间与衰减曲线" }
+      ],
+      "ambiguities": [
+        "“巨额”具体数值未写",
+        "持续时间未写",
+        "衰减方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "松风漱弦",
+      "text": "为治疗目标提供伤害输出率",
+      "reading": "三技能为其治疗的目标提供伤害输出率加成，按字面理解为提高目标造成的伤害。原文没有写：加成数值、持续时间（只在三技能期间还是之后残留）、能否叠加、与其他输出率/增伤是加算还是乘算。蔡文姬自身是否能获得取决于她是否属于治疗目标（见「星泉涌奏」）；获得时直接提高伤害，记为 direct。",
+      "mechanisms": ["damage-amp", "buff", "team"],
+      "damageRelevance": "direct",
+      "trigger": "三技能治疗目标时",
+      "slots": [
+        { "key": "outputRateBonus", "what": "提供的伤害输出率加成", "unit": "percent", "claimed": null, "packHint": "「松风漱弦」输出率加成数值，及与其他增伤的叠加方式" },
+        { "key": "bonusDuration", "what": "输出率加成持续时间（是否等于三技能持续时间）", "unit": "seconds", "claimed": null, "packHint": "输出率 buff 持续时间与刷新规则" },
+        { "key": "maxStacks", "what": "输出率加成层数上限（若可叠加）", "unit": "count", "claimed": null, "packHint": "输出率 buff 是否可叠层及最大层数" }
+      ],
+      "ambiguities": [
+        "输出率加成数值未写",
+        "持续时间未写",
+        "能否叠加未写",
+        "与其他增伤的叠加方式未写",
+        "蔡文姬自身是否算治疗目标未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "露珠坠叶",
+      "text": "持续时长增加40%",
+      "reading": "三技能的持续时长增加40%（原文没写主语，按所在技能理解为三技能）。原文没有写：三技能基础持续时间；40%与其他持续时间加成（如「坠月收光」采集延长）的叠加方式；延长期间治疗、「仙灵颂歌」打击等效果是否都持续生效。持续时间变长会增加「仙灵颂歌」打击次数和「松风漱弦」覆盖时间，间接影响伤害。",
+      "mechanisms": ["buff", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放三技能时生效）",
+      "slots": [
+        { "key": "durationIncrease", "what": "三技能持续时长增加比例（描述值）", "unit": "percent", "claimed": { "value": 40, "quote": "持续时长增加40%" }, "packHint": "「露珠坠叶」持续时间加成，核对描述的40%，并确认与其他延长效果的叠加方式（描述值，需资源包核对）" },
+        { "key": "baseDuration", "what": "三技能基础持续时间", "unit": "seconds", "claimed": null, "packHint": "三技能默认持续时间" }
+      ],
+      "ambiguities": [
+        "原文没写主语，按所在技能理解为三技能",
+        "三技能基础持续时间未写",
+        "40%与其他延长效果的叠加方式未写",
+        "延长期间各效果是否持续生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "竹露滴清",
+      "text": "该技能冷却时间减少15秒",
+      "reading": "三技能的冷却时间减少15秒（固定秒数）。原文没有写：三技能基础冷却；15秒是在冷却缩减属性计算之前还是之后扣除；冷却是否有下限。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "cooldownReduction", "what": "三技能冷却减少秒数（描述值）", "unit": "seconds", "claimed": { "value": 15, "quote": "该技能冷却时间减少15秒" }, "packHint": "「竹露滴清」冷却减少量，核对描述的15秒，并确认在冷却缩减之前还是之后扣除（描述值，需资源包核对）" },
+        { "key": "baseCooldown", "what": "三技能基础冷却", "unit": "seconds", "claimed": null, "packHint": "三技能默认冷却时间" },
+        { "key": "minCooldown", "what": "三技能冷却下限（若有）", "unit": "seconds", "claimed": null, "packHint": "冷却最低值限制" }
+      ],
+      "ambiguities": [
+        "三技能基础冷却未写",
+        "15秒与冷却缩减属性的计算顺序未写",
+        "冷却下限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

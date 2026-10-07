@@ -1,0 +1,819 @@
+{
+  "heroId": "106",
+  "heroName": "小乔",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "恋爱",
+      "text": "一技能飞出过程造成伤害，将对敌人释出两枚小花扇",
+      "reading": "选择该核心后，一技能的扇子在飞出（去程）过程中造成伤害时，会向敌人释放两枚小花扇，作为额外的伤害来源。“两枚”是汉字数字，字面为2枚，数量仍需核对。原文只写“飞出过程”，按字面返程命中不触发。原文没有写：是每命中一个敌人释放两枚，还是每次施法只释放一次；小花扇是追踪被命中的敌人还是朝固定方向飞出；小花扇的伤害基础值、系数、加成属性和伤害类型；小花扇的飞行距离、能否穿透多个目标；同一敌人能否被多枚小花扇命中；能否暴击；小花扇命中是否算作“一技能命中”，从而触发唤星、回春、子母扇等一技能小天赋。",
+      "mechanisms": ["proc", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "一技能扇子飞出过程中造成伤害时",
+      "slots": [
+        { "key": "miniFanCount", "what": "每次触发释放的小花扇数量（原文写“两枚”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "该核心触发时发射的小花扇子弹数量，核对“两枚”" },
+        { "key": "maxTriggersPerCast", "what": "每次施法最多触发次数（每命中一个敌人触发一次，还是每次施法只触发一次）", "unit": "count", "claimed": null, "packHint": "该核心的触发逻辑：按命中目标逐个触发还是每次施法一次，以及触发次数上限或内置冷却" },
+        { "key": "miniFanBaseDamage", "what": "每枚小花扇伤害基础值", "unit": "flat", "claimed": null, "packHint": "小花扇子弹的伤害基础值" },
+        { "key": "miniFanRatio", "what": "每枚小花扇伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "小花扇伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "miniFanRange", "what": "小花扇飞行距离或索敌范围", "unit": "meters", "claimed": null, "packHint": "小花扇子弹的飞行距离/索敌半径，以及是否追踪目标" },
+        { "key": "miniFanMaxTargets", "what": "每枚小花扇最多命中目标数（是否穿透）", "unit": "count", "claimed": null, "packHint": "小花扇子弹的穿透属性或命中目标数上限" }
+      ],
+      "ambiguities": [
+        "“两枚”没有阿拉伯数字，数量需核对",
+        "每命中一个敌人触发还是每次施法只触发一次未写",
+        "小花扇是否追踪目标、飞行距离、能否穿透未写",
+        "小花扇伤害、系数、加成属性、伤害类型未写",
+        "同一敌人能否被多枚小花扇命中未写",
+        "能否暴击未写",
+        "小花扇命中是否算一技能命中、能否触发其他一技能小天赋未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "花扇",
+      "text": "技能变更：二次点击技能，将瞬移至花扇处，并朝四周扔出6把小花扇",
+      "reading": "选择该核心后，一技能变为可以二段释放：扇子扔出后再次点击技能，小乔瞬移到花扇（按上下文理解为扔出去的扇子）所在的位置，并向四周扔出6把小花扇。原文没有写：二次点击的可用时间窗口（是否只在扇子飞行期间可用）；瞬移后扇子是继续飞行、返回还是消失；小花扇的伤害基础值、系数、加成属性和伤害类型；小花扇飞行距离；同一目标能否被多把小花扇命中；能否暴击；二次点击是否影响一技能冷却的开始时间；小花扇命中是否算一技能命中，从而触发其他一技能小天赋。",
+      "mechanisms": ["skill-change", "mobility", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "一技能扇子扔出后，再次点击一技能时",
+      "slots": [
+        { "key": "miniFanCount", "what": "二段释放时向四周扔出的小花扇数量", "unit": "count", "claimed": { "value": 6, "quote": "扔出6把小花扇" }, "packHint": "二段释放时发射的小花扇子弹数量，描述值6把需资源包核对" },
+        { "key": "recastWindow", "what": "二次点击的可用时间窗口", "unit": "seconds", "claimed": null, "packHint": "二段技能的可释放时限，确认是否等于扇子飞行时间" },
+        { "key": "teleportActionTime", "what": "瞬移并扔出小花扇的动作时长", "unit": "seconds", "claimed": null, "packHint": "二段释放动作的总帧数与小花扇出手帧" },
+        { "key": "miniFanBaseDamage", "what": "每把小花扇伤害基础值", "unit": "flat", "claimed": null, "packHint": "二段释放小花扇子弹的伤害基础值" },
+        { "key": "miniFanRatio", "what": "每把小花扇伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "小花扇伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "miniFanRange", "what": "小花扇飞行距离", "unit": "meters", "claimed": null, "packHint": "二段释放小花扇子弹的飞行距离" },
+        { "key": "maxFanHitsPerTarget", "what": "同一目标最多被几把小花扇命中", "unit": "count", "claimed": null, "packHint": "小花扇对同一目标的命中次数限制（若有）" }
+      ],
+      "ambiguities": [
+        "二次点击的可用时间窗口未写",
+        "“花扇处”具体指扇子当前位置还是其他标记位置未明说",
+        "瞬移后扇子是否继续飞行或返回未写",
+        "小花扇伤害、系数、加成属性、伤害类型、飞行距离未写",
+        "同一目标能否被多把小花扇命中未写",
+        "能否暴击未写",
+        "二次点击是否影响一技能冷却计算未写",
+        "小花扇命中是否算一技能命中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "回转恋风",
+      "text": "恋风生成后持续存在，并向自身移动，击飞路径上的敌人",
+      "reading": "选择该核心后，二技能生成的恋风会持续存在，并朝小乔自身移动，击飞移动路径上的敌人。“持续存在”暗示默认形态的恋风存在时间较短，但原文没有写默认形态。原文没有写：恋风持续存在多久，到达小乔身边后是否消失；移动速度；路径上的敌人是否同时受到伤害（原文只写击飞），伤害是否与恋风生成时相同；击飞时长；同一敌人能否被反复击飞或命中、间隔多少；判定宽度。该核心改变的是二技能伤害体（恋风）的存在时间和运动轨迹，可能增加命中次数，按直接影响伤害记录；如果资源包显示路径上只击飞不造成伤害，则只有控制作用。",
+      "mechanisms": ["skill-change", "control", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "二技能生成恋风后",
+      "slots": [
+        { "key": "whirlwindDuration", "what": "恋风持续存在的时间", "unit": "seconds", "claimed": null, "packHint": "该核心下恋风召唤物的存在时间，以及到达小乔身边后是否消失" },
+        { "key": "whirlwindMoveSpeed", "what": "恋风向小乔移动的速度（单位以资源包为准，通常为每秒距离）", "unit": "flat", "claimed": null, "packHint": "恋风召唤物的移动速度" },
+        { "key": "pathWidth", "what": "移动路径的判定宽度或恋风半径", "unit": "meters", "claimed": null, "packHint": "恋风移动时的碰撞判定半径" },
+        { "key": "knockupDuration", "what": "路径上击飞敌人的时长", "unit": "seconds", "claimed": null, "packHint": "该核心下恋风击飞效果的控制时长" },
+        { "key": "pathHitBaseDamage", "what": "路径上命中敌人时的伤害基础值（原文未写是否造成伤害）", "unit": "flat", "claimed": null, "packHint": "恋风移动过程中的伤害配置，先确认是否有伤害" },
+        { "key": "pathHitRatio", "what": "路径命中伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "恋风移动过程伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "rehitInterval", "what": "同一敌人再次被恋风击飞或命中的间隔（若可重复）", "unit": "seconds", "claimed": null, "packHint": "恋风对同一目标的重复命中间隔或去重规则" },
+        { "key": "maxHitsPerTarget", "what": "同一敌人最多被该恋风命中次数", "unit": "count", "claimed": null, "packHint": "恋风对同一目标的命中次数上限" }
+      ],
+      "ambiguities": [
+        "恋风持续时间、到达小乔身边后是否消失未写",
+        "移动速度和判定宽度未写",
+        "路径上是否造成伤害未写（只写了击飞）",
+        "击飞时长未写",
+        "同一敌人能否被反复击飞或命中、间隔未写",
+        "默认形态的恋风行为原文未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "渐次摇风",
+      "text": "技能变更：指定朝向释放，路径上直接出现3道恋风",
+      "reading": "选择该核心后，二技能改为朝指定方向释放，释放路径上直接出现3道恋风。原文“直接出现”可理解为3道恋风同时出现，但核心名“渐次”又有依次出现的意思，原文没有说清是同时还是依次出现、间隔多少。原文没有写：路径长度；3道恋风之间的间距；每道恋风的伤害、击飞是否与原二技能相同；同一敌人能否被多道恋风命中或击飞；龙卷（以二技能为中心扩散小恋风）、春风、契约等二技能小天赋在该核心下是对每道恋风生效还是只生效一次。",
+      "mechanisms": ["skill-change", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "whirlwindCount", "what": "路径上出现的恋风数量", "unit": "count", "claimed": { "value": 3, "quote": "路径上直接出现3道恋风" }, "packHint": "该核心下生成的恋风数量，描述值3道需资源包核对" },
+        { "key": "pathLength", "what": "指定朝向释放的路径长度", "unit": "meters", "claimed": null, "packHint": "该核心的施法距离或路径长度" },
+        { "key": "whirlwindSpacing", "what": "相邻两道恋风的间距", "unit": "meters", "claimed": null, "packHint": "3道恋风的生成位置偏移" },
+        { "key": "spawnInterval", "what": "3道恋风依次出现时的间隔（若同时出现则为0）", "unit": "seconds", "claimed": null, "packHint": "各道恋风的生成帧，确认是同时还是依次出现" },
+        { "key": "perWhirlwindBaseDamage", "what": "每道恋风伤害基础值", "unit": "flat", "claimed": null, "packHint": "该核心下每道恋风的伤害基础值，确认是否与原二技能相同" },
+        { "key": "perWhirlwindRatio", "what": "每道恋风伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "每道恋风伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "whirlwindRadius", "what": "每道恋风的作用半径", "unit": "meters", "claimed": null, "packHint": "每道恋风的伤害/击飞判定半径" },
+        { "key": "knockupDuration", "what": "每道恋风的击飞时长", "unit": "seconds", "claimed": null, "packHint": "该核心下恋风击飞控制时长" },
+        { "key": "maxHitsPerTarget", "what": "同一目标最多被几道恋风命中", "unit": "count", "claimed": null, "packHint": "多道恋风对同一目标的伤害去重规则" }
+      ],
+      "ambiguities": [
+        "3道恋风同时出现还是依次出现（“直接出现”与核心名“渐次”不一致）未写清",
+        "路径长度和间距未写",
+        "每道恋风伤害、击飞是否与原技能相同未写",
+        "同一敌人能否被多道恋风命中未写",
+        "龙卷、春风、契约等二技能小天赋在该核心下按每道恋风还是每次施法生效未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "星跃",
+      "text": "技能变更：施法时可位移，期间每隔0.75秒可继续释放大招位移",
+      "reading": "选择该核心后，大招施放时可以位移；在大招期间，每隔0.75秒可以再次释放大招进行位移。原文没有写：每次位移的距离；大招期间最多能位移几次，是否只受大招持续时间限制；大招持续时间；位移本身是否造成伤害；大招的攻击范围是否跟随小乔移动；“每隔0.75秒”是两次位移之间的最小间隔还是固定节奏。位移主要影响站位，按间接影响记录。",
+      "mechanisms": ["skill-change", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招时及大招期间",
+      "slots": [
+        { "key": "recastInterval", "what": "大招期间再次位移的间隔", "unit": "seconds", "claimed": { "value": 0.75, "quote": "每隔0.75秒可继续释放大招位移" }, "packHint": "大招期间再次位移的冷却或间隔，描述值0.75秒需资源包核对" },
+        { "key": "dashDistance", "what": "每次位移的距离", "unit": "meters", "claimed": null, "packHint": "该核心大招位移的距离" },
+        { "key": "maxDashes", "what": "一次大招最多位移次数（若有上限）", "unit": "count", "claimed": null, "packHint": "大招期间可位移次数上限" },
+        { "key": "ultDuration", "what": "大招持续时间（决定可位移的窗口）", "unit": "seconds", "claimed": null, "packHint": "该核心下大招持续时间" },
+        { "key": "dashBaseDamage", "what": "位移本身的伤害基础值（原文未写是否有伤害）", "unit": "flat", "claimed": null, "packHint": "大招位移是否附带伤害，若有找基础值与系数" }
+      ],
+      "ambiguities": [
+        "每次位移距离未写",
+        "最多位移次数未写",
+        "大招持续时间未写",
+        "位移是否造成伤害未写",
+        "大招攻击范围是否跟随小乔移动未写",
+        "0.75秒是最小间隔还是固定节奏未写清"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "流星不缀",
+      "text": "施法范围内，持续落下流星雨，可同时攻击多个敌人",
+      "reading": "选择该核心后，大招在施法范围内持续落下流星雨，可以同时攻击多个敌人。“可同时攻击多个敌人”暗示默认形态的大招一次只攻击一个或少数敌人，但原文没有写默认形态。原文没有写：施法范围半径，以小乔为中心还是指定区域；持续时间；流星落下的间隔和每次落下的数量；每颗流星的伤害基础值、系数、加成属性、伤害类型；每颗流星的作用半径；单颗流星最多命中几个目标；落点是随机、锁定敌人还是均匀分布；能否暴击；嘈嘈急雨（攻击间隔缩减至0.33秒）、缱绻（每个目标最多受到8次大招伤害）在该核心下怎样计算。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招后持续",
+      "slots": [
+        { "key": "castAreaRadius", "what": "流星雨落下的施法范围半径", "unit": "meters", "claimed": null, "packHint": "该核心流星雨的覆盖范围，并确认以小乔为中心还是指定区域" },
+        { "key": "duration", "what": "流星雨持续时间", "unit": "seconds", "claimed": null, "packHint": "该核心大招的持续时间" },
+        { "key": "meteorInterval", "what": "流星落下的间隔", "unit": "seconds", "claimed": null, "packHint": "流星雨的生成周期" },
+        { "key": "meteorsPerWave", "what": "每次落下的流星数量", "unit": "count", "claimed": null, "packHint": "每个周期生成的流星数量" },
+        { "key": "meteorBaseDamage", "what": "每颗流星伤害基础值", "unit": "flat", "claimed": null, "packHint": "流星雨单颗流星的伤害基础值" },
+        { "key": "meteorRatio", "what": "每颗流星伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "单颗流星伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "meteorImpactRadius", "what": "每颗流星的作用半径", "unit": "meters", "claimed": null, "packHint": "单颗流星的伤害判定半径" },
+        { "key": "maxTargetsPerMeteor", "what": "单颗流星最多命中目标数", "unit": "count", "claimed": null, "packHint": "单颗流星的目标数上限（若有）" }
+      ],
+      "ambiguities": [
+        "施法范围半径和中心未写",
+        "持续时间、落下间隔、每次数量未写",
+        "单颗流星伤害、系数、加成属性、伤害类型、作用半径未写",
+        "单颗流星最多命中目标数未写",
+        "落点规则未写",
+        "能否暴击未写",
+        "嘈嘈急雨、缱绻在该核心下如何计算未写",
+        "默认形态大招的攻击方式原文未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "扇舞",
+      "text": "扇子飞行距离+40%",
+      "reading": "一技能扇子的飞行距离增加40%。原文没写原飞行距离，也没写是基于原距离提高40%还是与其他距离加成相加。飞行距离变长会让一技能打到更远的敌人，也可能延长扇子往返的时间，从而推迟“扇子返回时”触发的效果（团扇、绽放之舞、努力变强）；飞行速度是否同步变化未写。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "distanceBonusPct", "what": "扇子飞行距离提高的比例", "unit": "percent", "claimed": { "value": 40, "quote": "扇子飞行距离+40%" }, "packHint": "该天赋对一技能子弹飞行距离的修正，描述值40%需资源包核对" },
+        { "key": "baseFlightDistance", "what": "一技能扇子原飞行距离", "unit": "meters", "claimed": null, "packHint": "一技能扇子子弹的基础飞行距离" }
+      ],
+      "ambiguities": [
+        "原飞行距离未写",
+        "40%是基于原距离还是与其他加成相加未写",
+        "飞行速度是否同步变化（影响往返时间）未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "团扇",
+      "text": "扇子返回时绕身旋转，造成伤害和0.5秒眩晕",
+      "reading": "一技能扇子返回时，会绕小乔身体旋转，对碰到的敌人造成伤害并眩晕0.5秒。原文没有写：“返回时”是指扇子开始往回飞的时刻还是飞回小乔身边之后；绕身旋转持续多久、转几圈；旋转半径；伤害基础值、系数、加成属性、伤害类型；同一敌人能否被多次命中、命中间隔；眩晕是每个敌人只触发一次还是每次命中都触发；原本返程的伤害是否保留；能否暴击；首领是否免疫眩晕。",
+      "mechanisms": ["skill-change", "proc", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "一技能扇子返回时",
+      "slots": [
+        { "key": "orbitDuration", "what": "扇子绕身旋转的持续时间", "unit": "seconds", "claimed": null, "packHint": "绕身旋转状态的持续时间或圈数" },
+        { "key": "orbitRadius", "what": "旋转半径", "unit": "meters", "claimed": null, "packHint": "绕身旋转扇子的判定半径" },
+        { "key": "orbitBaseDamage", "what": "旋转伤害基础值", "unit": "flat", "claimed": null, "packHint": "绕身旋转的伤害基础值" },
+        { "key": "orbitRatio", "what": "旋转伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "旋转伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "orbitHitInterval", "what": "同一敌人被旋转扇子再次命中的间隔", "unit": "seconds", "claimed": null, "packHint": "旋转伤害对同一目标的命中间隔" },
+        { "key": "maxHitsPerTarget", "what": "同一敌人最多被旋转扇子命中次数", "unit": "count", "claimed": null, "packHint": "旋转伤害对同一目标的命中上限" },
+        { "key": "stunDuration", "what": "眩晕时长", "unit": "seconds", "claimed": { "value": 0.5, "quote": "0.5秒眩晕" }, "packHint": "旋转命中附带的眩晕时长，描述值0.5秒需资源包核对，并确认每个目标是否只眩晕一次" }
+      ],
+      "ambiguities": [
+        "“返回时”是开始返回还是回到身边未写",
+        "旋转持续时间、圈数、半径未写",
+        "伤害、系数、加成属性、伤害类型未写",
+        "同一敌人能否多次命中、间隔未写",
+        "眩晕每个敌人触发一次还是每次命中触发未写",
+        "原本返程伤害是否保留未写",
+        "能否暴击、首领是否免疫眩晕未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "绽放之舞",
+      "text": "扇子返回时，1技能当前冷却-65%",
+      "reading": "一技能扇子返回时，一技能当前的冷却减少65%（原文写“-65%”，表示减少）。“当前冷却”可理解为此刻剩余的冷却时间，但减少的是剩余冷却的65%还是总冷却的65%，原文没有说清。原文没有写：“返回时”是扇子开始往回飞还是飞回小乔身边；子母扇自动释放的一技能返回时是否也触发；有无触发次数限制。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能扇子返回时",
+      "slots": [
+        { "key": "cooldownReductionPct", "what": "一技能当前冷却减少的比例（原文写“-65%”，表示减少）", "unit": "percent", "claimed": { "value": 65, "quote": "当前冷却-65%" }, "packHint": "该天赋的冷却缩减比例，描述值65%需资源包核对，并确认基数是剩余冷却还是总冷却" },
+        { "key": "baseCooldown", "what": "一技能原冷却时间", "unit": "seconds", "claimed": null, "packHint": "一技能基础冷却，用于计算触发时剩余冷却" },
+        { "key": "returnTriggerTime", "what": "从施放到“扇子返回”触发点的时间", "unit": "seconds", "claimed": null, "packHint": "扇子开始返回或回到身边的时间点，确认触发时机" }
+      ],
+      "ambiguities": [
+        "减少的是剩余冷却的65%还是总冷却的65%未写清",
+        "“返回时”是开始返回还是回到身边未写",
+        "子母扇自动释放的一技能是否触发未写",
+        "有无触发次数限制未写"
+      ],
+      "unusedNumbers": [
+        { "quote": "1技能", "reason": "技能编号，指一技能，不是数值" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "回春",
+      "text": "一技能命中后回复生命值和能量",
+      "reading": "一技能命中后，小乔回复生命值和能量。原文没有写：生命回复量（基础值、系数、加成属性，或按最大生命/已损生命的百分比）；能量回复量；是每命中一个目标回复一次，还是每次施法只回复一次；去程和返程命中是否都算；有无冷却或单次施法上限。这次回复会产生治疗效果，可能满足子母扇“产生治疗效果时”的条件，原文没有明说两者关系。",
+      "mechanisms": ["heal", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能命中后",
+      "slots": [
+        { "key": "healBase", "what": "生命回复量基础值", "unit": "flat", "claimed": null, "packHint": "该天赋生命回复的基础值，或按最大生命/已损生命的百分比" },
+        { "key": "healRatio", "what": "生命回复加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "生命回复按什么属性加成及系数" },
+        { "key": "energyRestore", "what": "能量回复量", "unit": "flat", "claimed": null, "packHint": "该天赋的能量回复数值" },
+        { "key": "maxTriggersPerCast", "what": "每次施法最多触发回复次数（每命中一个目标还是每次施法一次）", "unit": "count", "claimed": null, "packHint": "回复的触发规则：按目标还是按施法，去程返程是否都算" },
+        { "key": "internalCooldown", "what": "回复的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "回复效果的触发冷却（若有）" }
+      ],
+      "ambiguities": [
+        "生命回复量及计算方式未写",
+        "能量回复量未写",
+        "按命中目标还是按施法触发未写",
+        "去程返程是否都触发未写",
+        "有无冷却未写",
+        "与子母扇“产生治疗效果时”的关系未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "瞬息",
+      "text": "扇子飞行速度逐渐加快，到达终点后迅速飞回",
+      "reading": "一技能扇子在去程中飞行速度逐渐加快，飞到终点后迅速飞回。这会改变扇子去程和返程的用时，从而改变一技能各段命中的时间点，以及“扇子返回时”类效果（团扇、绽放之舞、努力变强）的触发时间。原文没有写：起始速度、加速度或速度曲线、最高速度；“迅速飞回”的返程速度；飞行距离是否改变；对伤害数值本身有无影响。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（一技能扇子飞行时）",
+      "slots": [
+        { "key": "initialSpeed", "what": "去程起始飞行速度（单位以资源包为准，通常为每秒距离）", "unit": "flat", "claimed": null, "packHint": "该天赋下一技能子弹的初速度" },
+        { "key": "acceleration", "what": "去程加速度或速度增长曲线（单位以资源包为准）", "unit": "flat", "claimed": null, "packHint": "子弹加速度或速度曲线配置" },
+        { "key": "maxSpeed", "what": "去程最高速度（若有）", "unit": "flat", "claimed": null, "packHint": "子弹速度上限" },
+        { "key": "returnSpeed", "what": "返程飞行速度", "unit": "flat", "claimed": null, "packHint": "“迅速飞回”的返程子弹速度" },
+        { "key": "outboundTime", "what": "去程总用时", "unit": "seconds", "claimed": null, "packHint": "按资源包速度与距离推算或直接读取的去程时间" },
+        { "key": "returnTime", "what": "返程总用时", "unit": "seconds", "claimed": null, "packHint": "按资源包速度与距离推算或直接读取的返程时间" }
+      ],
+      "ambiguities": [
+        "起始速度、加速度、最高速度未写",
+        "返程速度未写",
+        "飞行距离是否改变未写",
+        "对伤害数值有无影响未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "努力变强",
+      "text": "扇子返回时，自身进入不可选中状态0.25秒",
+      "reading": "一技能扇子返回时，小乔进入不可选中状态，持续0.25秒。原文没有写：“返回时”是扇子开始往回飞还是飞回身边；不可选中期间能否移动、施法、普攻；有无冷却。该效果只影响生存，不改变伤害数值。",
+      "mechanisms": ["invulnerable"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能扇子返回时",
+      "slots": [
+        { "key": "untargetableDuration", "what": "不可选中持续时间", "unit": "seconds", "claimed": { "value": 0.25, "quote": "不可选中状态0.25秒" }, "packHint": "不可选中状态的持续时间，描述值0.25秒需资源包核对" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "不可选中效果的触发冷却（若有）" }
+      ],
+      "ambiguities": [
+        "“返回时”是开始返回还是回到身边未写",
+        "不可选中期间能否行动未写",
+        "有无冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "唤星",
+      "text": "施法命中时召唤流星，造成伤害并减速",
+      "reading": "一技能命中时召唤流星，流星对敌人造成伤害并减速（“施法”按所属一技能理解）。原文没有写：每命中一个敌人召唤一颗，还是每次施法只召唤一次；去程和返程命中是否都触发；流星落点（被命中的敌人处还是其他位置）和落下延迟；流星伤害基础值、系数、加成属性、伤害类型；作用半径；减速幅度和持续时间；能否暴击；有无内置冷却。",
+      "mechanisms": ["proc", "area", "control"],
+      "damageRelevance": "direct",
+      "trigger": "一技能命中时",
+      "slots": [
+        { "key": "meteorsPerTrigger", "what": "每次触发召唤的流星数量", "unit": "count", "claimed": null, "packHint": "该天赋每次触发生成的流星数量" },
+        { "key": "maxTriggersPerCast", "what": "每次施法最多触发次数（按命中目标还是按施法）", "unit": "count", "claimed": null, "packHint": "流星召唤的触发规则：按目标还是按施法，去程返程是否都算" },
+        { "key": "meteorDelay", "what": "从命中到流星落下的延迟", "unit": "seconds", "claimed": null, "packHint": "流星的生成到命中帧" },
+        { "key": "meteorBaseDamage", "what": "流星伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋流星的伤害基础值" },
+        { "key": "meteorRatio", "what": "流星伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "流星伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "meteorRadius", "what": "流星作用半径", "unit": "meters", "claimed": null, "packHint": "流星伤害判定半径" },
+        { "key": "slowPct", "what": "减速幅度", "unit": "percent", "claimed": null, "packHint": "流星附带的减速比例" },
+        { "key": "slowDuration", "what": "减速持续时间", "unit": "seconds", "claimed": null, "packHint": "流星减速 buff 的持续时间" },
+        { "key": "internalCooldown", "what": "召唤流星的内置冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "流星召唤的触发冷却（若有）" }
+      ],
+      "ambiguities": [
+        "按命中目标还是按施法触发未写",
+        "去程返程是否都触发未写",
+        "流星数量、落点、延迟未写",
+        "流星伤害、系数、加成属性、伤害类型、半径未写",
+        "减速幅度和持续时间未写",
+        "能否暴击、有无内置冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "子母扇",
+      "text": "技能首次命中英雄或产生治疗效果时，自动向前释放1次一技能",
+      "reading": "技能首次命中英雄，或产生治疗效果时，小乔自动向前方释放1次一技能。原文的“技能”按所属一技能理解，也可能指任意技能；“首次”可能指每次施法的第一次命中，也可能另有冷却周期，原文未写清。“产生治疗效果”可能由回春（一技能命中后回复生命值）满足，原文未明说。原文没有写：自动释放的一技能伤害是否与手动释放相同、是否继承核心和其他小天赋效果；自动释放的一技能命中能否再次触发子母扇；“向前”是小乔面朝方向还是原施法方向；是否消耗冷却或能量；无尽守御里的敌方单位是否算“英雄”。",
+      "mechanisms": ["proc", "charges"],
+      "damageRelevance": "direct",
+      "trigger": "一技能首次命中英雄或产生治疗效果时",
+      "slots": [
+        { "key": "autoCastCount", "what": "每次触发自动释放的一技能次数", "unit": "count", "claimed": { "value": 1, "quote": "自动向前释放1次一技能" }, "packHint": "自动释放一技能的次数，描述值1次需资源包核对" },
+        { "key": "autoCastDamageRatio", "what": "自动释放的一技能伤害相对手动释放的倍率", "unit": "ratio", "claimed": null, "packHint": "自动释放一技能的伤害配置，确认是否与手动释放相同并继承核心和小天赋" },
+        { "key": "triggerPeriod", "what": "“首次”的计算周期（每次施法重置，或内置冷却时长）", "unit": "seconds", "claimed": null, "packHint": "子母扇的触发冷却或重置条件" },
+        { "key": "autoCastDelay", "what": "触发到自动释放之间的延迟", "unit": "seconds", "claimed": null, "packHint": "自动释放一技能的生成延迟" }
+      ],
+      "ambiguities": [
+        "“技能”指一技能还是任意技能未明说",
+        "“首次”的计算周期未写",
+        "“产生治疗效果”具体指哪些治疗未写",
+        "自动释放的一技能伤害及是否继承核心和小天赋未写",
+        "自动释放的一技能能否再次触发子母扇未写",
+        "“向前”的方向定义未写",
+        "是否消耗冷却或能量未写",
+        "无尽守御中敌方单位是否算“英雄”未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "心动",
+      "text": "恋风可以抵挡飞行子弹",
+      "reading": "二技能的恋风可以抵挡敌方的飞行子弹。原文没有写：能抵挡哪些子弹（普攻、技能、首领弹幕）；能抵挡多少发、是否有次数上限；是否只在恋风存在期间生效；被抵挡的子弹是否完全无效。该效果只影响生存，不改变小乔的伤害数值。",
+      "mechanisms": ["damage-reduction", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "恋风存在期间",
+      "slots": [
+        { "key": "maxBlockedProjectiles", "what": "可抵挡子弹数量上限（若有）", "unit": "count", "claimed": null, "packHint": "恋风抵挡子弹的次数上限（若有）" },
+        { "key": "blockDuration", "what": "抵挡效果的持续时间（是否等于恋风存在时间）", "unit": "seconds", "claimed": null, "packHint": "恋风抵挡判定的存在时间" }
+      ],
+      "ambiguities": [
+        "可抵挡的子弹种类未写",
+        "抵挡次数上限未写",
+        "生效时间是否等于恋风存在时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "约定",
+      "text": "技能可额外储备1次",
+      "reading": "二技能可以额外储备1次，即在原有基础上多一次可用次数，可以连续施放。原文没写默认储备次数。原文没有写：充能恢复时间是否等于原冷却；两次施放之间的最小间隔；春风、契约等“施法后”“命中”类小天赋是否每次施放都触发。",
+      "mechanisms": ["charges", "cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "extraCharges", "what": "额外储备次数", "unit": "count", "claimed": { "value": 1, "quote": "技能可额外储备1次" }, "packHint": "二技能充能上限的增加量，描述值1次需资源包核对" },
+        { "key": "baseCharges", "what": "默认储备次数", "unit": "count", "claimed": null, "packHint": "二技能默认充能次数" },
+        { "key": "chargeRecharge", "what": "每次充能恢复时间", "unit": "seconds", "claimed": null, "packHint": "二技能充能恢复时间，确认是否等于原冷却" },
+        { "key": "castInterval", "what": "两次施放之间的最小间隔", "unit": "seconds", "claimed": null, "packHint": "充能技能连续释放的最小间隔（若有）" }
+      ],
+      "ambiguities": [
+        "默认储备次数未写",
+        "充能恢复时间未写",
+        "两次施放的最小间隔未写",
+        "其他二技能小天赋是否每次施放都触发未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "龙卷",
+      "text": "以二技能为中心，向周围扩散4个小恋风",
+      "reading": "二技能释放后，以二技能（恋风）所在位置为中心，向四周扩散出4个小恋风。原文没有写：小恋风的伤害、系数、加成属性、伤害类型，是否击飞；扩散距离和速度；小恋风半径；同一敌人能否被多个小恋风命中；渐次摇风（路径上出现3道恋风）下是每道恋风都扩散还是只扩散一次；回转恋风下小恋风是否也移动。",
+      "mechanisms": ["proc", "area", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "smallWhirlwindCount", "what": "扩散出的小恋风数量", "unit": "count", "claimed": { "value": 4, "quote": "向周围扩散4个小恋风" }, "packHint": "该天赋生成的小恋风数量，描述值4个需资源包核对" },
+        { "key": "spreadDistance", "what": "小恋风扩散距离", "unit": "meters", "claimed": null, "packHint": "小恋风的移动距离" },
+        { "key": "spreadSpeed", "what": "小恋风扩散速度（单位以资源包为准，通常为每秒距离）", "unit": "flat", "claimed": null, "packHint": "小恋风的移动速度" },
+        { "key": "smallRadius", "what": "小恋风判定半径", "unit": "meters", "claimed": null, "packHint": "小恋风的伤害判定半径" },
+        { "key": "smallBaseDamage", "what": "小恋风伤害基础值", "unit": "flat", "claimed": null, "packHint": "小恋风的伤害基础值" },
+        { "key": "smallRatio", "what": "小恋风伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "小恋风伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "smallKnockupDuration", "what": "小恋风击飞时长（是否击飞未写）", "unit": "seconds", "claimed": null, "packHint": "小恋风是否附带击飞，若有找时长" },
+        { "key": "maxHitsPerTarget", "what": "同一敌人最多被几个小恋风命中", "unit": "count", "claimed": null, "packHint": "多个小恋风对同一目标的伤害去重规则" }
+      ],
+      "ambiguities": [
+        "小恋风伤害、系数、加成属性、伤害类型未写",
+        "小恋风是否击飞未写",
+        "扩散距离、速度、半径未写",
+        "同一敌人能否被多个小恋风命中未写",
+        "与渐次摇风、回转恋风的配合方式未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "摇曳",
+      "text": "施法距离+40%",
+      "reading": "二技能的施法距离增加40%。原文没写原施法距离，也没写是基于原距离提高还是与其他距离加成相加；在渐次摇风（指定朝向释放）下是否同样延长路径也未写。施法距离只影响能打到多远的敌人，不改变单次伤害数值。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "castRangeBonusPct", "what": "二技能施法距离提高的比例", "unit": "percent", "claimed": { "value": 40, "quote": "施法距离+40%" }, "packHint": "该天赋对二技能施法距离的修正，描述值40%需资源包核对" },
+        { "key": "baseCastRange", "what": "二技能原施法距离", "unit": "meters", "claimed": null, "packHint": "二技能基础施法距离" }
+      ],
+      "ambiguities": [
+        "原施法距离未写",
+        "加成叠加方式未写",
+        "渐次摇风下是否延长路径未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "花火",
+      "text": "施法结束后持续落下流星造成伤害",
+      "reading": "二技能施法结束后，会持续落下流星造成伤害。原文没有写：落点（恋风位置、小乔周围还是随机）；持续多久；落下的间隔与每次数量；每颗流星伤害基础值、系数、加成属性、伤害类型；作用半径；能否暴击；“施法结束”指施法动作结束还是恋风消失。",
+      "mechanisms": ["proc", "area", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "二技能施法结束后",
+      "slots": [
+        { "key": "duration", "what": "流星持续落下的时间", "unit": "seconds", "claimed": null, "packHint": "该天赋流星效果的持续时间" },
+        { "key": "meteorInterval", "what": "流星落下间隔", "unit": "seconds", "claimed": null, "packHint": "流星生成周期" },
+        { "key": "meteorsPerWave", "what": "每次落下的流星数量", "unit": "count", "claimed": null, "packHint": "每个周期生成的流星数量" },
+        { "key": "meteorBaseDamage", "what": "每颗流星伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋流星的伤害基础值" },
+        { "key": "meteorRatio", "what": "每颗流星伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "流星伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "meteorRadius", "what": "每颗流星作用半径", "unit": "meters", "claimed": null, "packHint": "流星伤害判定半径" },
+        { "key": "areaRadius", "what": "流星落点分布范围半径", "unit": "meters", "claimed": null, "packHint": "流星落点区域及中心位置" }
+      ],
+      "ambiguities": [
+        "落点位置和分布范围未写",
+        "持续时间、间隔、数量未写",
+        "流星伤害、系数、加成属性、伤害类型、半径未写",
+        "能否暴击未写",
+        "“施法结束”的时间点未写清"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "春风",
+      "text": "施法后，获得75%爆发衰减移速，结束时在自身处生成一个恋风",
+      "reading": "二技能施法后，小乔获得75%的爆发衰减移速（按字面理解为一开始加75%移速，随后随时间衰减）；“结束时”在小乔所在位置生成一个恋风。“结束时”按上下文理解为移速效果结束时，也可能指施法结束，原文未写清。“一个”是汉字数字。原文没有写：移速持续时间和衰减方式；生成的恋风伤害、击飞是否与二技能相同；该恋风是否受核心（回转恋风、渐次摇风）和其他小天赋（龙卷、契约、花火、心动）影响。",
+      "mechanisms": ["buff", "mobility", "summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能施法后；移速效果结束时",
+      "slots": [
+        { "key": "moveSpeedPct", "what": "爆发移速的初始加成", "unit": "percent", "claimed": { "value": 75, "quote": "获得75%爆发衰减移速" }, "packHint": "该天赋移速 buff 的初始数值，描述值75%需资源包核对" },
+        { "key": "moveSpeedDuration", "what": "移速持续（衰减）时间", "unit": "seconds", "claimed": null, "packHint": "移速 buff 的持续时间与衰减曲线" },
+        { "key": "spawnedWhirlwindCount", "what": "结束时生成的恋风数量（原文写“一个”，是汉字数字，没有作为 claimed）", "unit": "count", "claimed": null, "packHint": "结束时生成的恋风数量，核对“一个”" },
+        { "key": "spawnedWhirlwindDamageRatio", "what": "生成恋风的伤害相对二技能恋风的倍率", "unit": "ratio", "claimed": null, "packHint": "生成恋风的伤害配置，确认是否与二技能恋风相同" },
+        { "key": "spawnedKnockupDuration", "what": "生成恋风的击飞时长（是否击飞未写）", "unit": "seconds", "claimed": null, "packHint": "生成恋风是否击飞，若有找时长" }
+      ],
+      "ambiguities": [
+        "移速持续时间和衰减方式未写",
+        "“结束时”是移速结束还是施法结束未写清",
+        "“一个”没有阿拉伯数字，数量需核对",
+        "生成恋风的伤害、击飞是否与二技能相同未写",
+        "生成恋风是否受核心和其他小天赋影响未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "公瑾",
+      "text": "周瑜大人呼风，帮助小乔击退敌人，并为其加持东风，回复生命值",
+      "reading": "周瑜出场呼风，帮小乔击退敌人，并为小乔（“其”按上下文理解为小乔）加持“东风”，回复生命值。原文没写周瑜出场的时机，按所属二技能理解为释放二技能时。原文没有写：呼风是否造成伤害；击退距离和作用范围；“东风”除回复生命外是否还有其他效果、持续多久；回复量；有无冷却或其他触发条件。",
+      "mechanisms": ["summon", "control", "heal", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时（原文未写时机，按所属二技能理解）",
+      "slots": [
+        { "key": "windRadius", "what": "呼风的作用范围", "unit": "meters", "claimed": null, "packHint": "周瑜呼风的判定范围与位置" },
+        { "key": "knockbackDistance", "what": "击退距离", "unit": "meters", "claimed": null, "packHint": "呼风击退的位移距离" },
+        { "key": "windBaseDamage", "what": "呼风伤害基础值（原文未写是否造成伤害）", "unit": "flat", "claimed": null, "packHint": "周瑜呼风是否有伤害，若有找基础值" },
+        { "key": "windRatio", "what": "呼风伤害加成系数（若有伤害）", "unit": "ratio", "claimed": null, "packHint": "呼风伤害系数、加成属性、伤害类型" },
+        { "key": "eastWindDuration", "what": "“东风”持续时间", "unit": "seconds", "claimed": null, "packHint": "东风 buff 的持续时间及其他附带效果" },
+        { "key": "healBase", "what": "生命回复量基础值", "unit": "flat", "claimed": null, "packHint": "东风回复生命的基础值，确认是一次性还是持续回复" },
+        { "key": "healRatio", "what": "生命回复加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "东风回复量的加成属性及系数" },
+        { "key": "internalCooldown", "what": "周瑜出场的冷却（若有）", "unit": "seconds", "claimed": null, "packHint": "该天赋召唤的触发冷却（若有）" }
+      ],
+      "ambiguities": [
+        "周瑜出场时机未写",
+        "呼风是否造成伤害未写",
+        "击退距离和作用范围未写",
+        "“东风”的完整效果和持续时间未写",
+        "回复量未写",
+        "有无冷却未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "契约",
+      "text": "每命中一个单位，都将获得护盾",
+      "reading": "二技能每命中一个单位，小乔都会获得护盾。原文没有写：每次获得的护盾量（基础值、系数、加成属性）；多次获得的护盾是叠加还是刷新；护盾上限；持续时间；同一单位被多次命中是否重复计算；“单位”字面包括所有敌方单位，是否包括召唤物未写。",
+      "mechanisms": ["shield", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能每命中一个单位时",
+      "slots": [
+        { "key": "shieldPerUnitBase", "what": "每命中一个单位获得的护盾基础值", "unit": "flat", "claimed": null, "packHint": "该天赋单次护盾的基础值" },
+        { "key": "shieldPerUnitRatio", "what": "每次护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾量按什么属性加成及系数" },
+        { "key": "maxShield", "what": "护盾上限", "unit": "flat", "claimed": null, "packHint": "叠加护盾的总量上限（若有）" },
+        { "key": "maxStackUnits", "what": "单次施法最多计算的命中单位数", "unit": "count", "claimed": null, "packHint": "护盾叠加次数上限（若有）" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾 buff 的持续时间及刷新规则" }
+      ],
+      "ambiguities": [
+        "护盾量未写",
+        "叠加还是刷新未写",
+        "护盾上限和持续时间未写",
+        "同一单位多次命中是否重复计算未写",
+        "“单位”的范围未写清"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "蔓延",
+      "text": "大招命中敌人后，以其为中心召唤1个流星领域，持续1.5秒",
+      "reading": "大招命中敌人后，以被命中的敌人为中心召唤1个流星领域，领域持续1.5秒。原文没有写：领域伤害基础值、系数、加成属性、伤害类型；伤害间隔；领域半径；大招多次命中时是每次命中都召唤，还是每个敌人只召唤一次或有内置冷却；多个领域能否同时存在、叠加伤害；领域是否有减速等其他效果；能否暴击；领域伤害是否计入缱绻的大招受击次数上限。",
+      "mechanisms": ["summon", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中敌人后",
+      "slots": [
+        { "key": "fieldCount", "what": "每次触发召唤的流星领域数量", "unit": "count", "claimed": { "value": 1, "quote": "召唤1个流星领域" }, "packHint": "每次触发生成的领域数量，描述值1个需资源包核对" },
+        { "key": "fieldDuration", "what": "流星领域持续时间", "unit": "seconds", "claimed": { "value": 1.5, "quote": "持续1.5秒" }, "packHint": "流星领域的存在时间，描述值1.5秒需资源包核对" },
+        { "key": "fieldRadius", "what": "流星领域半径", "unit": "meters", "claimed": null, "packHint": "流星领域的伤害判定半径" },
+        { "key": "fieldTickInterval", "what": "领域伤害间隔", "unit": "seconds", "claimed": null, "packHint": "领域伤害的触发周期" },
+        { "key": "fieldBaseDamage", "what": "领域每次伤害基础值", "unit": "flat", "claimed": null, "packHint": "流星领域的伤害基础值" },
+        { "key": "fieldRatio", "what": "领域伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "领域伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "triggerCooldown", "what": "召唤领域的内置冷却或每目标触发限制", "unit": "seconds", "claimed": null, "packHint": "领域召唤的触发冷却或去重规则" },
+        { "key": "maxConcurrentFields", "what": "同时存在的领域数量上限", "unit": "count", "claimed": null, "packHint": "流星领域的同时存在上限（若有）" }
+      ],
+      "ambiguities": [
+        "领域伤害、系数、加成属性、伤害类型、间隔、半径未写",
+        "每次命中都召唤还是有触发限制未写",
+        "多个领域能否同时存在、叠加伤害未写",
+        "领域是否有其他效果未写",
+        "能否暴击未写",
+        "领域伤害是否计入缱绻的受击次数上限未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "嘈嘈急雨",
+      "text": "大招攻击间隔缩减至0.33秒",
+      "reading": "大招的攻击间隔缩短到0.33秒，大招持续期间攻击得更频繁。原文没写原攻击间隔和大招持续时间。原文没有写：攻击次数是否仍受每个目标的受击次数上限限制（缱绻写“每个目标最多可受到8次大招伤害”，说明存在上限）；在流星不缀等核心下“攻击间隔”具体指哪个间隔。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（大招期间）",
+      "slots": [
+        { "key": "attackInterval", "what": "缩减后的大招攻击间隔", "unit": "seconds", "claimed": { "value": 0.33, "quote": "大招攻击间隔缩减至0.33秒" }, "packHint": "该天赋下大招的攻击周期，描述值0.33秒需资源包核对" },
+        { "key": "baseAttackInterval", "what": "大招原攻击间隔", "unit": "seconds", "claimed": null, "packHint": "大招默认攻击周期" },
+        { "key": "ultDuration", "what": "大招持续时间（决定总攻击次数）", "unit": "seconds", "claimed": null, "packHint": "大招持续时间" }
+      ],
+      "ambiguities": [
+        "原攻击间隔未写",
+        "大招持续时间未写",
+        "是否仍受每目标受击次数上限限制未写",
+        "在不同核心下“攻击间隔”所指未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "迅如流星",
+      "text": "大招期间，无视地形，且被动加速效果+150%",
+      "reading": "大招期间，小乔可以无视地形移动，并且被动提供的加速效果提高150%。“+150%”可理解为被动加速数值提高到原来的2.5倍（相对提升），也可能是加速数值直接加150个百分点，原文没有说清。原文没写被动加速的原数值和持续时间。该效果只影响移动，不改变伤害数值；与庇护（大招期间基于移动距离增加护盾）同时选择时会让护盾更多。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "大招期间",
+      "slots": [
+        { "key": "passiveSpeedBonusPct", "what": "被动加速效果的提升比例（相对提升还是加法未写）", "unit": "percent", "claimed": { "value": 150, "quote": "被动加速效果+150%" }, "packHint": "该天赋对被动移速的修正，描述值150%需资源包核对，并确认是乘法还是加法" },
+        { "key": "basePassiveSpeedPct", "what": "被动加速的原数值", "unit": "percent", "claimed": null, "packHint": "小乔被动移速加成的基础值与持续时间" }
+      ],
+      "ambiguities": [
+        "+150%是相对提升还是加法未写清",
+        "被动加速原数值和持续时间未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "庇护",
+      "text": "大招期间，基于移动距离，等比增加护盾",
+      "reading": "大招期间，小乔根据移动的距离按比例获得护盾，移动越远护盾越多。原文没有写：每单位移动距离对应的护盾量和加成属性；护盾上限；护盾持续时间（大招结束后是否保留）；星跃的大招位移是否计入移动距离。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "大招期间移动时",
+      "slots": [
+        { "key": "shieldPerDistance", "what": "每单位移动距离获得的护盾量（距离单位以资源包为准）", "unit": "flat", "claimed": null, "packHint": "移动距离换算护盾的比例" },
+        { "key": "shieldRatio", "what": "护盾加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "护盾量按什么属性加成及系数" },
+        { "key": "maxShield", "what": "护盾上限", "unit": "flat", "claimed": null, "packHint": "该天赋护盾的总量上限（若有）" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾 buff 持续时间，确认大招结束后是否保留" }
+      ],
+      "ambiguities": [
+        "距离换算护盾的比例未写",
+        "护盾加成属性、上限、持续时间未写",
+        "星跃的位移是否计入移动距离未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "缱绻",
+      "text": "每个目标最多可受到8次大招伤害",
+      "reading": "大招对每个目标最多可以造成8次伤害。原文暗示默认形态的大招对同一目标有受击次数上限，但没写默认值。原文没有写：蔓延的流星领域、扇影迷踪的小花扇等附加伤害是否计入这8次；上限按每次大招计算还是另有周期。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（大招期间）",
+      "slots": [
+        { "key": "maxHitsPerTarget", "what": "每个目标受到大招伤害的次数上限", "unit": "count", "claimed": { "value": 8, "quote": "每个目标最多可受到8次大招伤害" }, "packHint": "该天赋下大招对单目标的受击次数上限，描述值8次需资源包核对" },
+        { "key": "baseMaxHitsPerTarget", "what": "默认的每目标受击次数上限", "unit": "count", "claimed": null, "packHint": "大招默认的单目标受击上限" }
+      ],
+      "ambiguities": [
+        "默认上限未写",
+        "附加伤害是否计入上限未写",
+        "上限的计算周期未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "星华灿烂",
+      "text": "大招半径+30%",
+      "reading": "大招的半径增加30%。原文没写原半径，也没写是基于原半径提高还是与其他范围加成相加。半径变大能覆盖更多或更远的敌人，不改变单次伤害数值；在流星不缀下是施法范围变大还是单颗流星范围变大未写。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "radiusBonusPct", "what": "大招半径提高的比例", "unit": "percent", "claimed": { "value": 30, "quote": "大招半径+30%" }, "packHint": "该天赋对大招范围的修正，描述值30%需资源包核对" },
+        { "key": "baseRadius", "what": "大招原半径", "unit": "meters", "claimed": null, "packHint": "大招基础作用半径" }
+      ],
+      "ambiguities": [
+        "原半径未写",
+        "加成叠加方式未写",
+        "流星不缀下作用于哪个半径未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "扇影迷踪",
+      "text": "大招开启时获得50%爆发衰减移速，且每次命中将对目标发射小花扇",
+      "reading": "大招开启时，小乔获得50%的爆发衰减移速（按字面理解为一开始加50%移速，随后随时间衰减）；并且大招每次命中，都会对被命中的目标发射小花扇。原文没有写：移速持续时间和衰减方式；每次命中发射几把小花扇；小花扇伤害基础值、系数、加成属性、伤害类型；这里的小花扇是否与核心恋爱、花扇中的小花扇相同；能否暴击；小花扇命中是否算大招命中（从而再次触发自身、触发蔓延或计入缱绻上限）。",
+      "mechanisms": ["buff", "mobility", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "大招开启时；大招每次命中时",
+      "slots": [
+        { "key": "moveSpeedPct", "what": "爆发移速的初始加成", "unit": "percent", "claimed": { "value": 50, "quote": "获得50%爆发衰减移速" }, "packHint": "该天赋移速 buff 的初始数值，描述值50%需资源包核对" },
+        { "key": "moveSpeedDuration", "what": "移速持续（衰减）时间", "unit": "seconds", "claimed": null, "packHint": "移速 buff 的持续时间与衰减曲线" },
+        { "key": "fansPerHit", "what": "每次命中发射的小花扇数量", "unit": "count", "claimed": null, "packHint": "每次大招命中生成的小花扇子弹数量" },
+        { "key": "fanBaseDamage", "what": "每把小花扇伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋小花扇的伤害基础值" },
+        { "key": "fanRatio", "what": "每把小花扇伤害加成系数（加成属性与伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "小花扇伤害系数、加成属性、伤害类型及能否暴击" },
+        { "key": "fanTravelTime", "what": "小花扇从发射到命中的时间", "unit": "seconds", "claimed": null, "packHint": "小花扇子弹速度或命中延迟" }
+      ],
+      "ambiguities": [
+        "移速持续时间和衰减方式未写",
+        "每次命中发射几把小花扇未写",
+        "小花扇伤害、系数、加成属性、伤害类型未写",
+        "是否与核心中的小花扇相同未写",
+        "能否暴击未写",
+        "小花扇命中是否算大招命中未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "神魂颠倒",
+      "text": "大招每击中目标4次，将其眩晕1.25秒",
+      "reading": "大招对同一目标每击中4次，就让该目标眩晕1.25秒（“每击中目标4次”按同一目标累计理解）。原文没有写：计数是否在一次大招结束后清零；同一目标能否被多次眩晕；首领是否免疫或减免眩晕；蔓延、扇影迷踪等附加伤害是否计入击中次数。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招对同一目标累计击中4次时",
+      "slots": [
+        { "key": "hitsPerStun", "what": "触发一次眩晕所需的击中次数", "unit": "count", "claimed": { "value": 4, "quote": "大招每击中目标4次" }, "packHint": "眩晕触发所需的命中计数，描述值4次需资源包核对" },
+        { "key": "stunDuration", "what": "眩晕时长", "unit": "seconds", "claimed": { "value": 1.25, "quote": "将其眩晕1.25秒" }, "packHint": "眩晕控制时长，描述值1.25秒需资源包核对" },
+        { "key": "maxStunsPerTarget", "what": "每个目标每次大招最多被眩晕次数（若有）", "unit": "count", "claimed": null, "packHint": "同一目标重复眩晕的限制（若有）" }
+      ],
+      "ambiguities": [
+        "计数是否清零未写",
+        "同一目标能否多次眩晕未写",
+        "首领是否免疫眩晕未写",
+        "附加伤害是否计入击中次数未写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

@@ -110,7 +110,14 @@ function renderItem(item: MechanismItem): string {
   return lines.join('\n');
 }
 
-function renderHero(sheet: MechanismSheet, batch: string): string {
+const DRAFT_NOTE =
+  '> **初稿：** 已通过格式校验（原文逐字、每个数字都有交代），逐条对照原文的对抗审查还在进行，审查后会更新。';
+
+function renderHero(
+  sheet: MechanismSheet,
+  batch: string,
+  draft: boolean,
+): string {
   const src = sourceHero(sheet.heroId);
   const items = sheet.items;
   const slots = items.flatMap((i) => i.slots);
@@ -123,6 +130,7 @@ function renderHero(sheet: MechanismSheet, batch: string): string {
     '',
     `${batch} · 核心 ${items.filter((i) => i.kind === 'core').length} 个、小天赋 ${items.filter((i) => i.kind === 'talent').length} 个`,
     '',
+    ...(draft ? [DRAFT_NOTE, ''] : []),
     `- **资料来源：** 游戏内天赋原文（${preset ? 'data/hero-talents.json' : '亚瑟已发布攻略 data/initial-guides.json'}）。机制解读只依据原文文字，没有补充原文以外的内容。`,
     `- **数值状态：** 模拟需要 ${slots.length} 个数值，原文写了 ${claimed} 个（描述值，未核实），其余 ${slots.length - claimed} 个要等资源包。之前实测发现马可波罗、虞姬有多处描述和实际不符，描述值只能当参考。`,
     `- **直接影响伤害的条目：** ${direct.length ? direct.map((i) => i.name).join('、') : '无'}`,
@@ -149,7 +157,7 @@ function renderHero(sheet: MechanismSheet, batch: string): string {
 const heroName = (id: string) =>
   official.heroes.find((h) => h.id === id)?.name ?? id;
 
-export function writeTalentReports() {
+export function writeTalentReports({ draft = false } = {}) {
   rmSync(OUT, { recursive: true, force: true });
   mkdirSync(OUT, { recursive: true });
   const index = [
@@ -159,12 +167,18 @@ export function writeTalentReports() {
     '',
     '每位英雄的核心和小天赋逐条列出原文、机制解读、需要的数值（原文写了的标为描述值）和原文没说清的地方。资源包到位前，表里的数字都是游戏内描述值，不是实测值。',
     '',
+    ...(draft ? [DRAFT_NOTE, ''] : []),
   ];
   const problems: string[] = [];
   for (const group of roster.groups) {
     const dir = new URL(`${group.name}/`, OUT);
     mkdirSync(dir, { recursive: true });
-    index.push(`## ${group.name}`, '', '| 英雄 | 条目 | 数值（原文已写 / 需要） | 状态 |', '|---|---|---|---|');
+    index.push(
+      `## ${group.name}`,
+      '',
+      '| 英雄 | 条目 | 数值（原文已写 / 需要） | 状态 |',
+      '|---|---|---|---|',
+    );
     group.heroIds.forEach((id, i) => {
       const name = heroName(id);
       const sheet = loadSheet(id);
@@ -175,10 +189,10 @@ export function writeTalentReports() {
         return;
       }
       const file = `${String(i + 1).padStart(2, '0')}-${name}.md`;
-      writeFileSync(new URL(file, dir), renderHero(sheet, group.name));
+      writeFileSync(new URL(file, dir), renderHero(sheet, group.name, draft));
       const slots = sheet.items.flatMap((it) => it.slots);
       index.push(
-        `| [${name}](${encodeURI(`${group.name}/${file}`)}) | ${sheet.items.length} | ${slots.filter((s) => s.claimed).length} / ${slots.length} | 已生成 |`,
+        `| [${name}](${encodeURI(`${group.name}/${file}`)}) | ${sheet.items.length} | ${slots.filter((s) => s.claimed).length} / ${slots.length} | ${draft ? '初稿，审查中' : '已审查'} |`,
       );
     });
     index.push('');
@@ -187,8 +201,13 @@ export function writeTalentReports() {
   return problems;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const problems = writeTalentReports();
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  const problems = writeTalentReports({
+    draft: process.argv.includes('--draft'),
+  });
   for (const p of problems) console.log(`校验未通过：${p}`);
   console.log(`已生成到 ${OUT.pathname}`);
 }

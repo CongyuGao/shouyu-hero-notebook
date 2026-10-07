@@ -1,0 +1,735 @@
+{
+  "heroId": "167",
+  "heroName": "孙悟空",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "铜墙铁壁",
+      "text": "技能1.5秒期间获得霸体和双抗，同时召唤分身，反弹伤害",
+      "reading": "一技能核心。一技能生效的1.5秒期间，孙悟空获得霸体和双抗（物理防御、法术防御）提升，同时召唤分身，并反弹伤害。原文没有写：“1.5秒”是一技能本身的持续时间还是这几项效果各自的时长；双抗加多少、是固定值还是百分比；召唤几个分身、分身是否攻击、造成多少伤害；“反弹伤害”是按受到伤害的比例反弹还是固定伤害、伤害类型、反弹给攻击者还是范围内敌人、是否有上限；句中“反弹伤害”的主体是孙悟空本人还是分身也不明确。霸体和双抗属于生存；分身和反弹可能造成伤害，按直接影响处理。",
+      "mechanisms": ["skill-change", "control-immunity", "buff", "summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能后的持续期间（原文“技能1.5秒期间”）",
+      "slots": [
+        { "key": "effectDuration", "what": "霸体、双抗、分身、反弹的生效时长", "unit": "seconds", "claimed": { "value": 1.5, "quote": "技能1.5秒期间" }, "packHint": "核心 c1 一技能持续时间，核对描述的1.5秒，需以资源包为准；确认各效果是否共用这一时长，以及 t06 灵丹续命 的+1秒是否加在这里" },
+        { "key": "physDefBonus", "what": "双抗中的物理防御加成（原文未写是固定值还是百分比，暂记 flat）", "unit": "flat", "claimed": null, "packHint": "核心 c1 期间物理防御加成数值及计算方式" },
+        { "key": "magicDefBonus", "what": "双抗中的法术防御加成（原文未写是固定值还是百分比，暂记 flat）", "unit": "flat", "claimed": null, "packHint": "核心 c1 期间法术防御加成数值及计算方式" },
+        { "key": "cloneCount", "what": "召唤的分身数量", "unit": "count", "claimed": null, "packHint": "核心 c1 召唤分身的数量，以及是一次性召唤还是期间多次召唤" },
+        { "key": "cloneHitDamageBase", "what": "分身每次攻击的基础伤害（原文未写分身是否攻击）", "unit": "flat", "claimed": null, "packHint": "核心 c1 分身是否造成伤害；如有，找伤害基础值、伤害类型" },
+        { "key": "cloneHitDamageRatio", "what": "分身每次攻击的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c1 分身伤害系数及加成属性、能否暴击" },
+        { "key": "cloneHitCount", "what": "每个分身在存在期间的攻击次数", "unit": "count", "claimed": null, "packHint": "核心 c1 分身攻击频率或攻击次数" },
+        { "key": "reflectRatio", "what": "反弹伤害的比例（按受到伤害的百分之几，原文未写是否按比例）", "unit": "percent", "claimed": null, "packHint": "核心 c1 反弹伤害的计算方式：反弹比例或固定伤害、伤害类型、反弹对象" },
+        { "key": "reflectCap", "what": "单次或总反弹伤害上限（原文未写是否存在）", "unit": "flat", "claimed": null, "packHint": "核心 c1 反弹伤害是否有上限" },
+        { "key": "cooldown", "what": "选此核心后一技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c1 下一技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "“1.5秒”是一技能整体持续时间还是各效果单独时长没有写",
+        "双抗数值及是固定值还是百分比没有写",
+        "分身数量、是否攻击、伤害数值和类型没有写",
+        "反弹伤害的比例或数值、伤害类型、反弹对象、上限没有写",
+        "反弹伤害的主体是孙悟空本人还是分身没有写明",
+        "能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "金蝉脱壳",
+      "text": "施法后隐身1秒，并持续召唤分身，以强普自动攻击敌人",
+      "reading": "一技能核心。释放一技能后隐身1秒，并持续召唤分身，分身用强化普攻自动攻击敌人（按句意，“以强普自动攻击敌人”的主体是分身）。原文没有写：“持续召唤”持续多久、多久召唤一次、每次召唤几个、同时最多存在几个；分身强普的伤害是复制孙悟空自身强化普攻还是按比例，伤害类型、能否暴击；分身攻击哪个目标、攻击范围、存在多久、攻击几次；隐身期间是否不可选中、攻击是否解除隐身。",
+      "mechanisms": ["skill-change", "invulnerable", "summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放一技能后",
+      "slots": [
+        { "key": "stealthDuration", "what": "隐身持续时间", "unit": "seconds", "claimed": { "value": 1, "quote": "隐身1秒" }, "packHint": "核心 c2 隐身持续时间，核对描述的1秒，需以资源包为准；同时确认隐身是否等于不可选中、攻击是否解除隐身" },
+        { "key": "summonDuration", "what": "持续召唤分身的总时长", "unit": "seconds", "claimed": null, "packHint": "核心 c2 持续召唤分身的时长，确认是否等于一技能持续时间" },
+        { "key": "summonInterval", "what": "两次召唤分身之间的间隔", "unit": "seconds", "claimed": null, "packHint": "核心 c2 召唤分身的周期（秒或帧）" },
+        { "key": "clonesPerSummon", "what": "每次召唤的分身数量", "unit": "count", "claimed": null, "packHint": "核心 c2 每次召唤的分身个数" },
+        { "key": "maxActiveClones", "what": "同时存在的分身上限", "unit": "count", "claimed": null, "packHint": "核心 c2 分身同时存在数量上限" },
+        { "key": "cloneLifetime", "what": "单个分身存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c2 单个分身的存在时间" },
+        { "key": "cloneAttacksPerClone", "what": "每个分身的强普攻击次数", "unit": "count", "claimed": null, "packHint": "核心 c2 每个分身打出几次强化普攻" },
+        { "key": "cloneDamagePct", "what": "分身强普伤害相对孙悟空自身强化普攻的比例（原文未写是否按比例）", "unit": "percent", "claimed": null, "packHint": "核心 c2 分身强普伤害的计算方式：复制本体、按比例还是独立数值" },
+        { "key": "cloneDamageBase", "what": "分身强普的基础伤害（若为独立数值）", "unit": "flat", "claimed": null, "packHint": "核心 c2 分身强普伤害基础值及伤害类型" },
+        { "key": "cloneDamageRatio", "what": "分身强普的伤害加成系数（若为独立数值，加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c2 分身强普伤害系数及加成属性、能否暴击" },
+        { "key": "cloneAttackRange", "what": "分身索敌或攻击范围", "unit": "meters", "claimed": null, "packHint": "核心 c2 分身索敌范围与目标选择规则" },
+        { "key": "cooldown", "what": "选此核心后一技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c2 下一技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "持续召唤的时长、频率、每次数量、同时存在上限没有写",
+        "分身强普的伤害计算方式、类型、能否暴击没有写",
+        "分身的目标选择、攻击范围、存在时间、攻击次数没有写",
+        "隐身是否等于不可选中、攻击是否解除隐身没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "变身戏法",
+      "text": "施法时召唤分身，对范围内敌人进行强普打击",
+      "reading": "二技能核心。释放二技能时召唤分身，分身对范围内的敌人进行强化普攻式打击。原文没有写：召唤几个分身（t09 七十二变 写“召唤分身数量+1”，但这里基础数量未写）、分身出现在哪里、“范围”多大、每个分身打几次；打击伤害是复制孙悟空自身强化普攻还是按比例或独立数值，伤害类型、能否暴击（t11 金箍铁棒 写分身伤害必定暴击）；是否命中范围内全部敌人。",
+      "mechanisms": ["skill-change", "summon", "area", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "cloneCount", "what": "召唤的分身数量", "unit": "count", "claimed": null, "packHint": "核心 c3 召唤分身的基础数量" },
+        { "key": "strikeRadius", "what": "分身打击的范围半径", "unit": "meters", "claimed": null, "packHint": "核心 c3 分身打击判定范围，以及分身出现位置" },
+        { "key": "strikesPerClone", "what": "每个分身的打击次数", "unit": "count", "claimed": null, "packHint": "核心 c3 每个分身打出几次强普打击" },
+        { "key": "cloneDamagePct", "what": "分身打击相对孙悟空自身强化普攻的比例（原文未写是否按比例）", "unit": "percent", "claimed": null, "packHint": "核心 c3 分身打击伤害的计算方式：复制本体、按比例还是独立数值" },
+        { "key": "cloneDamageBase", "what": "分身打击的基础伤害（若为独立数值）", "unit": "flat", "claimed": null, "packHint": "核心 c3 分身打击伤害基础值及伤害类型" },
+        { "key": "cloneDamageRatio", "what": "分身打击的伤害加成系数（若为独立数值，加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c3 分身打击伤害系数及加成属性、能否暴击" },
+        { "key": "maxTargets", "what": "每次打击命中的目标上限", "unit": "count", "claimed": null, "packHint": "核心 c3 分身打击是单体还是范围内全部目标" },
+        { "key": "strikeDelay", "what": "从施法到分身打击命中的延迟", "unit": "seconds", "claimed": null, "packHint": "核心 c3 分身打击的出手时间（秒或帧）" },
+        { "key": "cooldown", "what": "选此核心后二技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c3 下二技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "分身基础数量没有写",
+        "分身出现位置和“范围”大小没有写",
+        "每个分身打击次数没有写",
+        "打击伤害的计算方式、数值、类型、能否暴击没有写",
+        "是否命中范围内全部敌人没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "孩儿们上",
+      "text": "施法后的强化普攻，将召唤2个分身打出合棍，每个分身造成30%伤害",
+      "reading": "二技能核心。释放二技能后的强化普攻会召唤2个分身一起打出“合棍”，每个分身造成30%伤害。原文没有写30%的基准（按字面最可能是孙悟空这次强化普攻伤害的30%，但原文没有明说，也可能是攻击力的30%）；分身伤害的类型、能否暴击（t11 金箍铁棒 写分身伤害必定暴击）；分身只打强化普攻的主目标还是有范围；分身与本体的命中时间差；t09 七十二变“召唤分身数量+1”是否让这里变成3个。",
+      "mechanisms": ["skill-change", "summon", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能施法后的强化普攻时",
+      "slots": [
+        { "key": "cloneCount", "what": "强化普攻时召唤的分身数量", "unit": "count", "claimed": { "value": 2, "quote": "召唤2个分身" }, "packHint": "核心 c4 合棍分身数量，核对描述的2个，需以资源包为准；确认 t09 是否在此基础上+1" },
+        { "key": "perCloneDamagePct", "what": "每个分身造成的伤害比例（基准未写）", "unit": "percent", "claimed": { "value": 30, "quote": "每个分身造成30%伤害" }, "packHint": "核心 c4 每个分身的伤害比例，核对描述的30%，需以资源包为准；确认30%的基准是本体强化普攻伤害还是攻击力，以及伤害类型" },
+        { "key": "cloneHitRadius", "what": "分身合棍的判定范围（原文未写是否为范围伤害）", "unit": "meters", "claimed": null, "packHint": "核心 c4 合棍判定是单体还是范围，范围多大" },
+        { "key": "cloneHitDelay", "what": "分身合棍相对本体强化普攻的命中延迟", "unit": "seconds", "claimed": null, "packHint": "核心 c4 分身合棍的出手时间（秒或帧）" },
+        { "key": "enhancedBasicWindow", "what": "二技能施法后强化普攻的保留时间", "unit": "seconds", "claimed": null, "packHint": "二技能施法后强化普攻状态的持续时间" },
+        { "key": "cooldown", "what": "选此核心后二技能的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c4 下二技能的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "30%的基准没有写",
+        "分身伤害类型、能否暴击没有写（t11 写分身伤害必定暴击）",
+        "合棍是单体还是范围没有写",
+        "分身与本体的命中时间差没有写",
+        "t09 的分身数量+1 是否作用于此核心没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "定海神针",
+      "text": "矗立超大金箍棒，每秒对附近敌人附加大招印记（伤害+99%）",
+      "reading": "大招核心。大招在场上矗立一根超大金箍棒，每秒对附近敌人附加大招印记；括号写“伤害+99%”。原文没有写：金箍棒立在哪里、存在多久、“附近”的半径；每次附加几层印记、印记上限；括号里的“伤害+99%”是印记伤害提高99%、大招伤害提高99%，还是带印记的敌人受到的伤害提高99%，是加算还是乘算；印记本身的伤害和引爆方式（t18、t20、t24 提到“引爆”“触发”印记和“印记伤害”，这里没有写）；金箍棒本身是否造成伤害。“每秒”没有阿拉伯数字，校验器无法引用，所以周期参数 claimed 留空。",
+      "mechanisms": ["skill-change", "summon", "area", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招后，超大金箍棒存在期间每秒",
+      "slots": [
+        { "key": "markDamageBonus", "what": "括号中的伤害提升（作用对象未写明）", "unit": "percent", "claimed": { "value": 99, "quote": "伤害+99%" }, "packHint": "核心 c5 伤害提升数值，核对描述的99%，需以资源包为准；确认提升的是印记伤害、大招伤害还是目标受到的伤害，以及加算或乘算" },
+        { "key": "applyInterval", "what": "附加印记的周期（原文“每秒”，没有阿拉伯数字，claimed 留空）", "unit": "seconds", "claimed": null, "packHint": "核心 c5 附加印记的周期，核对原文的“每秒”，需以资源包为准" },
+        { "key": "staffDuration", "what": "超大金箍棒存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c5 金箍棒的存在时间" },
+        { "key": "applyRadius", "what": "“附近”的半径", "unit": "meters", "claimed": null, "packHint": "核心 c5 附加印记的作用范围及金箍棒放置位置" },
+        { "key": "marksPerApply", "what": "每次附加的印记层数", "unit": "count", "claimed": null, "packHint": "核心 c5 每次附加印记的层数" },
+        { "key": "maxMarks", "what": "单个目标印记层数上限", "unit": "count", "claimed": null, "packHint": "大招印记是否可叠加及层数上限" },
+        { "key": "markDamageBase", "what": "印记伤害的基础值（技能本体参数，原文未写）", "unit": "flat", "claimed": null, "packHint": "大招印记伤害基础值、伤害类型和引爆条件" },
+        { "key": "markDamageRatio", "what": "印记伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "大招印记伤害系数及加成属性、能否暴击" },
+        { "key": "staffDamage", "what": "金箍棒本身造成的伤害（原文未写是否存在）", "unit": "flat", "claimed": null, "packHint": "确认核心 c5 金箍棒落下或存在期间是否造成伤害；如有，找数值、系数与类型" },
+        { "key": "cooldown", "what": "选此核心后大招的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c5 下大招的冷却时间，确认是否与原技能不同" }
+      ],
+      "ambiguities": [
+        "金箍棒放置位置、存在时间、“附近”半径没有写",
+        "“每秒”没有阿拉伯数字，周期是否严格为1秒未确认",
+        "每次附加几层印记、层数上限没有写",
+        "“伤害+99%”的作用对象和计算方式（加算或乘算）没有写",
+        "印记自身伤害和引爆方式没有写",
+        "金箍棒本身是否造成伤害没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "吃俺老孙一棒",
+      "text": "强化普攻时跃至空中连续砸下金箍棒",
+      "reading": "大招核心。孙悟空进行强化普攻时会跃到空中，连续砸下金箍棒。原文没有写：哪些强化普攻会触发（所有强化普攻还是只限大招后的强化普攻，原文没有提到大招释放）；砸几下、每下伤害、伤害类型、能否暴击；砸击范围；是否附加大招印记；跃起期间是否不可选中；这是替换原本强化普攻的伤害还是额外附加；整段动作耗时。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "强化普攻时（原文未写是否限于大招后）",
+      "slots": [
+        { "key": "smashCount", "what": "连续砸下的次数", "unit": "count", "claimed": null, "packHint": "核心 c6 每次强化普攻砸下金箍棒的段数" },
+        { "key": "smashDamageBase", "what": "每次砸击的基础伤害", "unit": "flat", "claimed": null, "packHint": "核心 c6 砸击伤害基础值及伤害类型，确认是替换还是附加在强化普攻上" },
+        { "key": "smashDamageRatio", "what": "每次砸击的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c6 砸击伤害系数及加成属性、能否暴击" },
+        { "key": "smashRadius", "what": "砸击范围半径", "unit": "meters", "claimed": null, "packHint": "核心 c6 砸击判定范围" },
+        { "key": "smashInterval", "what": "相邻两次砸击的间隔", "unit": "seconds", "claimed": null, "packHint": "核心 c6 每段砸击的出手时间（秒或帧）" },
+        { "key": "actionDuration", "what": "跃起到落地整段动作耗时", "unit": "seconds", "claimed": null, "packHint": "核心 c6 强化普攻动作总帧数，及期间是否不可选中" },
+        { "key": "cooldown", "what": "选此核心后大招的冷却", "unit": "seconds", "claimed": null, "packHint": "核心 c6 下大招的冷却时间，确认是否与原技能不同，以及核心是否改为常驻效果" }
+      ],
+      "ambiguities": [
+        "触发条件是所有强化普攻还是大招后的强化普攻没有写",
+        "砸击次数、伤害、类型、范围、能否暴击没有写",
+        "是否附加大招印记没有写",
+        "跃起期间是否不可选中没有写",
+        "是替换还是附加在原强化普攻上没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "紧箍之咒",
+      "text": "金蝉现身，对最近的目标施加紧箍之咒2.5秒（限制目标无法离开）",
+      "reading": "一技能小天赋。“金蝉现身”时，对最近的目标施加紧箍之咒，持续2.5秒；括号说明效果是限制目标无法离开。原文没有写“金蝉现身”是什么时机（按所属技能与一技能有关，名称与 c2 金蝉脱壳 相近，但原文没有写是否需要该核心）；寻找“最近的目标”的范围；“无法离开”是不能离开某个区域（区域多大、以谁为中心）还是不能远离孙悟空；对首领是否生效；是否造成伤害。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "金蝉现身时（原文未写具体时机）",
+      "slots": [
+        { "key": "restrictDuration", "what": "紧箍之咒持续时间", "unit": "seconds", "claimed": { "value": 2.5, "quote": "紧箍之咒2.5秒" }, "packHint": "该天赋紧箍之咒的持续时间，核对描述的2.5秒，需以资源包为准" },
+        { "key": "searchRange", "what": "寻找最近目标的范围", "unit": "meters", "claimed": null, "packHint": "该天赋索敌范围，以及“金蝉现身”的触发时机" },
+        { "key": "leashRadius", "what": "“无法离开”的限制区域半径", "unit": "meters", "claimed": null, "packHint": "紧箍之咒限制区域的大小与中心" },
+        { "key": "maxTargets", "what": "施加目标数（原文“最近的目标”，没有阿拉伯数字）", "unit": "count", "claimed": null, "packHint": "确认紧箍之咒是否只作用于一个目标" }
+      ],
+      "ambiguities": [
+        "“金蝉现身”的触发时机没有写，是否需要 c2 金蝉脱壳 没有写",
+        "索敌范围没有写",
+        "“无法离开”的含义和区域大小没有写",
+        "对首领或挑战怪是否生效没有写",
+        "是否造成伤害没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "佛祖保佑",
+      "text": "生命值低于25%时，自动释放一技能",
+      "reading": "一技能小天赋。生命值低于25%时，自动释放一技能。原文没有写25%是否按最大生命计算；自动释放是否需要一技能已冷却完毕、是否让一技能进入冷却；这个天赋本身是否有冷却或每场只触发一次；在一次伤害跨过阈值时是结算前还是结算后释放。自动释放的一技能效果取决于所选核心，本身属于生存效果，按间接影响处理。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "生命值低于25%时",
+      "slots": [
+        { "key": "hpThreshold", "what": "触发的生命比例阈值", "unit": "percent", "claimed": { "value": 25, "quote": "生命值低于25%" }, "packHint": "该天赋触发阈值，核对描述的25%，需以资源包为准；确认基准是否为最大生命" },
+        { "key": "triggerCooldown", "what": "自动释放的冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋自动释放的内置冷却，确认是否受一技能冷却限制" },
+        { "key": "maxTriggers", "what": "每场触发次数上限（原文未写是否存在）", "unit": "count", "claimed": null, "packHint": "该天赋是否有触发次数限制" }
+      ],
+      "ambiguities": [
+        "25%是否按最大生命计算没有写",
+        "是否受一技能冷却限制、是否让一技能进入冷却没有写",
+        "天赋自身冷却或触发次数限制没有写",
+        "跨过阈值时释放时机（伤害结算前或后）没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "饶我一命",
+      "text": "受控时，自动释放一技能（冷却15秒）",
+      "reading": "一技能小天赋。受到控制时，自动释放一技能；括号写“冷却15秒”。原文没有写15秒是这个自动释放的单独冷却，还是一技能本身的冷却；自动释放是否需要一技能可用；自动释放是否同时解除正在承受的控制（原文只写自动释放一技能）；哪些控制算“受控”。",
+      "mechanisms": ["other"],
+      "damageRelevance": "indirect",
+      "trigger": "受到控制时",
+      "slots": [
+        { "key": "autoCastCooldown", "what": "自动释放的冷却", "unit": "seconds", "claimed": { "value": 15, "quote": "冷却15秒" }, "packHint": "该天赋自动释放的冷却，核对描述的15秒，需以资源包为准；确认是天赋单独冷却还是一技能冷却" }
+      ],
+      "ambiguities": [
+        "15秒是天赋单独冷却还是一技能冷却没有写",
+        "是否需要一技能可用没有写",
+        "是否解除当前控制没有写",
+        "哪些控制类型算“受控”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "护命金环",
+      "text": "技能持续期间，获得1次名刀效果",
+      "reading": "一技能小天赋。一技能持续期间获得1次“名刀效果”。“名刀”通常指游戏内装备名刀·司命，原文直接引用它的效果但没有写效果内容；按装备名通常理解为抵挡一次致命伤害，但保留多少生命、免伤或无敌多久都必须以资源包为准。原文没有写技能持续期间没用掉的这1次是否在技能结束后消失，也没有写是否与装备名刀共享冷却。",
+      "mechanisms": ["invulnerable", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能持续期间（触发条件按名刀装备通常理解为受到致命伤害，原文未写）",
+      "slots": [
+        { "key": "charges", "what": "一技能持续期间可触发的名刀效果次数", "unit": "count", "claimed": { "value": 1, "quote": "获得1次名刀效果" }, "packHint": "该天赋名刀效果次数，核对描述的1次，需以资源包为准" },
+        { "key": "hpRetained", "what": "名刀效果触发后保留的生命", "unit": "flat", "claimed": null, "packHint": "该天赋引用的名刀效果内容：触发条件和触发后保留的生命" },
+        { "key": "protectDuration", "what": "名刀效果的免伤或无敌持续时间", "unit": "seconds", "claimed": null, "packHint": "名刀效果触发后的保护时长与类型，确认是否与装备名刀共享冷却" }
+      ],
+      "ambiguities": [
+        "“名刀效果”的具体内容没有写",
+        "未使用的次数在技能结束后是否消失没有写",
+        "是否与装备名刀共享冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "火眼疾驰",
+      "text": "技能持续期间，可穿越地形，且获得125%爆发移速",
+      "reading": "一技能小天赋。一技能持续期间可以穿越地形，并获得125%爆发移速。原文没有写“爆发移速”是否随时间衰减、持续多久（是否等于技能持续期间），也没有写125%与其他移速加成如何叠加。只影响移动，不改变伤害。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "一技能持续期间",
+      "slots": [
+        { "key": "burstMoveSpeed", "what": "爆发移速加成", "unit": "percent", "claimed": { "value": 125, "quote": "获得125%爆发移速" }, "packHint": "该天赋爆发移速数值，核对描述的125%，需以资源包为准；确认与其他移速的叠加方式" },
+        { "key": "moveSpeedDuration", "what": "爆发移速持续或衰减时间", "unit": "seconds", "claimed": null, "packHint": "该天赋爆发移速的持续时间和是否衰减" }
+      ],
+      "ambiguities": [
+        "爆发移速是否衰减、持续多久没有写",
+        "125%与其他移速加成的叠加方式没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "灵丹续命",
+      "text": "技能持续时间+1秒",
+      "reading": "一技能小天赋。一技能持续时间增加1秒。原文没有写延长的是哪一项（c1 的“技能1.5秒期间”、c2 的隐身1秒或持续召唤分身的时间），也没有写 t04、t05、t07、t08 中的“技能持续期间”是否同样延长。持续时间变长会让分身生成次数、霸体时间等增加，通过其他效果间接影响输出。",
+      "mechanisms": ["skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放一技能时生效）",
+      "slots": [
+        { "key": "durationIncrease", "what": "一技能持续时间增加量", "unit": "seconds", "claimed": { "value": 1, "quote": "技能持续时间+1秒" }, "packHint": "该天赋延长的一技能持续时间，核对描述的1秒，需以资源包为准；确认在不同核心下具体延长哪一项" }
+      ],
+      "ambiguities": [
+        "延长的是哪一项持续时间（c1 期间、c2 隐身或持续召唤）没有写",
+        "其他写“技能持续期间”的天赋是否同步延长没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "挠痒痒呢",
+      "text": "技能持续期间，每次生成分身后，回复生命值和法力值",
+      "reading": "一技能小天赋。一技能持续期间，每次生成分身后回复生命值和法力值。原文没有写每次回复多少、按什么计算（固定值、最大生命百分比还是已损失生命百分比），也没有写是否有内置冷却。分身生成频率取决于所选核心（c1、c2 都写了召唤分身），原文未写。只影响生存。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能持续期间每次生成分身后",
+      "slots": [
+        { "key": "hpRestore", "what": "每次回复的生命值（计算方式未写，暂记 flat）", "unit": "flat", "claimed": null, "packHint": "该天赋每次生成分身回复的生命值及计算方式" },
+        { "key": "mpRestore", "what": "每次回复的法力值（计算方式未写，暂记 flat）", "unit": "flat", "claimed": null, "packHint": "该天赋每次生成分身回复的法力值及计算方式" },
+        { "key": "internalCooldown", "what": "回复的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋回复是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "回复数值和计算方式没有写",
+        "是否有内置冷却没有写",
+        "分身生成频率没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "混元回气",
+      "text": "技能持续期间，每次生成分身后，冷却-10%",
+      "reading": "一技能小天赋。一技能持续期间，每次生成分身后，冷却减少10%（原文写“-10%”）。原文没有写减少的是哪个技能的冷却（一技能自身还是所有技能），是总冷却的10%还是剩余冷却的10%，也没有写每次释放最多触发几次。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能持续期间每次生成分身后",
+      "slots": [
+        { "key": "cooldownReducePct", "what": "每次生成分身后冷却减少的比例（原文“-10%”，为减少）", "unit": "percent", "claimed": { "value": 10, "quote": "冷却-10%" }, "packHint": "该天赋每次减少的冷却比例，核对描述的10%，需以资源包为准；确认作用于哪个技能、按总冷却还是剩余冷却" },
+        { "key": "maxTriggersPerCast", "what": "每次释放一技能最多触发次数（原文未写是否有上限）", "unit": "count", "claimed": null, "packHint": "该天赋每次技能内的触发次数上限" }
+      ],
+      "ambiguities": [
+        "减少的是哪个技能的冷却没有写",
+        "按总冷却还是剩余冷却计算没有写",
+        "每次释放触发次数上限没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "七十二变",
+      "text": "召唤分身数量+1",
+      "reading": "二技能小天赋。召唤的分身数量增加1个。原文没有写基础数量（c3 未写，c4 写“召唤2个分身”），也没有写是只对二技能核心召唤的分身生效，还是对一技能、二技能所有分身生效；新增分身的伤害是否与其他分身相同。",
+      "mechanisms": ["summon"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（召唤分身时）",
+      "slots": [
+        { "key": "extraCloneCount", "what": "额外分身数量", "unit": "count", "claimed": { "value": 1, "quote": "召唤分身数量+1" }, "packHint": "该天赋增加的分身数量，核对描述的+1，需以资源包为准；确认作用于哪些技能召唤的分身" },
+        { "key": "extraCloneDamagePct", "what": "新增分身的伤害相对原有分身的比例", "unit": "percent", "claimed": null, "packHint": "确认新增分身的伤害是否与原有分身相同" }
+      ],
+      "ambiguities": [
+        "基础分身数量没有写（c3 未写）",
+        "作用于哪些技能召唤的分身没有写",
+        "新增分身伤害是否相同没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "在劫难逃",
+      "text": "施法后的强化普攻，追击范围+50%",
+      "reading": "二技能小天赋。二技能施法后的强化普攻，追击范围增加50%。原文没有写原本的追击范围是多少，也没有写“追击”是否包含位移到目标身边。只影响能否够到目标，不改变伤害数值。",
+      "mechanisms": ["area", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能施法后的强化普攻时",
+      "slots": [
+        { "key": "chaseRangeIncrease", "what": "追击范围增加比例", "unit": "percent", "claimed": { "value": 50, "quote": "追击范围+50%" }, "packHint": "该天赋追击范围增幅，核对描述的50%，需以资源包为准" },
+        { "key": "baseChaseRange", "what": "强化普攻原有追击范围", "unit": "meters", "claimed": null, "packHint": "二技能施法后强化普攻的原始追击距离" }
+      ],
+      "ambiguities": [
+        "原有追击范围没有写",
+        "“追击”是否包含位移没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "金箍铁棒",
+      "text": "施法后的强化普攻和分身产生的伤害必定暴击",
+      "reading": "二技能小天赋。二技能施法后的强化普攻，以及分身造成的伤害，必定暴击。原文没有写“分身”是只指二技能召唤的分身，还是也包括一技能核心召唤的分身；分身暴击时用的暴击效果是否取孙悟空自身的暴击效果；“施法后的强化普攻”是否只算施法后第一次强化普攻。",
+      "mechanisms": ["crit"],
+      "damageRelevance": "direct",
+      "trigger": "二技能施法后的强化普攻命中，以及分身造成伤害时",
+      "slots": [
+        { "key": "enhancedBasicWindow", "what": "二技能施法后强化普攻的保留时间", "unit": "seconds", "claimed": null, "packHint": "二技能施法后强化普攻状态的持续时间，确认必定暴击是否只作用于第一次强化普攻" },
+        { "key": "cloneCritDamage", "what": "分身暴击时的暴击效果（是否继承孙悟空自身暴击效果）", "unit": "percent", "claimed": null, "packHint": "分身暴击伤害的计算方式，确认是否继承本体暴击效果" }
+      ],
+      "ambiguities": [
+        "“分身”是否包括一技能核心的分身没有写",
+        "分身暴击的暴击效果来源没有写",
+        "是否只作用于施法后第一次强化普攻没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "翻个跟头",
+      "text": "未命中目标也可腾空跳跃",
+      "reading": "二技能小天赋。二技能没有命中目标时也可以腾空跳跃。原文暗示原本需要命中目标才能腾空跳跃，但没有写跳跃距离、方向，也没有写未命中时是否仍获得强化普攻。只影响位移，不改变伤害。",
+      "mechanisms": ["mobility", "skill-change"],
+      "damageRelevance": "none",
+      "trigger": "二技能未命中目标时",
+      "slots": [
+        { "key": "jumpDistance", "what": "未命中时腾空跳跃的距离", "unit": "meters", "claimed": null, "packHint": "该天赋腾空跳跃的距离与方向" }
+      ],
+      "ambiguities": [
+        "跳跃距离和方向没有写",
+        "未命中时是否仍获得强化普攻没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "焚骨重击",
+      "text": "跳棍命中敌人召唤分身进行强普打击造成真实伤害",
+      "reading": "二技能小天赋。跳棍命中敌人时召唤分身，分身进行强化普攻式打击，造成真实伤害。“跳棍”按所属技能推断是二技能本身，原文没有单独解释。原文没有写召唤几个分身、打击伤害多少、是把分身伤害改为真实伤害还是额外一次真实伤害、能否暴击、是否有范围。",
+      "mechanisms": ["summon", "proc", "true-damage"],
+      "damageRelevance": "direct",
+      "trigger": "二技能跳棍命中敌人时",
+      "slots": [
+        { "key": "cloneCount", "what": "召唤的分身数量", "unit": "count", "claimed": null, "packHint": "该天赋召唤分身数量，确认 t09 是否影响" },
+        { "key": "strikeDamageBase", "what": "分身打击的真实伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋分身打击的伤害基础值，确认是转换还是额外伤害" },
+        { "key": "strikeDamageRatio", "what": "分身打击的伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋分身打击伤害系数及加成属性、能否暴击" },
+        { "key": "strikeRadius", "what": "分身打击的范围（原文未写是否为范围）", "unit": "meters", "claimed": null, "packHint": "该天赋分身打击是单体还是范围" }
+      ],
+      "ambiguities": [
+        "分身数量没有写",
+        "伤害数值、系数没有写",
+        "是转换为真实伤害还是额外真实伤害没有写",
+        "能否暴击没有写",
+        "单体还是范围没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "十万八千",
+      "text": "位移距离+35%",
+      "reading": "二技能小天赋。二技能位移距离增加35%。原文没有写原本位移距离，也没有写施法（索敌）距离是否同步增加。只影响能否够到目标，不改变伤害数值。",
+      "mechanisms": ["mobility", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（释放二技能时）",
+      "slots": [
+        { "key": "distanceIncrease", "what": "位移距离增加比例", "unit": "percent", "claimed": { "value": 35, "quote": "位移距离+35%" }, "packHint": "该天赋位移距离增幅，核对描述的35%，需以资源包为准" },
+        { "key": "baseDistance", "what": "二技能原有位移距离", "unit": "meters", "claimed": null, "packHint": "二技能原始位移距离，确认施法距离是否同步增加" }
+      ],
+      "ambiguities": [
+        "原有位移距离没有写",
+        "施法或索敌距离是否同步增加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "空棍禅意",
+      "text": "未命中目标，将返还50%冷却",
+      "reading": "二技能小天赋。二技能没有命中目标时，返还50%冷却。原文没有写是总冷却的50%还是剩余冷却的50%，也没有写返还在什么时候结算。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能未命中目标时",
+      "slots": [
+        { "key": "refundPct", "what": "返还冷却比例", "unit": "percent", "claimed": { "value": 50, "quote": "返还50%冷却" }, "packHint": "该天赋返还冷却比例，核对描述的50%，需以资源包为准；确认按总冷却还是剩余冷却" }
+      ],
+      "ambiguities": [
+        "按总冷却还是剩余冷却计算没有写",
+        "返还结算时机没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "还魂灵药",
+      "text": "命中目标回复生命值和法力值，并获得0.5秒无法选中",
+      "reading": "二技能小天赋。二技能命中目标时回复生命值和法力值，并获得0.5秒无法选中。原文没有写回复多少、按什么计算；命中多个目标是否多次回复；无法选中是命中时立即开始还是落地后开始。",
+      "mechanisms": ["heal", "invulnerable"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能命中目标时",
+      "slots": [
+        { "key": "untargetableDuration", "what": "无法选中持续时间", "unit": "seconds", "claimed": { "value": 0.5, "quote": "获得0.5秒无法选中" }, "packHint": "该天赋无法选中时长，核对描述的0.5秒，需以资源包为准" },
+        { "key": "hpRestore", "what": "回复的生命值（计算方式未写，暂记 flat）", "unit": "flat", "claimed": null, "packHint": "该天赋回复生命值的数值及计算方式" },
+        { "key": "mpRestore", "what": "回复的法力值（计算方式未写，暂记 flat）", "unit": "flat", "claimed": null, "packHint": "该天赋回复法力值的数值及计算方式" },
+        { "key": "maxTriggersPerCast", "what": "每次施法的触发次数上限（命中多个目标时）", "unit": "count", "claimed": null, "packHint": "命中多个目标是否多次回复" }
+      ],
+      "ambiguities": [
+        "回复数值和计算方式没有写",
+        "命中多个目标是否多次回复没有写",
+        "无法选中的起算时机没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "过来吧你",
+      "text": "施法后，将敌人拉向金箍棒",
+      "reading": "大招小天赋。释放大招后，将敌人拉向金箍棒。原文没有写拉拽范围、拉拽距离、拉拽耗时、能拉几个目标、对首领是否生效，也没有写“金箍棒”的位置（大招落点，或 c5 矗立的超大金箍棒）。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招后",
+      "slots": [
+        { "key": "pullRadius", "what": "拉拽作用范围", "unit": "meters", "claimed": null, "packHint": "该天赋拉拽判定范围，以及金箍棒位置" },
+        { "key": "pullDistance", "what": "拉拽距离（是否直接拉到金箍棒处）", "unit": "meters", "claimed": null, "packHint": "该天赋拉拽距离" },
+        { "key": "pullDuration", "what": "拉拽过程耗时（控制时长）", "unit": "seconds", "claimed": null, "packHint": "该天赋拉拽持续时间" },
+        { "key": "maxTargets", "what": "可拉拽目标上限", "unit": "count", "claimed": null, "packHint": "该天赋拉拽目标数量" }
+      ],
+      "ambiguities": [
+        "拉拽范围、距离、耗时、目标数没有写",
+        "对首领是否生效没有写",
+        "金箍棒位置没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "地煞天印",
+      "text": "引爆印记时造成范围伤害（可连续触发）",
+      "reading": "大招小天赋。引爆印记时造成范围伤害；括号写“可连续触发”。原文没有写印记怎样引爆、范围伤害的半径、伤害数值和类型、能否暴击；“可连续触发”是指一次引爆的范围伤害能继续引爆其他带印记的敌人（连锁），还是同一印记可以多次引爆，原文没有说明；是否有次数上限或内置冷却也没有写。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "引爆印记时",
+      "slots": [
+        { "key": "aoeRadius", "what": "范围伤害半径", "unit": "meters", "claimed": null, "packHint": "该天赋范围伤害的判定范围" },
+        { "key": "aoeDamageBase", "what": "范围伤害基础值", "unit": "flat", "claimed": null, "packHint": "该天赋范围伤害基础值及伤害类型" },
+        { "key": "aoeDamageRatio", "what": "范围伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "该天赋范围伤害系数及加成属性、能否暴击" },
+        { "key": "chainLimit", "what": "连续触发次数上限（原文未写是否有上限）", "unit": "count", "claimed": null, "packHint": "“可连续触发”的规则与次数上限" },
+        { "key": "internalCooldown", "what": "范围伤害的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋范围伤害是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "印记引爆方式没有写",
+        "范围、伤害数值、类型、能否暴击没有写",
+        "“可连续触发”的含义没有写明",
+        "次数上限或内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "金光护体",
+      "text": "大招后获得7秒30%免伤",
+      "reading": "大招小天赋。释放大招后获得7秒30%免伤。原文没有写“大招后”是施法开始还是施法结束开始计时；30%与其他减伤是加算还是乘算；重复释放是否刷新。只影响承伤。",
+      "mechanisms": ["buff", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "释放大招后",
+      "slots": [
+        { "key": "duration", "what": "免伤持续时间", "unit": "seconds", "claimed": { "value": 7, "quote": "获得7秒" }, "packHint": "该天赋免伤持续时间，核对描述的7秒，需以资源包为准" },
+        { "key": "damageReductionPct", "what": "免伤比例", "unit": "percent", "claimed": { "value": 30, "quote": "30%免伤" }, "packHint": "该天赋免伤比例，核对描述的30%，需以资源包为准；确认与其他减伤的叠加方式" }
+      ],
+      "ambiguities": [
+        "计时起点没有写",
+        "与其他减伤的叠加方式没有写",
+        "重复释放是否刷新没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "崩山震地",
+      "text": "触发印记时造成击飞效果",
+      "reading": "大招小天赋。触发印记时造成击飞效果。原文没有写击飞持续时间、击飞的是带印记的目标还是范围内敌人、范围多大、对首领是否生效、是否有内置冷却；“触发印记”与 t18 的“引爆印记”是否是同一时机也没有写。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "触发印记时",
+      "slots": [
+        { "key": "knockupDuration", "what": "击飞持续时间", "unit": "seconds", "claimed": null, "packHint": "该天赋击飞时长" },
+        { "key": "radius", "what": "击飞作用范围（若为范围）", "unit": "meters", "claimed": null, "packHint": "该天赋击飞是只作用于带印记目标还是范围内敌人" },
+        { "key": "internalCooldown", "what": "击飞的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "该天赋击飞是否有内置冷却或对同一目标的保护时间" }
+      ],
+      "ambiguities": [
+        "击飞时长没有写",
+        "作用对象和范围没有写",
+        "对首领是否生效没有写",
+        "内置冷却没有写",
+        "“触发印记”与“引爆印记”是否同一时机没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "贯日金虹",
+      "text": "金箍棒变大，施法范围+30%，技能伤害增加150%攻击力加成",
+      "reading": "大招小天赋。金箍棒变大，大招施法范围增加30%，技能伤害额外增加150%攻击力的加成。原文没有写：“攻击力”是总攻击力还是额外攻击力；“技能伤害”只指大招还是所有技能；大招有多段伤害时是每段都加还是只加一次；是否作用于印记伤害；“金箍棒变大”与施法范围+30%是同一效果还是另有判定尺寸变化。",
+      "mechanisms": ["area", "skill-change", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "常驻（释放大招时）",
+      "slots": [
+        { "key": "rangeIncrease", "what": "施法范围增加比例", "unit": "percent", "claimed": { "value": 30, "quote": "施法范围+30%" }, "packHint": "该天赋施法范围增幅，核对描述的30%，需以资源包为准；确认金箍棒判定尺寸是否另行变化" },
+        { "key": "extraAtkRatio", "what": "技能伤害额外增加的攻击力加成系数（150% 即 1.5 倍攻击力）", "unit": "percent", "claimed": { "value": 150, "quote": "技能伤害增加150%攻击力加成" }, "packHint": "该天赋额外攻击力加成系数，核对描述的150%，需以资源包为准；确认是总攻击还是额外攻击、作用于哪些伤害段、是否作用于印记伤害" }
+      ],
+      "ambiguities": [
+        "“攻击力”是总攻击还是额外攻击没有写",
+        "“技能伤害”的作用范围没有写",
+        "多段伤害时是每段都加还是只加一次没有写",
+        "是否作用于印记伤害没有写",
+        "“金箍棒变大”是否另有判定尺寸变化没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "法天象地",
+      "text": "释放大招后6秒内，所有普攻必定暴击",
+      "reading": "大招小天赋。释放大招后6秒内，所有普攻必定暴击。原文没有写“所有普攻”是否包括强化普攻和分身攻击；6秒从施法开始还是结束开始计时；重复释放是否刷新。",
+      "mechanisms": ["buff", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "释放大招后",
+      "slots": [
+        { "key": "duration", "what": "必定暴击的持续时间", "unit": "seconds", "claimed": { "value": 6, "quote": "释放大招后6秒内" }, "packHint": "该天赋必定暴击 buff 持续时间，核对描述的6秒，需以资源包为准" }
+      ],
+      "ambiguities": [
+        "“所有普攻”是否包括强化普攻、分身攻击没有写",
+        "计时起点没有写",
+        "重复释放是否刷新没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "大圣神威",
+      "text": "永久提升40%暴击效果",
+      "reading": "大招小天赋。永久提升40%暴击效果。原文没有写40%是直接加到暴击效果属性上（加算）还是按当前暴击效果的比例提升（乘算）。",
+      "mechanisms": ["stat", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "critDamageBonus", "what": "暴击效果提升", "unit": "percent", "claimed": { "value": 40, "quote": "永久提升40%暴击效果" }, "packHint": "该天赋暴击效果加成，核对描述的40%，需以资源包为准；确认加算还是乘算" }
+      ],
+      "ambiguities": [
+        "40%是加算还是乘算没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "三昧真火",
+      "text": "印记伤害变为真实伤害，且可以暴击",
+      "reading": "大招小天赋。大招印记的伤害变为真实伤害，并且可以暴击。原文没有写转换后数值是否与原印记伤害相同；暴击时使用的暴击率和暴击效果是否取孙悟空自身属性；印记伤害本身的数值也没有写。",
+      "mechanisms": ["true-damage", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "印记造成伤害时",
+      "slots": [
+        { "key": "markDamageBase", "what": "印记伤害基础值（技能本体参数，原文未写）", "unit": "flat", "claimed": null, "packHint": "大招印记伤害基础值与原伤害类型" },
+        { "key": "markDamageRatio", "what": "印记伤害加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "大招印记伤害系数及加成属性" },
+        { "key": "conversionRatio", "what": "转换为真实伤害后的数值比例（原文未写是否等值转换）", "unit": "ratio", "claimed": null, "packHint": "该天赋转换后真实伤害与原印记伤害的比例，确认暴击使用的暴击率和暴击效果来源" }
+      ],
+      "ambiguities": [
+        "转换后是否等值没有写",
+        "暴击率和暴击效果来源没有写",
+        "印记伤害本身数值没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

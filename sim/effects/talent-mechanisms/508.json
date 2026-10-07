@@ -1,0 +1,763 @@
+{
+  "heroId": "508",
+  "heroName": "伽罗",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "心矢一隅",
+      "text": "召唤绕身灵弓，辅助射击；连续命中叠加伤害和转速",
+      "reading": "一技能核心。选此核心后召唤环绕伽罗身体的灵弓（“绕身”），灵弓辅助伽罗射击；灵弓连续命中时叠加伤害和“转速”。仓库里没有本模式伽罗的基础技能原文（data/official.json 只有名称），不知道一技能本身做什么。原文没有写：灵弓数量；召唤时机（选核心后常驻，还是释放一技能后召唤一段时间）；“辅助射击”是伽罗每次普攻时灵弓跟着射一次，还是灵弓按自己的频率独立射击；每次射击的伤害数值、系数、加成属性、伤害类型、能否暴击、能否触发普攻特效；“连续命中”是指连续命中同一目标还是一段时间内不断命中、多久不命中会清空层数；每层增加多少伤害和多少转速、层数上限；“转速”按字面是灵弓环绕旋转的速度，是否等同于射击频率也没写。",
+      "mechanisms": ["summon", "proc", "stacking", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "召唤时机未写（常驻或一技能释放后）；灵弓连续命中时叠层",
+      "slots": [
+        { "key": "bowCount", "what": "环绕的灵弓数量", "unit": "count", "claimed": null, "packHint": "核心 c1 召唤的灵弓数量" },
+        { "key": "bowDuration", "what": "灵弓存在时间（若为常驻则无此项）", "unit": "seconds", "claimed": null, "packHint": "核心 c1 灵弓是常驻还是限时召唤，限时则找持续时间" },
+        { "key": "shotInterval", "what": "灵弓射击间隔，或伽罗每次攻击时灵弓的射击次数（原文“辅助射击”未写频率）", "unit": "seconds", "claimed": null, "packHint": "灵弓射击的触发方式：随伽罗普攻触发还是独立周期，以及间隔或次数" },
+        { "key": "shotBaseDamage", "what": "灵弓每次射击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c1 灵弓射击伤害的基础值" },
+        { "key": "shotDamageRatio", "what": "灵弓每次射击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "灵弓射击伤害系数、加成属性、伤害类型，能否暴击、能否触发普攻特效" },
+        { "key": "damagePerStack", "what": "连续命中每层叠加的伤害提升", "unit": "percent", "claimed": null, "packHint": "核心 c1 每层伤害提升数值，确认是百分比还是固定值" },
+        { "key": "spinSpeedPerStack", "what": "连续命中每层叠加的转速提升（原文“转速”）", "unit": "percent", "claimed": null, "packHint": "核心 c1 每层转速提升数值，并确认转速是否就是射击频率" },
+        { "key": "maxStacks", "what": "叠加层数上限", "unit": "count", "claimed": null, "packHint": "核心 c1 伤害和转速叠层的最大层数" },
+        { "key": "stackResetTime", "what": "多久不命中后层数清空（原文“连续命中”）", "unit": "seconds", "claimed": null, "packHint": "叠层的保持时间或中断判定规则（换目标是否清空）" },
+        { "key": "shotRange", "what": "灵弓射程或索敌范围", "unit": "meters", "claimed": null, "packHint": "灵弓的攻击距离" }
+      ],
+      "ambiguities": [
+        "灵弓数量没有写",
+        "灵弓是常驻还是一技能释放后限时召唤没有写",
+        "“辅助射击”的触发方式（随普攻还是独立射击）和频率没有写",
+        "灵弓射击的伤害数值、系数、加成属性、伤害类型、能否暴击、能否触发普攻特效没有写",
+        "“连续命中”的判定（同一目标、时间窗口）和清空规则没有写",
+        "每层伤害、每层转速、层数上限没有写",
+        "“转速”是否等同于射击频率没有写",
+        "仓库里没有本模式一技能的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "十字星芒",
+      "text": "10次普攻后进入3秒十字星芒状态，暴击额外计数",
+      "reading": "一技能核心。伽罗累计10次普攻后进入“十字星芒”状态，持续3秒；普攻暴击时额外计数（按字面是一次暴击在10次计数里算不止1次）。原文没有写十字星芒状态具体有什么效果（加伤、额外弹道、属性加成等都没写）。原文也没有写：暴击额外计几次；计数按普攻发出还是命中算；状态期间普攻是否继续计数、状态结束后计数是否清零；是否有冷却。“暴击额外计数”也可能被理解为状态期间暴击会额外延长或加强状态，原文表述不够明确。因为状态效果未写，damageRelevance 暂按“核心状态会影响输出”标为 direct，待资源包确认。",
+      "mechanisms": ["buff", "stacking", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "累计10次普攻后（暴击额外计数）",
+      "slots": [
+        { "key": "attacksRequired", "what": "进入十字星芒状态所需的普攻计数", "unit": "count", "claimed": { "value": 10, "quote": "10次普攻" }, "packHint": "核心 c2 进入状态所需的普攻计数，核对描述的10次，需以资源包为准；同时确认按发出还是命中计数" },
+        { "key": "stateDuration", "what": "十字星芒状态持续时间", "unit": "seconds", "claimed": { "value": 3, "quote": "3秒十字星芒状态" }, "packHint": "十字星芒状态持续时间，核对描述的3秒，需以资源包为准" },
+        { "key": "critExtraCount", "what": "一次暴击额外增加的计数", "unit": "count", "claimed": null, "packHint": "核心 c2 暴击时额外计数的数值，并确认“暴击额外计数”的确切含义" },
+        { "key": "stateDamageBase", "what": "若状态带来额外伤害：每次伤害的基础值", "unit": "flat", "claimed": null, "packHint": "十字星芒状态的实际效果（原文未写）；若有额外伤害则找基础值" },
+        { "key": "stateDamageRatio", "what": "若状态带来额外伤害：加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "十字星芒状态伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "stateStatBonus", "what": "若状态提供属性加成：加成数值（属性种类未写）", "unit": "percent", "claimed": null, "packHint": "十字星芒状态是否提供攻速、暴击、伤害加成等属性及其数值" },
+        { "key": "stateEffectRadius", "what": "若状态效果有范围：作用范围", "unit": "meters", "claimed": null, "packHint": "十字星芒状态效果的判定范围和目标数" },
+        { "key": "cooldown", "what": "状态结束后重新开始计数前的冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "核心 c2 是否有冷却及其时长" }
+      ],
+      "ambiguities": [
+        "十字星芒状态的具体效果完全没有写",
+        "暴击额外计几次没有写",
+        "“暴击额外计数”是计入10次普攻还是作用于状态期间，表述不够明确",
+        "计数按普攻发出还是命中算没有写",
+        "状态期间是否继续计数、状态结束后计数是否清零没有写",
+        "是否有冷却没有写",
+        "额外普攻（t02）、灵弓射击是否计入普攻次数没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "千翎蔽空",
+      "text": "依据攻速朝目标方向连续射击",
+      "reading": "二技能核心。二技能改为朝目标方向连续射击，射击的频率或次数依据伽罗的攻速决定。仓库里没有本模式二技能原文，从二技能天赋提到“箭矢命中”“沉默”推断原二技能是射出箭矢并带沉默。原文没有写：连续射击持续多久或总共射几次；攻速具体如何换算成射击频率；每发是按普攻结算（能否暴击、能否触发普攻特效和一技能相关天赋）还是按技能伤害结算；每发伤害数值、系数、伤害类型；射程、箭矢宽度、能否穿透多个目标；原二技能的沉默和其他效果是否保留、每发是否都触发 t09「裂石」、t11「入木」、t15「枯朽」、t16「羽幕」；射击期间能否移动（t14「相位」可变为移动施法）；“目标方向”是锁定目标还是施法指向的方向。",
+      "mechanisms": ["skill-change", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "channelDuration", "what": "连续射击持续时间", "unit": "seconds", "claimed": null, "packHint": "核心 c3 连续射击的持续时间或引导时长" },
+        { "key": "shotCount", "what": "总射击次数（若按次数而非时长）", "unit": "count", "claimed": null, "packHint": "核心 c3 每次释放的射击次数，确认按时长还是按次数" },
+        { "key": "attackSpeedScaling", "what": "攻速换算射击频率的系数（原文“依据攻速”）", "unit": "ratio", "claimed": null, "packHint": "射击间隔与攻速的换算公式，确认是否与普攻间隔相同" },
+        { "key": "shotBaseDamage", "what": "每发伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c3 每发伤害的基础值" },
+        { "key": "shotDamageRatio", "what": "每发伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "每发伤害系数、加成属性、伤害类型，按普攻还是技能结算，能否暴击、能否触发普攻特效" },
+        { "key": "shotRange", "what": "每发箭矢的射程", "unit": "meters", "claimed": null, "packHint": "核心 c3 箭矢射程" },
+        { "key": "shotWidth", "what": "每发箭矢的宽度", "unit": "meters", "claimed": null, "packHint": "核心 c3 箭矢判定宽度，与 t13「蔽日」的宽度增加如何叠加" },
+        { "key": "maxTargetsPerShot", "what": "每发可命中的目标数（是否穿透）", "unit": "count", "claimed": null, "packHint": "每发箭矢是命中首个目标即消失还是穿透，目标数上限" }
+      ],
+      "ambiguities": [
+        "连续射击的持续时间或总次数没有写",
+        "攻速如何换算成射击频率没有写",
+        "每发按普攻还是按技能结算、能否暴击、能否触发普攻特效没有写",
+        "每发伤害数值、系数、伤害类型没有写",
+        "射程、宽度、能否穿透没有写",
+        "原二技能的沉默等效果是否保留、二技能天赋是否每发都触发没有写",
+        "“目标方向”是锁定目标还是施法方向没有写",
+        "仓库里没有本模式二技能的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "弦羽天光",
+      "text": "额外召唤两只灵弓，并造成击退",
+      "reading": "二技能核心。二技能额外召唤两只灵弓（“两只”是中文数字），并造成击退。原文没有写：“额外”是相对什么而言（相对一技能核心「心矢一隅」的灵弓，还是相对二技能原有的箭矢）；这两只灵弓做什么（是否同样射出二技能箭矢、是否持续存在并攻击）、存在多久、伤害数值和系数；击退由二技能箭矢还是灵弓造成、击退距离、击退的控制时长、是否所有命中目标都会被击退；二技能本身的伤害是否改变。原文没写灵弓造成伤害，但本英雄 c1、c6 里的灵弓都会射击或攻击，因此暂标 direct，待资源包确认。",
+      "mechanisms": ["summon", "proc", "control", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "extraBowCount", "what": "额外召唤的灵弓数量（原文“两只”，中文数字，校验器无法作为 claimed）", "unit": "count", "claimed": null, "packHint": "核心 c4 额外召唤的灵弓数量，核对描述的两只，需以资源包为准" },
+        { "key": "bowDuration", "what": "灵弓存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c4 灵弓是只在本次二技能中射击还是存在一段时间，以及持续时长" },
+        { "key": "bowShotsPerCast", "what": "每只灵弓在一次二技能中的射击次数", "unit": "count", "claimed": null, "packHint": "核心 c4 每只灵弓的射击次数或射击间隔" },
+        { "key": "bowShotBaseDamage", "what": "灵弓每次射击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c4 灵弓射击伤害基础值，确认是否等同于二技能箭矢伤害" },
+        { "key": "bowShotDamageRatio", "what": "灵弓每次射击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "灵弓射击伤害系数、加成属性、伤害类型以及能否暴击，是否触发二技能天赋" },
+        { "key": "knockbackDistance", "what": "击退距离", "unit": "meters", "claimed": null, "packHint": "核心 c4 击退的距离和方向" },
+        { "key": "knockbackControlDuration", "what": "击退的控制时长", "unit": "seconds", "claimed": null, "packHint": "核心 c4 击退造成的控制时长（帧或秒）" },
+        { "key": "knockbackWidth", "what": "击退的判定范围或宽度", "unit": "meters", "claimed": null, "packHint": "击退由箭矢还是灵弓造成，判定宽度和目标数" }
+      ],
+      "ambiguities": [
+        "“额外”相对什么而言没有写",
+        "灵弓的行为、存在时间、射击次数没有写",
+        "灵弓是否造成伤害及其数值、系数、伤害类型没有写",
+        "击退来源（箭矢还是灵弓）、距离、控制时长、判定范围没有写",
+        "二技能本身伤害是否改变没有写",
+        "对首领等目标击退是否生效没有写"
+      ],
+      "unusedNumbers": [
+        { "quote": "两只", "reason": "中文数字，校验器只识别阿拉伯数字，无法填入 claimed；已写进参数槽 extraBowCount 的说明，待资源包核对" }
+      ],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "萦羽为界",
+      "text": "法阵周围召唤大量灵箭，阻挡敌人进攻",
+      "reading": "大招核心。大招法阵周围召唤大量灵箭，用来阻挡敌人进攻。仓库里没有本模式大招的基础原文，从三技能天赋推断大招会张开一个法阵，伽罗在法阵范围内获得各种加成，法阵可以关闭（t21）。原文没有写：灵箭数量（“大量”）；灵箭分布在法阵边缘一圈还是周围散布；“阻挡”是像墙一样阻止敌人进入法阵、阻挡敌方弹道，还是对靠近的敌人造成伤害或击退；灵箭是否造成伤害及其数值、系数；灵箭存在时间是否等于法阵持续时间；对精英或首领怪是否同样有效。原文没写伤害，所以按阻挡与生存效果标为 indirect，若资源包显示灵箭有伤害需改为 direct。",
+      "mechanisms": ["summon", "area", "control"],
+      "damageRelevance": "indirect",
+      "trigger": "大招张开法阵时",
+      "slots": [
+        { "key": "arrowCount", "what": "灵箭数量（原文“大量”）", "unit": "count", "claimed": null, "packHint": "核心 c5 召唤的灵箭数量" },
+        { "key": "arrowRingRadius", "what": "灵箭分布半径（与法阵半径的关系）", "unit": "meters", "claimed": null, "packHint": "灵箭分布的位置和半径" },
+        { "key": "arrowDuration", "what": "灵箭存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c5 灵箭存在时长，确认是否与法阵同时结束" },
+        { "key": "blockControlDuration", "what": "若阻挡表现为击退、定身等控制：控制时长", "unit": "seconds", "claimed": null, "packHint": "“阻挡”的实际实现：阻挡移动、阻挡弹道还是控制，若为控制找控制时长" },
+        { "key": "arrowDamageBase", "what": "若灵箭造成伤害：伤害基础值", "unit": "flat", "claimed": null, "packHint": "核心 c5 灵箭是否有伤害，若有则找基础值" },
+        { "key": "arrowDamageRatio", "what": "若灵箭造成伤害：加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "灵箭伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "arrowDamageInterval", "what": "若灵箭持续造成伤害：伤害间隔", "unit": "seconds", "claimed": null, "packHint": "灵箭伤害的结算间隔" }
+      ],
+      "ambiguities": [
+        "灵箭数量（“大量”）没有写",
+        "灵箭分布位置和范围没有写",
+        "“阻挡”的具体实现（阻挡移动、阻挡弹道、控制或伤害）没有写",
+        "灵箭是否造成伤害、数值、系数没有写",
+        "灵箭存在时间没有写",
+        "对精英或首领怪是否有效没有写",
+        "仓库里没有本模式大招的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "流矢织光",
+      "text": "法阵周围召唤3把灵弓，跟随攻击",
+      "reading": "大招核心。大招法阵周围召唤3把灵弓，灵弓“跟随攻击”。原文没有写：“跟随攻击”是伽罗攻击时灵弓跟着攻击同一目标，还是灵弓自行攻击法阵附近的敌人；只有普攻触发还是技能也触发；伽罗离开法阵后灵弓是否继续攻击；灵弓位置固定在法阵周围还是会随法阵移动（与 t17「逐光」的关系）；每次攻击的伤害数值、系数、伤害类型、能否暴击、能否触发普攻特效；灵弓存在时间是否等于法阵持续时间。",
+      "mechanisms": ["summon", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "大招张开法阵时召唤；伽罗攻击时灵弓跟随攻击（触发方式待确认）",
+      "slots": [
+        { "key": "bowCount", "what": "召唤的灵弓数量", "unit": "count", "claimed": { "value": 3, "quote": "召唤3把灵弓" }, "packHint": "核心 c6 召唤的灵弓数量，核对描述的3把，需以资源包为准" },
+        { "key": "shotsPerFollow", "what": "伽罗每次攻击时每把灵弓的攻击次数", "unit": "count", "claimed": null, "packHint": "“跟随攻击”的触发方式：随伽罗普攻、技能还是独立攻击，以及每次触发的攻击次数" },
+        { "key": "bowAttackInterval", "what": "若灵弓独立攻击：攻击间隔", "unit": "seconds", "claimed": null, "packHint": "灵弓独立攻击时的攻击间隔" },
+        { "key": "bowShotBaseDamage", "what": "灵弓每次攻击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c6 灵弓攻击伤害的基础值" },
+        { "key": "bowShotDamageRatio", "what": "灵弓每次攻击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "灵弓攻击伤害系数、加成属性、伤害类型，能否暴击、能否触发普攻特效" },
+        { "key": "bowDuration", "what": "灵弓存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c6 灵弓存在时长，确认是否与法阵同时结束" },
+        { "key": "bowAttackRange", "what": "灵弓攻击距离（或伽罗需在法阵多近才会跟随攻击）", "unit": "meters", "claimed": null, "packHint": "灵弓的攻击距离和生效条件（伽罗是否需在法阵内）" }
+      ],
+      "ambiguities": [
+        "“跟随攻击”的触发方式（随普攻、随技能、独立攻击）没有写",
+        "伽罗离开法阵后灵弓是否继续攻击没有写",
+        "灵弓位置是否随法阵移动没有写",
+        "每次攻击的伤害数值、系数、伤害类型、能否暴击、能否触发普攻特效没有写",
+        "灵弓存在时间没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "盾殇",
+      "text": "破盾伤害提升",
+      "reading": "一技能小天赋。原文写“破盾伤害提升”：对护盾造成的伤害提高。“提升”说明伽罗原本就有针对护盾的伤害，但仓库里没有本模式伽罗的基础技能或被动原文，原本对护盾的伤害规则未知。原文没有写：提升多少、是百分比还是固定值；只作用于一技能（该天赋列在一技能下）、普攻还是所有伤害；“破盾伤害”是指打在护盾上的伤害，还是打破护盾时额外触发的一次伤害；本模式哪些敌人带护盾。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "对带护盾的目标造成伤害时",
+      "slots": [
+        { "key": "shieldDamageBonus", "what": "对护盾伤害的提升比例", "unit": "percent", "claimed": null, "packHint": "盾殇对护盾伤害的提升数值，确认是百分比还是固定值" },
+        { "key": "baseShieldDamageBonus", "what": "选天赋前对护盾的额外伤害比例（原有的破盾规则）", "unit": "percent", "claimed": null, "packHint": "伽罗原有的破盾伤害规则及数值，用于叠加计算" },
+        { "key": "shieldBreakBonusDamage", "what": "若“破盾伤害”是打破护盾时额外触发的伤害：伤害值", "unit": "flat", "claimed": null, "packHint": "确认是否存在破盾瞬间的额外伤害及其数值、系数、伤害类型" }
+      ],
+      "ambiguities": [
+        "提升多少、百分比还是固定值没有写",
+        "作用于一技能、普攻还是所有伤害没有写",
+        "“破盾伤害”是打在护盾上的伤害还是打破护盾时的额外伤害没有写",
+        "原有破盾规则在仓库里没有原文",
+        "本模式哪些敌人带护盾没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "弓影",
+      "text": "25%概率额外普攻",
+      "reading": "一技能小天赋。原文写“25%概率额外普攻”：按25%的概率多打出一次普攻。原文没有写：在什么时机判定概率（每次普攻发出、每次普攻命中还是其他）；额外普攻是否造成完整普攻伤害、能否暴击、能否触发普攻特效和其他天赋（如 c2「十字星芒」计数、t12「骤雨」减冷却）；额外普攻能否再次触发弓影；额外普攻是否占用伽罗的攻击动作时间；是否有内置冷却。",
+      "mechanisms": ["proc"],
+      "damageRelevance": "direct",
+      "trigger": "普攻时按概率触发（判定时机未写）",
+      "slots": [
+        { "key": "procChance", "what": "触发额外普攻的概率", "unit": "percent", "claimed": { "value": 25, "quote": "25%概率" }, "packHint": "弓影触发概率，核对描述的25%，需以资源包为准；同时确认判定时机" },
+        { "key": "extraAttackDamagePercent", "what": "额外普攻伤害相对正常普攻的比例", "unit": "percent", "claimed": null, "packHint": "额外普攻的伤害倍率，能否暴击、能否触发普攻特效" },
+        { "key": "extraAttackDelay", "what": "额外普攻相对原普攻的出手延迟", "unit": "frames", "claimed": null, "packHint": "额外普攻的出手帧，是否占用伽罗的攻击动作" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "弓影是否有内置冷却及其时长" }
+      ],
+      "ambiguities": [
+        "概率判定时机没有写",
+        "额外普攻的伤害比例、能否暴击、能否触发普攻特效没有写",
+        "额外普攻是否计入 c2 普攻次数、能否触发 t12 没有写",
+        "额外普攻能否再次触发弓影没有写",
+        "是否占用攻击动作时间、是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "羽驰",
+      "text": "攻击获得爆发衰减移速",
+      "reading": "一技能小天赋。原文写“攻击获得爆发衰减移速”：伽罗攻击后获得一个起始很高、随时间衰减的移速加成。移速不直接改变伤害，按其他英雄机制表的惯例标为 none。原文没有写：“攻击”只指普攻还是包括技能；移速数值、衰减时长；重复攻击是刷新还是叠加；是否有内置冷却。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "攻击后",
+      "slots": [
+        { "key": "moveSpeedPeak", "what": "爆发移速的初始加成", "unit": "percent", "claimed": null, "packHint": "羽驰移速 buff 的初始数值" },
+        { "key": "decayDuration", "what": "移速衰减至零的时长", "unit": "seconds", "claimed": null, "packHint": "羽驰移速 buff 的持续或衰减时长" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "羽驰是否有内置冷却，重复攻击是刷新还是叠加" }
+      ],
+      "ambiguities": [
+        "“攻击”是否包括技能没有写",
+        "移速数值、衰减时长没有写",
+        "重复攻击时刷新还是叠加、是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "星坠",
+      "text": "暴击后造成范围伤害",
+      "reading": "一技能小天赋。原文写“暴击后造成范围伤害”：伽罗暴击后造成一次范围伤害。原文没有写：哪些暴击会触发（只限普攻，还是技能、灵弓的暴击也算）；范围伤害的中心（被暴击目标还是伽罗自身）；伤害数值、系数、加成属性、伤害类型、范围半径、目标数；这次范围伤害能否再暴击、能否连锁触发；是否有内置冷却。",
+      "mechanisms": ["proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "暴击后",
+      "slots": [
+        { "key": "aoeBaseDamage", "what": "范围伤害的基础值", "unit": "flat", "claimed": null, "packHint": "星坠范围伤害的基础值" },
+        { "key": "aoeDamageRatio", "what": "范围伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "星坠范围伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "aoeRadius", "what": "范围伤害的半径", "unit": "meters", "claimed": null, "packHint": "星坠范围伤害的半径和中心位置" },
+        { "key": "maxTargets", "what": "范围伤害可命中的目标数上限", "unit": "count", "claimed": null, "packHint": "星坠范围伤害目标数是否有上限" },
+        { "key": "internalCooldown", "what": "触发的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "星坠是否有内置冷却及其时长" }
+      ],
+      "ambiguities": [
+        "哪些暴击会触发没有写",
+        "范围中心、半径、目标数没有写",
+        "伤害数值、系数、加成属性、伤害类型没有写",
+        "范围伤害能否暴击、能否连锁触发没有写",
+        "是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "火织",
+      "text": "额外伤害提高",
+      "reading": "一技能小天赋。原文写“额外伤害提高”：一技能相关的“额外伤害”提高。仓库里没有本模式一技能原文，不知道“额外伤害”指的是一技能本身附带的额外伤害、普攻附加伤害，还是其他来源（例如 t02 额外普攻、灵弓伤害）。原文没有写提高多少、是百分比还是固定值、按什么属性计算，也没有写原有额外伤害的数值。",
+      "mechanisms": ["damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "造成一技能相关的额外伤害时",
+      "slots": [
+        { "key": "extraDamageIncreasePercent", "what": "额外伤害的提高比例（若按百分比提高）", "unit": "percent", "claimed": null, "packHint": "火织对额外伤害的提高数值，确认是百分比还是固定值" },
+        { "key": "extraDamageIncreaseFlat", "what": "额外伤害的提高量（若按固定值或系数提高）", "unit": "flat", "claimed": null, "packHint": "火织提高的固定值或系数部分" },
+        { "key": "baseExtraDamageBase", "what": "原有额外伤害的基础值", "unit": "flat", "claimed": null, "packHint": "一技能原有额外伤害的来源、基础值和伤害类型" },
+        { "key": "baseExtraDamageRatio", "what": "原有额外伤害的加成系数（加成属性未写）", "unit": "ratio", "claimed": null, "packHint": "一技能原有额外伤害的系数、加成属性以及能否暴击" }
+      ],
+      "ambiguities": [
+        "“额外伤害”指哪一部分伤害没有写",
+        "提高多少、百分比还是固定值没有写",
+        "原有额外伤害的数值、类型在仓库里没有原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "千钧",
+      "text": "减速效果巨额提升",
+      "reading": "一技能小天赋。原文写“减速效果巨额提升”：一技能相关的减速效果大幅提高。“提升”说明原本就带减速，但原减速数值和持续时间仓库里没有原文。原文没有写：“巨额”具体提升多少；提升的是减速比例还是持续时间；减速对首领等目标是否生效。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "一技能相关减速生效时",
+      "slots": [
+        { "key": "slowIncrease", "what": "减速比例的提升量（原文“巨额”）", "unit": "percent", "claimed": null, "packHint": "千钧对减速比例的提升数值，确认是加算还是乘算" },
+        { "key": "baseSlowPercent", "what": "原有减速比例", "unit": "percent", "claimed": null, "packHint": "一技能原有减速的来源和比例" },
+        { "key": "slowDuration", "what": "减速持续时间（是否被提升未写）", "unit": "seconds", "claimed": null, "packHint": "减速持续时间，确认千钧是否也延长持续时间" }
+      ],
+      "ambiguities": [
+        "“巨额”具体提升多少没有写",
+        "提升的是减速比例还是持续时间没有写",
+        "原有减速的来源、数值在仓库里没有原文",
+        "对首领等目标是否生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "惊鸿",
+      "text": "暴击获得可叠加攻速",
+      "reading": "一技能小天赋。原文写“暴击获得可叠加攻速”：伽罗暴击时获得攻速加成，可以叠加。原文没有写：哪些暴击会触发（普攻、技能、灵弓）；每层攻速多少；层数上限；持续时间；重复触发是刷新全部层数还是每层独立计时；是否有内置冷却。攻速会影响 c3「千翎蔽空」的射击频率。",
+      "mechanisms": ["buff", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "暴击时",
+      "slots": [
+        { "key": "attackSpeedPerStack", "what": "每层攻速加成", "unit": "percent", "claimed": null, "packHint": "惊鸿 buff 每层的攻速加成数值" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": null, "packHint": "惊鸿 buff 最大层数" },
+        { "key": "duration", "what": "攻速 buff 持续时间", "unit": "seconds", "claimed": null, "packHint": "惊鸿 buff 持续时间，以及刷新规则（刷新全部还是每层独立计时）" },
+        { "key": "internalCooldown", "what": "叠层的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "惊鸿叠层是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "哪些暴击会触发没有写",
+        "每层攻速、层数上限、持续时间没有写",
+        "刷新规则和是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "月耀",
+      "text": "暴击后回复",
+      "reading": "一技能小天赋。原文写“暴击后回复”：伽罗暴击后获得回复。原文只写“回复”，没写回复的是生命还是其他资源；也没写回复量、按什么属性计算、哪些暴击会触发、是否有内置冷却。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "暴击后",
+      "slots": [
+        { "key": "healBase", "what": "回复量基础值", "unit": "flat", "claimed": null, "packHint": "月耀回复基础值，并确认回复的是生命" },
+        { "key": "healRatio", "what": "回复量加成系数（及对应属性，可能是攻击力、伤害量或最大生命）", "unit": "ratio", "claimed": null, "packHint": "月耀回复的加成属性与系数" },
+        { "key": "internalCooldown", "what": "回复的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "月耀是否有内置冷却及其时长" }
+      ],
+      "ambiguities": [
+        "回复的是生命还是其他资源没有写",
+        "回复量和计算方式没有写",
+        "哪些暴击会触发、是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "裂石",
+      "text": "箭矢命中后减少敌方护甲和魔抗",
+      "reading": "二技能小天赋。原文写“箭矢命中后减少敌方护甲和魔抗”：二技能箭矢命中敌人后，降低其护甲（物理防御）和魔抗（法术防御），使之后对它的伤害提高。原文没有写：减少多少、是固定值还是百分比；持续时间；能否叠加；选 c3「千翎蔽空」连续射击或 c4「弦羽天光」灵弓射击时每发是否都触发。",
+      "mechanisms": ["buff", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "二技能箭矢命中后",
+      "slots": [
+        { "key": "armorReduction", "what": "护甲（物理防御）减少量（固定值还是百分比未写，以资源包为准）", "unit": "flat", "claimed": null, "packHint": "裂石减护甲的数值和形式（固定值或百分比）" },
+        { "key": "magicDefReduction", "what": "魔抗（法术防御）减少量（固定值还是百分比未写，以资源包为准）", "unit": "flat", "claimed": null, "packHint": "裂石减魔抗的数值和形式（固定值或百分比）" },
+        { "key": "duration", "what": "减防效果持续时间", "unit": "seconds", "claimed": null, "packHint": "裂石减防 debuff 的持续时间" },
+        { "key": "maxStacks", "what": "可叠加时的层数上限（原文未写能否叠加）", "unit": "count", "claimed": null, "packHint": "裂石减防能否叠加及层数上限、刷新规则" }
+      ],
+      "ambiguities": [
+        "减少多少、固定值还是百分比没有写",
+        "持续时间没有写",
+        "能否叠加没有写",
+        "c3、c4 下每发箭矢是否都触发没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "破咒",
+      "text": "沉默时间增加",
+      "reading": "二技能小天赋。原文写“沉默时间增加”：二技能造成的沉默持续时间变长。“增加”说明原二技能带沉默，但原沉默时长仓库里没有原文。原文没有写增加多少，也没有写沉默对本模式怪物有什么作用（是否打断或阻止其技能）、对首领是否生效。",
+      "mechanisms": ["control"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能沉默生效时",
+      "slots": [
+        { "key": "silenceDurationIncrease", "what": "沉默时间增加量", "unit": "seconds", "claimed": null, "packHint": "破咒增加的沉默时长，确认是固定秒数还是百分比" },
+        { "key": "baseSilenceDuration", "what": "原二技能沉默时长", "unit": "seconds", "claimed": null, "packHint": "二技能原有沉默时长" }
+      ],
+      "ambiguities": [
+        "增加多少没有写",
+        "原沉默时长在仓库里没有原文",
+        "沉默对本模式怪物的实际作用、对首领是否生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "入木",
+      "text": "该技能额外造成真伤",
+      "reading": "二技能小天赋。原文写“该技能额外造成真伤”：二技能命中时额外造成一段真实伤害。原文没有写：真伤数值、系数、加成属性；是固定额外一段还是按原伤害比例附加；能否暴击；选 c3「千翎蔽空」时每发是否都附带、c4「弦羽天光」灵弓的射击是否附带。",
+      "mechanisms": ["true-damage", "proc"],
+      "damageRelevance": "direct",
+      "trigger": "二技能造成伤害时",
+      "slots": [
+        { "key": "trueDamageBase", "what": "额外真伤的基础值", "unit": "flat", "claimed": null, "packHint": "入木额外真伤的基础值" },
+        { "key": "trueDamageRatio", "what": "额外真伤的加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "入木额外真伤的系数、加成属性以及能否暴击" },
+        { "key": "trueDamagePercentOfHit", "what": "若按原伤害比例附加：附加的比例", "unit": "percent", "claimed": null, "packHint": "确认入木是否按二技能原伤害比例附加真伤及其比例" }
+      ],
+      "ambiguities": [
+        "真伤数值、系数、加成属性没有写",
+        "固定额外一段还是按原伤害比例附加没有写",
+        "能否暴击没有写",
+        "c3、c4 下每发是否都附带没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "骤雨",
+      "text": "每次普攻命中减少该技能冷却时间",
+      "reading": "二技能小天赋。原文写“每次普攻命中减少该技能冷却时间”：伽罗每次普攻命中，二技能的剩余冷却时间减少。原文没有写：每次减少多少、是固定秒数还是百分比；t02「弓影」的额外普攻、灵弓射击、c3「千翎蔽空」的射击是否算普攻命中；一次普攻命中多个目标是否多次减少；是否有内置冷却。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "每次普攻命中时",
+      "slots": [
+        { "key": "cdReductionPerHit", "what": "每次普攻命中减少的二技能冷却（固定秒数还是百分比未写）", "unit": "seconds", "claimed": null, "packHint": "骤雨每次减少的冷却量及形式（秒数、剩余冷却百分比或总冷却百分比）" },
+        { "key": "internalCooldown", "what": "减冷却的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "骤雨是否有内置冷却" }
+      ],
+      "ambiguities": [
+        "每次减少多少、秒数还是百分比没有写",
+        "额外普攻、灵弓射击、c3 射击是否算普攻命中没有写",
+        "命中多个目标时是否多次减少没有写",
+        "是否有内置冷却没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "蔽日",
+      "text": "技能宽度增加",
+      "reading": "二技能小天赋。原文写“技能宽度增加”：二技能（箭矢）的判定宽度增加，更容易命中多个目标。原文没有写增加多少、是百分比还是固定值，也没有写选 c3「千翎蔽空」时每发是否都变宽。",
+      "mechanisms": ["area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（二技能）",
+      "slots": [
+        { "key": "widthIncrease", "what": "宽度增加量（百分比还是固定值未写）", "unit": "percent", "claimed": null, "packHint": "蔽日宽度增加的数值和形式" },
+        { "key": "baseWidth", "what": "原二技能箭矢宽度", "unit": "meters", "claimed": null, "packHint": "二技能箭矢原有判定宽度" }
+      ],
+      "ambiguities": [
+        "增加多少、百分比还是固定值没有写",
+        "原宽度在仓库里没有原文",
+        "c3 下每发是否都变宽没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "相位",
+      "text": "该技能变为移动施法",
+      "reading": "二技能小天赋。原文写“该技能变为移动施法”：二技能可以边移动边释放。对选 c3「千翎蔽空」连续射击时最有意义。只改变走位，不改变伤害数值，按其他英雄机制表的惯例标为 none。原文没有写施法期间移动是否有减速、是否仍然打断普攻节奏。",
+      "mechanisms": ["skill-change", "mobility"],
+      "damageRelevance": "none",
+      "trigger": "常驻（二技能）",
+      "slots": [
+        { "key": "castMoveSpeedPercent", "what": "施法期间的移动速度比例（是否减速）", "unit": "percent", "claimed": null, "packHint": "二技能移动施法期间的移速修正" }
+      ],
+      "ambiguities": [
+        "施法期间移动是否减速没有写",
+        "对 c3 连续射击的影响方式没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "枯朽",
+      "text": "箭矢命中后减少敌方伤害输出率",
+      "reading": "二技能小天赋。原文写“箭矢命中后减少敌方伤害输出率”：二技能箭矢命中敌人后，降低其造成伤害的比例（输出率），减少伽罗和队友受到的伤害。原文没有写：减少多少；持续时间；能否叠加；c3、c4 下每发是否都触发；对首领是否生效。",
+      "mechanisms": ["damage-reduction", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能箭矢命中后",
+      "slots": [
+        { "key": "outputReduction", "what": "敌方伤害输出率减少量", "unit": "percent", "claimed": null, "packHint": "枯朽减少敌方输出率的数值" },
+        { "key": "duration", "what": "减输出率效果持续时间", "unit": "seconds", "claimed": null, "packHint": "枯朽 debuff 持续时间" },
+        { "key": "maxStacks", "what": "可叠加时的层数上限（原文未写能否叠加）", "unit": "count", "claimed": null, "packHint": "枯朽能否叠加及层数上限、刷新规则" }
+      ],
+      "ambiguities": [
+        "减少多少没有写",
+        "持续时间没有写",
+        "能否叠加没有写",
+        "c3、c4 下每发是否都触发、对首领是否生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "羽幕",
+      "text": "箭矢命中后提供护盾",
+      "reading": "二技能小天赋。原文写“箭矢命中后提供护盾”：二技能箭矢命中敌人后提供护盾。原文“提供”没写给谁（伽罗自己还是队友）；也没写护盾量、计算方式、持续时间；命中多个目标时是否叠加、上限多少；c3、c4 下每发是否都触发。",
+      "mechanisms": ["shield"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能箭矢命中后",
+      "slots": [
+        { "key": "shieldBase", "what": "护盾量基础值", "unit": "flat", "claimed": null, "packHint": "羽幕护盾基础值，并确认护盾给谁" },
+        { "key": "shieldRatio", "what": "护盾量加成系数（及对应属性）", "unit": "ratio", "claimed": null, "packHint": "羽幕护盾的加成属性与系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "羽幕护盾持续时间" },
+        { "key": "maxShieldStacks", "what": "命中多个目标时护盾叠加的次数上限", "unit": "count", "claimed": null, "packHint": "命中多个目标或多发箭矢时护盾是否叠加及上限" }
+      ],
+      "ambiguities": [
+        "护盾给伽罗自己还是队友没有写",
+        "护盾量、计算方式、持续时间没有写",
+        "多目标、多发时是否叠加没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "逐光",
+      "text": "法阵跟随自身",
+      "reading": "大招小天赋。原文写“法阵跟随自身”：大招法阵不再固定在原地，而是跟随伽罗移动。这样伽罗移动时也能一直处在法阵内，持续获得法阵范围内的加成（如 t19、t20、t22、t24），所以标为 indirect。原文没有写：法阵半径是否改变；c5「萦羽为界」的灵箭、c6「流矢织光」的灵弓是否也跟着移动；法阵对敌人的效果（如 t23 击退）是否随之移动。",
+      "mechanisms": ["skill-change", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（大招法阵存在期间）",
+      "slots": [
+        { "key": "fieldRadius", "what": "法阵半径（是否因跟随而改变）", "unit": "meters", "claimed": null, "packHint": "大招法阵半径，确认选逐光后是否改变" }
+      ],
+      "ambiguities": [
+        "法阵半径是否改变没有写",
+        "c5 灵箭、c6 灵弓是否随法阵移动没有写",
+        "仓库里没有本模式大招的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "赶月",
+      "text": "移速效果提升",
+      "reading": "大招小天赋。原文写“移速效果提升”：大招提供的移速加成提高。“提升”说明大招原本带移速加成，但原数值仓库里没有原文。移速不直接改变伤害，按惯例标为 none。原文没有写提升多少、是加算还是乘算。",
+      "mechanisms": ["mobility", "buff"],
+      "damageRelevance": "none",
+      "trigger": "大招移速加成生效时",
+      "slots": [
+        { "key": "moveSpeedIncrease", "what": "移速加成的提升量", "unit": "percent", "claimed": null, "packHint": "赶月对大招移速加成的提升数值，确认加算还是乘算" },
+        { "key": "baseMoveSpeed", "what": "大招原有移速加成", "unit": "percent", "claimed": null, "packHint": "大招原有移速加成数值和生效条件" }
+      ],
+      "ambiguities": [
+        "提升多少、加算还是乘算没有写",
+        "大招原有移速加成在仓库里没有原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "穿云",
+      "text": "法阵范围内获得攻击力",
+      "reading": "大招小天赋。原文写“法阵范围内获得攻击力”：处于大招法阵范围内时获得攻击力加成。原文没有写：加成多少、是固定值还是百分比；只给伽罗还是法阵内的队友也获得；离开法阵后加成是否保留一段时间。",
+      "mechanisms": ["buff"],
+      "damageRelevance": "direct",
+      "trigger": "处于法阵范围内时",
+      "slots": [
+        { "key": "atkBonusFlat", "what": "攻击力加成（若为固定值）", "unit": "flat", "claimed": null, "packHint": "穿云攻击力加成的数值和形式（固定值或百分比）" },
+        { "key": "atkBonusPercent", "what": "攻击力加成（若为百分比）", "unit": "percent", "claimed": null, "packHint": "穿云攻击力百分比加成数值" },
+        { "key": "lingerDuration", "what": "离开法阵后加成保留时间（原文未写是否保留）", "unit": "seconds", "claimed": null, "packHint": "离开法阵后 buff 是立即消失还是保留一段时间" }
+      ],
+      "ambiguities": [
+        "加成多少、固定值还是百分比没有写",
+        "是否对队友生效没有写",
+        "离开法阵后是否保留没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "庇护",
+      "text": "法阵范围内获得护甲和魔抗",
+      "reading": "大招小天赋。原文写“法阵范围内获得护甲和魔抗”：处于大招法阵范围内时获得护甲（物理防御）和魔抗（法术防御）。原文没有写：各加多少、是固定值还是百分比；是否对队友生效；离开法阵后是否保留。",
+      "mechanisms": ["buff", "damage-reduction"],
+      "damageRelevance": "indirect",
+      "trigger": "处于法阵范围内时",
+      "slots": [
+        { "key": "armorBonus", "what": "护甲加成（固定值还是百分比未写）", "unit": "flat", "claimed": null, "packHint": "庇护护甲加成的数值和形式" },
+        { "key": "magicDefBonus", "what": "魔抗加成（固定值还是百分比未写）", "unit": "flat", "claimed": null, "packHint": "庇护魔抗加成的数值和形式" },
+        { "key": "lingerDuration", "what": "离开法阵后加成保留时间（原文未写是否保留）", "unit": "seconds", "claimed": null, "packHint": "离开法阵后 buff 是立即消失还是保留一段时间" }
+      ],
+      "ambiguities": [
+        "护甲、魔抗各加多少、固定值还是百分比没有写",
+        "是否对队友生效没有写",
+        "离开法阵后是否保留没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "无遗",
+      "text": "关闭法阵获得全额暴击和移速加成",
+      "reading": "大招小天赋。原文写“关闭法阵获得全额暴击和移速加成”：关闭法阵时，伽罗获得“全额”的暴击和移速加成。从字面推断：大招本身带有暴击和移速加成，平时可能只按某种条件给出部分额度，选此天赋后关闭法阵时直接获得全部额度。仓库里没有本模式大招的基础原文，“全额”相对的部分额度如何计算无法确定。原文没有写：“暴击”指暴击率还是暴击伤害；加成数值；关闭后加成持续多久；“关闭法阵”是只算主动关闭，还是法阵到时自然结束也算。",
+      "mechanisms": ["buff", "crit", "mobility"],
+      "damageRelevance": "direct",
+      "trigger": "关闭法阵时",
+      "slots": [
+        { "key": "critBonusFull", "what": "全额暴击加成数值（暴击率还是暴击伤害未写）", "unit": "percent", "claimed": null, "packHint": "大招暴击加成的全额数值，确认是暴击率还是暴击伤害" },
+        { "key": "moveSpeedBonusFull", "what": "全额移速加成数值", "unit": "percent", "claimed": null, "packHint": "大招移速加成的全额数值" },
+        { "key": "baseBonusFraction", "what": "未选天赋或未满足条件时获得的加成比例（“全额”的对照）", "unit": "percent", "claimed": null, "packHint": "大招原有暴击和移速加成的计算规则（按距离、时间或位置折算的部分额度）" },
+        { "key": "buffDuration", "what": "关闭法阵后加成持续时间", "unit": "seconds", "claimed": null, "packHint": "无遗 buff 的持续时间" }
+      ],
+      "ambiguities": [
+        "“全额”相对的部分额度如何计算没有写",
+        "“暴击”指暴击率还是暴击伤害没有写",
+        "加成数值和持续时间没有写",
+        "法阵自然结束是否也算“关闭法阵”没有写",
+        "仓库里没有本模式大招的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "泼天",
+      "text": "法阵范围内暴击伤害提升",
+      "reading": "大招小天赋。原文写“法阵范围内暴击伤害提升”：处于大招法阵范围内时暴击伤害提高。原文没有写：提升多少；判定的是伽罗在法阵内还是目标在法阵内；是否对队友生效；离开法阵后是否保留；灵弓等召唤物的暴击是否也受益。",
+      "mechanisms": ["buff", "crit"],
+      "damageRelevance": "direct",
+      "trigger": "处于法阵范围内时",
+      "slots": [
+        { "key": "critDamageBonus", "what": "暴击伤害提升量", "unit": "percent", "claimed": null, "packHint": "泼天暴击伤害提升数值，确认是加算还是乘算" },
+        { "key": "lingerDuration", "what": "离开法阵后加成保留时间（原文未写是否保留）", "unit": "seconds", "claimed": null, "packHint": "离开法阵后 buff 是立即消失还是保留一段时间" }
+      ],
+      "ambiguities": [
+        "提升多少没有写",
+        "判定伽罗在法阵内还是目标在法阵内没有写",
+        "是否对队友、召唤物生效没有写",
+        "离开法阵后是否保留没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "禁界",
+      "text": "法阵张开时击退范围内敌人",
+      "reading": "大招小天赋。原文写“法阵张开时击退范围内敌人”：大招法阵张开的瞬间，击退法阵范围内的敌人。原文没有写：击退方向（推测为向法阵外，原文未写）；击退距离；击退的控制时长；判定范围是否等于法阵半径；是否附带伤害；对首领是否生效。",
+      "mechanisms": ["control", "area"],
+      "damageRelevance": "indirect",
+      "trigger": "法阵张开时",
+      "slots": [
+        { "key": "knockbackRadius", "what": "击退判定范围", "unit": "meters", "claimed": null, "packHint": "禁界击退的判定半径，确认是否等于法阵半径" },
+        { "key": "knockbackDistance", "what": "击退距离", "unit": "meters", "claimed": null, "packHint": "禁界击退的距离和方向" },
+        { "key": "knockbackControlDuration", "what": "击退的控制时长", "unit": "seconds", "claimed": null, "packHint": "禁界击退造成的控制时长（帧或秒）" }
+      ],
+      "ambiguities": [
+        "击退方向、距离、控制时长没有写",
+        "判定范围是否等于法阵半径没有写",
+        "是否附带伤害没有写",
+        "对首领是否生效没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "燃翎",
+      "text": "法阵范围内获得吸血",
+      "reading": "大招小天赋。原文写“法阵范围内获得吸血”：处于大招法阵范围内时获得吸血。原文没有写：吸血比例；是物理吸血、法术吸血还是全能吸血；是否对队友生效；离开法阵后是否保留。",
+      "mechanisms": ["lifesteal", "buff"],
+      "damageRelevance": "indirect",
+      "trigger": "处于法阵范围内时",
+      "slots": [
+        { "key": "lifestealPercent", "what": "吸血比例", "unit": "percent", "claimed": null, "packHint": "燃翎吸血比例和吸血类型（物理、法术或全能）" },
+        { "key": "lingerDuration", "what": "离开法阵后加成保留时间（原文未写是否保留）", "unit": "seconds", "claimed": null, "packHint": "离开法阵后 buff 是立即消失还是保留一段时间" }
+      ],
+      "ambiguities": [
+        "吸血比例没有写",
+        "吸血类型没有写",
+        "是否对队友生效、离开法阵后是否保留没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}

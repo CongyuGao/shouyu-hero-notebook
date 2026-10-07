@@ -208,8 +208,7 @@ export function validateSheet(sheet: MechanismSheet): string[] {
     for (const unused of item.unusedNumbers) {
       if (!item.text.includes(unused.quote))
         problems.push(`${at}: unusedNumbers 的 quote 不是原文片段`);
-      if (!unused.reason.trim())
-        problems.push(`${at}: unusedNumbers 缺少理由`);
+      if (!unused.reason.trim()) problems.push(`${at}: unusedNumbers 缺少理由`);
       covered.push(...numbersIn(unused.quote));
     }
     for (const n of numbersIn(item.text))
@@ -262,7 +261,10 @@ export function loadSlots(sheet: MechanismSheet, item: MechanismItem) {
 }
 
 // CLI: node sim/effects/talent-mechanisms.ts [heroId ...]
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
   const ids = process.argv.slice(2);
   const targets = ids.length ? ids : rosterHeroIds();
   let failed = false;
@@ -278,7 +280,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       failed = true;
       console.log(`${id} ${sheet.heroName}: ${problems.length} 个问题`);
       for (const p of problems) console.log(`  - ${p}`);
-    } else console.log(`${id} ${sheet.heroName}: 通过（${sheet.items.length} 条）`);
+    } else
+      console.log(`${id} ${sheet.heroName}: 通过（${sheet.items.length} 条）`);
   }
   process.exitCode = failed ? 1 : 0;
 }

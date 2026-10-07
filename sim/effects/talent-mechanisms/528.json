@@ -1,0 +1,798 @@
+{
+  "heroId": "528",
+  "heroName": "澜",
+  "source": "data/hero-talents.json",
+  "items": [
+    {
+      "id": "c1",
+      "kind": "core",
+      "skill": 1,
+      "name": "藏锋守拙",
+      "text": "出水时残影将打出多段高速斩击",
+      "reading": "一技能核心。澜出水（结束下潜状态）时，由残影打出多段高速斩击。仓库里没有本模式澜的基础技能原文，“下潜”“出水”是从一技能天赋的归属推断为一技能相关状态。原文没有写“残影”是什么、与「残影」(t24) 里的残影是否同一机制，没有写斩击段数（“多段”）、每段伤害数值、系数、加成属性、伤害类型、斩击范围和目标数、能否暴击，也没有写哪些出水方式会触发（主动结束下潜、下潜时间耗尽、用二三技能出水），以及是否有冷却或内置冷却。",
+      "mechanisms": ["proc", "summon", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "出水时",
+      "slots": [
+        { "key": "slashCount", "what": "每次出水残影打出的斩击段数（原文“多段”）", "unit": "count", "claimed": null, "packHint": "核心 c1 残影斩击的段数" },
+        { "key": "slashBaseDamage", "what": "每段斩击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c1 每段斩击伤害的基础值" },
+        { "key": "slashDamageRatio", "what": "每段斩击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "核心 c1 斩击伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "slashInterval", "what": "相邻两段斩击的间隔（原文“高速”）", "unit": "frames", "claimed": null, "packHint": "残影斩击每段的出手帧或间隔，用于时间轴结算" },
+        { "key": "slashRadius", "what": "斩击作用范围", "unit": "meters", "claimed": null, "packHint": "残影斩击判定范围或半径，以及斩击位置（澜出水点还是残影所在位置）" },
+        { "key": "slashMaxTargets", "what": "每段斩击可命中的目标数", "unit": "count", "claimed": null, "packHint": "残影斩击是单体还是范围、目标数上限" },
+        { "key": "internalCooldown", "what": "残影斩击的冷却或内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "核心 c1 是否有触发冷却及其时长" }
+      ],
+      "ambiguities": [
+        "“残影”是什么、是否与 t24「残影」相同没有写",
+        "斩击段数（“多段”）没有写",
+        "每段伤害的数值、系数、加成属性和伤害类型没有写",
+        "斩击范围、目标数、能否暴击没有写",
+        "哪些出水方式（主动出水、时间耗尽、用二三技能出水）会触发没有写",
+        "是否有冷却或内置冷却没有写",
+        "仓库里没有本模式一技能（下潜/出水）的基础原文"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c2",
+      "kind": "core",
+      "skill": 1,
+      "name": "飞刃瀑流",
+      "text": "使用一二技能出水时将向面前扔出匕首，持续攻击。拾取匕首造成伤害并回血",
+      "reading": "一技能核心。用一技能或二技能出水时，澜向面前扔出匕首，匕首会持续攻击（按字面是匕首落地后在一段时间内持续造成伤害）；澜拾取匕首时再造成一次伤害并回复生命。原文“一二技能”是汉字，不是数字。原文没有写扔出的匕首数量、扔出距离、匕首持续攻击的时长、攻击间隔、每次伤害、作用范围，没有写拾取匕首时伤害的数值和范围、回血量、拾取判定范围、匕首存在时间（不拾取时多久消失），也没有写用大招出水是否也会扔匕首。",
+      "mechanisms": ["summon", "proc", "heal", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "使用一技能或二技能出水时；拾取匕首时",
+      "slots": [
+        { "key": "daggersPerSurface", "what": "每次出水扔出的匕首数量", "unit": "count", "claimed": null, "packHint": "核心 c2 每次出水生成的匕首数量" },
+        { "key": "throwDistance", "what": "匕首扔出的距离（原文“向面前”）", "unit": "meters", "claimed": null, "packHint": "匕首落点与澜的距离" },
+        { "key": "daggerLifetime", "what": "匕首存在时间（持续攻击时长与未拾取时的消失时间）", "unit": "seconds", "claimed": null, "packHint": "核心 c2 匕首持续攻击时长、存在时长，确认二者是否相同" },
+        { "key": "daggerTickInterval", "what": "匕首持续攻击的间隔", "unit": "seconds", "claimed": null, "packHint": "匕首持续攻击的伤害间隔（秒或帧）" },
+        { "key": "daggerTickBaseDamage", "what": "匕首每次持续攻击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c2 匕首持续攻击每跳伤害的基础值" },
+        { "key": "daggerTickDamageRatio", "what": "匕首每次持续攻击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "匕首持续攻击伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "daggerTickRadius", "what": "匕首持续攻击的作用范围", "unit": "meters", "claimed": null, "packHint": "匕首持续攻击的判定半径和目标数" },
+        { "key": "pickupBaseDamage", "what": "拾取匕首时伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c2 拾取匕首伤害的基础值" },
+        { "key": "pickupDamageRatio", "what": "拾取匕首时伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "拾取伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "pickupDamageRadius", "what": "拾取匕首时伤害的作用范围", "unit": "meters", "claimed": null, "packHint": "拾取伤害的判定范围和目标数" },
+        { "key": "pickupHealFlat", "what": "拾取匕首回血的固定值部分", "unit": "flat", "claimed": null, "packHint": "核心 c2 拾取回血量，确认是固定值、按攻击力系数还是按最大生命百分比" },
+        { "key": "pickupHealRatio", "what": "拾取匕首回血的加成系数或最大生命比例（以资源包为准）", "unit": "ratio", "claimed": null, "packHint": "拾取回血的加成属性与系数" },
+        { "key": "pickupRadius", "what": "拾取匕首的判定距离", "unit": "meters", "claimed": null, "packHint": "澜与匕首多近算拾取" }
+      ],
+      "ambiguities": [
+        "扔出的匕首数量、距离没有写",
+        "“持续攻击”的时长、间隔、每次伤害、范围没有写",
+        "拾取伤害的数值、系数、范围没有写",
+        "回血量及其计算方式没有写",
+        "拾取判定距离、匕首未拾取时多久消失没有写",
+        "用大招出水是否也会扔匕首没有写",
+        "伤害类型、能否暴击没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c3",
+      "kind": "core",
+      "skill": 2,
+      "name": "刃索连环",
+      "text": "每使用6次强普自动释放一次强化二技能",
+      "reading": "二技能核心。澜每使用6次强普（强化普攻），会自动释放一次强化版二技能（“一次”是汉字）。仓库里没有本模式澜的基础技能原文，从多条二技能天赋都提到强普推断强普与二技能相关。原文没有写强化二技能和普通二技能有什么不同（伤害、范围、位移、给几层强普），没有写自动释放的方向和目标、是否占用澜的动作时间、是否消耗或重置二技能冷却，没有写6次计数是只算命中还是算使用、是否跨目标和跨时间保留，也没有写自动释放是否算“触发二技能”从而触发「控万刃」「大风起」「金石剑」等天赋。",
+      "mechanisms": ["proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "每使用第6次强普后",
+      "slots": [
+        { "key": "enhancedBasicsPerTrigger", "what": "触发一次强化二技能所需的强普次数", "unit": "count", "claimed": { "value": 6, "quote": "每使用6次强普" }, "packHint": "核心 c3 计数阈值，核对描述的6次，需以资源包为准；同时确认计数是按使用还是按命中" },
+        { "key": "enhancedSkill2BaseDamage", "what": "强化二技能伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c3 强化二技能伤害基础值，与普通二技能对比" },
+        { "key": "enhancedSkill2DamageRatio", "what": "强化二技能伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "强化二技能伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "enhancedSkill2Radius", "what": "强化二技能的作用范围", "unit": "meters", "claimed": null, "packHint": "强化二技能的判定范围或距离、目标数" },
+        { "key": "enhancedSkill2Frames", "what": "自动释放的强化二技能动作时长（是否打断澜的其他动作）", "unit": "frames", "claimed": null, "packHint": "强化二技能的动作帧数和出伤帧" },
+        { "key": "enhancedBasicGranted", "what": "强化二技能提供的强普层数（是否与普通二技能相同）", "unit": "count", "claimed": null, "packHint": "强化二技能释放后获得几层强普，确认是否能形成循环" }
+      ],
+      "ambiguities": [
+        "强化二技能与普通二技能的差异（伤害、范围、位移、强普层数）没有写",
+        "自动释放的方向、目标没有写",
+        "是否占用动作时间、是否影响二技能冷却没有写",
+        "6次计数按使用还是命中、是否会清零没有写",
+        "自动释放是否算“触发二技能”，从而触发 t12、t13、t16 没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c4",
+      "kind": "core",
+      "skill": 2,
+      "name": "刀尖旋舞",
+      "text": "二技能获得位移效果并向附近扔出匕首。拾取匕首造成伤害并回血",
+      "reading": "二技能核心。选此核心后二技能带有位移效果，并且释放时向附近扔出匕首；澜拾取匕首时造成伤害并回复生命。仓库里没有本模式二技能原文，所以不知道原二技能是否已有位移。与 c2「飞刃瀑流」不同，原文没有写这里的匕首会“持续攻击”，只写了拾取时伤害和回血。原文没有写位移距离和方向、扔出的匕首数量和散布范围、匕首存在时间，没有写拾取伤害的数值、系数和范围、回血量、拾取判定距离，也没有写二技能本身的伤害是否改变。",
+      "mechanisms": ["mobility", "summon", "proc", "heal", "area", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能时；拾取匕首时",
+      "slots": [
+        { "key": "dashDistance", "what": "二技能位移距离", "unit": "meters", "claimed": null, "packHint": "核心 c4 二技能位移的距离、方向和位移时长" },
+        { "key": "daggersPerCast", "what": "每次二技能扔出的匕首数量", "unit": "count", "claimed": null, "packHint": "核心 c4 每次二技能生成的匕首数量" },
+        { "key": "throwRadius", "what": "匕首散布范围（原文“附近”）", "unit": "meters", "claimed": null, "packHint": "匕首落点相对澜的距离或散布半径" },
+        { "key": "daggerLifetime", "what": "匕首未拾取时的存在时间", "unit": "seconds", "claimed": null, "packHint": "核心 c4 匕首存在时长，确认是否会持续攻击" },
+        { "key": "pickupBaseDamage", "what": "拾取匕首时伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c4 拾取伤害基础值，与 c2 对比是否相同" },
+        { "key": "pickupDamageRatio", "what": "拾取匕首时伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "拾取伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "pickupDamageRadius", "what": "拾取匕首时伤害的作用范围", "unit": "meters", "claimed": null, "packHint": "拾取伤害的判定范围和目标数" },
+        { "key": "pickupHealFlat", "what": "拾取匕首回血的固定值部分", "unit": "flat", "claimed": null, "packHint": "核心 c4 拾取回血量，确认是固定值、按攻击力系数还是按最大生命百分比" },
+        { "key": "pickupHealRatio", "what": "拾取匕首回血的加成系数或最大生命比例（以资源包为准）", "unit": "ratio", "claimed": null, "packHint": "拾取回血的加成属性与系数" },
+        { "key": "pickupRadius", "what": "拾取匕首的判定距离", "unit": "meters", "claimed": null, "packHint": "澜与匕首多近算拾取" }
+      ],
+      "ambiguities": [
+        "位移距离、方向、时长没有写",
+        "原二技能是否已有位移（仓库没有基础技能原文）不清楚",
+        "匕首数量、散布范围、存在时间没有写",
+        "匕首是否也会像 c2 那样持续攻击没有写",
+        "拾取伤害的数值、系数、范围没有写",
+        "回血量及其计算方式没有写",
+        "二技能本身伤害是否改变没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c5",
+      "kind": "core",
+      "skill": 3,
+      "name": "回忆之刃",
+      "text": "使用大招时会留在原地一把匕首，8秒内再次按下大招会冲回匕首处",
+      "reading": "大招核心。澜使用大招时，在释放位置留下一把匕首（“一把”是汉字）；8秒内再次按下大招，澜会冲回匕首所在位置。原文没有写冲回途中是否造成伤害、冲回耗时、冲回距离是否有上限、冲回期间是否无敌或不可选中，没有写再次按下是否算“主动使用大招”（影响「收网」「万骨」「残影」等以主动使用大招为条件的天赋），也没有写大招冷却从第一次还是第二次按下后开始计算。",
+      "mechanisms": ["mobility", "charges", "skill-change"],
+      "damageRelevance": "indirect",
+      "trigger": "使用大招时留下匕首；8秒内再次按下大招时冲回",
+      "slots": [
+        { "key": "recallWindow", "what": "可再次按下大招冲回匕首处的时间窗口", "unit": "seconds", "claimed": { "value": 8, "quote": "8秒内再次按下大招" }, "packHint": "核心 c5 匕首存在或二段施放窗口，核对描述的8秒，需以资源包为准" },
+        { "key": "recallDashTime", "what": "冲回匕首处的位移耗时", "unit": "frames", "claimed": null, "packHint": "冲回动作的帧数或位移速度" },
+        { "key": "recallMaxDistance", "what": "可冲回的最大距离（原文没写是否有限制）", "unit": "meters", "claimed": null, "packHint": "冲回是否有距离上限及其数值" },
+        { "key": "recallBaseDamage", "what": "冲回途中伤害的基础值（原文没写是否有伤害）", "unit": "flat", "claimed": null, "packHint": "冲回是否对路径敌人造成伤害，若有则找基础值" },
+        { "key": "recallDamageRatio", "what": "冲回途中伤害的加成系数（原文没写是否有伤害）", "unit": "ratio", "claimed": null, "packHint": "冲回伤害系数、加成属性、伤害类型" }
+      ],
+      "ambiguities": [
+        "冲回途中是否造成伤害没有写",
+        "冲回耗时、距离上限没有写",
+        "冲回期间是否无敌或不可选中没有写",
+        "再次按下是否算“主动使用大招”，从而触发 t17、t18、t19、t24 没有写",
+        "大招冷却从第一次还是第二次按下后开始计算没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "c6",
+      "kind": "core",
+      "skill": 3,
+      "name": "猎物锁定",
+      "text": "被大招命中的目标将被鲨鱼锁定，持续受到鲨鱼的冲击",
+      "reading": "大招核心。被大招命中的目标会被鲨鱼锁定，之后持续受到鲨鱼的冲击（按字面是一段时间内多次受到伤害）。原文没有写锁定持续时间、冲击间隔或次数、每次冲击伤害的数值、系数、加成属性和伤害类型，没有写冲击是否附带控制、是否对周围其他敌人造成伤害、能否暴击，没有写一次大招能锁定几个目标，也没有写冲击是否算“大招命中”从而触发「鲨泪」「游猎」等天赋。",
+      "mechanisms": ["summon", "proc", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "大招命中目标后",
+      "slots": [
+        { "key": "lockDuration", "what": "鲨鱼锁定持续时间", "unit": "seconds", "claimed": null, "packHint": "核心 c6 锁定状态的持续时间" },
+        { "key": "impactInterval", "what": "两次鲨鱼冲击的间隔", "unit": "seconds", "claimed": null, "packHint": "鲨鱼冲击的间隔（秒或帧）" },
+        { "key": "impactCount", "what": "锁定期间冲击总次数（如果按固定次数计）", "unit": "count", "claimed": null, "packHint": "鲨鱼冲击次数，确认是按次数还是按时长" },
+        { "key": "impactBaseDamage", "what": "每次冲击伤害的基础值", "unit": "flat", "claimed": null, "packHint": "核心 c6 鲨鱼冲击伤害基础值" },
+        { "key": "impactDamageRatio", "what": "每次冲击伤害的加成系数（加成属性和伤害类型未写）", "unit": "ratio", "claimed": null, "packHint": "鲨鱼冲击伤害系数、加成属性、伤害类型以及能否暴击" },
+        { "key": "impactRadius", "what": "冲击是否波及目标周围及其范围", "unit": "meters", "claimed": null, "packHint": "鲨鱼冲击是单体还是范围" },
+        { "key": "maxLockedTargets", "what": "一次大招最多锁定的目标数", "unit": "count", "claimed": null, "packHint": "锁定目标数量上限" }
+      ],
+      "ambiguities": [
+        "锁定持续时间、冲击间隔或次数没有写",
+        "冲击伤害的数值、系数、加成属性、伤害类型没有写",
+        "冲击是否附带控制、是否波及周围、能否暴击没有写",
+        "一次大招能锁定几个目标没有写",
+        "冲击是否算“大招命中”从而触发 t21、t22 没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t01",
+      "kind": "talent",
+      "skill": 1,
+      "name": "白衣渡江",
+      "text": "下潜状态无视阻挡",
+      "reading": "一技能小天赋。澜在下潜状态下无视阻挡，可以穿过阻挡移动。原文只写“阻挡”，没有说明是地形墙体、单位碰撞还是两者都包括。纯功能性效果，不改变伤害数值。",
+      "mechanisms": ["mobility"],
+      "damageRelevance": "none",
+      "trigger": "下潜状态中",
+      "slots": [],
+      "ambiguities": [
+        "“阻挡”包括地形墙体还是单位碰撞没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t02",
+      "kind": "talent",
+      "skill": 1,
+      "name": "行于黑暗",
+      "text": "下潜不再有时间限制，且会获取被动触发范围内1.5秒敌方单位的视野",
+      "reading": "一技能小天赋。下潜状态不再有时间限制，澜可以一直保持下潜直到主动出水；同时获得被动触发范围内敌方单位的视野。“1.5秒”在原句中的位置不通顺，按字面最可能是视野持续1.5秒，也可能是每1.5秒刷新一次视野，需资源包确认。视野不影响伤害；去掉下潜时间限制会改变出水时机，影响 c1、c2、t07 等出水效果的触发时间，以及与 t03 下潜回复的配合，所以按间接影响处理。原文没有写原本的下潜时间限制是多少，也没有写“被动触发范围”的大小（该范围会被 t06 翻倍）。",
+      "mechanisms": ["skill-change", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "下潜状态中",
+      "slots": [
+        { "key": "baseDiveTimeLimit", "what": "未选此天赋时的下潜时间上限（此天赋将其取消）", "unit": "seconds", "claimed": null, "packHint": "一技能下潜状态默认时长上限，用于对比此天赋效果" },
+        { "key": "visionDuration", "what": "原文“1.5秒”所指的视野时间（按字面最可能是视野持续时间，也可能是刷新间隔）", "unit": "seconds", "claimed": { "value": 1.5, "quote": "1.5秒敌方单位的视野" }, "packHint": "此天赋视野效果的持续时间或刷新间隔，核对描述的1.5秒，需以资源包为准" },
+        { "key": "passiveTriggerRadius", "what": "被动触发范围（视野范围引用它）", "unit": "meters", "claimed": null, "packHint": "被动狩猎的触发半径，确认 t06 翻倍后是否同步扩大视野范围" }
+      ],
+      "ambiguities": [
+        "“1.5秒”是视野持续时间还是刷新间隔，原句语序不通顺",
+        "原本的下潜时间上限没有写",
+        "被动触发范围大小没有写",
+        "无限下潜期间是否有其他限制（如法力消耗）没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t03",
+      "kind": "talent",
+      "skill": 1,
+      "name": "化水为愈",
+      "text": "下潜时每秒可持续恢复生命和法力",
+      "reading": "一技能小天赋。澜处于下潜状态时，每秒恢复生命和法力。原文写的“每秒”是汉字，校验器只认阿拉伯数字，所以间隔槽 claimed 留空，但按原文就是每秒一次。原文没有写每秒恢复多少生命和法力、是固定值还是按最大生命或最大法力的百分比，也没有写出水后是否立即停止。",
+      "mechanisms": ["heal"],
+      "damageRelevance": "indirect",
+      "trigger": "下潜状态中每秒",
+      "slots": [
+        { "key": "hpRegenPerTickFlat", "what": "每次恢复生命的固定值部分", "unit": "flat", "claimed": null, "packHint": "此天赋每跳生命回复的固定值" },
+        { "key": "hpRegenPerTickPct", "what": "每次恢复生命的最大生命百分比部分（若按百分比计算）", "unit": "percent", "claimed": null, "packHint": "此天赋生命回复是否按最大生命或已损生命百分比，以及数值" },
+        { "key": "manaRegenPerTick", "what": "每次恢复的法力", "unit": "flat", "claimed": null, "packHint": "此天赋每跳法力回复数值，确认是固定值还是百分比" },
+        { "key": "tickInterval", "what": "回复间隔（原文汉字“每秒”，未作为 claimed）", "unit": "seconds", "claimed": null, "packHint": "回复的跳数间隔，核对原文“每秒”" }
+      ],
+      "ambiguities": [
+        "每秒生命和法力回复量没有写",
+        "回复按固定值还是百分比没有写",
+        "出水后是否立即停止没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t04",
+      "kind": "talent",
+      "skill": 1,
+      "name": "致命伤口",
+      "text": "一技能伤害将在1秒内触发5次扣血，可叠加最多4层",
+      "reading": "一技能小天赋。一技能造成伤害后，会在1秒内对目标触发5次扣血，这个效果可以叠加，最多4层。原文没有写这5次扣血是把原一技能伤害拆分成持续伤害（总量不变）还是在原伤害之外额外附加，没有写每次扣血的数值或占原伤害的比例、加成属性和伤害类型，没有写叠层是让每次扣血伤害叠加还是多个持续伤害并行，没有写再次叠层时是否刷新1秒的持续时间，也没有写每次扣血能否暴击、是否算作“每段伤害”从而触发 t08。原文没写“1秒内5次”是否均匀分布，所以不推算扣血间隔。",
+      "mechanisms": ["proc", "stacking", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "一技能造成伤害后",
+      "slots": [
+        { "key": "dotDuration", "what": "扣血效果的持续时间", "unit": "seconds", "claimed": { "value": 1, "quote": "1秒内" }, "packHint": "此天赋持续伤害的时长，核对描述的1秒，需以资源包为准" },
+        { "key": "ticksPerApplication", "what": "每层效果在持续时间内的扣血次数", "unit": "count", "claimed": { "value": 5, "quote": "触发5次扣血" }, "packHint": "持续伤害跳数，核对描述的5次，需以资源包为准" },
+        { "key": "tickInterval", "what": "两次扣血之间的间隔（原文未写，不从1秒和5次推算）", "unit": "frames", "claimed": null, "packHint": "每跳扣血的帧间隔，确认是否均匀分布" },
+        { "key": "maxStacks", "what": "效果层数上限", "unit": "count", "claimed": { "value": 4, "quote": "可叠加最多4层" }, "packHint": "持续伤害叠层上限，核对描述的4层，需以资源包为准" },
+        { "key": "tickBaseDamage", "what": "每次扣血伤害的基础值", "unit": "flat", "claimed": null, "packHint": "每跳扣血的基础伤害，确认是独立数值还是原一技能伤害拆分" },
+        { "key": "tickDamageRatio", "what": "每次扣血伤害的系数（占原一技能伤害的比例或攻击力系数）", "unit": "ratio", "claimed": null, "packHint": "每跳扣血的系数、加成属性、伤害类型以及能否暴击" }
+      ],
+      "ambiguities": [
+        "5次扣血是原一技能伤害拆分还是额外附加没有写",
+        "每次扣血的数值、系数、伤害类型没有写",
+        "叠层是叠加每跳伤害还是多个持续伤害并行没有写",
+        "叠层时是否刷新持续时间没有写",
+        "扣血间隔没有写，是否均匀分布没有写",
+        "每次扣血能否暴击、是否算“每段伤害”从而触发 t08 没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t05",
+      "kind": "talent",
+      "skill": 1,
+      "name": "裂流回响",
+      "text": "使用二三技能出水返还一技能65%cd",
+      "reading": "一技能小天赋。澜在下潜状态下用二技能或大招出水时，返还一技能65%的冷却（“二三”“一”是汉字技能编号）。原文“返还65%cd”没有说明是一技能总冷却的65%还是剩余冷却的65%，按“返还”字面更像按总冷却计算，但需资源包确认。原文没有写一技能本身冷却多少，也没有写是否有内置冷却。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "下潜状态中使用二技能或大招出水时",
+      "slots": [
+        { "key": "cdRefundPct", "what": "返还的一技能冷却比例", "unit": "percent", "claimed": { "value": 65, "quote": "返还一技能65%cd" }, "packHint": "此天赋返还比例，核对描述的65%，需以资源包为准；确认按总冷却还是剩余冷却计算" },
+        { "key": "skill1Cooldown", "what": "一技能冷却（计算返还秒数用）", "unit": "seconds", "claimed": null, "packHint": "本模式一技能的基础冷却" },
+        { "key": "internalCooldown", "what": "返还效果的内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "此天赋是否有触发间隔限制" }
+      ],
+      "ambiguities": [
+        "65%是按总冷却还是剩余冷却没有写",
+        "一技能本身冷却没有写",
+        "是否有内置冷却没有写",
+        "c3 自动释放的强化二技能出水是否也触发没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t06",
+      "kind": "talent",
+      "skill": 1,
+      "name": "鲜血感应",
+      "text": "被动狩猎触发的血量提升至60%且触发范围翻倍",
+      "reading": "一技能小天赋。澜的被动“狩猎”的触发血量阈值提高到60%，触发范围变为原来的两倍（原文“翻倍”是汉字，校验器只认阿拉伯数字，所以倍率槽 claimed 留空）。原文没有写“触发的血量”是指目标当前生命低于最大生命的60%还是其他判定，没有写原阈值和原触发范围，仓库里也没有被动“狩猎”本身的效果原文。狩猎效果未知，暂按间接影响处理；如果狩猎本身带有伤害加成，此天赋应改为直接影响。",
+      "mechanisms": ["area", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（改变被动狩猎的触发条件）",
+      "slots": [
+        { "key": "hpThresholdPct", "what": "狩猎触发的目标生命阈值", "unit": "percent", "claimed": { "value": 60, "quote": "血量提升至60%" }, "packHint": "被动狩猎触发阈值，核对描述的60%，需以资源包为准；确认判定是目标当前生命百分比" },
+        { "key": "baseHpThresholdPct", "what": "未选此天赋时的狩猎触发生命阈值", "unit": "percent", "claimed": null, "packHint": "被动狩猎默认触发阈值" },
+        { "key": "triggerRangeMultiplier", "what": "触发范围倍率（原文汉字“翻倍”，未作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "此天赋触发范围倍率，核对原文“翻倍”" },
+        { "key": "baseTriggerRadius", "what": "未选此天赋时的狩猎触发范围", "unit": "meters", "claimed": null, "packHint": "被动狩猎默认触发半径" }
+      ],
+      "ambiguities": [
+        "被动“狩猎”本身的效果仓库里没有原文",
+        "“触发的血量”判定方式（目标当前生命百分比）没有写",
+        "原阈值和原触发范围没有写",
+        "“翻倍”是汉字倍率，没有阿拉伯数字"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t07",
+      "kind": "talent",
+      "skill": 1,
+      "name": "乘风踏浪",
+      "text": "下潜获得1.5秒极限移速，出水获得1.5秒20%物理穿透",
+      "reading": "一技能小天赋。进入下潜时获得1.5秒“极限移速”；出水时获得1.5秒20%物理穿透（按“20%”写法理解为百分比物理穿透）。原文没有写“极限移速”的具体数值（是直接达到移速上限还是一个很高的加成），没有写重复触发时是否刷新持续时间，也没有写20%物理穿透与其他百分比穿透如何叠加。",
+      "mechanisms": ["buff", "mobility"],
+      "damageRelevance": "direct",
+      "trigger": "下潜时获得移速；出水时获得物理穿透",
+      "slots": [
+        { "key": "diveMoveSpeedDuration", "what": "下潜时移速效果的持续时间", "unit": "seconds", "claimed": { "value": 1.5, "quote": "下潜获得1.5秒极限移速" }, "packHint": "此天赋下潜移速 buff 的持续时间，核对描述的1.5秒，需以资源包为准" },
+        { "key": "diveMoveSpeedValue", "what": "“极限移速”的数值（移速加成或直接到达移速上限）", "unit": "percent", "claimed": null, "packHint": "此天赋下潜移速 buff 的移速数值或上限规则" },
+        { "key": "surfacePenDuration", "what": "出水时物理穿透效果的持续时间", "unit": "seconds", "claimed": { "value": 1.5, "quote": "出水获得1.5秒" }, "packHint": "此天赋出水穿透 buff 的持续时间，核对描述的1.5秒，需以资源包为准" },
+        { "key": "surfacePenPct", "what": "出水时获得的百分比物理穿透", "unit": "percent", "claimed": { "value": 20, "quote": "20%物理穿透" }, "packHint": "此天赋出水穿透 buff 的物理穿透数值，核对描述的20%，需以资源包为准；确认是百分比穿透" }
+      ],
+      "ambiguities": [
+        "“极限移速”的具体数值没有写",
+        "重复触发时是否刷新持续时间没有写",
+        "20%物理穿透与其他百分比穿透的叠加方式没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t08",
+      "kind": "talent",
+      "skill": 1,
+      "name": "深海行动",
+      "text": "每段伤害都将提供一次可叠加的持续回复",
+      "reading": "一技能小天赋。每段伤害都给澜提供一次持续回复效果（“一次”是汉字），这些持续回复可以叠加。原文没有限定“每段伤害”的来源，作为一技能小天赋可能只指一技能伤害，也可能是所有伤害，需资源包确认。原文没有写回复的是生命还是法力（按常理推测是生命，但需确认）、每层回复量和计算方式、持续时间、回复间隔、层数上限，没有写对小兵或野怪造成伤害是否也触发，也没有写是否有内置冷却。",
+      "mechanisms": ["heal", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "每段伤害命中后",
+      "slots": [
+        { "key": "healPerTickFlat", "what": "每层持续回复每跳的固定值", "unit": "flat", "claimed": null, "packHint": "此天赋持续回复每跳数值，确认回复的是生命还是法力" },
+        { "key": "healPerTickPct", "what": "每层持续回复每跳的百分比部分（若按最大生命或伤害比例计算）", "unit": "percent", "claimed": null, "packHint": "持续回复是否按最大生命、已损生命或造成伤害的比例计算" },
+        { "key": "healDuration", "what": "每层持续回复的持续时间", "unit": "seconds", "claimed": null, "packHint": "持续回复 buff 的持续时间" },
+        { "key": "healTickInterval", "what": "持续回复的跳数间隔", "unit": "seconds", "claimed": null, "packHint": "持续回复每跳间隔" },
+        { "key": "maxStacks", "what": "持续回复层数上限", "unit": "count", "claimed": null, "packHint": "此天赋叠层上限，确认每层独立计时还是统一刷新" },
+        { "key": "internalCooldown", "what": "触发内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "此天赋是否有触发间隔限制" }
+      ],
+      "ambiguities": [
+        "“每段伤害”是只限一技能还是所有伤害没有写",
+        "回复生命还是法力没有写",
+        "每层回复量、持续时间、间隔、层数上限没有写",
+        "对非英雄目标是否触发没有写",
+        "是否有内置冷却没有写",
+        "叠层时独立计时还是统一刷新没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t09",
+      "kind": "talent",
+      "skill": 2,
+      "name": "跃在渊",
+      "text": "二技能后的首次强普将打出更远的强力跳斩并获得双倍回复",
+      "reading": "二技能小天赋。释放二技能后的第一次强普变为距离更远的“强力跳斩”，并且这次强普获得双倍回复（“双倍”是汉字，校验器只认阿拉伯数字，所以倍率槽 claimed 留空）。仓库里没有强普原文，原文“双倍回复”暗示强普本身带有回复，但回复量未知。原文没有写跳斩距离增加多少，没有写“强力”是否意味着伤害提高，没有写二技能后多长时间内的强普算“首次强普”。距离和双倍回复属于间接影响；如果跳斩伤害确实更高，应改为直接影响。",
+      "mechanisms": ["skill-change", "mobility", "heal"],
+      "damageRelevance": "indirect",
+      "trigger": "二技能后的首次强普",
+      "slots": [
+        { "key": "leapRange", "what": "强力跳斩的位移距离", "unit": "meters", "claimed": null, "packHint": "此天赋强普跳斩距离，与普通强普距离对比" },
+        { "key": "leapBaseDamage", "what": "强力跳斩伤害的基础值（原文没写是否与普通强普不同）", "unit": "flat", "claimed": null, "packHint": "跳斩伤害基础值，确认“强力”是否带来伤害提升" },
+        { "key": "leapDamageRatio", "what": "强力跳斩伤害的加成系数", "unit": "ratio", "claimed": null, "packHint": "跳斩伤害系数、加成属性、伤害类型" },
+        { "key": "healMultiplier", "what": "回复倍率（原文汉字“双倍”，未作为 claimed）", "unit": "ratio", "claimed": null, "packHint": "此天赋回复倍率，核对原文“双倍”" },
+        { "key": "baseEnhancedBasicHeal", "what": "强普原本的回复量", "unit": "flat", "claimed": null, "packHint": "强普自带回复的数值和计算方式" },
+        { "key": "activationWindow", "what": "二技能后首次强普的有效时限（原文未写是否有时限）", "unit": "seconds", "claimed": null, "packHint": "二技能后强化跳斩状态保留多久" }
+      ],
+      "ambiguities": [
+        "跳斩距离增加多少没有写",
+        "“强力”是否意味着伤害提高没有写",
+        "强普原本的回复量没有写",
+        "二技能后多长时间内的首次强普有效没有写",
+        "“双倍”是汉字倍率，没有阿拉伯数字"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t10",
+      "kind": "talent",
+      "skill": 2,
+      "name": "归去来",
+      "text": "额外释放一次二技能",
+      "reading": "二技能小天赋。二技能可以额外再释放一次（“一次”是汉字，校验器只认阿拉伯数字，所以次数槽 claimed 留空）。多一次二技能意味着多一次二技能伤害和二技能相关天赋触发，所以按直接影响处理（仓库里没有二技能原文，二技能是否本身造成伤害需确认）。原文没有写额外释放是在一定时间窗内的二段施放还是额外充能，没有写两次释放的间隔、冷却从何时开始计算，也没有写额外那一次是否同样提供强普、触发「控万刃」「大风起」「金石剑」以及 c3 计数。",
+      "mechanisms": ["charges", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "释放二技能后",
+      "slots": [
+        { "key": "extraCasts", "what": "额外释放次数（原文汉字“一次”，未作为 claimed）", "unit": "count", "claimed": null, "packHint": "此天赋二技能额外施放次数，核对原文“一次”" },
+        { "key": "recastWindow", "what": "额外释放的时间窗口（若为二段施放）", "unit": "seconds", "claimed": null, "packHint": "二技能再次施放的可用时间窗或充能机制" },
+        { "key": "recastMinInterval", "what": "两次二技能之间的最短间隔", "unit": "seconds", "claimed": null, "packHint": "两次施放之间的间隔限制" },
+        { "key": "skill2Cooldown", "what": "选此天赋后二技能的冷却及其计时起点", "unit": "seconds", "claimed": null, "packHint": "二技能冷却，确认额外释放后冷却从哪一次开始计算" },
+        { "key": "enhancedBasicPerCast", "what": "额外那一次二技能提供的强普层数", "unit": "count", "claimed": null, "packHint": "每次二技能获得几层强普，确认额外那一次是否相同" }
+      ],
+      "ambiguities": [
+        "额外释放是二段施放还是充能没有写",
+        "两次释放的间隔、时间窗没有写",
+        "冷却计时起点没有写",
+        "额外那一次是否提供强普、触发 t12、t13、t16 和 c3 计数没有写",
+        "仓库里没有二技能基础原文，二技能自身伤害未知"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t11",
+      "kind": "talent",
+      "skill": 2,
+      "name": "影随形",
+      "text": "攻速以及强普位移速度获得提升",
+      "reading": "二技能小天赋。澜的攻速提升，强普的位移速度也提升。原文没有写触发条件，按字面理解为常驻。原文没有写攻速提升多少、强普位移速度提升多少，也没有写强普位移速度提升是否缩短强普动作时间。",
+      "mechanisms": ["stat", "mobility"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻（原文未写触发条件）",
+      "slots": [
+        { "key": "attackSpeedPct", "what": "攻速加成", "unit": "percent", "claimed": null, "packHint": "此天赋攻速加成数值，确认是常驻还是有触发条件" },
+        { "key": "enhancedBasicDashSpeedPct", "what": "强普位移速度提升幅度", "unit": "percent", "claimed": null, "packHint": "此天赋强普位移速度提升数值" },
+        { "key": "enhancedBasicFramesSaved", "what": "强普动作因位移加快而缩短的帧数（若有）", "unit": "frames", "claimed": null, "packHint": "选此天赋后强普动作帧数，与原强普对比" }
+      ],
+      "ambiguities": [
+        "攻速提升数值没有写",
+        "强普位移速度提升数值没有写",
+        "是否常驻没有写",
+        "强普动作时长是否随之缩短没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t12",
+      "kind": "talent",
+      "skill": 2,
+      "name": "控万刃",
+      "text": "触发二技能时会获得一层恩师的护盾",
+      "reading": "二技能小天赋。每次触发二技能时，澜获得一层“恩师的护盾”（“一层”是汉字，校验器只认阿拉伯数字，所以层数槽 claimed 留空）。原文没有解释“恩师的护盾”是什么，没有写护盾值和计算方式、持续时间、能否叠加以及层数上限，也没有写“触发二技能”是否包括 c3 自动释放和 t10 额外释放。",
+      "mechanisms": ["shield", "stacking"],
+      "damageRelevance": "indirect",
+      "trigger": "触发二技能时",
+      "slots": [
+        { "key": "layersPerTrigger", "what": "每次触发获得的护盾层数（原文汉字“一层”，未作为 claimed）", "unit": "count", "claimed": null, "packHint": "此天赋每次获得的护盾层数，核对原文“一层”" },
+        { "key": "shieldValueFlat", "what": "每层护盾值的固定部分", "unit": "flat", "claimed": null, "packHint": "“恩师的护盾”每层护盾值" },
+        { "key": "shieldValueRatio", "what": "每层护盾值的加成系数或最大生命比例（以资源包为准）", "unit": "ratio", "claimed": null, "packHint": "护盾值的加成属性与系数" },
+        { "key": "shieldDuration", "what": "护盾持续时间", "unit": "seconds", "claimed": null, "packHint": "护盾持续时间，确认叠层是否刷新" },
+        { "key": "maxLayers", "what": "护盾层数上限", "unit": "count", "claimed": null, "packHint": "“恩师的护盾”最大层数" }
+      ],
+      "ambiguities": [
+        "“恩师的护盾”是什么没有解释",
+        "护盾值、持续时间、层数上限没有写",
+        "叠层时是否刷新没有写",
+        "c3 自动释放、t10 额外释放是否算“触发二技能”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t13",
+      "kind": "talent",
+      "skill": 2,
+      "name": "大风起",
+      "text": "触发二技能提升自身2%输出（每级提升0.5%），最高8层，持续2秒",
+      "reading": "二技能小天赋。每次触发二技能，澜的“输出”提升2%（叠一层），括号里写每级再提升0.5%，最高叠8层，持续2秒。“输出”按字面对应模拟器的输出率（outputRatePct），需资源包确认。原文没有写“每级”是英雄等级还是天赋等级、2%对应哪一级，没有写叠层时是刷新全部层数的持续时间还是每层独立计时，也没有写“触发二技能”是否包括 c3 自动释放和 t10 额外释放。",
+      "mechanisms": ["buff", "stacking", "damage-amp"],
+      "damageRelevance": "direct",
+      "trigger": "触发二技能时",
+      "slots": [
+        { "key": "outputPctPerStack", "what": "每层输出提升（起始等级时）", "unit": "percent", "claimed": { "value": 2, "quote": "提升自身2%输出" }, "packHint": "此天赋每层输出加成，核对描述的2%，需以资源包为准；确认对应输出率" },
+        { "key": "outputPctPerLevel", "what": "每级额外增加的每层输出提升", "unit": "percent", "claimed": { "value": 0.5, "quote": "每级提升0.5%" }, "packHint": "此天赋随等级成长的数值，核对描述的0.5%，需以资源包为准；确认“每级”是英雄等级还是天赋等级" },
+        { "key": "baseLevel", "what": "2%所对应的起始等级", "unit": "count", "claimed": null, "packHint": "此天赋数值成长从第几级开始计算" },
+        { "key": "levelCap", "what": "成长的等级上限（若有）", "unit": "count", "claimed": null, "packHint": "此天赋等级成长是否有上限" },
+        { "key": "maxStacks", "what": "层数上限", "unit": "count", "claimed": { "value": 8, "quote": "最高8层" }, "packHint": "此天赋叠层上限，核对描述的8层，需以资源包为准" },
+        { "key": "duration", "what": "持续时间", "unit": "seconds", "claimed": { "value": 2, "quote": "持续2秒" }, "packHint": "此天赋 buff 持续时间，核对描述的2秒，需以资源包为准；确认叠层刷新规则" }
+      ],
+      "ambiguities": [
+        "“输出”是否就是输出率没有写",
+        "“每级”指英雄等级还是天赋等级没有写",
+        "2%对应哪一级没有写",
+        "叠层时刷新全部还是每层独立计时没有写",
+        "c3 自动释放、t10 额外释放是否算“触发二技能”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t14",
+      "kind": "talent",
+      "skill": 2,
+      "name": "波狂澜",
+      "text": "强普储存上限提升至4层",
+      "reading": "二技能小天赋。强普最多可以储存4层。原文没有写原本的储存上限，也没有写强普层数怎么获得（仓库里没有二技能和强普原文）。多储存强普可以在短时间内连续打出更多强普，属于间接影响；也会影响「万骨」(t18) 获得的“满层强普”数量。",
+      "mechanisms": ["charges"],
+      "damageRelevance": "indirect",
+      "trigger": "常驻",
+      "slots": [
+        { "key": "maxCharges", "what": "强普储存上限", "unit": "count", "claimed": { "value": 4, "quote": "提升至4层" }, "packHint": "此天赋强普储存上限，核对描述的4层，需以资源包为准" },
+        { "key": "baseMaxCharges", "what": "未选此天赋时的强普储存上限", "unit": "count", "claimed": null, "packHint": "强普默认储存上限" },
+        { "key": "chargesPerSkill2", "what": "每次二技能获得的强普层数", "unit": "count", "claimed": null, "packHint": "强普层数的获得方式和每次获得数量" }
+      ],
+      "ambiguities": [
+        "原本的储存上限没有写",
+        "强普层数怎么获得没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t15",
+      "kind": "talent",
+      "skill": 2,
+      "name": "锋寒芒",
+      "text": "强普获得30%暴击概率（每级提升5%）",
+      "reading": "二技能小天赋。强普获得30%暴击率，括号里写每级再提升5%。原文没有写这30%是加在澜已有暴击率上还是强普的固定暴击率，没有写“每级”是英雄等级还是天赋等级、30%对应哪一级，也没有写强普连带的效果（如 t24 残影攻击、c3 强化二技能）是否也享受这部分暴击率。",
+      "mechanisms": ["crit", "stat"],
+      "damageRelevance": "direct",
+      "trigger": "强普时",
+      "slots": [
+        { "key": "critRatePct", "what": "强普额外暴击率（起始等级时）", "unit": "percent", "claimed": { "value": 30, "quote": "强普获得30%暴击概率" }, "packHint": "此天赋强普暴击率，核对描述的30%，需以资源包为准；确认是叠加还是固定值" },
+        { "key": "critRatePerLevel", "what": "每级额外增加的暴击率", "unit": "percent", "claimed": { "value": 5, "quote": "每级提升5%" }, "packHint": "此天赋随等级成长的暴击率，核对描述的5%，需以资源包为准；确认“每级”是英雄等级还是天赋等级" },
+        { "key": "baseLevel", "what": "30%所对应的起始等级", "unit": "count", "claimed": null, "packHint": "此天赋数值成长从第几级开始计算" },
+        { "key": "levelCap", "what": "成长的等级上限（若有）", "unit": "count", "claimed": null, "packHint": "此天赋等级成长是否有上限" }
+      ],
+      "ambiguities": [
+        "30%与已有暴击率是叠加还是固定值没有写",
+        "“每级”指英雄等级还是天赋等级没有写",
+        "30%对应哪一级没有写",
+        "残影攻击、强化二技能是否享受这部分暴击率没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t16",
+      "kind": "talent",
+      "skill": 2,
+      "name": "金石剑",
+      "text": "释放二技能时获得1.25秒高额韧性",
+      "reading": "二技能小天赋。释放二技能时获得1.25秒“高额韧性”。原文没有写韧性的具体数值，没有写连续释放时是否刷新持续时间，也没有写 c3 自动释放、t10 额外释放是否算“释放二技能”。",
+      "mechanisms": ["buff", "control-immunity"],
+      "damageRelevance": "indirect",
+      "trigger": "释放二技能时",
+      "slots": [
+        { "key": "duration", "what": "韧性持续时间", "unit": "seconds", "claimed": { "value": 1.25, "quote": "1.25秒高额韧性" }, "packHint": "此天赋韧性 buff 持续时间，核对描述的1.25秒，需以资源包为准" },
+        { "key": "tenacityPct", "what": "“高额韧性”的具体数值", "unit": "percent", "claimed": null, "packHint": "此天赋韧性 buff 的韧性数值" }
+      ],
+      "ambiguities": [
+        "“高额韧性”的具体数值没有写",
+        "连续释放时是否刷新持续时间没有写",
+        "c3 自动释放、t10 额外释放是否算“释放二技能”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t17",
+      "kind": "talent",
+      "skill": 3,
+      "name": "收网",
+      "text": "主动使用的大招可直接处决生命值不足15%的目标",
+      "reading": "大招小天赋。主动使用的大招（区别于其他效果触发的大招类伤害）命中生命值不足15%的目标时直接处决。原文没有写“生命值不足15%”是当前生命低于最大生命的15%还是其他判定，没有写对首领或精英怪是否有效、一次大招能处决几个目标，也没有写处决判定在伤害前还是伤害后，以及 c6 鲨鱼冲击、c5 冲回是否算“主动使用的大招”。",
+      "mechanisms": ["execute"],
+      "damageRelevance": "direct",
+      "trigger": "主动使用大招命中时",
+      "slots": [
+        { "key": "executeThresholdPct", "what": "处决的目标生命阈值", "unit": "percent", "claimed": { "value": 15, "quote": "生命值不足15%" }, "packHint": "此天赋处决阈值，核对描述的15%，需以资源包为准；确认按目标最大生命百分比判定、判定在伤害前还是后" },
+        { "key": "maxExecuteTargets", "what": "一次大招最多处决的目标数", "unit": "count", "claimed": null, "packHint": "处决目标数量限制，以及对首领、精英是否生效" }
+      ],
+      "ambiguities": [
+        "生命阈值的判定方式没有写",
+        "对首领或精英是否有效没有写",
+        "一次能处决几个目标没有写",
+        "判定在大招伤害前还是后没有写",
+        "c5 冲回、c6 鲨鱼冲击、t19 十字鲨鱼是否算“主动使用的大招”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t18",
+      "kind": "talent",
+      "skill": 3,
+      "name": "万骨",
+      "text": "主动使用大招后获得满层强普并激发1层其他已选天赋的增益",
+      "reading": "大招小天赋。主动使用大招后，强普直接充满到储存上限（上限受 t14 影响），并为“其他已选天赋”的增益各激发1层。原文没有写哪些天赋算“增益”（按字面可能包括「大风起」「控万刃」「深海行动」「鲨泪」等带层数的天赋，但需资源包确认），没有写是否包括核心，没有写是否有冷却。此天赋本身没有伤害数值，通过强普数量和其他天赋层数影响输出，按间接影响处理。",
+      "mechanisms": ["charges", "stacking", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "主动使用大招后",
+      "slots": [
+        { "key": "stacksPerTalent", "what": "每个其他已选天赋激发的增益层数", "unit": "count", "claimed": { "value": 1, "quote": "激发1层其他已选天赋的增益" }, "packHint": "此天赋为其他天赋提供的层数，核对描述的1层，需以资源包为准；同时找出哪些天赋会被激发" },
+        { "key": "enhancedBasicGranted", "what": "获得的强普层数（原文“满层”，等于当前储存上限）", "unit": "count", "claimed": null, "packHint": "此天赋是否直接把强普补到上限" },
+        { "key": "internalCooldown", "what": "触发冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "此天赋是否有额外触发间隔，或只受大招冷却限制" }
+      ],
+      "ambiguities": [
+        "哪些天赋算“增益”没有写",
+        "是否包括核心没有写",
+        "是否有额外冷却没有写",
+        "c5 冲回是否算“主动使用大招”没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t19",
+      "kind": "talent",
+      "skill": 3,
+      "name": "围猎",
+      "text": "主动使用的大招将以十字形召唤鲨鱼",
+      "reading": "大招小天赋。主动使用的大招改为以十字形召唤鲨鱼。“十字形”按字面理解为沿互相垂直的几个方向召唤，但原文没有写召唤几条鲨鱼、是否保留原方向的鲨鱼，没有写每条鲨鱼伤害与原鲨鱼是否相同、同一目标能否被多条鲨鱼命中，也没有写每条鲨鱼的行进距离和宽度。",
+      "mechanisms": ["area", "summon", "skill-change"],
+      "damageRelevance": "direct",
+      "trigger": "主动使用大招时",
+      "slots": [
+        { "key": "sharksPerCast", "what": "每次大招召唤的鲨鱼数量", "unit": "count", "claimed": null, "packHint": "此天赋十字形召唤的鲨鱼条数" },
+        { "key": "sharkDamageRatioToBase", "what": "每条鲨鱼伤害相对原大招鲨鱼的比例", "unit": "ratio", "claimed": null, "packHint": "十字形各方向鲨鱼伤害是否与原鲨鱼相同" },
+        { "key": "sharkTravelDistance", "what": "每条鲨鱼的行进距离", "unit": "meters", "claimed": null, "packHint": "各方向鲨鱼行进距离" },
+        { "key": "sharkWidth", "what": "每条鲨鱼的判定宽度", "unit": "meters", "claimed": null, "packHint": "鲨鱼路径判定宽度" },
+        { "key": "maxHitsPerTarget", "what": "同一目标一次大招最多被几条鲨鱼命中", "unit": "count", "claimed": null, "packHint": "多条鲨鱼对同一目标的命中限制" }
+      ],
+      "ambiguities": [
+        "鲨鱼数量没有写",
+        "是否保留原方向鲨鱼没有写",
+        "每条鲨鱼伤害是否与原鲨鱼相同没有写",
+        "同一目标能否被多条鲨鱼命中没有写",
+        "行进距离和宽度没有写",
+        "多条鲨鱼命中是否各自触发 t21、t22、c6 没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t20",
+      "kind": "talent",
+      "skill": 3,
+      "name": "静海",
+      "text": "鲨鱼到达目标点后会从范围内的敌方英雄上抽取血量回复自身",
+      "reading": "大招小天赋。大招鲨鱼到达目标点后，从范围内的敌方英雄身上抽取生命并回复澜自身。“抽取血量”按字面会扣除敌方英雄生命，所以按直接影响处理；如果实际只回复自身、不扣敌方生命，应改为间接影响。原文只写“敌方英雄”，本模式的敌人是否算英雄（例如首领）需确认，否则可能很少触发。原文没有写抽取范围、抽取量和计算方式、回复比例、目标数，也没有写抽取是否计为伤害（受防御和增伤影响）。",
+      "mechanisms": ["heal", "proc", "area"],
+      "damageRelevance": "direct",
+      "trigger": "鲨鱼到达目标点后",
+      "slots": [
+        { "key": "drainRadius", "what": "抽取血量的范围", "unit": "meters", "claimed": null, "packHint": "此天赋抽取范围半径" },
+        { "key": "drainFlat", "what": "抽取量的固定值部分", "unit": "flat", "claimed": null, "packHint": "抽取血量的基础值" },
+        { "key": "drainPct", "what": "抽取量的目标生命百分比部分（若按百分比）", "unit": "percent", "claimed": null, "packHint": "抽取是否按目标最大或当前生命百分比" },
+        { "key": "drainRatio", "what": "抽取量的攻击力加成系数（若有）", "unit": "ratio", "claimed": null, "packHint": "抽取量的加成属性、系数、是否计为伤害以及伤害类型" },
+        { "key": "healConversion", "what": "抽取量转化为自身回复的比例", "unit": "ratio", "claimed": null, "packHint": "抽取量与回复量的换算关系" },
+        { "key": "maxTargets", "what": "可抽取的目标数", "unit": "count", "claimed": null, "packHint": "抽取目标数量限制" }
+      ],
+      "ambiguities": [
+        "抽取范围、抽取量、回复比例、目标数没有写",
+        "抽取是否计为伤害没有写",
+        "本模式哪些敌人算“敌方英雄”没有写",
+        "t19 多条鲨鱼是否各自触发抽取没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t21",
+      "kind": "talent",
+      "skill": 3,
+      "name": "鲨泪",
+      "text": "大招命中后可获得1层鲨泪，最高17层，消耗9层可触发1次名刀司命的效果",
+      "reading": "大招小天赋。大招命中后获得1层“鲨泪”，最多17层；消耗9层可以触发1次“名刀司命的效果”。名刀司命是游戏内装备名，原文直接引用它的效果但没有写效果内容；按装备名通常理解为抵挡一次致命伤害，但保留生命、免伤或无敌时长等具体内容必须以资源包为准。原文没有写“命中”是每次大招算一次还是每命中一个目标算一次，没有写消耗9层是自动触发（受到致命伤害时）还是主动，也没有写触发后是否有冷却、是否与装备名刀司命共享冷却。鲨泪层数会不会随时间消失也没有写。",
+      "mechanisms": ["stacking", "other"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中后获得层数；满足条件时消耗层数",
+      "slots": [
+        { "key": "stacksPerHit", "what": "每次大招命中获得的鲨泪层数", "unit": "count", "claimed": { "value": 1, "quote": "可获得1层鲨泪" }, "packHint": "此天赋每次获得层数，核对描述的1层，需以资源包为准；确认按每次大招还是每个目标计算" },
+        { "key": "maxStacks", "what": "鲨泪层数上限", "unit": "count", "claimed": { "value": 17, "quote": "最高17层" }, "packHint": "鲨泪层数上限，核对描述的17层，需以资源包为准" },
+        { "key": "stacksConsumed", "what": "触发一次效果消耗的层数", "unit": "count", "claimed": { "value": 9, "quote": "消耗9层" }, "packHint": "鲨泪消耗层数，核对描述的9层，需以资源包为准" },
+        { "key": "triggersPerConsume", "what": "每次消耗触发的名刀司命效果次数", "unit": "count", "claimed": { "value": 1, "quote": "触发1次名刀司命的效果" }, "packHint": "每次消耗触发次数，核对描述的1次，需以资源包为准" },
+        { "key": "deathPreventHpRetained", "what": "名刀司命效果保留的生命（若为抵挡致命伤害）", "unit": "flat", "claimed": null, "packHint": "此天赋引用的名刀司命效果内容：触发后保留多少生命" },
+        { "key": "deathPreventProtectDuration", "what": "名刀司命效果的免伤或无敌持续时间", "unit": "seconds", "claimed": null, "packHint": "名刀司命效果触发后的保护时长与类型" },
+        { "key": "triggerCooldown", "what": "名刀司命效果触发后的冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "此天赋触发冷却，确认是否与装备名刀司命共享" }
+      ],
+      "ambiguities": [
+        "“名刀司命的效果”具体内容没有写",
+        "每次大招还是每个目标获得层数没有写",
+        "消耗是自动还是主动没有写",
+        "触发后是否有冷却、是否与装备共享冷却没有写",
+        "鲨泪层数是否会随时间消失没有写",
+        "c6 鲨鱼冲击、t19 多条鲨鱼命中是否也给层数没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t22",
+      "kind": "talent",
+      "skill": 3,
+      "name": "游猎",
+      "text": "大招命中即可减少20%当前冷却",
+      "reading": "大招小天赋。大招命中时减少20%的“当前冷却”。按“当前冷却”字面理解为按剩余冷却的比例减少。原文没有写减少的是大招自身的冷却还是所有技能的冷却，没有写每次大招只触发一次还是每命中一个目标触发一次，也没有写 c6 鲨鱼冲击、t19 多条鲨鱼命中是否也算。",
+      "mechanisms": ["cooldown"],
+      "damageRelevance": "indirect",
+      "trigger": "大招命中时",
+      "slots": [
+        { "key": "cdReducePct", "what": "减少的当前冷却比例", "unit": "percent", "claimed": { "value": 20, "quote": "减少20%当前冷却" }, "packHint": "此天赋冷却减少比例，核对描述的20%，需以资源包为准；确认按剩余冷却还是总冷却计算、作用于哪个技能" },
+        { "key": "triggersPerCast", "what": "每次大招最多触发次数", "unit": "count", "claimed": null, "packHint": "每次大招命中多个目标时是否多次减少冷却" },
+        { "key": "internalCooldown", "what": "触发内置冷却（原文未写是否存在）", "unit": "seconds", "claimed": null, "packHint": "此天赋是否有触发间隔限制" }
+      ],
+      "ambiguities": [
+        "减少的是大招还是所有技能的冷却没有写",
+        "按剩余冷却还是总冷却计算，原文“当前冷却”倾向剩余冷却但需确认",
+        "每次大招只触发一次还是每目标一次没有写",
+        "c6、t19 的额外命中是否也触发没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t23",
+      "kind": "talent",
+      "skill": 3,
+      "name": "尾款",
+      "text": "击败敌方英雄获得额外50%的赏金和15%最大生命的恢复",
+      "reading": "大招小天赋。澜击败敌方英雄时，额外获得50%赏金，并恢复15%最大生命（按字面是澜自身的最大生命）。原文只写“敌方英雄”，本模式哪些敌人算英雄需确认。原文没有写额外赏金是基于基础赏金还是实际赏金、助攻是否也触发，也没有写生命恢复是立即恢复还是持续恢复。金币通过装备间接影响输出，回复影响生存，按间接影响处理。",
+      "mechanisms": ["economy", "heal"],
+      "damageRelevance": "indirect",
+      "trigger": "击败敌方英雄时",
+      "slots": [
+        { "key": "bountyBonusPct", "what": "额外赏金比例", "unit": "percent", "claimed": { "value": 50, "quote": "额外50%的赏金" }, "packHint": "此天赋额外赏金比例，核对描述的50%，需以资源包为准；确认计算基数" },
+        { "key": "healMaxHpPct", "what": "击败后恢复的最大生命比例", "unit": "percent", "claimed": { "value": 15, "quote": "15%最大生命的恢复" }, "packHint": "此天赋回复比例，核对描述的15%，需以资源包为准；确认是澜自身最大生命、立即还是持续恢复" }
+      ],
+      "ambiguities": [
+        "本模式哪些敌人算“敌方英雄”没有写",
+        "额外赏金的计算基数没有写",
+        "助攻是否触发没有写",
+        "生命恢复是立即还是持续没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    },
+    {
+      "id": "t24",
+      "kind": "talent",
+      "skill": 3,
+      "name": "残影",
+      "text": "主动使用大招后5秒内，强普伴随残影一同攻击",
+      "reading": "大招小天赋。主动使用大招后的5秒内，澜每次强普都有残影一同攻击（相当于额外一次攻击）。原文没有写残影攻击的伤害是强普的多少比例、每次强普残影攻击几次、残影攻击能否暴击（是否享受 t15 的强普暴击率）、是否计入 c3 的强普次数、是否触发其他强普相关效果，也没有写这里的残影与 c1 的残影是否同一机制。",
+      "mechanisms": ["buff", "proc", "summon"],
+      "damageRelevance": "direct",
+      "trigger": "主动使用大招后5秒内的强普",
+      "slots": [
+        { "key": "windowDuration", "what": "残影效果持续时间", "unit": "seconds", "claimed": { "value": 5, "quote": "主动使用大招后5秒内" }, "packHint": "此天赋残影状态持续时间，核对描述的5秒，需以资源包为准" },
+        { "key": "afterimageDamageRatio", "what": "残影攻击伤害相对本体强普的比例", "unit": "ratio", "claimed": null, "packHint": "残影攻击伤害比例或独立伤害系数、伤害类型以及能否暴击" },
+        { "key": "afterimageHitsPerEnhancedBasic", "what": "每次强普残影攻击的次数", "unit": "count", "claimed": null, "packHint": "每次强普伴随的残影攻击次数" },
+        { "key": "afterimageDelay", "what": "残影攻击相对本体强普的延迟", "unit": "frames", "claimed": null, "packHint": "残影攻击的出伤帧" }
+      ],
+      "ambiguities": [
+        "残影攻击伤害比例没有写",
+        "每次强普残影攻击几次没有写",
+        "残影攻击能否暴击、是否享受 t15 暴击率没有写",
+        "是否计入 c3 强普次数、是否触发其他强普效果没有写",
+        "与 c1 的残影是否同一机制没有写",
+        "c5 冲回是否算“主动使用大招”从而刷新5秒没有写"
+      ],
+      "unusedNumbers": [],
+      "priorFindings": []
+    }
+  ]
+}
